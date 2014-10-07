@@ -112,10 +112,10 @@ public final class R {
         public static final int action_add_categories=0x7f060002;
         public static final int action_add_manually=0x7f060003;
         public static final int action_backup_db=0x7f060004;
+        public static final int action_enter_isbn=0x7f060008;
         public static final int action_lookup_isbn=0x7f060005;
         public static final int action_save_book=0x7f060006;
         public static final int action_scan_isbn=0x7f060007;
-        public static final int action_type_isbn=0x7f060008;
         public static final int app_name=0x7f060000;
         public static final int button_add_author=0x7f060009;
         public static final int button_add_category=0x7f06000a;

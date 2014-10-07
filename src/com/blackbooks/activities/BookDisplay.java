@@ -60,40 +60,28 @@ public final class BookDisplay extends Activity {
 
 			setContentView(R.layout.activity_book_display);
 
-			mImageCover = (ImageView) findViewById(R.id.bookDisplay_imageCover);
-			mTextTitle = (TextView) findViewById(R.id.bookDisplay_textTitle);
-			mTextSubtitle = (TextView)findViewById(R.id.bookDisplay_textSubtitle);
-			mTextAuthor = (TextView) findViewById(R.id.bookDisplay_textAuthor);
-			mTextIsbn = (TextView) findViewById(R.id.bookDisplay_textIsbn);
-			mTextPageCount = (TextView) findViewById(R.id.bookDisplay_textPageCount);
-			mTextPublisher = (TextView) findViewById(R.id.bookDisplay_textPublisher);
-			mTextPublishedDate = (TextView) findViewById(R.id.bookDisplay_textPublishedDate);
-			mTextCategory = (TextView) findViewById(R.id.bookDisplay_textCategory);
-			mTextDescription = (TextView) findViewById(R.id.bookDisplay_textDescription);
-
 			setTitle(mBookInfo.title);
-
-			if (mBookInfo.thumbnail != null && mBookInfo.thumbnail.length > 0) {
-				Bitmap bitmap = BitmapFactory.decodeByteArray(mBookInfo.thumbnail, 0, mBookInfo.thumbnail.length);
-				mImageCover.setImageBitmap(bitmap);
-			}
-			mTextTitle.setText(mBookInfo.title);
-			mTextSubtitle.setText(mBookInfo.subtitle);
-			mTextAuthor.setText(StringUtils.joinAuthorNameList(mBookInfo.authors, ",\n"));
-			if (mBookInfo.identifiers.size() > 0) {
-				mTextIsbn.setText(mBookInfo.identifiers.get(0).identifier);
-			}
-			if (mBookInfo.pageCount != null) {
-				mTextPageCount.setText(mBookInfo.pageCount.toString());
-			}
-			mTextPublisher.setText(mBookInfo.publisher.name);
-			mTextPublishedDate.setText(mBookInfo.publishedDate);
-			mTextCategory.setText(StringUtils.joinCategoryNameList(mBookInfo.categories, ",\n"));
-			mTextDescription.setText(mBookInfo.description);
+			findViews();
+			renderBookInfo();
 
 		} else {
 			finish();
 		}
+	}
+
+	/**
+	 * Delete the current book.
+	 */
+	public void delete() {
+		String title = mBookInfo.title;
+		String message = String.format(getString(R.string.message_book_deleted), title);
+
+		SQLiteDatabase db = mDbHelper.getWritableDatabase();
+		BookServices.deleteBook(db, mBookInfo.id);
+		db.close();
+
+		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+		finish();
 	}
 
 	@Override
@@ -115,6 +103,45 @@ public final class BookDisplay extends Activity {
 			break;
 		}
 		return result;
+	}
+
+	/**
+	 * Find the views of the activity that will contain the book information.
+	 */
+	private void findViews() {
+		mImageCover = (ImageView) findViewById(R.id.bookDisplay_imageCover);
+		mTextTitle = (TextView) findViewById(R.id.bookDisplay_textTitle);
+		mTextSubtitle = (TextView) findViewById(R.id.bookDisplay_textSubtitle);
+		mTextAuthor = (TextView) findViewById(R.id.bookDisplay_textAuthor);
+		mTextIsbn = (TextView) findViewById(R.id.bookDisplay_textIsbn);
+		mTextPageCount = (TextView) findViewById(R.id.bookDisplay_textPageCount);
+		mTextPublisher = (TextView) findViewById(R.id.bookDisplay_textPublisher);
+		mTextPublishedDate = (TextView) findViewById(R.id.bookDisplay_textPublishedDate);
+		mTextCategory = (TextView) findViewById(R.id.bookDisplay_textCategory);
+		mTextDescription = (TextView) findViewById(R.id.bookDisplay_textDescription);
+	}
+
+	/**
+	 * Update the views of the activity using the book information.
+	 */
+	private void renderBookInfo() {
+		if (mBookInfo.thumbnail != null && mBookInfo.thumbnail.length > 0) {
+			Bitmap bitmap = BitmapFactory.decodeByteArray(mBookInfo.thumbnail, 0, mBookInfo.thumbnail.length);
+			mImageCover.setImageBitmap(bitmap);
+		}
+		mTextTitle.setText(mBookInfo.title);
+		mTextSubtitle.setText(mBookInfo.subtitle);
+		mTextAuthor.setText(StringUtils.joinAuthorNameList(mBookInfo.authors, ", "));
+		if (mBookInfo.identifiers.size() > 0) {
+			mTextIsbn.setText(mBookInfo.identifiers.get(0).identifier);
+		}
+		if (mBookInfo.pageCount != null) {
+			mTextPageCount.setText(mBookInfo.pageCount.toString());
+		}
+		mTextPublisher.setText(mBookInfo.publisher.name);
+		mTextPublishedDate.setText(mBookInfo.publishedDate);
+		mTextCategory.setText(StringUtils.joinCategoryNameList(mBookInfo.categories, ", "));
+		mTextDescription.setText(mBookInfo.description);
 	}
 
 	/**
@@ -140,20 +167,5 @@ public final class BookDisplay extends Activity {
 				// Do nothing.
 			}
 		}).show();
-	}
-
-	/**
-	 * Delete the current book.
-	 */
-	public void delete() {
-		String title = mBookInfo.title;
-		String message = String.format(getString(R.string.message_book_deleted), title);
-
-		SQLiteDatabase db = mDbHelper.getWritableDatabase();
-		BookServices.deleteBook(db, mBookInfo.id);
-		db.close();
-
-		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		finish();
 	}
 }

@@ -12,7 +12,7 @@
             <item
                 android:id="@+id/bookList_actionTypeIsbn"
                 android:icon="@drawable/ic_action_dial_pad"
-                android:title="@string/action_type_isbn"/>
+                android:title="@string/action_enter_isbn"/>
             <item
                 android:id="@+id/bookList_actionAddManually"
                 android:icon="@drawable/ic_action_keyboard"
