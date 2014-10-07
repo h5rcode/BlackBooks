@@ -22,6 +22,7 @@
     <string name="field_mandatory">This field is mandatory.</string>
     <string name="image_thumbnail">Thumbnail</string>
     <string name="label_author">Author</string>
+    <string name="label_authors_format">by %s</string>
     <string name="label_authors">Author(s)</string>
     <string name="label_category">Category</string>
     <string name="label_categories">Categories</string>
@@ -36,6 +37,8 @@
     <string name="label_unspecified_author">(Unspecified author)</string>
     <string name="menu_add_book">Add book</string>
     <string name="menu_delete_book">Delete</string>
+    <string name="menu_edit_book">Edit</string>
+    <string name="menu_other">Other</string>
     <string name="menu_settings">Settings</string>
     <string name="message_author_added">\"%s\" was added to the list of authors.</string>
     <string name="message_author_already_present">\"%s\" is already in the list of authors.</string>

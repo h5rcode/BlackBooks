@@ -11,7 +11,9 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +45,16 @@ public final class BookDisplay extends Activity {
 	private TextView mTextPublishedDate;
 	private TextView mTextCategory;
 	private TextView mTextDescription;
+
+	private LinearLayout mGroupInfo;
+	private LinearLayout mGroupInfoUserFriendly;
+	private LinearLayout mGroupInfoUserFriendlyPageCount;
+	private LinearLayout mGroupInfoUserFriendlyCategories;
+	private LinearLayout mGroupInfoTechnical;
+	private LinearLayout mGroupInfoTechnicalIsbn;
+	private LinearLayout mGroupInfoTechnicalPublisher;
+	private LinearLayout mGroupInfoTechnicalPublishedDate;
+	private LinearLayout mGroupDescription;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +106,11 @@ public final class BookDisplay extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		boolean result;
 		switch (item.getItemId()) {
+		case R.id.bookDisplay_actionEdit:
+			Toast.makeText(this, "Coming soon...", Toast.LENGTH_SHORT).show();
+			result = true;
+			break;
+
 		case R.id.bookDisplay_actionDelete:
 			showDeleteConfirmDialog();
 			result = true;
@@ -119,29 +136,95 @@ public final class BookDisplay extends Activity {
 		mTextPublishedDate = (TextView) findViewById(R.id.bookDisplay_textPublishedDate);
 		mTextCategory = (TextView) findViewById(R.id.bookDisplay_textCategory);
 		mTextDescription = (TextView) findViewById(R.id.bookDisplay_textDescription);
+
+		mGroupInfo = (LinearLayout) findViewById(R.id.bookDisplay_groupInfo);
+		mGroupInfoUserFriendly = (LinearLayout) findViewById(R.id.bookDisplay_groupInfoUserFriendly);
+		mGroupInfoUserFriendlyPageCount = (LinearLayout) findViewById(R.id.bookDisplay_groupInfoUserFriendly_pageCount);
+		mGroupInfoUserFriendlyCategories = (LinearLayout) findViewById(R.id.bookDisplay_groupInfoUserFriendly_categories);
+		mGroupInfoTechnical = (LinearLayout) findViewById(R.id.bookDisplay_groupInfoTechnical);
+		mGroupInfoTechnicalIsbn = (LinearLayout) findViewById(R.id.bookDisplay_groupInfoTechnical_isbn);
+		mGroupInfoTechnicalPublisher = (LinearLayout) findViewById(R.id.bookDisplay_groupInfoTechnical_publisher);
+		mGroupInfoTechnicalPublishedDate = (LinearLayout) findViewById(R.id.bookDisplay_groupInfoTechnical_publishedDate);
+		mGroupDescription = (LinearLayout) findViewById(R.id.bookDisplay_groupDescription);
 	}
 
 	/**
 	 * Update the views of the activity using the book information.
 	 */
 	private void renderBookInfo() {
+		boolean hasPageCount = mBookInfo.pageCount != null;
+		boolean hasCategories = mBookInfo.categories.size() > 0;
+		boolean hasIdentifiers = mBookInfo.identifiers.size() > 0;
+		boolean hasPublisher = mBookInfo.publisher.name != null;
+		boolean hasPublishedDate = mBookInfo.publishedDate != null;
+
+		boolean showInfoUserFriendly = hasPageCount || hasCategories;
+		boolean showInfoTechnical = hasIdentifiers || hasPublisher || hasPublishedDate;
+		boolean showInfo = showInfoUserFriendly || showInfoTechnical;
+
+		mTextTitle.setText(mBookInfo.title);
 		if (mBookInfo.thumbnail != null && mBookInfo.thumbnail.length > 0) {
 			Bitmap bitmap = BitmapFactory.decodeByteArray(mBookInfo.thumbnail, 0, mBookInfo.thumbnail.length);
 			mImageCover.setImageBitmap(bitmap);
+		} else {
+			mImageCover.setVisibility(View.GONE);
 		}
-		mTextTitle.setText(mBookInfo.title);
-		mTextSubtitle.setText(mBookInfo.subtitle);
-		mTextAuthor.setText(StringUtils.joinAuthorNameList(mBookInfo.authors, ", "));
-		if (mBookInfo.identifiers.size() > 0) {
-			mTextIsbn.setText(mBookInfo.identifiers.get(0).identifier);
+		if (mBookInfo.subtitle != null) {
+			mTextSubtitle.setText(mBookInfo.subtitle);
+		} else {
+			mTextSubtitle.setVisibility(View.GONE);
 		}
-		if (mBookInfo.pageCount != null) {
-			mTextPageCount.setText(mBookInfo.pageCount.toString());
+		if (mBookInfo.authors.size() > 0) {
+			String authorsFormat = getString(R.string.label_authors_format);
+			String authors = String.format(authorsFormat, StringUtils.joinAuthorNameList(mBookInfo.authors, ", "));
+			mTextAuthor.setText(authors);
+		} else {
+			mTextAuthor.setText(getString(R.string.label_unspecified_author));
 		}
-		mTextPublisher.setText(mBookInfo.publisher.name);
-		mTextPublishedDate.setText(mBookInfo.publishedDate);
-		mTextCategory.setText(StringUtils.joinCategoryNameList(mBookInfo.categories, ", "));
-		mTextDescription.setText(mBookInfo.description);
+
+		if (showInfo) {
+			if (showInfoUserFriendly) {
+				if (hasPageCount) {
+					mTextPageCount.setText(mBookInfo.pageCount.toString());
+				} else {
+					mGroupInfoUserFriendlyPageCount.setVisibility(View.GONE);
+				}
+				if (hasCategories) {
+					mTextCategory.setText(StringUtils.joinCategoryNameList(mBookInfo.categories, ", "));
+				} else {
+					mGroupInfoUserFriendlyCategories.setVisibility(View.GONE);
+				}
+			} else {
+				mGroupInfoUserFriendly.setVisibility(View.GONE);
+			}
+
+			if (showInfoTechnical) {
+				if (hasIdentifiers) {
+					mTextIsbn.setText(mBookInfo.identifiers.get(0).identifier);
+				} else {
+					mGroupInfoTechnicalIsbn.setVisibility(View.GONE);
+				}
+				if (hasPublisher) {
+					mTextPublisher.setText(mBookInfo.publisher.name);
+				} else {
+					mGroupInfoTechnicalPublisher.setVisibility(View.GONE);
+				}
+				if (hasPublishedDate) {
+					mTextPublishedDate.setText(mBookInfo.publishedDate);
+				} else {
+					mGroupInfoTechnicalPublishedDate.setVisibility(View.GONE);
+				}
+			} else {
+				mGroupInfoTechnical.setVisibility(View.GONE);
+			}
+		} else {
+			mGroupInfo.setVisibility(View.GONE);
+		}
+		if (mBookInfo.description != null) {
+			mTextDescription.setText(mBookInfo.description);
+		} else {
+			mGroupDescription.setVisibility(View.GONE);
+		}
 	}
 
 	/**

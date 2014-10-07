@@ -1,10 +1,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/bookDisplay_actionDelete"
-        android:icon="@drawable/ic_action_discard"
+        android:icon="@drawable/ic_action_overflow"
         android:showAsAction="ifRoom"
-        android:title="@string/menu_delete_book">
+        android:title="@string/menu_other">
+        <menu>
+            <item
+                android:id="@+id/bookDisplay_actionEdit"
+                android:icon="@drawable/ic_action_edit"
+                android:showAsAction="ifRoom"
+                android:title="@string/menu_edit_book">
+            </item>
+            <item
+                android:id="@+id/bookDisplay_actionDelete"
+                android:icon="@drawable/ic_action_discard"
+                android:showAsAction="ifRoom"
+                android:title="@string/menu_delete_book">
+            </item>
+        </menu>
     </item>
 
 </menu>
