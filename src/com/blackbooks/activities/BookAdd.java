@@ -264,6 +264,7 @@ public final class BookAdd extends Activity {
 		if (intent != null) {
 			if (intent.hasExtra(EXTRA_ISBN)) {
 				String isbn = intent.getStringExtra(EXTRA_ISBN);
+				intent.removeExtra(EXTRA_ISBN);
 				new BookSearch().execute(isbn);
 			}
 		}
