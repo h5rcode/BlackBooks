@@ -47,10 +47,8 @@ public final class BookDisplay extends Activity {
 	private TextView mTextDescription;
 
 	private LinearLayout mGroupInfo;
-	private LinearLayout mGroupInfoUserFriendly;
 	private LinearLayout mGroupInfoUserFriendlyPageCount;
 	private LinearLayout mGroupInfoUserFriendlyCategories;
-	private LinearLayout mGroupInfoTechnical;
 	private LinearLayout mGroupInfoTechnicalIsbn;
 	private LinearLayout mGroupInfoTechnicalPublisher;
 	private LinearLayout mGroupInfoTechnicalPublishedDate;
@@ -138,10 +136,8 @@ public final class BookDisplay extends Activity {
 		mTextDescription = (TextView) findViewById(R.id.bookDisplay_textDescription);
 
 		mGroupInfo = (LinearLayout) findViewById(R.id.bookDisplay_groupInfo);
-		mGroupInfoUserFriendly = (LinearLayout) findViewById(R.id.bookDisplay_groupInfoUserFriendly);
 		mGroupInfoUserFriendlyPageCount = (LinearLayout) findViewById(R.id.bookDisplay_groupInfoUserFriendly_pageCount);
 		mGroupInfoUserFriendlyCategories = (LinearLayout) findViewById(R.id.bookDisplay_groupInfoUserFriendly_categories);
-		mGroupInfoTechnical = (LinearLayout) findViewById(R.id.bookDisplay_groupInfoTechnical);
 		mGroupInfoTechnicalIsbn = (LinearLayout) findViewById(R.id.bookDisplay_groupInfoTechnical_isbn);
 		mGroupInfoTechnicalPublisher = (LinearLayout) findViewById(R.id.bookDisplay_groupInfoTechnical_publisher);
 		mGroupInfoTechnicalPublishedDate = (LinearLayout) findViewById(R.id.bookDisplay_groupInfoTechnical_publishedDate);
@@ -183,45 +179,38 @@ public final class BookDisplay extends Activity {
 		}
 
 		if (showInfo) {
-			if (showInfoUserFriendly) {
-				if (hasPageCount) {
-					mTextPageCount.setText(mBookInfo.pageCount.toString());
-				} else {
-					mGroupInfoUserFriendlyPageCount.setVisibility(View.GONE);
-				}
-				if (hasCategories) {
-					mTextCategory.setText(StringUtils.joinCategoryNameList(mBookInfo.categories, ", "));
-				} else {
-					mGroupInfoUserFriendlyCategories.setVisibility(View.GONE);
-				}
+			if (hasPageCount) {
+				mTextPageCount.setText(mBookInfo.pageCount.toString());
 			} else {
-				mGroupInfoUserFriendly.setVisibility(View.GONE);
+				mGroupInfoUserFriendlyPageCount.setVisibility(View.GONE);
+			}
+			if (hasCategories) {
+				mTextCategory.setText(StringUtils.joinCategoryNameList(mBookInfo.categories, ", "));
+			} else {
+				mGroupInfoUserFriendlyCategories.setVisibility(View.GONE);
 			}
 
-			if (showInfoTechnical) {
-				if (hasIdentifiers) {
-					mTextIsbn.setText(mBookInfo.identifiers.get(0).identifier);
-				} else {
-					mGroupInfoTechnicalIsbn.setVisibility(View.GONE);
-				}
-				if (hasPublisher) {
-					mTextPublisher.setText(mBookInfo.publisher.name);
-				} else {
-					mGroupInfoTechnicalPublisher.setVisibility(View.GONE);
-				}
-				if (hasPublishedDate) {
-					mTextPublishedDate.setText(mBookInfo.publishedDate);
-				} else {
-					mGroupInfoTechnicalPublishedDate.setVisibility(View.GONE);
-				}
+			if (hasIdentifiers) {
+				mTextIsbn.setText(mBookInfo.identifiers.get(0).identifier);
 			} else {
-				mGroupInfoTechnical.setVisibility(View.GONE);
+				mGroupInfoTechnicalIsbn.setVisibility(View.GONE);
+			}
+			if (hasPublisher) {
+				mTextPublisher.setText(mBookInfo.publisher.name);
+			} else {
+				mGroupInfoTechnicalPublisher.setVisibility(View.GONE);
+			}
+			if (hasPublishedDate) {
+				mTextPublishedDate.setText(mBookInfo.publishedDate);
+			} else {
+				mGroupInfoTechnicalPublishedDate.setVisibility(View.GONE);
 			}
 		} else {
 			mGroupInfo.setVisibility(View.GONE);
 		}
 		if (mBookInfo.description != null) {
 			mTextDescription.setText(mBookInfo.description);
+
 		} else {
 			mGroupDescription.setVisibility(View.GONE);
 		}

@@ -62,11 +62,11 @@
                 android:orientation="horizontal" >
 
                 <LinearLayout
-                    android:id="@+id/bookDisplay_groupInfoUserFriendly"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical" >
+                    android:orientation="vertical"
+                    android:paddingRight="15sp" >
 
                     <LinearLayout
                         android:id="@+id/bookDisplay_groupInfoUserFriendly_pageCount"
@@ -77,36 +77,40 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="right"
                             android:text="@string/label_page_count"
                             android:textSize="20sp" />
 
                         <TextView
                             android:id="@+id/bookDisplay_textPageCount"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:gravity="right" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/bookDisplay_groupInfoUserFriendly_categories"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical" >
+                        android:orientation="vertical"
+                        android:paddingLeft="15sp" >
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="right"
                             android:text="@string/label_categories"
                             android:textSize="20sp" />
 
                         <TextView
                             android:id="@+id/bookDisplay_textCategory"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:gravity="right" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/bookDisplay_groupInfoTechnical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -183,6 +187,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:text="@string/label_description"
                 android:textSize="20sp" />
 
