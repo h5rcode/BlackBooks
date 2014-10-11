@@ -21,7 +21,7 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.blackbooks.R;
@@ -52,7 +52,7 @@ public final class BookAdd extends Activity {
 	private final static int REQUEST_EDIT_AUTHORS = 0;
 	private final static int REQUEST_EDIT_CATEGORIES = 1;
 
-	private ImageView mImageCover;
+	private ImageButton mImageThumbnail;
 	private EditText mTextTitle;
 	private EditText mTextSubtitle;
 	private Button mButtonEditAuthors;
@@ -201,8 +201,7 @@ public final class BookAdd extends Activity {
 			mBookInfo = new BookInfo();
 		}
 
-		setButtonEditAuthorsText();
-		setButtonEditCategoriesText();
+		renderBookInfo();
 
 		handleIntent();
 	}
@@ -217,7 +216,7 @@ public final class BookAdd extends Activity {
 	 * Find the views of the activity that will contain the book information.
 	 */
 	private void findViews() {
-		mImageCover = (ImageView) findViewById(R.id.bookAdd_imageCover);
+		mImageThumbnail = (ImageButton) findViewById(R.id.bookAdd_buttonThumbnail);
 		mTextTitle = (EditText) findViewById(R.id.bookAdd_textTitle);
 		mTextSubtitle = (EditText) findViewById(R.id.bookAdd_textSubtitle);
 		mButtonEditAuthors = (Button) findViewById(R.id.bookAdd_buttonEditAuthors);
@@ -345,7 +344,7 @@ public final class BookAdd extends Activity {
 	private void renderBookInfo() {
 		if (mBookInfo.thumbnail != null && mBookInfo.thumbnail.length > 0) {
 			Bitmap bitmap = BitmapFactory.decodeByteArray(mBookInfo.thumbnail, 0, mBookInfo.thumbnail.length);
-			mImageCover.setImageBitmap(bitmap);
+			mImageThumbnail.setImageBitmap(bitmap);
 		}
 		mTextTitle.setText(mBookInfo.title);
 		setButtonEditAuthorsText();

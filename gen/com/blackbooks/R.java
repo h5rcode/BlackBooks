@@ -43,7 +43,7 @@ public final class R {
         public static final int bookAdd_actionSave=0x7f09002d;
         public static final int bookAdd_buttonEditAuthors=0x7f090003;
         public static final int bookAdd_buttonEditCategories=0x7f090008;
-        public static final int bookAdd_imageCover=0x7f090000;
+        public static final int bookAdd_buttonThumbnail=0x7f090000;
         public static final int bookAdd_textDescription=0x7f090009;
         public static final int bookAdd_textIsbn=0x7f090004;
         public static final int bookAdd_textLanguage=0x7f09000a;

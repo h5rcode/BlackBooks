@@ -13,13 +13,12 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context=".BookAdd" >
 
-        <ImageView
-            android:id="@+id/bookAdd_imageCover"
+        <ImageButton
+            android:id="@+id/bookAdd_buttonThumbnail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/image_thumbnail"
-            android:padding="3sp"
             android:src="@drawable/ic_undefined_thumbnail" />
 
         <TextView
