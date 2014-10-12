@@ -6,10 +6,11 @@
     <string name="action_add_categories">Add categories</string>
     <string name="action_add_manually">Add manually</string>
     <string name="action_backup_db">Backup DB on disk</string>
+    <string name="action_enter_isbn">Enter ISBN</string>
     <string name="action_lookup_isbn">Lookup ISBN</string>
+    <string name="action_remove_thumbnail">Remove thumbnail</string>
     <string name="action_save_book">Save</string>
     <string name="action_scan_isbn">Scan ISBN</string>
-    <string name="action_enter_isbn">Enter ISBN</string>
     <string name="button_add_author">Add</string>
     <string name="button_add_category">Add</string>
     <string name="button_edit_authors">Add author(s)</string>

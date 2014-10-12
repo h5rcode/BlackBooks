@@ -23,27 +23,27 @@ public class IsbnEnter extends Activity {
 
 	private final static int ALPHA_DISABLED = 75;
 
-	private EditText textIsbn;
-	private MenuItem menuItemLookup;
-	private TextView textStatus;
+	private EditText mTextIsbn;
+	private MenuItem mMenuItemLookup;
+	private TextView mTextStatus;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_isbn_enter);
 
-		textIsbn = (EditText) findViewById(R.id.isbnEnter_textIsbn);
-		textStatus = (TextView) findViewById(R.id.isbnEnter_textStatus);
+		mTextIsbn = (EditText) findViewById(R.id.isbnEnter_textIsbn);
+		mTextStatus = (TextView) findViewById(R.id.isbnEnter_textStatus);
 
-		textIsbn.setRawInputType(Configuration.KEYBOARD_QWERTY);
-		textIsbn.addTextChangedListener(new IsbnValidator());
+		mTextIsbn.setRawInputType(Configuration.KEYBOARD_QWERTY);
+		mTextIsbn.addTextChangedListener(new IsbnValidator());
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.isbn_enter, menu);
-		menuItemLookup = menu.findItem(R.id.isbnEnter_actionLookup);
-		menuItemLookup.getIcon().setAlpha(ALPHA_DISABLED);
+		mMenuItemLookup = menu.findItem(R.id.isbnEnter_actionLookup);
+		mMenuItemLookup.getIcon().setAlpha(ALPHA_DISABLED);
 		return true;
 	}
 
@@ -69,7 +69,7 @@ public class IsbnEnter extends Activity {
 	 * Get the entered ISBN number and start the search.
 	 */
 	public void search() {
-		String isbn = textIsbn.getText().toString();
+		String isbn = mTextIsbn.getText().toString();
 		startIsbnSearch(isbn);
 	}
 
@@ -97,43 +97,42 @@ public class IsbnEnter extends Activity {
 
 			boolean enableSearch = false;
 			if (!Pattern.matches("[[0-9][xX]]*", isbn)) {
-				textIsbn.setError(getString(R.string.message_isbn_search_info_format));
-				textStatus.setText(getString(R.string.message_isbn_search_invalid_format));
+				mTextIsbn.setError(getString(R.string.message_isbn_search_info_format));
+				mTextStatus.setText(getString(R.string.message_isbn_search_invalid_format));
 			} else {
-				textIsbn.setError(null);
+				mTextIsbn.setError(null);
 				int length = isbn.length();
 
 				if (length < 13) {
 					if (length == 0) {
-						textStatus.setText(null);
+						mTextStatus.setText(null);
 					} else if (length == 10) {
 						if (IsbnHelper.isValidIsbn10(isbn)) {
-							textStatus.setText(null);
+							mTextStatus.setText(null);
 							enableSearch = true;
 						} else {
-							textStatus.setText(getString(R.string.message_isbn_search_invalid_isbn10));
+							mTextStatus.setText(getString(R.string.message_isbn_search_invalid_isbn10));
 						}
 
 					} else {
-						textStatus.setText(getString(R.string.message_isbn_search_too_short));
+						mTextStatus.setText(getString(R.string.message_isbn_search_too_short));
 					}
 				} else if (length == 13) {
 					if (IsbnHelper.isValidIsbn13(isbn)) {
-						textStatus.setText(null);
+						mTextStatus.setText(null);
 						enableSearch = true;
 					} else {
-						textStatus.setText(getString(R.string.message_isbn_search_invalid_isbn13));
+						mTextStatus.setText(getString(R.string.message_isbn_search_invalid_isbn13));
 					}
 				}
 			}
 
-			menuItemLookup.setEnabled(enableSearch);
-			menuItemLookup.getIcon().setAlpha(enableSearch ? 255 : ALPHA_DISABLED);
+			mMenuItemLookup.setEnabled(enableSearch);
+			mMenuItemLookup.getIcon().setAlpha(enableSearch ? 255 : ALPHA_DISABLED);
 		}
 
 		@Override
 		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
 		}
 
 		@Override

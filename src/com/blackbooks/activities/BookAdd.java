@@ -15,13 +15,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.blackbooks.R;
@@ -52,7 +55,7 @@ public final class BookAdd extends Activity {
 	private final static int REQUEST_EDIT_AUTHORS = 0;
 	private final static int REQUEST_EDIT_CATEGORIES = 1;
 
-	private ImageButton mImageThumbnail;
+	private ImageView mImageThumbnail;
 	private EditText mTextTitle;
 	private EditText mTextSubtitle;
 	private Button mButtonEditAuthors;
@@ -110,6 +113,55 @@ public final class BookAdd extends Activity {
 		startActivityForResult(intent, REQUEST_EDIT_CATEGORIES);
 	}
 
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.thumbnail_edit, menu);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.book_add, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		boolean result;
+
+		switch (item.getItemId()) {
+		case R.id.thumbnailEdit_actionRemove:
+			mBookInfo.thumbnail = null;
+			mBookInfo.smallThumbnail = null;
+			setImageThumbnail();
+			result = true;
+			break;
+
+		default:
+			result = super.onContextItemSelected(item);
+			break;
+		}
+
+		return result;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		boolean result;
+		switch (item.getItemId()) {
+		case R.id.bookAdd_actionSave:
+			result = true;
+			save();
+			break;
+
+		default:
+			result = super.onOptionsItemSelected(item);
+			break;
+		}
+		return result;
+	}
+
 	/**
 	 * Save the new book and finish the activity.
 	 */
@@ -129,28 +181,6 @@ public final class BookAdd extends Activity {
 
 			finish();
 		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.book_add, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		boolean result;
-		switch (item.getItemId()) {
-		case R.id.bookAdd_actionSave:
-			result = true;
-			save();
-			break;
-
-		default:
-			result = super.onOptionsItemSelected(item);
-			break;
-		}
-		return result;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -173,6 +203,8 @@ public final class BookAdd extends Activity {
 		setContentView(R.layout.activity_book_add);
 
 		findViews();
+
+		registerForContextMenu(mImageThumbnail);
 
 		mPublisherCompleteAdapter = new AutoCompleteAdapter<Publisher>(this, android.R.layout.simple_list_item_1, new AutoCompleteSearcher<Publisher>() {
 
@@ -216,7 +248,7 @@ public final class BookAdd extends Activity {
 	 * Find the views of the activity that will contain the book information.
 	 */
 	private void findViews() {
-		mImageThumbnail = (ImageButton) findViewById(R.id.bookAdd_buttonThumbnail);
+		mImageThumbnail = (ImageView) findViewById(R.id.bookAdd_buttonThumbnail);
 		mTextTitle = (EditText) findViewById(R.id.bookAdd_textTitle);
 		mTextSubtitle = (EditText) findViewById(R.id.bookAdd_textSubtitle);
 		mButtonEditAuthors = (Button) findViewById(R.id.bookAdd_buttonEditAuthors);
@@ -342,10 +374,7 @@ public final class BookAdd extends Activity {
 	 * Update the views of the activity using the book information.
 	 */
 	private void renderBookInfo() {
-		if (mBookInfo.thumbnail != null && mBookInfo.thumbnail.length > 0) {
-			Bitmap bitmap = BitmapFactory.decodeByteArray(mBookInfo.thumbnail, 0, mBookInfo.thumbnail.length);
-			mImageThumbnail.setImageBitmap(bitmap);
-		}
+		setImageThumbnail();
 		mTextTitle.setText(mBookInfo.title);
 		setButtonEditAuthorsText();
 		if (mBookInfo.identifiers.size() > 0) {
@@ -383,6 +412,19 @@ public final class BookAdd extends Activity {
 			String categories = StringUtils.joinCategoryNameList(mBookInfo.categories, ", ");
 			mButtonEditCategories.setText(categories);
 		}
+	}
+
+	/**
+	 * Displays the thumbnail if there is one.
+	 */
+	private void setImageThumbnail() {
+		Bitmap bitmap;
+		if (mBookInfo.thumbnail != null && mBookInfo.thumbnail.length > 0) {
+			bitmap = BitmapFactory.decodeByteArray(mBookInfo.thumbnail, 0, mBookInfo.thumbnail.length);
+		} else {
+			bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_undefined_thumbnail);
+		}
+		mImageThumbnail.setImageBitmap(bitmap);
 	}
 
 	/**
