@@ -14,7 +14,7 @@ public class Identifier implements Serializable {
 	@Column(name = Cols.IDE_ID, primaryKey = true, type = SQLiteDataType.INTEGER, version = 1)
 	public Long id;
 
-	@Column(name = Cols.IDE_IDENTIFIER, mandatory = true, type = SQLiteDataType.TEXT, unique = true, version = 1)
+	@Column(name = Cols.IDE_IDENTIFIER, mandatory = true, type = SQLiteDataType.TEXT, version = 1)
 	public String identifier;
 
 	@Column(name = Cols.BOO_ID, mandatory = true, type = SQLiteDataType.INTEGER, referencedType = Book.class, onDeleteCascade = true, version = 1)
