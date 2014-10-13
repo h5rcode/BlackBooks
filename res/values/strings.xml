@@ -30,6 +30,7 @@
     <string name="label_description">Description</string>
     <string name="label_isbn">ISBN</string>
     <string name="label_language">Language</string>
+    <string name="label_no_language">(No language set)</string>
     <string name="label_page_count">Page count</string>
     <string name="label_publisher">Publisher</string>
     <string name="label_published_date">Published date</string>

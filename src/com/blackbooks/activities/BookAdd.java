@@ -3,7 +3,6 @@ package com.blackbooks.activities;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
@@ -22,15 +21,20 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.blackbooks.R;
 import com.blackbooks.adapters.AutoCompleteAdapter;
 import com.blackbooks.adapters.AutoCompleteAdapter.AutoCompleteSearcher;
+import com.blackbooks.adapters.Language;
+import com.blackbooks.adapters.LanguagesAdapter;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
@@ -59,7 +63,7 @@ public final class BookAdd extends Activity {
 	private ImageView mImageThumbnail;
 	private EditText mTextTitle;
 	private EditText mTextSubtitle;
-	private EditText mTextLanguage;
+	private Spinner mSpinnerLanguage;
 	private Button mButtonEditAuthors;
 	private EditText mTextIsbn;
 	private EditText mTextPageCount;
@@ -68,6 +72,7 @@ public final class BookAdd extends Activity {
 	private Button mButtonEditCategories;
 	private EditText mTextDescription;
 
+	private LanguagesAdapter mLanguagesAdapter;
 	private AutoCompleteAdapter<Publisher> mPublisherCompleteAdapter;
 
 	private BookInfo mBookInfo;
@@ -206,6 +211,19 @@ public final class BookAdd extends Activity {
 		findViews();
 
 		registerForContextMenu(mImageThumbnail);
+		mLanguagesAdapter = new LanguagesAdapter(this);
+		mSpinnerLanguage.setAdapter(mLanguagesAdapter);
+		mSpinnerLanguage.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				mBookInfo.languageCode = (String) arg1.getTag();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
 
 		mPublisherCompleteAdapter = new AutoCompleteAdapter<Publisher>(this, android.R.layout.simple_list_item_1, new AutoCompleteSearcher<Publisher>() {
 
@@ -252,7 +270,7 @@ public final class BookAdd extends Activity {
 		mImageThumbnail = (ImageView) findViewById(R.id.bookAdd_buttonThumbnail);
 		mTextTitle = (EditText) findViewById(R.id.bookAdd_textTitle);
 		mTextSubtitle = (EditText) findViewById(R.id.bookAdd_textSubtitle);
-		mTextLanguage = (EditText) findViewById(R.id.bookAdd_textLanguage);
+		mSpinnerLanguage = (Spinner) findViewById(R.id.bookAdd_spinnerLanguage);
 		mButtonEditAuthors = (Button) findViewById(R.id.bookAdd_buttonEditAuthors);
 		mTextIsbn = (EditText) findViewById(R.id.bookAdd_textIsbn);
 		mTextPageCount = (EditText) findViewById(R.id.bookAdd_textPageCount);
@@ -317,7 +335,7 @@ public final class BookAdd extends Activity {
 
 		mBookInfo.title = title;
 		mBookInfo.subtitle = subtitle;
-		mBookInfo.languageCode = (String) mTextLanguage.getTag();
+		mBookInfo.languageCode = ((Language) mSpinnerLanguage.getSelectedItem()).getCode();
 		if (pageCountString != null && StringUtils.isInteger(pageCountString)) {
 			mBookInfo.pageCount = Long.valueOf(pageCountString);
 		}
@@ -378,6 +396,13 @@ public final class BookAdd extends Activity {
 	private void renderBookInfo() {
 		setImageThumbnail();
 		mTextTitle.setText(mBookInfo.title);
+		mTextSubtitle.setText(mBookInfo.subtitle);
+		int languageToSelect = mLanguagesAdapter.getPosition(mBookInfo.languageCode);
+		if (languageToSelect < 0) {
+			languageToSelect = 0;
+		}
+		mSpinnerLanguage.setSelection(languageToSelect);
+
 		setButtonEditAuthorsText();
 		if (mBookInfo.identifiers.size() > 0) {
 			mTextIsbn.setText(mBookInfo.identifiers.get(0).identifier);
@@ -389,13 +414,6 @@ public final class BookAdd extends Activity {
 		mTextPublishedDate.setText(mBookInfo.publishedDate);
 		setButtonEditCategoriesText();
 		mTextDescription.setText(mBookInfo.description);
-		String language = null;
-		if (mBookInfo.languageCode != null) {
-			Locale locale = new Locale(mBookInfo.languageCode);
-			language = StringUtils.capitalize(locale.getDisplayLanguage());
-			mTextLanguage.setTag(mBookInfo.languageCode);
-		}
-		mTextLanguage.setText(language);
 	}
 
 	/**
