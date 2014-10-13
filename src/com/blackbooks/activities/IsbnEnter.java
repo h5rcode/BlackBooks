@@ -24,8 +24,9 @@ public class IsbnEnter extends Activity {
 	private final static int ALPHA_DISABLED = 75;
 
 	private EditText mTextIsbn;
-	private MenuItem mMenuItemLookup;
 	private TextView mTextStatus;
+	private MenuItem mMenuItemLookup;
+	private boolean mEnableLookup;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class IsbnEnter extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.isbn_enter, menu);
 		mMenuItemLookup = menu.findItem(R.id.isbnEnter_actionLookup);
-		mMenuItemLookup.getIcon().setAlpha(ALPHA_DISABLED);
+		toggleMenuItemLookup();
 		return true;
 	}
 
@@ -87,6 +88,16 @@ public class IsbnEnter extends Activity {
 	}
 
 	/**
+	 * Enable or disable the lookup item of the options menu.
+	 */
+	private void toggleMenuItemLookup() {
+		if (mMenuItemLookup != null) {
+			mMenuItemLookup.setEnabled(mEnableLookup);
+			mMenuItemLookup.getIcon().setAlpha(mEnableLookup ? 255 : ALPHA_DISABLED);
+		}
+	}
+
+	/**
 	 * A text watcher that checks the entered ISBN.
 	 */
 	private final class IsbnValidator implements TextWatcher {
@@ -95,7 +106,7 @@ public class IsbnEnter extends Activity {
 		public void afterTextChanged(Editable s) {
 			String isbn = s.toString();
 
-			boolean enableSearch = false;
+			mEnableLookup = false;
 			if (!Pattern.matches("[[0-9][xX]]*", isbn)) {
 				mTextIsbn.setError(getString(R.string.message_isbn_search_info_format));
 				mTextStatus.setText(getString(R.string.message_isbn_search_invalid_format));
@@ -109,7 +120,7 @@ public class IsbnEnter extends Activity {
 					} else if (length == 10) {
 						if (IsbnHelper.isValidIsbn10(isbn)) {
 							mTextStatus.setText(null);
-							enableSearch = true;
+							mEnableLookup = true;
 						} else {
 							mTextStatus.setText(getString(R.string.message_isbn_search_invalid_isbn10));
 						}
@@ -120,15 +131,14 @@ public class IsbnEnter extends Activity {
 				} else if (length == 13) {
 					if (IsbnHelper.isValidIsbn13(isbn)) {
 						mTextStatus.setText(null);
-						enableSearch = true;
+						mEnableLookup = true;
 					} else {
 						mTextStatus.setText(getString(R.string.message_isbn_search_invalid_isbn13));
 					}
 				}
 			}
 
-			mMenuItemLookup.setEnabled(enableSearch);
-			mMenuItemLookup.getIcon().setAlpha(enableSearch ? 255 : ALPHA_DISABLED);
+			toggleMenuItemLookup();
 		}
 
 		@Override
