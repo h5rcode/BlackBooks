@@ -108,6 +108,27 @@
                             android:layout_height="wrap_content"
                             android:gravity="right" />
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/bookDisplay_groupInfoUserFriendly_language"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingLeft="15sp" >
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="@string/label_language"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/bookDisplay_textLanguage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout

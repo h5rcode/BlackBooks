@@ -2,6 +2,7 @@ package com.blackbooks.utils;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Category;
@@ -15,6 +16,25 @@ public final class StringUtils {
 	 * Private constructor.
 	 */
 	private StringUtils() {
+	}
+
+	/**
+	 * Capitalize a string value.
+	 * 
+	 * @param stringValue
+	 *            The string value.
+	 * @return Capitalized string value.
+	 */
+	public static String capitalize(String stringValue) {
+		String result = null;
+		if (stringValue != null && stringValue.length() > 0) {
+			int length = stringValue.length();
+			result = stringValue.substring(0, 1).toUpperCase(Locale.getDefault());
+			if (length > 1) {
+				result += stringValue.substring(1, length);
+			}
+		}
+		return result;
 	}
 
 	/**

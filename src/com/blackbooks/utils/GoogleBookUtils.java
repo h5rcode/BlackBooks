@@ -25,6 +25,7 @@ public final class GoogleBookUtils {
 		BookInfo bookInfo = new BookInfo();
 		bookInfo.title = googleBook.title;
 		bookInfo.subtitle = googleBook.subtitle;
+		bookInfo.languageCode = googleBook.language;
 
 		ArrayList<String> authors = googleBook.authors;
 		for (String authorName : authors) {

@@ -19,6 +19,9 @@ public class Book implements Serializable {
 
 	@Column(name = Cols.BOO_SUBTITLE, type = SQLiteDataType.TEXT, version = 1)
 	public String subtitle;
+	
+	@Column(name = Cols.BOO_LANGUAGE_CODE, type = SQLiteDataType.TEXT, version = 1)
+	public String languageCode;
 
 	@Column(name = Cols.PUB_ID, type = SQLiteDataType.INTEGER, referencedType = Publisher.class, version = 1)
 	public Long publisherId;
@@ -57,6 +60,7 @@ public class Book implements Serializable {
 		public final static String BOO_ID = "BOO_ID";
 		public final static String BOO_TITLE = "BOO_TITLE";
 		public final static String BOO_SUBTITLE = "BOO_SUBTITLE";
+		public final static String BOO_LANGUAGE_CODE = "BOO_LANGUAGE_CODE";
 		public final static String PUB_ID = "PUB_ID";
 		public final static String BOO_PUBLISHED_DATE = "BOO_PUBLISHED_DATE";
 		public final static String BOO_DESCRIPTION = "BOO_DESCRIPTION";

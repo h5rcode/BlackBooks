@@ -3,6 +3,7 @@ package com.blackbooks.activities;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
@@ -58,6 +59,7 @@ public final class BookAdd extends Activity {
 	private ImageView mImageThumbnail;
 	private EditText mTextTitle;
 	private EditText mTextSubtitle;
+	private EditText mTextLanguage;
 	private Button mButtonEditAuthors;
 	private EditText mTextIsbn;
 	private EditText mTextPageCount;
@@ -65,7 +67,6 @@ public final class BookAdd extends Activity {
 	private EditText mTextPublishedDate;
 	private Button mButtonEditCategories;
 	private EditText mTextDescription;
-	private EditText mTextLanguage;
 
 	private AutoCompleteAdapter<Publisher> mPublisherCompleteAdapter;
 
@@ -251,6 +252,7 @@ public final class BookAdd extends Activity {
 		mImageThumbnail = (ImageView) findViewById(R.id.bookAdd_buttonThumbnail);
 		mTextTitle = (EditText) findViewById(R.id.bookAdd_textTitle);
 		mTextSubtitle = (EditText) findViewById(R.id.bookAdd_textSubtitle);
+		mTextLanguage = (EditText) findViewById(R.id.bookAdd_textLanguage);
 		mButtonEditAuthors = (Button) findViewById(R.id.bookAdd_buttonEditAuthors);
 		mTextIsbn = (EditText) findViewById(R.id.bookAdd_textIsbn);
 		mTextPageCount = (EditText) findViewById(R.id.bookAdd_textPageCount);
@@ -258,7 +260,6 @@ public final class BookAdd extends Activity {
 		mTextPublishedDate = (EditText) findViewById(R.id.bookAdd_textPublishedDate);
 		mButtonEditCategories = (Button) findViewById(R.id.bookAdd_buttonEditCategories);
 		mTextDescription = (EditText) findViewById(R.id.bookAdd_textDescription);
-		mTextLanguage = (EditText) findViewById(R.id.bookAdd_textLanguage);
 	}
 
 	/**
@@ -316,6 +317,7 @@ public final class BookAdd extends Activity {
 
 		mBookInfo.title = title;
 		mBookInfo.subtitle = subtitle;
+		mBookInfo.languageCode = (String) mTextLanguage.getTag();
 		if (pageCountString != null && StringUtils.isInteger(pageCountString)) {
 			mBookInfo.pageCount = Long.valueOf(pageCountString);
 		}
@@ -387,7 +389,13 @@ public final class BookAdd extends Activity {
 		mTextPublishedDate.setText(mBookInfo.publishedDate);
 		setButtonEditCategoriesText();
 		mTextDescription.setText(mBookInfo.description);
-		mTextLanguage.setText(null); // TODO: Handle the language.
+		String language = null;
+		if (mBookInfo.languageCode != null) {
+			Locale locale = new Locale(mBookInfo.languageCode);
+			language = StringUtils.capitalize(locale.getDisplayLanguage());
+			mTextLanguage.setTag(mBookInfo.languageCode);
+		}
+		mTextLanguage.setText(language);
 	}
 
 	/**

@@ -21,6 +21,7 @@ import com.blackbooks.R;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.services.BookServices;
+import com.blackbooks.utils.LocaleHelper;
 import com.blackbooks.utils.StringUtils;
 
 /**
@@ -44,11 +45,13 @@ public final class BookDisplay extends Activity {
 	private TextView mTextPublisher;
 	private TextView mTextPublishedDate;
 	private TextView mTextCategory;
+	private TextView mTextLanguage;
 	private TextView mTextDescription;
 
 	private LinearLayout mGroupInfo;
 	private LinearLayout mGroupInfoUserFriendlyPageCount;
 	private LinearLayout mGroupInfoUserFriendlyCategories;
+	private LinearLayout mGroupInfoUserFriendlyLanguage;
 	private LinearLayout mGroupInfoTechnicalIsbn;
 	private LinearLayout mGroupInfoTechnicalPublisher;
 	private LinearLayout mGroupInfoTechnicalPublishedDate;
@@ -133,11 +136,14 @@ public final class BookDisplay extends Activity {
 		mTextPublisher = (TextView) findViewById(R.id.bookDisplay_textPublisher);
 		mTextPublishedDate = (TextView) findViewById(R.id.bookDisplay_textPublishedDate);
 		mTextCategory = (TextView) findViewById(R.id.bookDisplay_textCategory);
+		mTextLanguage = (TextView)findViewById(R.id.bookDisplay_textLanguage);
+		mTextLanguage = (TextView) findViewById(R.id.bookDisplay_textLanguage);
 		mTextDescription = (TextView) findViewById(R.id.bookDisplay_textDescription);
 
 		mGroupInfo = (LinearLayout) findViewById(R.id.bookDisplay_groupInfo);
 		mGroupInfoUserFriendlyPageCount = (LinearLayout) findViewById(R.id.bookDisplay_groupInfoUserFriendly_pageCount);
 		mGroupInfoUserFriendlyCategories = (LinearLayout) findViewById(R.id.bookDisplay_groupInfoUserFriendly_categories);
+		mGroupInfoUserFriendlyLanguage = (LinearLayout) findViewById(R.id.bookDisplay_groupInfoUserFriendly_language);
 		mGroupInfoTechnicalIsbn = (LinearLayout) findViewById(R.id.bookDisplay_groupInfoTechnical_isbn);
 		mGroupInfoTechnicalPublisher = (LinearLayout) findViewById(R.id.bookDisplay_groupInfoTechnical_publisher);
 		mGroupInfoTechnicalPublishedDate = (LinearLayout) findViewById(R.id.bookDisplay_groupInfoTechnical_publishedDate);
@@ -150,11 +156,12 @@ public final class BookDisplay extends Activity {
 	private void renderBookInfo() {
 		boolean hasPageCount = mBookInfo.pageCount != null;
 		boolean hasCategories = mBookInfo.categories.size() > 0;
+		boolean hasLanguage = mBookInfo.languageCode != null;
 		boolean hasIdentifiers = mBookInfo.identifiers.size() > 0;
 		boolean hasPublisher = mBookInfo.publisher.name != null;
 		boolean hasPublishedDate = mBookInfo.publishedDate != null;
 
-		boolean showInfoUserFriendly = hasPageCount || hasCategories;
+		boolean showInfoUserFriendly = hasPageCount || hasCategories || hasLanguage;
 		boolean showInfoTechnical = hasIdentifiers || hasPublisher || hasPublishedDate;
 		boolean showInfo = showInfoUserFriendly || showInfoTechnical;
 
@@ -189,7 +196,12 @@ public final class BookDisplay extends Activity {
 			} else {
 				mGroupInfoUserFriendlyCategories.setVisibility(View.GONE);
 			}
-
+			if (hasLanguage) {
+				String language = LocaleHelper.getDisplayLanguage(mBookInfo.languageCode);
+				mTextLanguage.setText(StringUtils.capitalize(language));
+			} else {
+				mGroupInfoUserFriendlyLanguage.setVisibility(View.GONE);
+			}
 			if (hasIdentifiers) {
 				mTextIsbn.setText(mBookInfo.identifiers.get(0).identifier);
 			} else {

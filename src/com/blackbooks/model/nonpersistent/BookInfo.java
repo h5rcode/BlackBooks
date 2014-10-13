@@ -46,6 +46,7 @@ public class BookInfo extends Book implements Serializable {
 		this.id = book.id;
 		this.title = book.title;
 		this.subtitle = book.subtitle;
+		this.languageCode = book.languageCode;
 		this.publisherId = book.publisherId;
 		this.publishedDate = book.publishedDate;
 		this.description = book.description;
