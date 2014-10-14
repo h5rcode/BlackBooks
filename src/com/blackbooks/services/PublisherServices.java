@@ -15,12 +15,8 @@ public class PublisherServices {
 	/**
 	 * Delete the publishers that are not referred by any books in the database.
 	 * 
-	 * 
-	 * TODO: Pass the id of the updated book as a parameter to filter the rows.
-	 * 
 	 * @param db
 	 *            SQLiteDatabase.
-	 * 
 	 */
 	public static void deletePublishersWithoutBooks(SQLiteDatabase db) {
 		String sql = "DELETE FROM PUBLISHER WHERE PUB_ID IN (SELECT pub.PUB_ID FROM PUBLISHER pub LEFT JOIN BOOK boo ON boo.PUB_ID = pub.PUB_ID WHERE boo.BOO_ID IS NULL)";

@@ -34,8 +34,6 @@ import com.blackbooks.services.AuthorServices;
 
 /**
  * Activity that lists all the books.
- * 
- * TODO: Fix the problem where the action bar is masked after scanning an ISBN.
  */
 public final class BookList extends ListActivity {
 
