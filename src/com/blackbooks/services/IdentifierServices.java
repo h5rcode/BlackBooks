@@ -42,7 +42,7 @@ public class IdentifierServices {
 	}
 
 	/**
-	 * Save a bool identifier if it is valid.
+	 * Save a book identifier.
 	 * 
 	 * @param db
 	 *            SQLiteDatabase.
