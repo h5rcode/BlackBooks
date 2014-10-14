@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import com.blackbooks.helpers.IsbnHelper;
 import com.blackbooks.model.persistent.Identifier;
 import com.blackbooks.sql.BrokerManager;
 
@@ -52,10 +51,6 @@ public class IdentifierServices {
 	 * @return Id of the saved identifier.
 	 */
 	public static long saveIdentifier(SQLiteDatabase db, Identifier identifier) {
-		if (!IsbnHelper.isValidIsbn(identifier.identifier)) {
-			// TODO: Use a more appropriate exception type.
-			throw new IllegalArgumentException();
-		}
 		return BrokerManager.getBroker(Identifier.class).save(db, identifier);
 	}
 }
