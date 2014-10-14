@@ -70,6 +70,7 @@ public abstract class EditableArrayAdapter<T> extends ArrayAdapter<T> {
 
 			TextView textView = (TextView) view.findViewById(mTextViewId);
 			textView.setText(getDisplayLabel(item));
+			textView.setTag(item);
 
 			ImageButton button = (ImageButton) view.findViewById(mButtonId);
 			button.setTag(item);

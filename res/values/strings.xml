@@ -13,10 +13,12 @@
     <string name="action_scan_isbn">Scan ISBN</string>
     <string name="button_add_author">Add</string>
     <string name="button_add_category">Add</string>
+    <string name="button_cancel_edit_author">Cancel</string>
     <string name="button_edit_authors">Add author(s)</string>
     <string name="button_edit_categories">Add categories</string>
     <string name="button_remove_author">X</string>
     <string name="button_remove_category">X</string>
+    <string name="button_save_author">Save</string>
     <string name="error_connection_problem">Connection problem. Make sure the device has access to the Internet.</string>
     <string name="error_json_exception">Error while processing the result of the search.</string>
     <string name="error_uri_syntax">The search request is incorrect (incorrect URI).</string>
@@ -74,5 +76,6 @@
     <string name="title_activity_book_display">Book info</string>
     <string name="title_activity_book_list">Black Books</string>
     <string name="title_activity_isbn_enter">Enter ISBN</string>
+    <string name="title_dialog_edit_author">Edit author</string>
 
 </resources>

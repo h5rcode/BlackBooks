@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,21 +78,18 @@ public class BookAuthorsEdit extends Activity {
 	public void addAuthor(View view) {
 		String authorName = mTextAuthor.getText().toString().trim();
 
+		String errorMessage = null;
 		if (authorName.length() == 0) {
-			mTextAuthor.setError(getString(R.string.message_author_missing));
+			errorMessage = getString(R.string.message_author_missing);
 		} else {
 			if (mAuthorMap.containsKey(authorName)) {
 				String message = getString(R.string.message_author_already_present);
-				message = String.format(message, authorName);
-				mTextAuthor.setError(message);
+				errorMessage = String.format(message, authorName);
 			} else {
 				Author a = new Author();
 				a.name = authorName;
 
-				SQLiteHelper dbHelper = new SQLiteHelper(this);
-				SQLiteDatabase db = dbHelper.getReadableDatabase();
-				Author author = AuthorServices.getAuthorByCriteria(db, a);
-				db.close();
+				Author author = getAuthorByCriteria(a);
 				if (author != null) {
 					a = author;
 				}
@@ -105,6 +105,83 @@ public class BookAuthorsEdit extends Activity {
 				mTextAuthor.setError(null);
 			}
 		}
+		if (errorMessage == null) {
+			mTextAuthor.setText(null);
+			mTextAuthor.setError(null);
+		} else {
+			mTextAuthor.setError(errorMessage);
+		}
+	}
+
+	/**
+	 * Show a dialog to edit one of the authors of the list.
+	 * 
+	 * @param view
+	 *            View.
+	 */
+	public void editAuthor(final View view) {
+		final Author author = (Author) view.getTag();
+
+		final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.dialog_edit_author);
+		dialog.setTitle(R.string.title_dialog_edit_author);
+
+		final AutoCompleteTextView textAuthor = (AutoCompleteTextView) dialog.findViewById(R.id.editAuthor_textAuthor);
+		textAuthor.setText(author.name);
+		textAuthor.setAdapter(mAutoCompleteAdapter);
+
+		Button saveButton = (Button) dialog.findViewById(R.id.editAuthor_confirm);
+		Button cancelButton = (Button) dialog.findViewById(R.id.editAuthor_cancel);
+
+		saveButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				String authorName = textAuthor.getText().toString().trim();
+
+				String errorMessage = null;
+				if (authorName.length() == 0) {
+					errorMessage = getString(R.string.message_author_missing);
+				} else if (!author.name.equals(authorName)) {
+					if (mAuthorMap.containsKey(authorName)) {
+						String message = getString(R.string.message_author_already_present);
+						errorMessage = String.format(message, authorName);
+					} else {
+						int authorIndex = mAuthorList.indexOf(author);
+
+						Author a = new Author();
+						a.name = authorName;
+						Author authorDb = getAuthorByCriteria(a);
+
+						if (authorDb != null) {
+							a = authorDb;
+						}
+						mAuthorList.remove(authorIndex);
+						mAuthorList.add(authorIndex, a);
+						mAuthorArrayAdapter.notifyDataSetChanged();
+						mAuthorMap.remove(author.name);
+						mAuthorMap.put(authorName, a);
+					}
+				}
+
+				if (errorMessage == null) {
+					textAuthor.setText(null);
+					textAuthor.setError(null);
+					dialog.dismiss();
+				} else {
+					textAuthor.setError(errorMessage);
+				}
+			}
+		});
+		cancelButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+
+		dialog.show();
 	}
 
 	/**
@@ -204,5 +281,20 @@ public class BookAuthorsEdit extends Activity {
 		intent.putExtra(EXTRA_AUTHOR_LIST, authorList);
 		setResult(RESULT_OK, intent);
 		finish();
+	}
+
+	/**
+	 * Get an author matching the given criteria.
+	 * 
+	 * @param criteria
+	 *            Criteria.
+	 * @return Author.
+	 */
+	private Author getAuthorByCriteria(Author criteria) {
+		SQLiteHelper dbHelper = new SQLiteHelper(this);
+		SQLiteDatabase db = dbHelper.getReadableDatabase();
+		Author author = AuthorServices.getAuthorByCriteria(db, criteria);
+		db.close();
+		return author;
 	}
 }
