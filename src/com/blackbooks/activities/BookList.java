@@ -92,6 +92,7 @@ public final class BookList extends ListActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == Pic2ShopHelper.REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
 			String barCode = data.getStringExtra(Pic2ShopHelper.BARCODE);
 
