@@ -23,9 +23,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/button_remove_category"
-            android:onClick="removeObject"
+            android:onClick="removeCategory"
             android:src="@drawable/ic_delete"
-            android:text="@string/button_remove_author" />
+            android:text="@string/button_remove_category" />
     </LinearLayout>
 
 </LinearLayout>
