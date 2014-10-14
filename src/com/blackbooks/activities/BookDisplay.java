@@ -136,7 +136,7 @@ public final class BookDisplay extends Activity {
 		mTextPublisher = (TextView) findViewById(R.id.bookDisplay_textPublisher);
 		mTextPublishedDate = (TextView) findViewById(R.id.bookDisplay_textPublishedDate);
 		mTextCategory = (TextView) findViewById(R.id.bookDisplay_textCategory);
-		mTextLanguage = (TextView)findViewById(R.id.bookDisplay_textLanguage);
+		mTextLanguage = (TextView) findViewById(R.id.bookDisplay_textLanguage);
 		mTextLanguage = (TextView) findViewById(R.id.bookDisplay_textLanguage);
 		mTextDescription = (TextView) findViewById(R.id.bookDisplay_textDescription);
 

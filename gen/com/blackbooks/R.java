@@ -66,9 +66,9 @@ public final class R {
         public static final int bookDisplay_actionEdit=0x7f090032;
         public static final int bookDisplay_groupDescription=0x7f090024;
         public static final int bookDisplay_groupInfo=0x7f090017;
-        public static final int bookDisplay_groupInfoTechnical_isbn=0x7f09001e;
-        public static final int bookDisplay_groupInfoTechnical_publishedDate=0x7f090022;
-        public static final int bookDisplay_groupInfoTechnical_publisher=0x7f090020;
+        public static final int bookDisplay_groupInfoTechnical_isbn=0x7f090022;
+        public static final int bookDisplay_groupInfoTechnical_publishedDate=0x7f090020;
+        public static final int bookDisplay_groupInfoTechnical_publisher=0x7f09001e;
         public static final int bookDisplay_groupInfoUserFriendly_categories=0x7f09001a;
         public static final int bookDisplay_groupInfoUserFriendly_language=0x7f09001c;
         public static final int bookDisplay_groupInfoUserFriendly_pageCount=0x7f090018;
@@ -76,11 +76,11 @@ public final class R {
         public static final int bookDisplay_textAuthor=0x7f090016;
         public static final int bookDisplay_textCategory=0x7f09001b;
         public static final int bookDisplay_textDescription=0x7f090025;
-        public static final int bookDisplay_textIsbn=0x7f09001f;
+        public static final int bookDisplay_textIsbn=0x7f090023;
         public static final int bookDisplay_textLanguage=0x7f09001d;
         public static final int bookDisplay_textPageCount=0x7f090019;
-        public static final int bookDisplay_textPublishedDate=0x7f090023;
-        public static final int bookDisplay_textPublisher=0x7f090021;
+        public static final int bookDisplay_textPublishedDate=0x7f090021;
+        public static final int bookDisplay_textPublisher=0x7f09001f;
         public static final int bookDisplay_textSubtitle=0x7f090014;
         public static final int bookDisplay_textTitle=0x7f090013;
         public static final int bookList_actionAddManually=0x7f090036;
