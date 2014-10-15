@@ -3,7 +3,7 @@
     <item
         android:icon="@drawable/ic_action_overflow"
         android:showAsAction="ifRoom"
-        android:title="@string/menu_other">
+        android:title="@string/menu_options">
         <menu>
             <item
                 android:id="@+id/bookDisplay_actionEdit"
