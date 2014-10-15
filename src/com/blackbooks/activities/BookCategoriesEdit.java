@@ -51,12 +51,22 @@ public class BookCategoriesEdit extends Activity {
 
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		boolean result = false;
-		int itemId = item.getItemId();
+		boolean result;
 
-		if (itemId == R.id.bookCategoriesEdit_actionSave) {
-			addCategoryList();
+		switch (item.getItemId()) {
+		case R.id.bookCategoriesEdit_actionSave:
 			result = true;
+			addCategoryList();
+			break;
+
+		case android.R.id.home:
+			result = true;
+			finish();
+			break;
+
+		default:
+			result = super.onMenuItemSelected(featureId, item);
+			break;
 		}
 		return result;
 	}
@@ -109,8 +119,9 @@ public class BookCategoriesEdit extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.activity_book_categories_edit);
+
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		if (savedInstanceState != null) {
 			mBookTitle = savedInstanceState.getString(BOOK_TITLE);

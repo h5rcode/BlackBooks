@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,6 +61,8 @@ public final class BookDisplay extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		Intent intent = getIntent();
 
@@ -114,6 +117,10 @@ public final class BookDisplay extends Activity {
 
 		case R.id.bookDisplay_actionDelete:
 			showDeleteConfirmDialog();
+			result = true;
+			break;
+		case android.R.id.home:
+			NavUtils.navigateUpFromSameTask(this);
 			result = true;
 			break;
 		default:

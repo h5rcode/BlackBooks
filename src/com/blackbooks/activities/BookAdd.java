@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -160,6 +161,11 @@ public final class BookAdd extends Activity {
 			result = true;
 			save();
 			break;
+			
+		case android.R.id.home:
+			NavUtils.navigateUpFromSameTask(this);
+			result = true;
+			break;
 
 		default:
 			result = super.onOptionsItemSelected(item);
@@ -185,7 +191,7 @@ public final class BookAdd extends Activity {
 			String message = String.format(getString(R.string.message_book_added), title);
 			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 
-			finish();
+			NavUtils.navigateUpFromSameTask(this);
 		}
 	}
 
@@ -208,6 +214,8 @@ public final class BookAdd extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_book_add);
+		
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		findViews();
 

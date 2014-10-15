@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="11"
-        android:targetSdkVersion="18" />
+        android:targetSdkVersion="20" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -18,7 +18,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.blackbooks.activities.BookList"
-            android:label="@string/title_activity_book_list" >
+            android:label="@string/title_activity_book_list"
+            android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,23 +29,38 @@
         <activity
             android:name="com.blackbooks.activities.IsbnEnter"
             android:label="@string/title_activity_isbn_enter" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.blackbooks.activities.BookList" />
         </activity>
         <activity
             android:name="com.blackbooks.activities.BookAdd"
             android:label="@string/title_activity_book_add"
             android:windowSoftInputMode="stateHidden" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.blackbooks.activities.BookList" />
         </activity>
         <activity
             android:name="com.blackbooks.activities.BookDisplay"
             android:label="@string/title_activity_book_display" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.blackbooks.activities.BookList" />
         </activity>
         <activity
             android:name="com.blackbooks.activities.BookAuthorsEdit"
             android:label="@string/title_activity_book_authors_edit" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.blackbooks.activities.BookAdd" />
         </activity>
         <activity
             android:name="com.blackbooks.activities.BookCategoriesEdit"
             android:label="@string/title_activity_book_categories_edit" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.blackbooks.activities.BookAdd" />
         </activity>
     </application>
 

@@ -61,9 +61,14 @@ public class BookAuthorsEdit extends Activity {
 			addAuthorList();
 			result = true;
 			break;
+			
+		case android.R.id.home:
+			result = true;
+			finish();
+			break;
 
 		default:
-			result = false;
+			result = super.onMenuItemSelected(featureId, item);
 			break;
 		}
 		return result;
@@ -200,8 +205,9 @@ public class BookAuthorsEdit extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.activity_book_authors_edit);
+
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		if (savedInstanceState != null) {
 			mBookTitle = savedInstanceState.getString(BOOK_TITLE);

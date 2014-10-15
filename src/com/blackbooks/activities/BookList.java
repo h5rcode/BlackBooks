@@ -109,9 +109,14 @@ public final class BookList extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.activity_book_list);
 
+		if (savedInstanceState != null) {
+			if (savedInstanceState.containsKey(FIRST_VISIBLE_POSITION)) {
+				firstVisiblePosition = savedInstanceState.getInt(FIRST_VISIBLE_POSITION);
+			}
+		}
+		
 		listView = (ListView) findViewById(android.R.id.list);
 		mDbHelper = new SQLiteHelper(this);
 	}
@@ -161,13 +166,11 @@ public final class BookList extends ListActivity {
 		}
 		listView.setSelectionFromTop(firstVisiblePosition, 0);
 	}
-
+	
 	@Override
-	protected void onRestoreInstanceState(Bundle state) {
-		super.onRestoreInstanceState(state);
-		if (state.containsKey(FIRST_VISIBLE_POSITION)) {
-			firstVisiblePosition = state.getInt(FIRST_VISIBLE_POSITION);
-		}
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
 	}
 
 	@Override

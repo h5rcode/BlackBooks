@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -32,6 +33,7 @@ public class IsbnEnter extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_isbn_enter);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mTextIsbn = (EditText) findViewById(R.id.isbnEnter_textIsbn);
 		mTextStatus = (TextView) findViewById(R.id.isbnEnter_textStatus);
@@ -56,6 +58,11 @@ public class IsbnEnter extends Activity {
 		case R.id.isbnEnter_actionLookup:
 			search();
 			result = true;
+			break;
+			
+		case android.R.id.home:
+			result = true;
+			NavUtils.navigateUpFromSameTask(this);
 			break;
 
 		default:
