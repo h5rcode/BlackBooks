@@ -38,7 +38,6 @@ import com.blackbooks.services.AuthorServices;
 public final class BookList extends ListActivity {
 
 	private final static String TAG = BookList.class.getName();
-
 	private final static String FIRST_VISIBLE_POSITION = "FIRST_VISIBLE_POSITION";
 
 	private BooksByAuthorAdapter mAdapter;
@@ -116,7 +115,7 @@ public final class BookList extends ListActivity {
 				firstVisiblePosition = savedInstanceState.getInt(FIRST_VISIBLE_POSITION);
 			}
 		}
-		
+
 		listView = (ListView) findViewById(android.R.id.list);
 		mDbHelper = new SQLiteHelper(this);
 	}
@@ -165,12 +164,6 @@ public final class BookList extends ListActivity {
 			firstVisiblePosition = count - 1;
 		}
 		listView.setSelectionFromTop(firstVisiblePosition, 0);
-	}
-	
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
 	}
 
 	@Override

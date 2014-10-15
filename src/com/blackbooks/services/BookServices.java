@@ -3,6 +3,7 @@ package com.blackbooks.services;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.blackbooks.model.nonpersistent.BookInfo;
@@ -44,7 +45,7 @@ public class BookServices {
 					BrokerManager.getBroker(Author.class).delete(db, ba.authorId);
 				}
 			}
-			
+
 			for (BookCategory bc : bcListByBook) {
 				ArrayList<BookCategory> bcListByCategory = BookCategoryServices.getBookCategoryListByCategory(db, bc.categoryId);
 
@@ -93,6 +94,19 @@ public class BookServices {
 	}
 
 	/**
+	 * Get the titles of all the books in the database.
+	 * 
+	 * @param db
+	 *            SQLiteDatabase.
+	 * @return Instances of Book with only id, title and smallThumbnail set.
+	 */
+	public static ArrayList<Book> getBookListMinimal(SQLiteDatabase db) {
+		String[] selectedColumns = new String[] { Book.Cols.BOO_ID, Book.Cols.BOO_TITLE, Book.Cols.BOO_SMALL_THUMBNAIL };
+		String[] sortingColumns = new String[] { Book.Cols.BOO_TITLE };
+		return BrokerManager.getBroker(Book.class).getAll(db, selectedColumns, sortingColumns);
+	}
+
+	/**
 	 * Get book info.
 	 * 
 	 * @param db
@@ -134,6 +148,7 @@ public class BookServices {
 	 *            SQLiteDatabase.
 	 * @return List of BookInfo.
 	 */
+	@SuppressLint("UseSparseArrays")
 	public static ArrayList<BookInfo> getBookInfoList(SQLiteDatabase db) {
 
 		ArrayList<Book> bookList = BrokerManager.getBroker(Book.class).getAll(db);

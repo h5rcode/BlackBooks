@@ -20,6 +20,11 @@
             android:name="com.blackbooks.activities.BookList"
             android:label="@string/title_activity_book_list"
             android:launchMode="singleTop" >
+        </activity>
+        <activity
+            android:name="com.blackbooks.activities.BookListByFirstLetter"
+            android:label="@string/title_activity_book_list"
+            android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
