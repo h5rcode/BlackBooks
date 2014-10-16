@@ -24,6 +24,9 @@ import com.blackbooks.helpers.FileHelper;
 import com.blackbooks.helpers.IsbnHelper;
 import com.blackbooks.helpers.Pic2ShopHelper;
 
+/**
+ * Abstract class to list the books.
+ */
 public abstract class AbstractBookList extends ListActivity {
 
 	private final static String TAG = AbstractBookList.class.getName();
@@ -86,7 +89,7 @@ public abstract class AbstractBookList extends ListActivity {
 			}
 		}
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

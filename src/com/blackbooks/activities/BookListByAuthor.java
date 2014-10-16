@@ -3,6 +3,7 @@ package com.blackbooks.activities;
 import java.util.ArrayList;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.view.Menu;
 
 import com.blackbooks.R;
@@ -29,9 +30,28 @@ public final class BookListByAuthor extends AbstractBookList {
 	}
 
 	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mAdapter = new BooksByAuthorAdapter(this);
+		setListAdapter(mAdapter);
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 
+		ArrayList<ListItem> listItems = getList();
+		mAdapter.clear();
+		mAdapter.addAll(listItems);
+		mAdapter.notifyDataSetChanged();
+	}
+
+	/**
+	 * Return the list of items to display.
+	 * 
+	 * @return ArrayList.
+	 */
+	private ArrayList<ListItem> getList() {
 		SQLiteHelper dbHelper = new SQLiteHelper(this);
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
 		ArrayList<AuthorInfo> authorInfoList = AuthorServices.getAuthorInfoList(db);
@@ -51,8 +71,6 @@ public final class BookListByAuthor extends AbstractBookList {
 				listItems.add(bookEntry);
 			}
 		}
-
-		mAdapter = new BooksByAuthorAdapter(this, listItems);
-		setListAdapter(mAdapter);
+		return listItems;
 	}
 }

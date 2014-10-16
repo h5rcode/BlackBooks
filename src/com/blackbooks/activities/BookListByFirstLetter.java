@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 
 import com.blackbooks.adapters.BookItem;
 import com.blackbooks.adapters.BooksByFirstLetterAdapter;
@@ -13,14 +14,36 @@ import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.services.BookServices;
 
+/**
+ * Activity that lists all the books, grouped by the first letter of their
+ * title.
+ */
 public class BookListByFirstLetter extends AbstractBookList {
 
 	private BooksByFirstLetterAdapter mAdapter;
 
 	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mAdapter = new BooksByFirstLetterAdapter(this);
+		setListAdapter(mAdapter);
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
+		ArrayList<ListItem> listItems = getList();
+		mAdapter.clear();
+		mAdapter.addAll(listItems);
+		mAdapter.notifyDataSetChanged();
+	}
 
+	/**
+	 * Return the list of items to display.
+	 * 
+	 * @return ArrayList.
+	 */
+	private ArrayList<ListItem> getList() {
 		SQLiteHelper mDbHelper = new SQLiteHelper(this);
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 		ArrayList<Book> bookList = BookServices.getBookListMinimal(db);
@@ -47,8 +70,6 @@ public class BookListByFirstLetter extends AbstractBookList {
 				listItems.add(bookItem);
 			}
 		}
-
-		mAdapter = new BooksByFirstLetterAdapter(this, listItems);
-		setListAdapter(mAdapter);
+		return listItems;
 	}
 }

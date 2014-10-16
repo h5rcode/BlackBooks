@@ -1,7 +1,5 @@
 package com.blackbooks.adapters;
 
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,16 +13,23 @@ import android.widget.TextView;
 
 import com.blackbooks.R;
 
+/**
+ * An adapter handling instances of ListItem representing either the first
+ * letter of a book or a book.
+ */
 public class BooksByFirstLetterAdapter extends ArrayAdapter<ListItem> {
 
-	private List<ListItem> items;
+	private LayoutInflater mInflater;
 
-	private LayoutInflater inflater;
-
-	public BooksByFirstLetterAdapter(Context context, List<ListItem> items) {
-		super(context, 0, items);
-		this.items = items;
-		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	/**
+	 * Constructor.
+	 * 
+	 * @param context
+	 *            Context.
+	 */
+	public BooksByFirstLetterAdapter(Context context) {
+		super(context, 0);
+		this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@SuppressLint("InflateParams")
@@ -32,13 +37,13 @@ public class BooksByFirstLetterAdapter extends ArrayAdapter<ListItem> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = convertView;
 
-		ListItem item = this.items.get(position);
+		ListItem item = this.getItem(position);
 		if (item != null) {
 			ListItemType itemType = item.getListItemType();
 			if (itemType == ListItemType.Entry) {
 				BookItem entry = (BookItem) item;
 
-				view = inflater.inflate(R.layout.list_books_by_author_item_book, null);
+				view = mInflater.inflate(R.layout.list_books_by_author_item_book, null);
 
 				byte[] smallThumbnail = entry.getSmallThumbnail();
 				if (smallThumbnail != null && smallThumbnail.length > 0) {
@@ -53,7 +58,7 @@ public class BooksByFirstLetterAdapter extends ArrayAdapter<ListItem> {
 			} else if (itemType == ListItemType.Header) {
 				FirstLetterItem header = (FirstLetterItem) item;
 
-				view = inflater.inflate(R.layout.list_books_by_author_item_author, null);
+				view = mInflater.inflate(R.layout.list_books_by_author_item_author, null);
 
 				TextView textViewName = (TextView) view.findViewById(R.id.header_author_name);
 				textViewName.setText(header.getValue());

@@ -5,6 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+/**
+ * Start activity that displays the BookList activity corresponding to the
+ * user's preferences.
+ */
 public class BlackBooksStart extends Activity {
 
 	public final static String PREFERENCES = "PREFERENCES";
@@ -19,7 +23,7 @@ public class BlackBooksStart extends Activity {
 
 		Intent intent;
 		if (defaultList == null) {
-			intent = new Intent(this, BookListByFirstLetter.class);
+			intent = new Intent(this, BookListByAuthor.class);
 		} else if (defaultList.equals(BookListByAuthor.class.getName())) {
 			intent = new Intent(this, BookListByAuthor.class);
 		} else if (defaultList.equals(BookListByFirstLetter.class.getName())) {
