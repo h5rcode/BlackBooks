@@ -28,10 +28,16 @@
         <activity
             android:name="com.blackbooks.activities.BookListByAuthor"
             android:label="@string/title_activity_book_list" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.blackbooks.activities.BlackBooksStart" />
         </activity>
         <activity
             android:name="com.blackbooks.activities.BookListByFirstLetter"
             android:label="@string/title_activity_book_list" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.blackbooks.activities.BlackBooksStart" />
         </activity>
         <activity
             android:name="com.blackbooks.activities.IsbnEnter"

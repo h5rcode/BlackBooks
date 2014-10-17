@@ -20,6 +20,21 @@
         </menu>
     </item>
     <item
+        android:icon="@drawable/ic_action_sort_by_size"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_sort">
+        <menu>
+            <item
+                android:id="@+id/bookList_actionSortByAuthor"
+                android:icon="@drawable/ic_action_person"
+                android:title="@string/action_sort_by_author"/>
+            <item
+                android:id="@+id/bookList_actionSortByFirstLetter"
+                android:icon="@drawable/ic_action_brightness_auto"
+                android:title="@string/action_sort_by_first_letter"/>
+        </menu>
+    </item>
+    <item
         android:icon="@drawable/ic_action_overflow"
         android:showAsAction="ifRoom"
         android:title="@string/menu_options">

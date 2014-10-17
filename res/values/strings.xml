@@ -11,6 +11,8 @@
     <string name="action_remove_thumbnail">Remove thumbnail</string>
     <string name="action_save_book">Save</string>
     <string name="action_scan_isbn">Scan ISBN</string>
+    <string name="action_sort_by_author">By author</string>
+    <string name="action_sort_by_first_letter">By first letter</string>
     <string name="button_add_author">Add</string>
     <string name="button_add_category">Add</string>
     <string name="button_cancel_edit_author">Cancel</string>
@@ -43,6 +45,7 @@
     <string name="menu_delete_book">Delete</string>
     <string name="menu_edit_book">Edit</string>
     <string name="menu_options">Options</string>
+    <string name="menu_sort">Sort</string>
     <string name="message_author_added">\"%s\" was added to the list of authors.</string>
     <string name="message_author_already_present">\"%s\" is already in the list of authors.</string>
     <string name="message_author_missing">Please enter a name.</string>

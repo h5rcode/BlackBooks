@@ -5,9 +5,11 @@ import java.io.IOException;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,6 +44,9 @@ public abstract class AbstractBookList extends ListActivity {
 
 		boolean result;
 		Intent i;
+		SharedPreferences sharedPref;
+		SharedPreferences.Editor editor;
+
 		switch (item.getItemId()) {
 		case R.id.bookList_actionScanIsbn:
 			startIsbnScan();
@@ -58,6 +63,28 @@ public abstract class AbstractBookList extends ListActivity {
 			i = new Intent(this, BookAdd.class);
 			this.startActivity(i);
 			result = true;
+			break;
+
+		case R.id.bookList_actionSortByAuthor:
+			result = true;
+			if (!(this instanceof BookListByAuthor)) {
+				sharedPref = getSharedPreferences(BlackBooksStart.PREFERENCES, MODE_PRIVATE);
+				editor = sharedPref.edit();
+				editor.putString(BlackBooksStart.PREF_DEFAULT_LIST, BookListByAuthor.class.getName());
+				editor.commit();
+				NavUtils.navigateUpFromSameTask(this);
+			}
+			break;
+
+		case R.id.bookList_actionSortByFirstLetter:
+			result = true;
+			if (!(this instanceof BookListByFirstLetter)) {
+				sharedPref = getSharedPreferences(BlackBooksStart.PREFERENCES, MODE_PRIVATE);
+				editor = sharedPref.edit();
+				editor.putString(BlackBooksStart.PREF_DEFAULT_LIST, BookListByFirstLetter.class.getName());
+				editor.commit();
+				NavUtils.navigateUpFromSameTask(this);
+			}
 			break;
 
 		case R.id.bookList_backupDb:

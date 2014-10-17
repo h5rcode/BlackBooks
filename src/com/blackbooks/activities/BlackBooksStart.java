@@ -10,8 +10,10 @@ import android.os.Bundle;
  * user's preferences.
  */
 public class BlackBooksStart extends Activity {
-
+	
 	public final static String PREFERENCES = "PREFERENCES";
+	
+	public final static String PREF_DEFAULT_LIST = "PREF_DEFAULT_LIST";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +21,7 @@ public class BlackBooksStart extends Activity {
 
 		SharedPreferences preferences = getSharedPreferences(PREFERENCES, MODE_PRIVATE);
 
-		String defaultList = preferences.getString("defaultList", null);
+		String defaultList = preferences.getString(PREF_DEFAULT_LIST, null);
 
 		Intent intent;
 		if (defaultList == null) {
