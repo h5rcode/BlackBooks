@@ -50,6 +50,7 @@ import com.blackbooks.services.CategoryServices;
 import com.blackbooks.services.PublisherServices;
 import com.blackbooks.utils.GoogleBookUtils;
 import com.blackbooks.utils.StringUtils;
+import com.blackbooks.utils.VariableUtils;
 
 /**
  * Activity used to add a book to the library.
@@ -161,7 +162,7 @@ public final class BookAdd extends Activity {
 			result = true;
 			save();
 			break;
-			
+
 		case android.R.id.home:
 			NavUtils.navigateUpFromSameTask(this);
 			result = true;
@@ -186,6 +187,8 @@ public final class BookAdd extends Activity {
 			SQLiteDatabase db = dbHelper.getWritableDatabase();
 			BookServices.saveBookInfo(db, mBookInfo);
 			db.close();
+
+			VariableUtils.getInstance().setReloadBookList(true);
 
 			String title = mBookInfo.title;
 			String message = String.format(getString(R.string.message_book_added), title);
@@ -214,7 +217,7 @@ public final class BookAdd extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_book_add);
-		
+
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		findViews();

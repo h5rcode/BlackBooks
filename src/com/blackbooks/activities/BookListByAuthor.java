@@ -34,16 +34,16 @@ public final class BookListByAuthor extends AbstractBookList {
 		super.onCreate(savedInstanceState);
 		mAdapter = new BooksByAuthorAdapter(this);
 		setListAdapter(mAdapter);
+		loadBookList();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-
-		ArrayList<ListItem> listItems = getList();
-		mAdapter.clear();
-		mAdapter.addAll(listItems);
-		mAdapter.notifyDataSetChanged();
+		if (super.getReloadBookList()) {
+			loadBookList();
+			super.setReloadBookListToFalse();
+		}
 	}
 
 	/**
@@ -72,5 +72,15 @@ public final class BookListByAuthor extends AbstractBookList {
 			}
 		}
 		return listItems;
+	}
+
+	/**
+	 * Load the book list and bind it to the list view.
+	 */
+	private void loadBookList() {
+		ArrayList<ListItem> listItems = getList();
+		mAdapter.clear();
+		mAdapter.addAll(listItems);
+		mAdapter.notifyDataSetChanged();
 	}
 }

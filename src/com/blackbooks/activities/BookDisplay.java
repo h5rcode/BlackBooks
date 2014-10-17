@@ -1,5 +1,7 @@
 package com.blackbooks.activities;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -22,8 +24,8 @@ import com.blackbooks.R;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.services.BookServices;
-import com.blackbooks.utils.LocaleHelper;
 import com.blackbooks.utils.StringUtils;
+import com.blackbooks.utils.VariableUtils;
 
 /**
  * Activity to display the info of a book saved in the database.
@@ -95,7 +97,7 @@ public final class BookDisplay extends Activity {
 		SQLiteDatabase db = mDbHelper.getWritableDatabase();
 		BookServices.deleteBook(db, mBookInfo.id);
 		db.close();
-
+		VariableUtils.getInstance().setReloadBookList(true);
 		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 		finish();
 	}
@@ -204,7 +206,8 @@ public final class BookDisplay extends Activity {
 				mGroupInfoUserFriendlyCategories.setVisibility(View.GONE);
 			}
 			if (hasLanguage) {
-				String language = LocaleHelper.getDisplayLanguage(mBookInfo.languageCode);
+				Locale locale = new Locale(mBookInfo.languageCode);
+				String language = locale.getDisplayLanguage();
 				mTextLanguage.setText(StringUtils.capitalize(language));
 			} else {
 				mGroupInfoUserFriendlyLanguage.setVisibility(View.GONE);

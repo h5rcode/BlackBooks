@@ -25,6 +25,7 @@ import com.blackbooks.database.Database;
 import com.blackbooks.helpers.FileHelper;
 import com.blackbooks.helpers.IsbnHelper;
 import com.blackbooks.helpers.Pic2ShopHelper;
+import com.blackbooks.utils.VariableUtils;
 
 /**
  * Abstract class to list the books.
@@ -134,6 +135,22 @@ public abstract class AbstractBookList extends ListActivity {
 			i.putExtra(BookDisplay.EXTRA_BOOK_ID, bookItem.getId());
 			this.startActivity(i);
 		}
+	}
+
+	/**
+	 * Return a value indicating if the book list should be reloaded.
+	 * 
+	 * @return True to refresh the book list, false otherwise.
+	 */
+	protected boolean getReloadBookList() {
+		return VariableUtils.getInstance().getReloadBookList();
+	}
+
+	/**
+	 * Set the value indicating if the book list should be reloaded to false.
+	 */
+	protected void setReloadBookListToFalse() {
+		VariableUtils.getInstance().setReloadBookList(false);
 	}
 
 	/**
