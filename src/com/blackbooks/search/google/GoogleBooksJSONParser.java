@@ -1,8 +1,9 @@
-package com.blackbooks.search;
+package com.blackbooks.search.google;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 
 /**
  * Utility class to parse JSON results returned by the Google Books API.

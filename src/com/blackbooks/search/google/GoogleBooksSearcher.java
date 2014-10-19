@@ -1,4 +1,4 @@
-package com.blackbooks.search;
+package com.blackbooks.search.google;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +15,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
+
 
 /**
  * Class that searches books using the Google books API.

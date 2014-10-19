@@ -1,6 +1,7 @@
-package com.blackbooks.search;
+package com.blackbooks.search.google;
 
 import java.util.ArrayList;
+
 
 /**
  * A class used to store the info of a book returned by the Google Books API.

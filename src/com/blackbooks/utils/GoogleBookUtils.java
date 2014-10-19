@@ -6,8 +6,8 @@ import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Identifier;
-import com.blackbooks.search.GoogleBook;
-import com.blackbooks.search.GoogleIndustryIdentifier;
+import com.blackbooks.search.google.GoogleBook;
+import com.blackbooks.search.google.GoogleIndustryIdentifier;
 
 /**
  * Utility class to handle GoogleBook objects.

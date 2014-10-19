@@ -1,4 +1,4 @@
-package com.blackbooks.search;
+package com.blackbooks.search.google;
 
 public class GoogleIndustryIdentifier {
 	public String type;
