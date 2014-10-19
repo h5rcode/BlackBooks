@@ -42,13 +42,11 @@ import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Identifier;
 import com.blackbooks.model.persistent.Publisher;
-import com.blackbooks.search.google.GoogleBook;
-import com.blackbooks.search.google.GoogleBooksSearcher;
+import com.blackbooks.search.BookSearcher;
 import com.blackbooks.services.AuthorServices;
 import com.blackbooks.services.BookServices;
 import com.blackbooks.services.CategoryServices;
 import com.blackbooks.services.PublisherServices;
-import com.blackbooks.utils.GoogleBookUtils;
 import com.blackbooks.utils.StringUtils;
 import com.blackbooks.utils.VariableUtils;
 
@@ -468,7 +466,7 @@ public final class BookAdd extends Activity {
 	/**
 	 * Task performing the search for a book.
 	 */
-	private final class BookSearch extends AsyncTask<String, Void, GoogleBook> {
+	private final class BookSearch extends AsyncTask<String, Void, BookInfo> {
 
 		private String errorMessage = null;
 
@@ -479,11 +477,11 @@ public final class BookAdd extends Activity {
 		}
 
 		@Override
-		protected GoogleBook doInBackground(String... params) {
+		protected BookInfo doInBackground(String... params) {
 			String barCode = params[0];
-			GoogleBook book = null;
+			BookInfo book = null;
 			try {
-				book = GoogleBooksSearcher.search(barCode);
+				book = BookSearcher.search(barCode);
 			} catch (ClientProtocolException e) {
 				errorMessage = getString(R.string.error_connection_problem);
 			} catch (JSONException e) {
@@ -497,10 +495,10 @@ public final class BookAdd extends Activity {
 		}
 
 		@Override
-		protected void onPostExecute(GoogleBook result) {
+		protected void onPostExecute(BookInfo result) {
 			super.onPostExecute(result);
 			if (result != null) {
-				mBookInfo = GoogleBookUtils.toBookInfo(result);
+				mBookInfo = result;
 				renderBookInfo();
 			} else {
 				if (errorMessage != null) {

@@ -57,5 +57,4 @@ public final class GoogleBookUtils {
 		bookInfo.thumbnail = googleBook.thumbnail;
 		return bookInfo;
 	}
-
 }

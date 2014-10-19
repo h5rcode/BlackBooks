@@ -4,7 +4,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 /**
  * Utility class to parse JSON results returned by the Google Books API.
  * 
@@ -19,7 +18,7 @@ public final class GoogleBooksJSONParser {
 	private static final String SUBTITLE = "subtitle";
 	private static final String AUTHORS = "authors";
 	private static final String PUBLISHER = "publisher";
-	private static final String PUBLISHED_DATE = "publishedDate";
+	private static final String PUBLISHED_DATE = "publishDate";
 	private static final String DESCRIPTION = "description";
 	private static final String INDUSTRY_IDENTIFIERS = "industryIdentifiers";
 	private static final String TYPE = "type";
@@ -52,10 +51,12 @@ public final class GoogleBooksJSONParser {
 	}
 
 	/**
+	 * Parse the JSON data returned by Google Books API and return an instance
+	 * of GoogleBook.
 	 * 
 	 * @param json
 	 *            The JSON data to parse.
-	 * @return
+	 * @return GoogleBook.
 	 * @throws JSONException
 	 */
 	public GoogleBook parse(String json) throws JSONException {
