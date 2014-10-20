@@ -184,7 +184,8 @@ public class BookEdit extends Activity {
 			getActionBar().setDisplayHomeAsUpEnabled(true);
 			setContentView(R.layout.activity_book_edit);
 
-			setTitle(mBookInfo.title);
+			String title = getString(R.string.title_activity_book_edit);
+			setTitle(String.format(title, mBookInfo.title));
 			findViews();
 
 			registerForContextMenu(mImageThumbnail);

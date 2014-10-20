@@ -228,10 +228,11 @@ public final class R {
         public static final int title_activity_book_categories_edit=0x7f06004d;
         public static final int title_activity_book_display=0x7f06004e;
         public static final int title_activity_book_edit=0x7f06004f;
-        public static final int title_activity_book_list=0x7f060050;
-        public static final int title_activity_isbn_enter=0x7f060051;
-        public static final int title_dialog_edit_author=0x7f060052;
-        public static final int title_dialog_edit_category=0x7f060053;
+        public static final int title_activity_book_edit_default=0x7f060050;
+        public static final int title_activity_book_list=0x7f060051;
+        public static final int title_activity_isbn_enter=0x7f060052;
+        public static final int title_dialog_edit_author=0x7f060053;
+        public static final int title_dialog_edit_category=0x7f060054;
     }
     public static final class style {
         /** 

@@ -224,7 +224,6 @@ public class BookServices {
 	 */
 	private static void updateBookAuthorList(SQLiteDatabase db, BookInfo bookInfo) {
 		BookAuthorServices.deleteBookAuthorListByBook(db, bookInfo.id);
-		AuthorServices.deleteAuthorsWithoutBooks(db);
 		for (Author author : bookInfo.authors) {
 			AuthorServices.saveAuthor(db, author);
 
@@ -234,6 +233,7 @@ public class BookServices {
 
 			BookAuthorServices.saveBookAuthor(db, bookAuthor);
 		}
+		AuthorServices.deleteAuthorsWithoutBooks(db);
 	}
 
 	/**
@@ -247,7 +247,6 @@ public class BookServices {
 	 */
 	private static void updateBookCategoryList(SQLiteDatabase db, BookInfo bookInfo) {
 		BookCategoryServices.deleteBookCategoryListByBook(db, bookInfo.id);
-		CategoryServices.deleteCategoriesWithoutBooks(db);
 		for (Category category : bookInfo.categories) {
 			CategoryServices.saveCategory(db, category);
 
@@ -257,6 +256,7 @@ public class BookServices {
 
 			BookCategoryServices.saveBookCategory(db, bookCategory);
 		}
+		CategoryServices.deleteCategoriesWithoutBooks(db);
 	}
 
 	/**
@@ -270,6 +270,7 @@ public class BookServices {
 	private static void updateIdentifierList(SQLiteDatabase db, BookInfo bookInfo) {
 		IdentifierServices.deleteIdentifierListByBook(db, bookInfo.id);
 		for (Identifier identifier : bookInfo.identifiers) {
+			identifier.id = null;
 			identifier.bookId = bookInfo.id;
 			IdentifierServices.saveIdentifier(db, identifier);
 		}

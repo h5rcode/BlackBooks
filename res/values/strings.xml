@@ -80,7 +80,8 @@
     <string name="title_activity_book_authors_edit">Edit authors</string>
     <string name="title_activity_book_categories_edit">Edit categories</string>
     <string name="title_activity_book_display">Book info</string>
-    <string name="title_activity_book_edit">Edit book</string>
+    <string name="title_activity_book_edit">Edit \"%s\"</string>
+    <string name="title_activity_book_edit_default">Edit book</string>
     <string name="title_activity_book_list">Black Books</string>
     <string name="title_activity_isbn_enter">Enter ISBN</string>
     <string name="title_dialog_edit_author">Edit author</string>
