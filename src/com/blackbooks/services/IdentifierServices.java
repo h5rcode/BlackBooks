@@ -13,7 +13,7 @@ import com.blackbooks.sql.BrokerManager;
 public class IdentifierServices {
 
 	/**
-	 * Delete all the itentifiers of a book.
+	 * Delete all the identifiers of a book.
 	 * 
 	 * @param db
 	 *            SQLiteDatabase.

@@ -224,6 +224,7 @@ public class BookServices {
 	 */
 	private static void updateBookAuthorList(SQLiteDatabase db, BookInfo bookInfo) {
 		BookAuthorServices.deleteBookAuthorListByBook(db, bookInfo.id);
+		AuthorServices.deleteAuthorsWithoutBooks(db);
 		for (Author author : bookInfo.authors) {
 			AuthorServices.saveAuthor(db, author);
 
@@ -246,6 +247,7 @@ public class BookServices {
 	 */
 	private static void updateBookCategoryList(SQLiteDatabase db, BookInfo bookInfo) {
 		BookCategoryServices.deleteBookCategoryListByBook(db, bookInfo.id);
+		CategoryServices.deleteCategoriesWithoutBooks(db);
 		for (Category category : bookInfo.categories) {
 			CategoryServices.saveCategory(db, category);
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.blackbooks.comparators.BookComparator;
@@ -17,6 +18,18 @@ import com.blackbooks.sql.BrokerManager;
  * Author services.
  */
 public class AuthorServices {
+
+	/**
+	 * Delete the authors that are not referred by any books in the database.
+	 * 
+	 * @param db
+	 *            SQLiteDatabase.
+	 */
+	public static void deleteAuthorsWithoutBooks(SQLiteDatabase db) {
+		String sql = "DELETE FROM AUTHOR WHERE AUT_ID IN (SELECT aut.AUT_ID FROM AUTHOR aut LEFT JOIN BOOK_AUTHOR bka ON bka.AUT_ID = aut.AUT_ID WHERE bka.BKA_ID IS NULL)";
+
+		BrokerManager.getBroker(Author.class).executeSql(db, sql);
+	}
 
 	/**
 	 * Get an author from the database.
@@ -68,6 +81,7 @@ public class AuthorServices {
 	 *            SQLiteDatabase.
 	 * @return List of AuthorInfo.
 	 */
+	@SuppressLint("UseSparseArrays")
 	public static ArrayList<AuthorInfo> getAuthorInfoList(SQLiteDatabase db) {
 
 		ArrayList<Book> bookList = BrokerManager.getBroker(Book.class).getAll(db,
@@ -111,7 +125,6 @@ public class AuthorServices {
 		for (Author author : authorList) {
 			AuthorInfo authorInfo = new AuthorInfo(author);
 			ArrayList<BookAuthor> baList = authorBookMap.get(author.id);
-
 			for (BookAuthor bookAuthor : baList) {
 				Book book = bookMap.get(bookAuthor.bookId);
 				authorInfo.books.add(book);

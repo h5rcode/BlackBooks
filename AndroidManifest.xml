@@ -62,6 +62,13 @@
                 android:value="com.blackbooks.activities.BlackBooksStart" />
         </activity>
         <activity
+            android:name="com.blackbooks.activities.BookEdit"
+            android:label="@string/title_activity_book_edit" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.blackbooks.activities.BookDisplay" />
+        </activity>
+        <activity
             android:name="com.blackbooks.activities.BookAuthorsEdit"
             android:label="@string/title_activity_book_authors_edit" >
             <meta-data

@@ -99,8 +99,8 @@ public class BookCategoriesEdit extends Activity {
 					c = category;
 				}
 
-				mCategoryMap.put(categoryName, category);
-				mCategoryArrayAdapter.add(category);
+				mCategoryMap.put(categoryName, c);
+				mCategoryArrayAdapter.add(c);
 
 				String message = getString(R.string.message_category_added);
 				message = String.format(message, categoryName);

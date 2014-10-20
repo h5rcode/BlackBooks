@@ -10,6 +10,7 @@
     <string name="action_lookup_isbn">Lookup ISBN</string>
     <string name="action_remove_thumbnail">Remove thumbnail</string>
     <string name="action_save_book">Save</string>
+    <string name="action_save_changes">Save changes</string>
     <string name="action_scan_isbn">Scan ISBN</string>
     <string name="action_sort_by_author">By author</string>
     <string name="action_sort_by_first_letter">By first letter</string>
@@ -53,6 +54,7 @@
     <string name="message_author_missing">Please enter a name.</string>
     <string name="message_book_added">\"%s\" was successfully added.</string>
     <string name="message_book_deleted">\"%s\" was successfully deleted.</string>
+    <string name="message_book_modifed">\"%s\" was successfully modified.</string>
     <string name="message_category_added">\"%s\" was added to the list of categories.</string>
     <string name="message_category_already_present">\"%s\" is already in the list of categories.</string>
     <string name="message_category_missing">Please enter a category.</string>
@@ -78,6 +80,7 @@
     <string name="title_activity_book_authors_edit">Edit authors</string>
     <string name="title_activity_book_categories_edit">Edit categories</string>
     <string name="title_activity_book_display">Book info</string>
+    <string name="title_activity_book_edit">Edit book</string>
     <string name="title_activity_book_list">Black Books</string>
     <string name="title_activity_isbn_enter">Enter ISBN</string>
     <string name="title_dialog_edit_author">Edit author</string>

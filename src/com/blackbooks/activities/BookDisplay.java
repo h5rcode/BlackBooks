@@ -35,6 +35,8 @@ public final class BookDisplay extends Activity {
 
 	public final static String EXTRA_BOOK_ID = "BOOK_ID";
 
+	private final static int REQUEST_CODE_EDIT_BOOK = 1;
+
 	private SQLiteHelper mDbHelper;
 
 	private BookInfo mBookInfo;
@@ -61,6 +63,17 @@ public final class BookDisplay extends Activity {
 	private LinearLayout mGroupDescription;
 
 	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (resultCode == RESULT_OK) {
+			if (requestCode == REQUEST_CODE_EDIT_BOOK) {
+				this.recreate();
+			}
+		}
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -72,9 +85,7 @@ public final class BookDisplay extends Activity {
 			long bookId = intent.getLongExtra(EXTRA_BOOK_ID, Long.MIN_VALUE);
 
 			mDbHelper = new SQLiteHelper(this);
-			SQLiteDatabase db = mDbHelper.getReadableDatabase();
-			mBookInfo = BookServices.getBookInfo(db, bookId);
-			db.close();
+			loadBook(bookId);
 
 			setContentView(R.layout.activity_book_display);
 
@@ -113,7 +124,9 @@ public final class BookDisplay extends Activity {
 		boolean result;
 		switch (item.getItemId()) {
 		case R.id.bookDisplay_actionEdit:
-			Toast.makeText(this, "Coming soon...", Toast.LENGTH_SHORT).show();
+			Intent i = new Intent(this, BookEdit.class);
+			i.putExtra(BookEdit.EXTRA_BOOK_ID, mBookInfo.id);
+			startActivityForResult(i, REQUEST_CODE_EDIT_BOOK);
 			result = true;
 			break;
 
@@ -236,6 +249,17 @@ public final class BookDisplay extends Activity {
 		} else {
 			mGroupDescription.setVisibility(View.GONE);
 		}
+	}
+
+	/**
+	 * Load the book from the database.
+	 * 
+	 * @param bookId
+	 */
+	private void loadBook(long bookId) {
+		SQLiteDatabase db = mDbHelper.getReadableDatabase();
+		mBookInfo = BookServices.getBookInfo(db, bookId);
+		db.close();
 	}
 
 	/**

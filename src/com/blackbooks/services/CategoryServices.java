@@ -13,6 +13,17 @@ import com.blackbooks.sql.BrokerManager;
 public class CategoryServices {
 
 	/**
+	 * Delete the categories that are not referred by any books in the database.
+	 * 
+	 * @param db
+	 *            SQLiteDatabase.
+	 */
+	public static void deleteCategoriesWithoutBooks(SQLiteDatabase db) {
+		String sql = "DELETE FROM CATEGORY WHERE CAT_ID IN (SELECT cat.CAT_ID FROM CATEGORY cat LEFT JOIN BOOK_CATEGORY bca ON bca.CAT_ID = cat.CAT_ID WHERE bca.BCA_ID IS NULL)";
+		BrokerManager.getBroker(Category.class).executeSql(db, sql);
+	}
+
+	/**
 	 * Get a category from the database.
 	 * 
 	 * @param db
