@@ -12,7 +12,7 @@ import com.blackbooks.search.google.GoogleBooksSearcher;
 import com.blackbooks.search.openlibrary.OpenLibraryBook;
 import com.blackbooks.search.openlibrary.OpenLibrarySearcher;
 import com.blackbooks.utils.GoogleBookUtils;
-import com.blackbooks.utils.HttpUtils;
+import com.blackbooks.utils.OpenLibraryBookUtils;
 
 /**
  * A class that searches for books using ISBN numbers.
@@ -28,8 +28,6 @@ public final class BookSearcher {
 	/**
 	 * Search information about the book corresponding to the given ISBN.
 	 * 
-	 * TODO: Properly merge info retrieved from GoogleBooksAPI and OpenLibrary.
-	 * 
 	 * @param isbn
 	 *            ISBN.
 	 * @return An instance of BookInfo if information were found, null
@@ -43,21 +41,36 @@ public final class BookSearcher {
 		GoogleBook googleBook = GoogleBooksSearcher.search(isbn);
 		OpenLibraryBook openLibraryBook = OpenLibrarySearcher.search(isbn);
 
-		BookInfo bookInfo = null;
-		if (googleBook != null) {
-			bookInfo = GoogleBookUtils.toBookInfo(googleBook);
-		}
+		BookInfo bookInfo = mergeSearchResults(googleBook, openLibraryBook);
 
+		return bookInfo;
+	}
+
+	/**
+	 * Merge the search results into an instance of BookInfo.
+	 * 
+	 * @param googleBook
+	 *            GoogleBook.
+	 * @param openLibraryBook
+	 *            OpenLibraryBook.
+	 * @return BookInfo.
+	 */
+	private static BookInfo mergeSearchResults(GoogleBook googleBook, OpenLibraryBook openLibraryBook) {
+		BookInfo bookInfo = null;
+		BookInfo googleBookInfo = null;
+		BookInfo openLibraryBookInfo = null;
+		if (googleBook != null) {
+			bookInfo = new BookInfo();
+			googleBookInfo = GoogleBookUtils.toBookInfo(googleBook);
+
+			bookInfo.merge(googleBookInfo);
+		}
 		if (openLibraryBook != null) {
 			if (bookInfo == null) {
 				bookInfo = new BookInfo();
 			}
-			if (openLibraryBook.coverLinkSmall != null) {
-				bookInfo.smallThumbnail = HttpUtils.getBinary(openLibraryBook.coverLinkSmall);
-			}
-			if (openLibraryBook.coverLinkMedium != null) {
-				bookInfo.thumbnail = HttpUtils.getBinary(openLibraryBook.coverLinkMedium);
-			}
+			openLibraryBookInfo = OpenLibraryBookUtils.toBookInfo(openLibraryBook);
+			bookInfo.merge(openLibraryBookInfo);
 		}
 
 		return bookInfo;

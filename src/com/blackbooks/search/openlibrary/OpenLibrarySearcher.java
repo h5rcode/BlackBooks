@@ -36,7 +36,16 @@ public final class OpenLibrarySearcher {
 		String url = String.format(URI_FORMAT_STRING, isbn);
 		try {
 			String json = HttpUtils.getJson(url);
-			return OpenLibraryJSONParser.parse(json);
+			OpenLibraryBook openLibraryBook = OpenLibraryJSONParser.parse(json);
+			if (openLibraryBook != null) {
+				if (openLibraryBook.coverLinkSmall != null) {
+					openLibraryBook.coverSmall = HttpUtils.getBinary(openLibraryBook.coverLinkSmall);
+				}
+				if (openLibraryBook.coverLinkMedium != null) {
+					openLibraryBook.coverMedium = HttpUtils.getBinary(openLibraryBook.coverLinkMedium);
+				}
+			}
+			return openLibraryBook;
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
