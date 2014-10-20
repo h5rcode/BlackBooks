@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +40,7 @@ public class BookCategoriesEdit extends Activity {
 	private ArrayList<Category> mCategoryList;
 	private LinkedHashMap<String, Category> mCategoryMap;
 	private AutoCompleteAdapter<Category> mAutoCompleteAdapter;
-	private EditableArrayAdapter<Category> mEditableArrayAdapter;
+	private EditableArrayAdapter<Category> mCategoryArrayAdapter;
 
 	private TextView mTextInfo;
 	private AutoCompleteTextView mTextCategory;
@@ -88,10 +91,16 @@ public class BookCategoriesEdit extends Activity {
 				message = String.format(message, categoryName);
 				mTextCategory.setError(message);
 			} else {
-				Category object = getCategory(categoryName);
+				Category c = new Category();
+				c.name = categoryName;
 
-				mCategoryMap.put(categoryName, object);
-				mEditableArrayAdapter.add(object);
+				Category category = getCategoryByCriteria(c);
+				if (category != null) {
+					c = category;
+				}
+
+				mCategoryMap.put(categoryName, category);
+				mCategoryArrayAdapter.add(category);
 
 				String message = getString(R.string.message_category_added);
 				message = String.format(message, categoryName);
@@ -104,6 +113,77 @@ public class BookCategoriesEdit extends Activity {
 	}
 
 	/**
+	 * Show a dialog to edit one of the categories of the list.
+	 * 
+	 * @param view
+	 *            View.
+	 */
+	public void editCategory(final View view) {
+		final Category category = (Category) view.getTag();
+
+		final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.dialog_edit_category);
+		dialog.setTitle(R.string.title_dialog_edit_category);
+
+		final AutoCompleteTextView textCategory = (AutoCompleteTextView) dialog.findViewById(R.id.editCategory_textCategory);
+		textCategory.setText(category.name);
+		textCategory.setAdapter(mAutoCompleteAdapter);
+
+		Button saveButton = (Button) dialog.findViewById(R.id.editCategory_confirm);
+		Button cancelButton = (Button) dialog.findViewById(R.id.editCategory_cancel);
+
+		saveButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				String categoryName = textCategory.getText().toString().trim();
+
+				String errorMessage = null;
+				if (categoryName.length() == 0) {
+					errorMessage = getString(R.string.message_category_missing);
+				} else if (!category.name.equals(categoryName)) {
+					if (mCategoryMap.containsKey(categoryName)) {
+						String message = getString(R.string.message_category_already_present);
+						errorMessage = String.format(message, categoryName);
+					} else {
+						int categoryIndex = mCategoryList.indexOf(category);
+
+						Category a = new Category();
+						a.name = categoryName;
+						Category categoryDb = getCategoryByCriteria(a);
+
+						if (categoryDb != null) {
+							a = categoryDb;
+						}
+						mCategoryList.remove(categoryIndex);
+						mCategoryList.add(categoryIndex, a);
+						mCategoryArrayAdapter.notifyDataSetChanged();
+						mCategoryMap.remove(category.name);
+						mCategoryMap.put(categoryName, a);
+					}
+				}
+
+				if (errorMessage == null) {
+					textCategory.setText(null);
+					textCategory.setError(null);
+					dialog.dismiss();
+				} else {
+					textCategory.setError(errorMessage);
+				}
+			}
+		});
+		cancelButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+
+		dialog.show();
+	}
+
+	/**
 	 * Remove a category from the list.
 	 * 
 	 * @param view
@@ -112,7 +192,7 @@ public class BookCategoriesEdit extends Activity {
 	public void removeCategory(View view) {
 		Category object = (Category) view.getTag();
 		mCategoryMap.remove(object.name);
-		mEditableArrayAdapter.remove(object);
+		mCategoryArrayAdapter.remove(object);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -154,7 +234,7 @@ public class BookCategoriesEdit extends Activity {
 				return item.name;
 			}
 		});
-		mEditableArrayAdapter = new EditableArrayAdapter<Category>(this, R.id.bookCategoriesEdit_categoryList, R.layout.list_categories_item_category,
+		mCategoryArrayAdapter = new EditableArrayAdapter<Category>(this, R.id.bookCategoriesEdit_categoryList, R.layout.list_categories_item_category,
 				R.id.item_category_name, R.id.item_category_button_remove, mCategoryList) {
 
 			protected String getDisplayLabel(Category object) {
@@ -174,7 +254,7 @@ public class BookCategoriesEdit extends Activity {
 			mTextInfo.setText(message);
 		}
 		mTextCategory.setAdapter(mAutoCompleteAdapter);
-		mListObjects.setAdapter(mEditableArrayAdapter);
+		mListObjects.setAdapter(mCategoryArrayAdapter);
 
 		TextView emptyText = (TextView) findViewById(android.R.id.empty);
 		mListObjects.setEmptyView(emptyText);
@@ -187,22 +267,16 @@ public class BookCategoriesEdit extends Activity {
 		outState.putSerializable(CATEGORY_LIST, mCategoryList);
 	}
 
-	private Category getCategory(String categoryName) {
-		Category category = new Category();
-		category.name = categoryName;
-
+	private Category getCategoryByCriteria(Category criteria) {
 		SQLiteHelper dbHelper = new SQLiteHelper(this);
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
-		Category categoryDb = CategoryServices.getCategoryByCriteria(db, category);
+		Category category = CategoryServices.getCategoryByCriteria(db, criteria);
 		db.close();
-		if (categoryDb != null) {
-			category = categoryDb;
-		}
 		return category;
 	}
 
 	/**
-	 * Finish the activity and add the list of authors to the result of the
+	 * Finish the activity and add the list of categories to the result of the
 	 * activity.
 	 */
 	private void addCategoryList() {
