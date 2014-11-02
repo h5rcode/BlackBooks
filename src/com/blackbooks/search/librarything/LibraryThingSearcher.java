@@ -1,15 +1,9 @@
 package com.blackbooks.search.librarything;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
+import com.blackbooks.utils.HttpUtils;
 
 /**
  * LibraryThing searcher. Requires a developer key.
@@ -36,10 +30,10 @@ public final class LibraryThingSearcher {
 	 * @param isbn
 	 *            ISBN.
 	 * @return Cover.
-	 * @throws ClientProtocolException
 	 * @throws URISyntaxException
+	 * @throws IOException 
 	 */
-	public static byte[] getSmallCover(String isbn) throws ClientProtocolException, URISyntaxException {
+	public static byte[] getSmallCover(String isbn) throws URISyntaxException, IOException {
 		return getCover(isbn, SIZE_SMALL);
 	}
 
@@ -49,10 +43,10 @@ public final class LibraryThingSearcher {
 	 * @param isbn
 	 *            ISBN.
 	 * @return Cover.
-	 * @throws ClientProtocolException
 	 * @throws URISyntaxException
+	 * @throws IOException 
 	 */
-	public static byte[] getMediumCover(String isbn) throws ClientProtocolException, URISyntaxException {
+	public static byte[] getMediumCover(String isbn) throws URISyntaxException, IOException {
 		return getCover(isbn, SIZE_MEDIUM);
 	}
 
@@ -62,10 +56,10 @@ public final class LibraryThingSearcher {
 	 * @param isbn
 	 *            ISBN.
 	 * @return Cover.
-	 * @throws ClientProtocolException
 	 * @throws URISyntaxException
+	 * @throws IOException 
 	 */
-	public static byte[] getLargeCover(String isbn) throws ClientProtocolException, URISyntaxException {
+	public static byte[] getLargeCover(String isbn) throws URISyntaxException, IOException {
 		return getCover(isbn, SIZE_LARGE);
 	}
 
@@ -77,23 +71,11 @@ public final class LibraryThingSearcher {
 	 * @param size
 	 *            Size (small/medium/large).
 	 * @return Cover.
-	 * @throws ClientProtocolException
 	 * @throws URISyntaxException
+	 * @throws IOException 
 	 */
-	private static byte[] getCover(String isbn, String size) throws URISyntaxException, ClientProtocolException {
+	private static byte[] getCover(String isbn, String size) throws URISyntaxException, IOException {
 		String url = String.format(URI_FORMAT_STRING, DEVELOPER_KEY, size, isbn);
-		URI uri = new URI(url);
-		HttpClient httpclient = new DefaultHttpClient();
-		HttpGet get = new HttpGet(uri);
-
-		HttpResponse response;
-		try {
-			response = httpclient.execute(get);
-			return EntityUtils.toByteArray(response.getEntity());
-		} catch (ClientProtocolException e) {
-			throw e;
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		return HttpUtils.getBinary(url);
 	}
 }

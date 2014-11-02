@@ -1,5 +1,6 @@
 package com.blackbooks.activities;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -490,6 +491,8 @@ public final class BookAdd extends Activity {
 				errorMessage = getString(R.string.error_uri_syntax);
 			} catch (UnknownHostException e) {
 				errorMessage = getString(R.string.error_connection_problem);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
 			}
 			return book;
 		}

@@ -1,9 +1,8 @@
 package com.blackbooks.search;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.UnknownHostException;
 
-import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
 
 import com.blackbooks.model.nonpersistent.BookInfo;
@@ -32,12 +31,11 @@ public final class BookSearcher {
 	 *            ISBN.
 	 * @return An instance of BookInfo if information were found, null
 	 *         otherwise.
-	 * @throws ClientProtocolException
-	 * @throws UnknownHostException
 	 * @throws URISyntaxException
 	 * @throws JSONException
+	 * @throws IOException 
 	 */
-	public static BookInfo search(String isbn) throws ClientProtocolException, UnknownHostException, URISyntaxException, JSONException {
+	public static BookInfo search(String isbn) throws URISyntaxException, JSONException, IOException {
 		GoogleBook googleBook = GoogleBooksSearcher.search(isbn);
 		OpenLibraryBook openLibraryBook = OpenLibrarySearcher.search(isbn);
 

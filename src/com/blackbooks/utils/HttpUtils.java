@@ -8,7 +8,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -32,25 +31,21 @@ public final class HttpUtils {
 	 *            URL.
 	 * @return String.
 	 * @throws URISyntaxException
-	 * @throws ClientProtocolException
+	 * @throws IOException
 	 */
-	public static String getJson(String url) throws URISyntaxException, ClientProtocolException {
-		try {
-			URI uri = new URI(url);
-			HttpClient httpclient = new DefaultHttpClient();
-			HttpGet get = new HttpGet(uri);
-			HttpResponse response = httpclient.execute(get);
-			InputStream content = response.getEntity().getContent();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-			StringBuilder sb = new StringBuilder();
-			String line = null;
-			while ((line = reader.readLine()) != null) {
-				sb.append(line);
-			}
-			return sb.toString();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+	public static String getJson(String url) throws URISyntaxException, IOException {
+		URI uri = new URI(url);
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpGet get = new HttpGet(uri);
+		HttpResponse response = httpclient.execute(get);
+		InputStream content = response.getEntity().getContent();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+		StringBuilder sb = new StringBuilder();
+		String line = null;
+		while ((line = reader.readLine()) != null) {
+			sb.append(line);
 		}
+		return sb.toString();
 	}
 
 	/***
@@ -60,17 +55,13 @@ public final class HttpUtils {
 	 *            URL.
 	 * @return Byte array.
 	 * @throws URISyntaxException
-	 * @throws ClientProtocolException
+	 * @throws IOException 
 	 */
-	public static byte[] getBinary(String url) throws URISyntaxException, ClientProtocolException {
-		try {
-			URI uri = new URI(url);
-			HttpClient httpclient = new DefaultHttpClient();
-			HttpGet get = new HttpGet(uri);
-			HttpResponse response = httpclient.execute(get);
-			return EntityUtils.toByteArray(response.getEntity());
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+	public static byte[] getBinary(String url) throws URISyntaxException, IOException {
+		URI uri = new URI(url);
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpGet get = new HttpGet(uri);
+		HttpResponse response = httpclient.execute(get);
+		return EntityUtils.toByteArray(response.getEntity());
 	}
 }

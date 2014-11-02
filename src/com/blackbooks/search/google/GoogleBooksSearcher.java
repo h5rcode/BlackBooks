@@ -1,7 +1,7 @@
 package com.blackbooks.search.google;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.UnknownHostException;
 
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
@@ -24,14 +24,12 @@ public class GoogleBooksSearcher {
 	 * @return GoogleBook.
 	 * @throws URISyntaxException
 	 *             If the requested URI could not be parsed.
-	 * @throws ClientProtocolException
-	 *             If an HTTP error occurs.
 	 * @throws JSONException
 	 *             If something bad happened during the parsing of the JSON
 	 *             result.
-	 * @throws UnknownHostException
+	 * @throws IOException 
 	 */
-	public static GoogleBook search(String isbn) throws URISyntaxException, ClientProtocolException, JSONException, UnknownHostException {
+	public static GoogleBook search(String isbn) throws URISyntaxException, JSONException, IOException {
 
 		try {
 			String url = String.format(URI_FORMAT_STRING, isbn);

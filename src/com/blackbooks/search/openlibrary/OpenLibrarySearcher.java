@@ -3,7 +3,6 @@ package com.blackbooks.search.openlibrary;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
 
 import com.blackbooks.utils.HttpUtils;
@@ -29,25 +28,21 @@ public final class OpenLibrarySearcher {
 	 *            ISBN code.
 	 * @return OpenLibraryBook.
 	 * @throws URISyntaxException
-	 * @throws ClientProtocolException
 	 * @throws JSONException
+	 * @throws IOException
 	 */
-	public static OpenLibraryBook search(String isbn) throws URISyntaxException, ClientProtocolException, JSONException {
+	public static OpenLibraryBook search(String isbn) throws URISyntaxException, JSONException, IOException {
 		String url = String.format(URI_FORMAT_STRING, isbn);
-		try {
-			String json = HttpUtils.getJson(url);
-			OpenLibraryBook openLibraryBook = OpenLibraryJSONParser.parse(json);
-			if (openLibraryBook != null) {
-				if (openLibraryBook.coverLinkSmall != null) {
-					openLibraryBook.coverSmall = HttpUtils.getBinary(openLibraryBook.coverLinkSmall);
-				}
-				if (openLibraryBook.coverLinkMedium != null) {
-					openLibraryBook.coverMedium = HttpUtils.getBinary(openLibraryBook.coverLinkMedium);
-				}
+		String json = HttpUtils.getJson(url);
+		OpenLibraryBook openLibraryBook = OpenLibraryJSONParser.parse(json);
+		if (openLibraryBook != null) {
+			if (openLibraryBook.coverLinkSmall != null) {
+				openLibraryBook.coverSmall = HttpUtils.getBinary(openLibraryBook.coverLinkSmall);
 			}
-			return openLibraryBook;
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+			if (openLibraryBook.coverLinkMedium != null) {
+				openLibraryBook.coverMedium = HttpUtils.getBinary(openLibraryBook.coverLinkMedium);
+			}
 		}
+		return openLibraryBook;
 	}
 }
