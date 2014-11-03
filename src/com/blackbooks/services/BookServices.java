@@ -138,7 +138,7 @@ public class BookServices {
 	@SuppressLint("UseSparseArrays")
 	public static ArrayList<BookInfo> getBookInfoList(SQLiteDatabase db) {
 
-		ArrayList<Book> bookList = BrokerManager.getBroker(Book.class).getAll(db);
+		ArrayList<Book> bookList = BrokerManager.getBroker(Book.class).getAll(db, null, new String[] { Book.Cols.BOO_TITLE });
 		ArrayList<BookAuthor> bookAuthorList = BrokerManager.getBroker(BookAuthor.class).getAll(db);
 		ArrayList<Author> authorList = BrokerManager.getBroker(Author.class).getAll(db);
 
