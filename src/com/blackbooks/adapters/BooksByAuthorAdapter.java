@@ -55,7 +55,7 @@ public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> {
 				}
 
 				TextView textView = (TextView) view.findViewById(R.id.item_book_title);
-				textView.setText(entry.getText());
+				textView.setText(entry.getTitle());
 
 			} else if (itemType == ListItemType.Header) {
 				AuthorItem header = (AuthorItem) item;

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blackbooks.R;
+import com.blackbooks.utils.StringUtils;
 
 /**
  * An adapter handling instances of ListItem representing either the first
@@ -43,24 +44,27 @@ public class BooksByFirstLetterAdapter extends ArrayAdapter<ListItem> {
 			if (itemType == ListItemType.Entry) {
 				BookItem entry = (BookItem) item;
 
-				view = mInflater.inflate(R.layout.list_books_by_author_item_book, null);
+				view = mInflater.inflate(R.layout.list_books_by_first_letter_item_book, null);
 
 				byte[] smallThumbnail = entry.getSmallThumbnail();
 				if (smallThumbnail != null && smallThumbnail.length > 0) {
-					ImageView imageView = (ImageView) view.findViewById(R.id.item_book_small_thumbnail);
+					ImageView imageView = (ImageView) view.findViewById(R.id.books_by_first_letter_item_book_small_thumbnail);
 					Bitmap bitmap = BitmapFactory.decodeByteArray(smallThumbnail, 0, smallThumbnail.length);
 					imageView.setImageBitmap(bitmap);
 				}
 
-				TextView textView = (TextView) view.findViewById(R.id.item_book_title);
-				textView.setText(entry.getText());
+				TextView textTitle = (TextView) view.findViewById(R.id.books_by_first_letter_item_book_title);
+				textTitle.setText(entry.getTitle());
 
+				TextView textAuthor = (TextView) view.findViewById(R.id.books_by_first_letter_item_book_author);
+				String authors = StringUtils.join(entry.getAuthors().toArray(new String[] {}), ", ");
+				textAuthor.setText(authors);
 			} else if (itemType == ListItemType.Header) {
 				FirstLetterItem header = (FirstLetterItem) item;
 
-				view = mInflater.inflate(R.layout.list_books_by_author_item_author, null);
+				view = mInflater.inflate(R.layout.list_books_by_first_letter_item_letter, null);
 
-				TextView textViewName = (TextView) view.findViewById(R.id.header_author_name);
+				TextView textViewName = (TextView) view.findViewById(R.id.books_by_first_letter_item_letter);
 				textViewName.setText(header.getValue());
 			}
 		}

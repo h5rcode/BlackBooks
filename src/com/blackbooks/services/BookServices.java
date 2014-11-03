@@ -94,19 +94,6 @@ public class BookServices {
 	}
 
 	/**
-	 * Get the titles of all the books in the database.
-	 * 
-	 * @param db
-	 *            SQLiteDatabase.
-	 * @return Instances of Book with only id, title and smallThumbnail set.
-	 */
-	public static ArrayList<Book> getBookListMinimal(SQLiteDatabase db) {
-		String[] selectedColumns = new String[] { Book.Cols.BOO_ID, Book.Cols.BOO_TITLE, Book.Cols.BOO_SMALL_THUMBNAIL };
-		String[] sortingColumns = new String[] { Book.Cols.BOO_TITLE };
-		return BrokerManager.getBroker(Book.class).getAll(db, selectedColumns, sortingColumns);
-	}
-
-	/**
 	 * Get book info.
 	 * 
 	 * @param db
