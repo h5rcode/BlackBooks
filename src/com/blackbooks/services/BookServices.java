@@ -160,9 +160,11 @@ public class BookServices {
 			BookInfo bookInfo = new BookInfo(book);
 
 			ArrayList<BookAuthor> baList = bookAuthorMap.get(book.id);
-			for (BookAuthor bookAuthor : baList) {
-				Author author = authorMap.get(bookAuthor.authorId);
-				bookInfo.authors.add(author);
+			if (baList != null) {
+				for (BookAuthor bookAuthor : baList) {
+					Author author = authorMap.get(bookAuthor.authorId);
+					bookInfo.authors.add(author);
+				}
 			}
 
 			bookInfoList.add(bookInfo);

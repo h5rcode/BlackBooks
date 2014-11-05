@@ -1,5 +1,7 @@
 package com.blackbooks.adapters;
 
+import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -57,7 +59,13 @@ public class BooksByFirstLetterAdapter extends ArrayAdapter<ListItem> {
 				textTitle.setText(entry.getTitle());
 
 				TextView textAuthor = (TextView) view.findViewById(R.id.books_by_first_letter_item_book_author);
-				String authors = StringUtils.join(entry.getAuthors().toArray(new String[] {}), ", ");
+				List<String> authorList = entry.getAuthors();
+				String authors;
+				if (authorList.size() > 0) {
+					authors = StringUtils.join(entry.getAuthors().toArray(new String[] {}), ", ");
+				} else {
+					authors = getContext().getString(R.string.label_unspecified_author);
+				}
 				textAuthor.setText(authors);
 			} else if (itemType == ListItemType.Header) {
 				FirstLetterItem header = (FirstLetterItem) item;
