@@ -3,36 +3,71 @@ package com.blackbooks.activities;
 import java.io.File;
 import java.io.IOException;
 
-import android.app.ListActivity;
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.blackbooks.R;
-import com.blackbooks.adapters.BookItem;
-import com.blackbooks.adapters.ListItem;
-import com.blackbooks.adapters.ListItemType;
 import com.blackbooks.database.Database;
+import com.blackbooks.fragments.AbstractBookListFragment;
+import com.blackbooks.fragments.BookListByAuthorFragment;
+import com.blackbooks.fragments.BookListyFirstLetterFragment;
 import com.blackbooks.helpers.FileHelper;
 import com.blackbooks.helpers.IsbnHelper;
 import com.blackbooks.helpers.Pic2ShopHelper;
-import com.blackbooks.utils.VariableUtils;
 
 /**
- * Abstract class to list the books.
+ * The book list activity. It hosts an AbstractBookListFragment used to display
+ * list in various orders.
  */
-public abstract class AbstractBookList extends ListActivity {
+public class BookList extends Activity {
 
-	private final static String TAG = AbstractBookList.class.getName();
+	public final static String PREFERENCES = "PREFERENCES";
+
+	public final static String PREF_DEFAULT_LIST = "PREF_DEFAULT_LIST";
+
+	private final static String BOOK_LIST_FRAGMENT_TAG = "BOOK_LIST_FRAGMENT_TAG";
+
+	private final static String TAG = BookList.class.getName();
+
+	private AbstractBookListFragment mFragment;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_book_list);
+
+		SharedPreferences preferences = getSharedPreferences(PREFERENCES, MODE_PRIVATE);
+
+		String defaultList = preferences.getString(PREF_DEFAULT_LIST, null);
+
+		FragmentManager fm = getFragmentManager();
+		mFragment = (AbstractBookListFragment) fm.findFragmentByTag(BOOK_LIST_FRAGMENT_TAG);
+
+		if (mFragment == null) {
+			if (defaultList == null) {
+				mFragment = new BookListByAuthorFragment();
+			} else if (defaultList.equals(BookListByAuthorFragment.class.getName())) {
+				mFragment = new BookListByAuthorFragment();
+			} else if (defaultList.equals(BookListyFirstLetterFragment.class.getName())) {
+				mFragment = new BookListyFirstLetterFragment();
+			} else {
+				throw new IllegalStateException();
+			}
+
+			fm.beginTransaction() //
+					.add(R.id.bookList_frameLayout, mFragment, BOOK_LIST_FRAGMENT_TAG) //
+					.commit();
+		}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -68,24 +103,33 @@ public abstract class AbstractBookList extends ListActivity {
 
 		case R.id.bookList_actionSortByAuthor:
 			result = true;
-			if (!(this instanceof BookListByAuthor)) {
-				sharedPref = getSharedPreferences(BlackBooksStart.PREFERENCES, MODE_PRIVATE);
+			if (!(mFragment instanceof BookListByAuthorFragment)) {
+				sharedPref = getSharedPreferences(BookList.PREFERENCES, MODE_PRIVATE);
 				editor = sharedPref.edit();
-				editor.putString(BlackBooksStart.PREF_DEFAULT_LIST, BookListByAuthor.class.getName());
+				editor.putString(BookList.PREF_DEFAULT_LIST, BookListByAuthorFragment.class.getName());
 				editor.commit();
-				NavUtils.navigateUpFromSameTask(this);
+				mFragment = new BookListByAuthorFragment();
+				getFragmentManager().beginTransaction() //
+						.replace(R.id.bookList_frameLayout, mFragment, BOOK_LIST_FRAGMENT_TAG) //
+						.commit();
 			}
+
 			break;
 
 		case R.id.bookList_actionSortByFirstLetter:
 			result = true;
-			if (!(this instanceof BookListByFirstLetter)) {
-				sharedPref = getSharedPreferences(BlackBooksStart.PREFERENCES, MODE_PRIVATE);
+
+			if (!(mFragment instanceof BookListyFirstLetterFragment)) {
+				sharedPref = getSharedPreferences(BookList.PREFERENCES, MODE_PRIVATE);
 				editor = sharedPref.edit();
-				editor.putString(BlackBooksStart.PREF_DEFAULT_LIST, BookListByFirstLetter.class.getName());
+				editor.putString(BookList.PREF_DEFAULT_LIST, BookListyFirstLetterFragment.class.getName());
 				editor.commit();
-				NavUtils.navigateUpFromSameTask(this);
+				mFragment = new BookListyFirstLetterFragment();
+				getFragmentManager().beginTransaction() //
+						.replace(R.id.bookList_frameLayout, mFragment, BOOK_LIST_FRAGMENT_TAG) //
+						.commit();
 			}
+
 			break;
 
 		case R.id.bookList_backupDb:
@@ -116,41 +160,6 @@ public abstract class AbstractBookList extends ListActivity {
 				Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 			}
 		}
-	}
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_book_list);
-	}
-
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		ListItem item = (ListItem) getListAdapter().getItem(position);
-		ListItemType itemType = item.getListItemType();
-
-		if (itemType == ListItemType.Entry) {
-			BookItem bookItem = (BookItem) item;
-			Intent i = new Intent(this, BookDisplay.class);
-			i.putExtra(BookDisplay.EXTRA_BOOK_ID, bookItem.getId());
-			this.startActivity(i);
-		}
-	}
-
-	/**
-	 * Return a value indicating if the book list should be reloaded.
-	 * 
-	 * @return True to refresh the book list, false otherwise.
-	 */
-	protected boolean getReloadBookList() {
-		return VariableUtils.getInstance().getReloadBookList();
-	}
-
-	/**
-	 * Set the value indicating if the book list should be reloaded to false.
-	 */
-	protected void setReloadBookListToFalse() {
-		VariableUtils.getInstance().setReloadBookList(false);
 	}
 
 	/**

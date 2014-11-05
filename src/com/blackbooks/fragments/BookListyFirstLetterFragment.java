@@ -1,4 +1,4 @@
-package com.blackbooks.activities;
+package com.blackbooks.fragments;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -15,29 +15,16 @@ import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.services.BookServices;
 
-/**
- * Activity that lists all the books, grouped by the first letter of their
- * title.
- */
-public class BookListByFirstLetter extends AbstractBookList {
+public class BookListyFirstLetterFragment extends AbstractBookListFragment {
 
 	private BooksByFirstLetterAdapter mAdapter;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mAdapter = new BooksByFirstLetterAdapter(this);
+		mAdapter = new BooksByFirstLetterAdapter(this.getActivity());
 		setListAdapter(mAdapter);
 		loadBookList();
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (super.getReloadBookList()) {
-			loadBookList();
-			super.setReloadBookListToFalse();
-		}
 	}
 
 	/**
@@ -46,7 +33,7 @@ public class BookListByFirstLetter extends AbstractBookList {
 	 * @return ArrayList.
 	 */
 	private ArrayList<ListItem> getList() {
-		SQLiteHelper mDbHelper = new SQLiteHelper(this);
+		SQLiteHelper mDbHelper = new SQLiteHelper(this.getActivity());
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 		ArrayList<BookInfo> bookList = BookServices.getBookInfoList(db);
 		db.close();
@@ -78,13 +65,12 @@ public class BookListByFirstLetter extends AbstractBookList {
 		return listItems;
 	}
 
-	/**
-	 * Load the book list and bind it to the list view.
-	 */
-	private void loadBookList() {
+	@Override
+	protected void loadBookList() {
 		ArrayList<ListItem> listItems = getList();
 		mAdapter.clear();
 		mAdapter.addAll(listItems);
 		mAdapter.notifyDataSetChanged();
 	}
+
 }

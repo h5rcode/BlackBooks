@@ -16,9 +16,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity
-            android:name="com.blackbooks.activities.BlackBooksStart"
-            android:noHistory="true" >
+        <activity android:name="com.blackbooks.activities.BookList" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,21 +28,21 @@
             android:label="@string/title_activity_book_list" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.blackbooks.activities.BlackBooksStart" />
+                android:value="com.blackbooks.activities.BookList" />
         </activity>
         <activity
             android:name="com.blackbooks.activities.BookListByFirstLetter"
             android:label="@string/title_activity_book_list" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.blackbooks.activities.BlackBooksStart" />
+                android:value="com.blackbooks.activities.BookList" />
         </activity>
         <activity
             android:name="com.blackbooks.activities.IsbnEnter"
             android:label="@string/title_activity_isbn_enter" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.blackbooks.activities.BlackBooksStart" />
+                android:value="com.blackbooks.activities.BookList" />
         </activity>
         <activity
             android:name="com.blackbooks.activities.BookAdd"
@@ -52,14 +50,14 @@
             android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.blackbooks.activities.BlackBooksStart" />
+                android:value="com.blackbooks.activities.BookList" />
         </activity>
         <activity
             android:name="com.blackbooks.activities.BookDisplay"
             android:label="@string/title_activity_book_display" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.blackbooks.activities.BlackBooksStart" />
+                android:value="com.blackbooks.activities.BookList" />
         </activity>
         <activity
             android:name="com.blackbooks.activities.BookEdit"

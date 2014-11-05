@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import com.blackbooks.R;
@@ -53,8 +52,8 @@ public final class BookDisplay extends Activity implements BookDisplayListener {
 		boolean result;
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			NavUtils.navigateUpFromSameTask(this);
 			result = true;
+			finish();
 			break;
 		default:
 			result = super.onOptionsItemSelected(item);

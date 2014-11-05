@@ -1,10 +1,9 @@
-package com.blackbooks.activities;
+package com.blackbooks.fragments;
 
 import java.util.ArrayList;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.Menu;
 
 import com.blackbooks.R;
 import com.blackbooks.adapters.AuthorItem;
@@ -16,34 +15,27 @@ import com.blackbooks.model.nonpersistent.AuthorInfo;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.services.AuthorServices;
 
-/**
- * Activity that lists all the books.
- */
-public final class BookListByAuthor extends AbstractBookList {
+public class BookListByAuthorFragment extends AbstractBookListFragment {
 
 	private BooksByAuthorAdapter mAdapter;
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.book_list, menu);
-		return true;
-	}
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mAdapter = new BooksByAuthorAdapter(this);
+		mAdapter = new BooksByAuthorAdapter(this.getActivity());
 		setListAdapter(mAdapter);
 		loadBookList();
 	}
 
+	/**
+	 * Load the book list and bind it to the list view.
+	 */
 	@Override
-	protected void onResume() {
-		super.onResume();
-		if (super.getReloadBookList()) {
-			loadBookList();
-			super.setReloadBookListToFalse();
-		}
+	protected void loadBookList() {
+		ArrayList<ListItem> listItems = getList();
+		mAdapter.clear();
+		mAdapter.addAll(listItems);
+		mAdapter.notifyDataSetChanged();
 	}
 
 	/**
@@ -52,7 +44,7 @@ public final class BookListByAuthor extends AbstractBookList {
 	 * @return ArrayList.
 	 */
 	private ArrayList<ListItem> getList() {
-		SQLiteHelper dbHelper = new SQLiteHelper(this);
+		SQLiteHelper dbHelper = new SQLiteHelper(this.getActivity());
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
 		ArrayList<AuthorInfo> authorInfoList = AuthorServices.getAuthorInfoList(db);
 		db.close();
@@ -72,15 +64,5 @@ public final class BookListByAuthor extends AbstractBookList {
 			}
 		}
 		return listItems;
-	}
-
-	/**
-	 * Load the book list and bind it to the list view.
-	 */
-	private void loadBookList() {
-		ArrayList<ListItem> listItems = getList();
-		mAdapter.clear();
-		mAdapter.addAll(listItems);
-		mAdapter.notifyDataSetChanged();
 	}
 }
