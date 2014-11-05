@@ -26,6 +26,9 @@ import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.services.CategoryServices;
 
+/**
+ * Activity to edit the categories of a book.
+ */
 public class BookCategoriesEdit extends Activity {
 
 	public static final String EXTRA_CATEGORY_LIST = "EXTRA_CATEGORY_LIST";

@@ -15,6 +15,10 @@ import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.services.BookServices;
 
+/**
+ * Implements {@link AbstractBookListFragment}. A fragment that lists books by
+ * the first letter of their title.
+ */
 public class BookListyFirstLetterFragment extends AbstractBookListFragment {
 
 	private BooksByFirstLetterAdapter mAdapter;

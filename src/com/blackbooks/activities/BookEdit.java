@@ -41,6 +41,9 @@ import com.blackbooks.services.PublisherServices;
 import com.blackbooks.utils.StringUtils;
 import com.blackbooks.utils.VariableUtils;
 
+/**
+ * Activity that allows the user to edit the information of a book.
+ */
 public class BookEdit extends Activity {
 
 	public final static String EXTRA_BOOK_ID = "BOOK_ID";

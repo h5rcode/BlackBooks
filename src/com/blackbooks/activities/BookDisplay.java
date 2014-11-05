@@ -13,7 +13,6 @@ import com.blackbooks.model.nonpersistent.BookInfo;
 
 /**
  * Activity to display the info of a book saved in the database.
- * 
  */
 public final class BookDisplay extends Activity implements BookDisplayListener {
 

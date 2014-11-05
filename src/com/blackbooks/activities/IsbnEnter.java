@@ -18,7 +18,8 @@ import com.blackbooks.R;
 import com.blackbooks.helpers.IsbnHelper;
 
 /**
- * Activity to type an ISBN number.
+ * Activity to enter an ISBN number and start a search for information on the
+ * internet.
  */
 public class IsbnEnter extends Activity {
 
@@ -59,7 +60,7 @@ public class IsbnEnter extends Activity {
 			search();
 			result = true;
 			break;
-			
+
 		case android.R.id.home:
 			result = true;
 			NavUtils.navigateUpFromSameTask(this);

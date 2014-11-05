@@ -15,6 +15,10 @@ import com.blackbooks.model.nonpersistent.AuthorInfo;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.services.AuthorServices;
 
+/**
+ * Implements {@link AbstractBookListFragment}. A fragment that lists books by
+ * author.
+ */
 public class BookListByAuthorFragment extends AbstractBookListFragment {
 
 	private BooksByAuthorAdapter mAdapter;
