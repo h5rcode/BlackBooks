@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.blackbooks.R;
 import com.blackbooks.database.Database;
 import com.blackbooks.fragments.AbstractBookListFragment;
+import com.blackbooks.fragments.AbstractBookListFragment.BookListListener;
 import com.blackbooks.fragments.BookListByAuthorFragment;
 import com.blackbooks.fragments.BookListyFirstLetterFragment;
 import com.blackbooks.helpers.FileHelper;
@@ -28,17 +29,19 @@ import com.blackbooks.helpers.Pic2ShopHelper;
  * The book list activity. It hosts an AbstractBookListFragment used to display
  * list in various orders.
  */
-public class BookList extends Activity {
+public class BookList extends Activity implements BookListListener {
 
-	public final static String PREFERENCES = "PREFERENCES";
+	private static final int ALPHA_ENABLED = 255;
+	private static final int ALPHA_DISABLED = 75;
 
-	public final static String PREF_DEFAULT_LIST = "PREF_DEFAULT_LIST";
+	private static final String PREFERENCES = "PREFERENCES";
+	private static final String PREF_DEFAULT_LIST = "PREF_DEFAULT_LIST";
+	private static final String BOOK_LIST_FRAGMENT_TAG = "BOOK_LIST_FRAGMENT_TAG";
+	private static final String TAG = BookList.class.getName();
 
-	private final static String BOOK_LIST_FRAGMENT_TAG = "BOOK_LIST_FRAGMENT_TAG";
+	private AbstractBookListFragment mCurrentFragment;
 
-	private final static String TAG = BookList.class.getName();
-
-	private AbstractBookListFragment mFragment;
+	private MenuItem mMenuSort;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,21 +53,21 @@ public class BookList extends Activity {
 		String defaultList = preferences.getString(PREF_DEFAULT_LIST, null);
 
 		FragmentManager fm = getFragmentManager();
-		mFragment = (AbstractBookListFragment) fm.findFragmentByTag(BOOK_LIST_FRAGMENT_TAG);
+		mCurrentFragment = (AbstractBookListFragment) fm.findFragmentByTag(BOOK_LIST_FRAGMENT_TAG);
 
-		if (mFragment == null) {
+		if (mCurrentFragment == null) {
 			if (defaultList == null) {
-				mFragment = new BookListByAuthorFragment();
+				mCurrentFragment = new BookListByAuthorFragment();
 			} else if (defaultList.equals(BookListByAuthorFragment.class.getName())) {
-				mFragment = new BookListByAuthorFragment();
+				mCurrentFragment = new BookListByAuthorFragment();
 			} else if (defaultList.equals(BookListyFirstLetterFragment.class.getName())) {
-				mFragment = new BookListyFirstLetterFragment();
+				mCurrentFragment = new BookListyFirstLetterFragment();
 			} else {
 				throw new IllegalStateException();
 			}
 
 			fm.beginTransaction() //
-					.add(R.id.bookList_frameLayout, mFragment, BOOK_LIST_FRAGMENT_TAG) //
+					.add(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 					.commit();
 		}
 	}
@@ -72,6 +75,7 @@ public class BookList extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.book_list, menu);
+		mMenuSort = menu.findItem(R.id.bookList_menuSort);
 		return true;
 	}
 
@@ -103,14 +107,15 @@ public class BookList extends Activity {
 
 		case R.id.bookList_actionSortByAuthor:
 			result = true;
-			if (!(mFragment instanceof BookListByAuthorFragment)) {
+			if (!(mCurrentFragment instanceof BookListByAuthorFragment)) {
 				sharedPref = getSharedPreferences(BookList.PREFERENCES, MODE_PRIVATE);
 				editor = sharedPref.edit();
 				editor.putString(BookList.PREF_DEFAULT_LIST, BookListByAuthorFragment.class.getName());
 				editor.commit();
-				mFragment = new BookListByAuthorFragment();
+				toggleMenuItemLookup(false);
+				mCurrentFragment = new BookListByAuthorFragment();
 				getFragmentManager().beginTransaction() //
-						.replace(R.id.bookList_frameLayout, mFragment, BOOK_LIST_FRAGMENT_TAG) //
+						.replace(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 						.commit();
 			}
 
@@ -119,14 +124,15 @@ public class BookList extends Activity {
 		case R.id.bookList_actionSortByFirstLetter:
 			result = true;
 
-			if (!(mFragment instanceof BookListyFirstLetterFragment)) {
+			if (!(mCurrentFragment instanceof BookListyFirstLetterFragment)) {
 				sharedPref = getSharedPreferences(BookList.PREFERENCES, MODE_PRIVATE);
 				editor = sharedPref.edit();
 				editor.putString(BookList.PREF_DEFAULT_LIST, BookListyFirstLetterFragment.class.getName());
 				editor.commit();
-				mFragment = new BookListyFirstLetterFragment();
+				toggleMenuItemLookup(false);
+				mCurrentFragment = new BookListyFirstLetterFragment();
 				getFragmentManager().beginTransaction() //
-						.replace(R.id.bookList_frameLayout, mFragment, BOOK_LIST_FRAGMENT_TAG) //
+						.replace(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 						.commit();
 			}
 
@@ -194,5 +200,23 @@ public class BookList extends Activity {
 	private void startIsbnScan() {
 		Intent intent = new Intent(Pic2ShopHelper.ACTION);
 		startActivityForResult(intent, Pic2ShopHelper.REQUEST_CODE_SCAN);
+	}
+
+	/**
+	 * Enable or disable the sort menu.
+	 * 
+	 * @param enable
+	 *            True to enable, false to disable.
+	 */
+	private void toggleMenuItemLookup(boolean enable) {
+		if (mMenuSort != null) {
+			mMenuSort.setEnabled(enable);
+			mMenuSort.getIcon().setAlpha(enable ? ALPHA_ENABLED : ALPHA_DISABLED);
+		}
+	}
+
+	@Override
+	public void onBookListLoaded() {
+		toggleMenuItemLookup(true);
 	}
 }

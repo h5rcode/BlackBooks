@@ -23,6 +23,7 @@ import com.blackbooks.helpers.IsbnHelper;
  */
 public class IsbnEnter extends Activity {
 
+	private final static int ALPHA_ENABLED = 255;
 	private final static int ALPHA_DISABLED = 75;
 
 	private EditText mTextIsbn;
@@ -101,7 +102,7 @@ public class IsbnEnter extends Activity {
 	private void toggleMenuItemLookup() {
 		if (mMenuItemLookup != null) {
 			mMenuItemLookup.setEnabled(mEnableLookup);
-			mMenuItemLookup.getIcon().setAlpha(mEnableLookup ? 255 : ALPHA_DISABLED);
+			mMenuItemLookup.getIcon().setAlpha(mEnableLookup ? ALPHA_ENABLED : ALPHA_DISABLED);
 		}
 	}
 

@@ -20,6 +20,7 @@
         </menu>
     </item>
     <item
+        android:id="@+id/bookList_menuSort"
         android:icon="@drawable/ic_action_sort_by_size"
         android:showAsAction="ifRoom"
         android:title="@string/menu_sort">

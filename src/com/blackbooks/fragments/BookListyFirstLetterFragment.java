@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
+import android.widget.ArrayAdapter;
 
 import com.blackbooks.adapters.BookItem;
 import com.blackbooks.adapters.BooksByFirstLetterAdapter;
@@ -21,14 +21,9 @@ import com.blackbooks.services.BookServices;
  */
 public class BookListyFirstLetterFragment extends AbstractBookListFragment {
 
-	private BooksByFirstLetterAdapter mAdapter;
-
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		mAdapter = new BooksByFirstLetterAdapter(this.getActivity());
-		setListAdapter(mAdapter);
-		loadBookList();
+	protected ArrayAdapter<ListItem> getBookListAdapter() {
+		return new BooksByFirstLetterAdapter(this.getActivity());
 	}
 
 	/**
@@ -36,7 +31,8 @@ public class BookListyFirstLetterFragment extends AbstractBookListFragment {
 	 * 
 	 * @return ArrayList.
 	 */
-	private ArrayList<ListItem> getList() {
+	@Override
+	protected ArrayList<ListItem> loadBookList() {
 		SQLiteHelper mDbHelper = new SQLiteHelper(this.getActivity());
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 		ArrayList<BookInfo> bookList = BookServices.getBookInfoList(db);
@@ -68,13 +64,4 @@ public class BookListyFirstLetterFragment extends AbstractBookListFragment {
 		}
 		return listItems;
 	}
-
-	@Override
-	protected void loadBookList() {
-		ArrayList<ListItem> listItems = getList();
-		mAdapter.clear();
-		mAdapter.addAll(listItems);
-		mAdapter.notifyDataSetChanged();
-	}
-
 }
