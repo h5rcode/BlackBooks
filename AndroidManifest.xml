@@ -16,26 +16,14 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity android:name="com.blackbooks.activities.BookList" >
+        <activity
+            android:name="com.blackbooks.activities.BookList"
+            android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name="com.blackbooks.activities.BookListByAuthor"
-            android:label="@string/title_activity_book_list" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.blackbooks.activities.BookList" />
-        </activity>
-        <activity
-            android:name="com.blackbooks.activities.BookListByFirstLetter"
-            android:label="@string/title_activity_book_list" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.blackbooks.activities.BookList" />
         </activity>
         <activity
             android:name="com.blackbooks.activities.IsbnEnter"
@@ -61,7 +49,8 @@
         </activity>
         <activity
             android:name="com.blackbooks.activities.BookEdit"
-            android:label="@string/title_activity_book_edit" >
+            android:label="@string/title_activity_book_edit"
+            android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blackbooks.activities.BookDisplay" />
