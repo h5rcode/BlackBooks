@@ -101,6 +101,7 @@ public class BookList extends Activity implements BookListListener {
 
 		case R.id.bookList_actionAddManually:
 			i = new Intent(this, BookAdd.class);
+			i.putExtra(BookAdd.EXTRA_MODE, BookAdd.MODE_ADD);
 			this.startActivity(i);
 			result = true;
 			break;
@@ -158,6 +159,7 @@ public class BookList extends Activity implements BookListListener {
 
 			if (IsbnHelper.isValidIsbn(barCode)) {
 				Intent i = new Intent(this, BookAdd.class);
+				i.putExtra(BookAdd.EXTRA_MODE, BookAdd.MODE_ADD);
 				i.putExtra(BookAdd.EXTRA_ISBN, barCode);
 				this.startActivity(i);
 			} else {

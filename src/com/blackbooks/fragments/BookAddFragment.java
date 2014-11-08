@@ -62,10 +62,20 @@ import com.blackbooks.utils.VariableUtils;
  */
 public class BookAddFragment extends Fragment {
 
-	public final static String ARG_ISBN = "ARG_ISBN";
-	private final static String BOOK_INFO = "BOOK_INFO";
-	private final static int REQUEST_EDIT_AUTHORS = 0;
-	private final static int REQUEST_EDIT_CATEGORIES = 1;
+	public static final String ARG_ISBN = "ARG_ISBN";
+
+	private static final String ARG_BOO_ID = "ARG_BOO_ID";
+	private static final String ARG_MODE = "ARG_MODE";
+
+	private static final int MODE_ADD = 1;
+	private static final int MODE_EDIT = 2;
+
+	private static final String BOOK_INFO = "BOOK_INFO";
+
+	private static final int REQUEST_EDIT_AUTHORS = 1;
+	private static final int REQUEST_EDIT_CATEGORIES = 2;
+
+	private SQLiteHelper mDbHelper;
 
 	private ProgressBar mProgressBar;
 	private ScrollView mScrollView;
@@ -92,20 +102,40 @@ public class BookAddFragment extends Fragment {
 	private boolean mValidBookInfo;
 
 	/**
-	 * Create a new instance of BookAddFragment. The parameter {@code param} can
+	 * Create a new instance of BookAddFragment. The parameter {@code isbn} can
 	 * be used to initiate an internet search for some info.
 	 * 
 	 * @param isbn
 	 *            ISBN number (can be null).
 	 * @return BookAddFragment.
 	 */
-	public static BookAddFragment newInstance(String isbn) {
+	public static BookAddFragment newInstanceAddMode(String isbn) {
 		BookAddFragment instance = new BookAddFragment();
+
+		Bundle args = new Bundle();
+		args.putInt(ARG_MODE, MODE_ADD);
 		if (isbn != null) {
-			Bundle args = new Bundle();
 			args.putString(ARG_ISBN, isbn);
-			instance.setArguments(args);
 		}
+
+		instance.setArguments(args);
+		return instance;
+	}
+
+	/**
+	 * Create a new instance of BookAddFragment in edit mode. The parameter
+	 * {@code booId} represents the id of the edited book.
+	 * 
+	 * @param booId
+	 *            Id of the book to edit.
+	 * @return BookAddFragment.
+	 */
+	public static BookAddFragment newInstanceEditMode(long booId) {
+		BookAddFragment instance = new BookAddFragment();
+		Bundle args = new Bundle();
+		args.putInt(ARG_MODE, MODE_EDIT);
+		args.putLong(ARG_BOO_ID, booId);
+		instance.setArguments(args);
 		return instance;
 	}
 
@@ -252,6 +282,8 @@ public class BookAddFragment extends Fragment {
 
 		findViews();
 
+		mDbHelper = new SQLiteHelper(this.getActivity());
+
 		if (mIsSearching) {
 			mProgressBar.setVisibility(View.VISIBLE);
 			mScrollView.setVisibility(View.GONE);
@@ -295,8 +327,7 @@ public class BookAddFragment extends Fragment {
 
 					@Override
 					public ArrayList<Publisher> search(CharSequence constraint) {
-						SQLiteHelper dbHelper = new SQLiteHelper(BookAddFragment.this.getActivity());
-						SQLiteDatabase db = dbHelper.getReadableDatabase();
+						SQLiteDatabase db = mDbHelper.getReadableDatabase();
 						ArrayList<Publisher> publisherList = PublisherServices.getPublisherListByText(db, constraint.toString());
 						db.close();
 						return publisherList;
@@ -315,24 +346,44 @@ public class BookAddFragment extends Fragment {
 			mBookInfo = new BookInfo();
 		}
 
-		renderBookInfo();
-
 		handleArguments();
+
+		renderBookInfo();
 	}
 
 	/**
 	 * Handle the arguments of the fragment.
 	 */
 	private void handleArguments() {
-		String isbn = null;
 		Bundle args = getArguments();
-		if (args != null) {
-			isbn = args.getString(ARG_ISBN);
-			args.remove(ARG_ISBN);
+		int mode = args.getInt(ARG_MODE);
+
+		switch (mode) {
+		case MODE_ADD:
+			String isbn = null;
+			if (args != null) {
+				isbn = args.getString(ARG_ISBN);
+				args.remove(ARG_ISBN);
+			}
+			if (isbn != null) {
+				new BookSearch().execute(isbn);
+			}
+			break;
+
+		case MODE_EDIT:
+			long bookId = args.getLong(ARG_BOO_ID);
+			SQLiteDatabase db = mDbHelper.getReadableDatabase();
+			mBookInfo = BookServices.getBookInfo(db, bookId);
+			db.close();
+
+			String title = getString(R.string.title_activity_book_edit);
+			this.getActivity().setTitle(String.format(title, mBookInfo.title));
+			break;
+
+		default:
+			throw new IllegalStateException("Argument " + ARG_MODE + " not set.");
 		}
-		if (isbn != null) {
-			new BookSearch().execute(isbn);
-		}
+
 	}
 
 	@Override
@@ -409,8 +460,7 @@ public class BookAddFragment extends Fragment {
 		mBookInfo.publishedDate = publishedDate;
 		mBookInfo.description = description;
 
-		SQLiteHelper dbHelper = new SQLiteHelper(BookAddFragment.this.getActivity());
-		SQLiteDatabase db = dbHelper.getReadableDatabase();
+		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
 		ArrayList<Author> authors = new ArrayList<Author>();
 		for (Author author : mBookInfo.authors) {

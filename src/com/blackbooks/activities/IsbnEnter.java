@@ -92,6 +92,7 @@ public class IsbnEnter extends Activity {
 	 */
 	private void startIsbnSearch(String isbn) {
 		Intent i = new Intent(IsbnEnter.this, BookAdd.class);
+		i.putExtra(BookAdd.EXTRA_MODE, BookAdd.MODE_ADD);
 		i.putExtra(BookAdd.EXTRA_ISBN, isbn);
 		IsbnEnter.this.startActivity(i);
 	}

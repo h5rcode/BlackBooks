@@ -24,7 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blackbooks.R;
-import com.blackbooks.activities.BookEdit;
+import com.blackbooks.activities.BookAdd;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.services.BookServices;
@@ -148,8 +148,9 @@ public class BookDisplayFragment extends Fragment {
 		boolean result;
 		switch (item.getItemId()) {
 		case R.id.bookDisplay_actionEdit:
-			Intent i = new Intent(this.getActivity(), BookEdit.class);
-			i.putExtra(BookEdit.EXTRA_BOOK_ID, mBookInfo.id);
+			Intent i = new Intent(this.getActivity(), BookAdd.class);
+			i.putExtra(BookAdd.EXTRA_MODE, BookAdd.MODE_EDIT);
+			i.putExtra(BookAdd.EXTRA_BOOK_ID, mBookInfo.id);
 			startActivityForResult(i, REQUEST_CODE_EDIT_BOOK);
 			result = true;
 			break;

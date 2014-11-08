@@ -10,7 +10,6 @@
     <string name="action_lookup_isbn">Lookup ISBN</string>
     <string name="action_remove_thumbnail">Remove thumbnail</string>
     <string name="action_save_book">Save</string>
-    <string name="action_save_changes">Save changes</string>
     <string name="action_scan_isbn">Scan ISBN</string>
     <string name="action_sort_by_author">By author</string>
     <string name="action_sort_by_first_letter">By first letter</string>
@@ -80,7 +79,6 @@
     <string name="title_activity_book_categories_edit">Edit categories</string>
     <string name="title_activity_book_display">Book info</string>
     <string name="title_activity_book_edit">Edit \"%s\"</string>
-    <string name="title_activity_book_edit_default">Edit book</string>
     <string name="title_activity_book_list">Black Books</string>
     <string name="title_activity_isbn_enter">Enter ISBN</string>
     <string name="title_dialog_edit_author">Edit author</string>
