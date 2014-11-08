@@ -100,8 +100,8 @@ public class BookList extends Activity implements BookListListener {
 			break;
 
 		case R.id.bookList_actionAddManually:
-			i = new Intent(this, BookAdd.class);
-			i.putExtra(BookAdd.EXTRA_MODE, BookAdd.MODE_ADD);
+			i = new Intent(this, BookEdit.class);
+			i.putExtra(BookEdit.EXTRA_MODE, BookEdit.MODE_ADD);
 			this.startActivity(i);
 			result = true;
 			break;
@@ -158,9 +158,9 @@ public class BookList extends Activity implements BookListListener {
 			String barCode = data.getStringExtra(Pic2ShopHelper.BARCODE);
 
 			if (IsbnHelper.isValidIsbn(barCode)) {
-				Intent i = new Intent(this, BookAdd.class);
-				i.putExtra(BookAdd.EXTRA_MODE, BookAdd.MODE_ADD);
-				i.putExtra(BookAdd.EXTRA_ISBN, barCode);
+				Intent i = new Intent(this, BookEdit.class);
+				i.putExtra(BookEdit.EXTRA_MODE, BookEdit.MODE_ADD);
+				i.putExtra(BookEdit.EXTRA_ISBN, barCode);
 				this.startActivity(i);
 			} else {
 				String message = getString(R.string.message_invalid_isbn);

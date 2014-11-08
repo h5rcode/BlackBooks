@@ -74,11 +74,11 @@
     <string name="text_info_isbn">Enter the ISBN-10 or ISBN-13 number of the book you want to add.</string>
     <string name="text_info_no_authors">This book does not have any authors yet. Enter the name of the author(s) and click \"Add\".</string>
     <string name="text_info_no_categories">This book does not have any categories yet. Enter the name of a category and click \"Add\".</string>
-    <string name="title_activity_book_add">Add a book</string>
     <string name="title_activity_book_authors_edit">Edit authors</string>
     <string name="title_activity_book_categories_edit">Edit categories</string>
     <string name="title_activity_book_display">Book info</string>
-    <string name="title_activity_book_edit">Edit \"%s\"</string>
+    <string name="title_activity_book_edit_mode_add">Add a book</string>
+    <string name="title_activity_book_edit_mode_edit">Edit \"%s\"</string>
     <string name="title_activity_book_list">Black Books</string>
     <string name="title_activity_isbn_enter">Enter ISBN</string>
     <string name="title_dialog_edit_author">Edit author</string>

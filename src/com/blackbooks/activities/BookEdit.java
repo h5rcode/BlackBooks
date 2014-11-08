@@ -8,13 +8,13 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import com.blackbooks.R;
-import com.blackbooks.fragments.BookAddFragment;
-import com.blackbooks.fragments.BookAddFragment.BookAddListener;
+import com.blackbooks.fragments.BookEditFragment;
+import com.blackbooks.fragments.BookEditFragment.BookEditListener;
 
 /**
- * Activity used to add a book to the library.
+ * Activity used to add a new book or edit an existing one.
  */
-public final class BookAdd extends Activity implements BookAddListener {
+public final class BookEdit extends Activity implements BookEditListener {
 
 	public static final String EXTRA_BOOK_ID = "EXTRA_BOOK_ID";
 	public static final String EXTRA_MODE = "EXTRA_MODE";
@@ -28,11 +28,11 @@ public final class BookAdd extends Activity implements BookAddListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_book_add);
+		setContentView(R.layout.activity_book_edit);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		FragmentManager fm = getFragmentManager();
-		BookAddFragment fragment = (BookAddFragment) fm.findFragmentByTag(BOOK_ADD_FRAGMENT_TAG);
+		BookEditFragment fragment = (BookEditFragment) fm.findFragmentByTag(BOOK_ADD_FRAGMENT_TAG);
 		if (fragment == null) {
 			Intent intent = this.getIntent();
 
@@ -44,13 +44,13 @@ public final class BookAdd extends Activity implements BookAddListener {
 				if (intent.hasExtra(EXTRA_ISBN)) {
 					isbn = intent.getStringExtra(EXTRA_ISBN);
 				}
-				fragment = BookAddFragment.newInstanceAddMode(isbn);
+				fragment = BookEditFragment.newInstanceAddMode(isbn);
 				break;
 
 			case MODE_EDIT:
 				if (intent.hasExtra(EXTRA_BOOK_ID)) {
 					long booId = intent.getLongExtra(EXTRA_BOOK_ID, 0);
-					fragment = BookAddFragment.newInstanceEditMode(booId);
+					fragment = BookEditFragment.newInstanceEditMode(booId);
 				} else {
 					throw new IllegalStateException("Extra " + EXTRA_BOOK_ID + " not set.");
 				}

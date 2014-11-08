@@ -6,14 +6,14 @@
     android:orientation="vertical" >
 
     <ProgressBar
-        android:id="@+id/bookAdd_progressBar"
+        android:id="@+id/bookEdit_progressBar"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone" />
 
     <ScrollView
-        android:id="@+id/bookAdd_scrollView"
+        android:id="@+id/bookEdit_scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
@@ -25,10 +25,10 @@
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
-            tools:context=".BookAdd" >
+            tools:context=".BookEdit" >
 
             <ImageView
-                android:id="@+id/bookAdd_buttonThumbnail"
+                android:id="@+id/bookEdit_buttonThumbnail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -41,7 +41,7 @@
                 android:text="@string/label_title" />
 
             <EditText
-                android:id="@+id/bookAdd_textTitle"
+                android:id="@+id/bookEdit_textTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/label_title"
@@ -53,7 +53,7 @@
                 android:text="@string/label_subtitle" />
 
             <EditText
-                android:id="@+id/bookAdd_textSubtitle"
+                android:id="@+id/bookEdit_textSubtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/label_subtitle"
@@ -65,7 +65,7 @@
                 android:text="@string/label_language" />
 
             <Spinner
-                android:id="@+id/bookAdd_spinnerLanguage"
+                android:id="@+id/bookEdit_spinnerLanguage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -75,7 +75,7 @@
                 android:text="@string/label_authors" />
 
             <Button
-                android:id="@+id/bookAdd_buttonEditAuthors"
+                android:id="@+id/bookEdit_buttonEditAuthors"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -87,7 +87,7 @@
                 android:text="@string/label_isbn" />
 
             <EditText
-                android:id="@+id/bookAdd_textIsbn"
+                android:id="@+id/bookEdit_textIsbn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/label_isbn"
@@ -99,7 +99,7 @@
                 android:text="@string/label_page_count" />
 
             <EditText
-                android:id="@+id/bookAdd_textPageCount"
+                android:id="@+id/bookEdit_textPageCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/label_page_count"
@@ -111,7 +111,7 @@
                 android:text="@string/label_publisher" />
 
             <AutoCompleteTextView
-                android:id="@+id/bookAdd_textPublisher"
+                android:id="@+id/bookEdit_textPublisher"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/label_publisher"
@@ -123,7 +123,7 @@
                 android:text="@string/label_published_date" />
 
             <EditText
-                android:id="@+id/bookAdd_textPublishedDate"
+                android:id="@+id/bookEdit_textPublishedDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/label_published_date"
@@ -135,7 +135,7 @@
                 android:text="@string/label_categories" />
 
             <Button
-                android:id="@+id/bookAdd_buttonEditCategories"
+                android:id="@+id/bookEdit_buttonEditCategories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -147,7 +147,7 @@
                 android:text="@string/label_description" />
 
             <EditText
-                android:id="@+id/bookAdd_textDescription"
+                android:id="@+id/bookEdit_textDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/label_description"

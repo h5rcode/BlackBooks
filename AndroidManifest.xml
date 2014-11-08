@@ -33,8 +33,8 @@
                 android:value="com.blackbooks.activities.BookList" />
         </activity>
         <activity
-            android:name="com.blackbooks.activities.BookAdd"
-            android:label="@string/title_activity_book_add"
+            android:name="com.blackbooks.activities.BookEdit"
+            android:label="@string/title_activity_book_edit_mode_add"
             android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
