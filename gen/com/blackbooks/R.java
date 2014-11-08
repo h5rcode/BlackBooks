@@ -43,20 +43,19 @@ public final class R {
         public static final int ic_undefined_thumbnail=0x7f02000f;
     }
     public static final class id {
-        public static final int bookAdd_actionSave=0x7f09003e;
         public static final int bookAdd_frameLayout=0x7f090009;
-        public static final int bookAuthorsEdit_actionSave=0x7f09003f;
+        public static final int bookAuthorsEdit_actionSave=0x7f09003e;
         public static final int bookAuthorsEdit_authorList=0x7f090003;
         public static final int bookAuthorsEdit_buttonAddAuthor=0x7f090002;
         public static final int bookAuthorsEdit_textAuthor=0x7f090001;
         public static final int bookAuthorsEdit_textInfo=0x7f090000;
-        public static final int bookCategoriesEdit_actionSave=0x7f090040;
+        public static final int bookCategoriesEdit_actionSave=0x7f09003f;
         public static final int bookCategoriesEdit_buttonAddCategory=0x7f090006;
         public static final int bookCategoriesEdit_categoryList=0x7f090007;
         public static final int bookCategoriesEdit_textCategory=0x7f090005;
         public static final int bookCategoriesEdit_textInfo=0x7f090004;
-        public static final int bookDisplay_actionDelete=0x7f090042;
-        public static final int bookDisplay_actionEdit=0x7f090041;
+        public static final int bookDisplay_actionDelete=0x7f090041;
+        public static final int bookDisplay_actionEdit=0x7f090040;
         public static final int bookDisplay_frameLayout=0x7f090008;
         public static final int bookDisplay_groupDescription=0x7f090024;
         public static final int bookDisplay_groupInfo=0x7f090017;
@@ -77,6 +76,7 @@ public final class R {
         public static final int bookDisplay_textPublisher=0x7f09001f;
         public static final int bookDisplay_textSubtitle=0x7f090014;
         public static final int bookDisplay_textTitle=0x7f090013;
+        public static final int bookEdit_actionSave=0x7f090042;
         public static final int bookEdit_buttonEditAuthors=0x7f09002c;
         public static final int bookEdit_buttonEditCategories=0x7f090031;
         public static final int bookEdit_buttonThumbnail=0x7f090028;
@@ -139,10 +139,10 @@ public final class R {
         public static final int list_categories_item_category=0x7f03000f;
     }
     public static final class menu {
-        public static final int book_add=0x7f080000;
-        public static final int book_authors_edit=0x7f080001;
-        public static final int book_categories_edit=0x7f080002;
-        public static final int book_display=0x7f080003;
+        public static final int book_authors_edit=0x7f080000;
+        public static final int book_categories_edit=0x7f080001;
+        public static final int book_display=0x7f080002;
+        public static final int book_edit=0x7f080003;
         public static final int book_list=0x7f080004;
         public static final int isbn_enter=0x7f080005;
         public static final int thumbnail_edit=0x7f080006;
@@ -221,10 +221,10 @@ public final class R {
         public static final int text_info_isbn=0x7f060046;
         public static final int text_info_no_authors=0x7f060047;
         public static final int text_info_no_categories=0x7f060048;
-        public static final int title_activity_book_authors_edit=0x7f06004a;
-        public static final int title_activity_book_categories_edit=0x7f06004b;
-        public static final int title_activity_book_display=0x7f06004c;
-        public static final int title_activity_book_edit_mode_add=0x7f060049;
+        public static final int title_activity_book_authors_edit=0x7f060049;
+        public static final int title_activity_book_categories_edit=0x7f06004a;
+        public static final int title_activity_book_display=0x7f06004b;
+        public static final int title_activity_book_edit_mode_add=0x7f06004c;
         public static final int title_activity_book_edit_mode_edit=0x7f06004d;
         public static final int title_activity_book_list=0x7f06004e;
         public static final int title_activity_isbn_enter=0x7f06004f;

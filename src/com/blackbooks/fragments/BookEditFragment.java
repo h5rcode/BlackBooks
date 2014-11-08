@@ -54,6 +54,7 @@ import com.blackbooks.services.AuthorServices;
 import com.blackbooks.services.BookServices;
 import com.blackbooks.services.CategoryServices;
 import com.blackbooks.services.PublisherServices;
+import com.blackbooks.utils.Commons;
 import com.blackbooks.utils.StringUtils;
 import com.blackbooks.utils.VariableUtils;
 
@@ -90,6 +91,8 @@ public class BookEditFragment extends Fragment {
 	private EditText mTextPublishedDate;
 	private Button mButtonEditCategories;
 	private EditText mTextDescription;
+
+	private MenuItem mMenuItemSave;
 
 	private LanguagesAdapter mLanguagesAdapter;
 	private AutoCompleteAdapter<Publisher> mPublisherCompleteAdapter;
@@ -190,7 +193,9 @@ public class BookEditFragment extends Fragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.book_add, menu);
+		inflater.inflate(R.menu.book_edit, menu);
+		mMenuItemSave = menu.findItem(R.id.bookEdit_actionSave);
+		toggleMenuItemSave();
 	}
 
 	@Override
@@ -217,7 +222,7 @@ public class BookEditFragment extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		boolean result;
 		switch (item.getItemId()) {
-		case R.id.bookAdd_actionSave:
+		case R.id.bookEdit_actionSave:
 			result = true;
 			save();
 			break;
@@ -347,8 +352,6 @@ public class BookEditFragment extends Fragment {
 		}
 
 		handleArguments();
-
-		renderBookInfo();
 	}
 
 	/**
@@ -372,12 +375,7 @@ public class BookEditFragment extends Fragment {
 
 		case MODE_EDIT:
 			long bookId = args.getLong(ARG_BOO_ID);
-			SQLiteDatabase db = mDbHelper.getReadableDatabase();
-			mBookInfo = BookServices.getBookInfo(db, bookId);
-			db.close();
-
-			String title = getString(R.string.title_activity_book_edit_mode_edit);
-			this.getActivity().setTitle(String.format(title, mBookInfo.title));
+			new BookLoad().execute(bookId);
 			break;
 
 		default:
@@ -571,6 +569,17 @@ public class BookEditFragment extends Fragment {
 	}
 
 	/**
+	 * Enable or disable the save menu.
+	 */
+	private void toggleMenuItemSave() {
+		if (mMenuItemSave != null) {
+			boolean enable = !mIsSearching;
+			mMenuItemSave.setEnabled(enable);
+			mMenuItemSave.getIcon().setAlpha(enable ? Commons.ALPHA_ENABLED : Commons.ALPHA_DISABLED);
+		}
+	}
+
+	/**
 	 * An activity hosting a {@link BookEditFragment} should implement this
 	 * interface to be notified when the user saves.
 	 */
@@ -580,6 +589,42 @@ public class BookEditFragment extends Fragment {
 		 * Called when the user saves the book.
 		 */
 		void onSaved();
+	}
+
+	private final class BookLoad extends AsyncTask<Long, Void, BookInfo> {
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			mIsSearching = true;
+			toggleMenuItemSave();
+			mProgressBar.setVisibility(View.VISIBLE);
+			mScrollView.setVisibility(View.GONE);
+		}
+
+		@Override
+		protected BookInfo doInBackground(Long... params) {
+			long bookId = params[0];
+
+			SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
+			SQLiteDatabase db = dbHelper.getReadableDatabase();
+			BookInfo bookInfo = BookServices.getBookInfo(db, bookId);
+			db.close();
+			return bookInfo;
+		}
+
+		@Override
+		protected void onPostExecute(BookInfo result) {
+			super.onPostExecute(result);
+			mBookInfo = result;
+			String title = getString(R.string.title_activity_book_edit_mode_edit);
+			getActivity().setTitle(String.format(title, mBookInfo.title));
+			renderBookInfo();
+			mIsSearching = false;
+			mProgressBar.setVisibility(View.GONE);
+			mScrollView.setVisibility(View.VISIBLE);
+			toggleMenuItemSave();
+		}
 	}
 
 	/**
@@ -592,7 +637,11 @@ public class BookEditFragment extends Fragment {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
+
 			mIsSearching = true;
+
+			toggleMenuItemSave();
+
 			mProgressBar.setVisibility(View.VISIBLE);
 			mScrollView.setVisibility(View.GONE);
 		}
@@ -631,9 +680,11 @@ public class BookEditFragment extends Fragment {
 				}
 			}
 
+			renderBookInfo();
 			mIsSearching = false;
 			mProgressBar.setVisibility(View.GONE);
 			mScrollView.setVisibility(View.VISIBLE);
+			toggleMenuItemSave();
 		}
 	}
 }

@@ -24,15 +24,13 @@ import com.blackbooks.fragments.BookListyFirstLetterFragment;
 import com.blackbooks.helpers.FileHelper;
 import com.blackbooks.helpers.IsbnHelper;
 import com.blackbooks.helpers.Pic2ShopHelper;
+import com.blackbooks.utils.Commons;
 
 /**
  * The book list activity. It hosts an AbstractBookListFragment used to display
  * list in various orders.
  */
 public class BookList extends Activity implements BookListListener {
-
-	private static final int ALPHA_ENABLED = 255;
-	private static final int ALPHA_DISABLED = 75;
 
 	private static final String PREFERENCES = "PREFERENCES";
 	private static final String PREF_DEFAULT_LIST = "PREF_DEFAULT_LIST";
@@ -213,7 +211,7 @@ public class BookList extends Activity implements BookListListener {
 	private void toggleMenuItemLookup(boolean enable) {
 		if (mMenuSort != null) {
 			mMenuSort.setEnabled(enable);
-			mMenuSort.getIcon().setAlpha(enable ? ALPHA_ENABLED : ALPHA_DISABLED);
+			mMenuSort.getIcon().setAlpha(enable ? Commons.ALPHA_ENABLED : Commons.ALPHA_DISABLED);
 		}
 	}
 

@@ -16,15 +16,13 @@ import android.widget.TextView;
 
 import com.blackbooks.R;
 import com.blackbooks.helpers.IsbnHelper;
+import com.blackbooks.utils.Commons;
 
 /**
  * Activity to enter an ISBN number and start a search for information on the
  * internet.
  */
 public class IsbnEnter extends Activity {
-
-	private final static int ALPHA_ENABLED = 255;
-	private final static int ALPHA_DISABLED = 75;
 
 	private EditText mTextIsbn;
 	private TextView mTextStatus;
@@ -103,7 +101,7 @@ public class IsbnEnter extends Activity {
 	private void toggleMenuItemLookup() {
 		if (mMenuItemLookup != null) {
 			mMenuItemLookup.setEnabled(mEnableLookup);
-			mMenuItemLookup.getIcon().setAlpha(mEnableLookup ? ALPHA_ENABLED : ALPHA_DISABLED);
+			mMenuItemLookup.getIcon().setAlpha(mEnableLookup ? Commons.ALPHA_ENABLED : Commons.ALPHA_DISABLED);
 		}
 	}
 
