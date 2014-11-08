@@ -591,6 +591,9 @@ public class BookEditFragment extends Fragment {
 		void onSaved();
 	}
 
+	/**
+	 * Task used to load the information of a book.
+	 */
 	private final class BookLoad extends AsyncTask<Long, Void, BookInfo> {
 
 		@Override
