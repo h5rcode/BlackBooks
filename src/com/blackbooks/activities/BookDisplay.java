@@ -1,9 +1,9 @@
 package com.blackbooks.activities;
 
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 
 import com.blackbooks.R;
@@ -14,7 +14,7 @@ import com.blackbooks.model.nonpersistent.BookInfo;
 /**
  * Activity to display the info of a book saved in the database.
  */
-public final class BookDisplay extends Activity implements BookDisplayListener {
+public final class BookDisplay extends FragmentActivity implements BookDisplayListener {
 
 	/**
 	 * Key of the book id when passed as an extra of the activity.
@@ -29,7 +29,7 @@ public final class BookDisplay extends Activity implements BookDisplayListener {
 		setContentView(R.layout.activity_book_display);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		FragmentManager fm = getFragmentManager();
+		FragmentManager fm = getSupportFragmentManager();
 		BookDisplayFragment fragment = (BookDisplayFragment) fm.findFragmentByTag(BOOK_DISPLAY_FRAGMENT_TAG);
 		if (fragment == null) {
 			Intent intent = this.getIntent();

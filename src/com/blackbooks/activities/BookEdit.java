@@ -1,9 +1,9 @@
 package com.blackbooks.activities;
 
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
@@ -14,7 +14,7 @@ import com.blackbooks.fragments.BookEditFragment.BookEditListener;
 /**
  * Activity used to add a new book or edit an existing one.
  */
-public final class BookEdit extends Activity implements BookEditListener {
+public final class BookEdit extends FragmentActivity implements BookEditListener {
 
 	public static final String EXTRA_BOOK_ID = "EXTRA_BOOK_ID";
 	public static final String EXTRA_MODE = "EXTRA_MODE";
@@ -33,7 +33,7 @@ public final class BookEdit extends Activity implements BookEditListener {
 		setContentView(R.layout.activity_book_edit);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		FragmentManager fm = getFragmentManager();
+		FragmentManager fm = getSupportFragmentManager();
 		BookEditFragment fragment = (BookEditFragment) fm.findFragmentByTag(BOOK_ADD_FRAGMENT_TAG);
 		if (fragment == null) {
 			Intent intent = this.getIntent();

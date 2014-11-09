@@ -9,13 +9,13 @@ import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;

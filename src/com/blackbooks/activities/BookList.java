@@ -3,13 +3,13 @@ package com.blackbooks.activities;
 import java.io.File;
 import java.io.IOException;
 
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,7 +30,7 @@ import com.blackbooks.utils.Commons;
  * The book list activity. It hosts an AbstractBookListFragment used to display
  * list in various orders.
  */
-public class BookList extends Activity implements BookListListener {
+public class BookList extends FragmentActivity implements BookListListener {
 
 	private static final String PREFERENCES = "PREFERENCES";
 	private static final String PREF_DEFAULT_LIST = "PREF_DEFAULT_LIST";
@@ -50,7 +50,7 @@ public class BookList extends Activity implements BookListListener {
 
 		String defaultList = preferences.getString(PREF_DEFAULT_LIST, null);
 
-		FragmentManager fm = getFragmentManager();
+		FragmentManager fm = getSupportFragmentManager();
 		mCurrentFragment = (AbstractBookListFragment) fm.findFragmentByTag(BOOK_LIST_FRAGMENT_TAG);
 
 		if (mCurrentFragment == null) {
@@ -61,7 +61,7 @@ public class BookList extends Activity implements BookListListener {
 			} else if (defaultList.equals(BookListByFirstLetterFragment.class.getName())) {
 				mCurrentFragment = new BookListByFirstLetterFragment();
 			} else {
-				throw new IllegalStateException();
+				mCurrentFragment = new BookListByAuthorFragment();
 			}
 
 			fm.beginTransaction() //
@@ -113,7 +113,7 @@ public class BookList extends Activity implements BookListListener {
 				editor.commit();
 				toggleMenuItemLookup(false);
 				mCurrentFragment = new BookListByAuthorFragment();
-				getFragmentManager().beginTransaction() //
+				getSupportFragmentManager().beginTransaction() //
 						.replace(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 						.commit();
 			}
@@ -130,7 +130,7 @@ public class BookList extends Activity implements BookListListener {
 				editor.commit();
 				toggleMenuItemLookup(false);
 				mCurrentFragment = new BookListByFirstLetterFragment();
-				getFragmentManager().beginTransaction() //
+				getSupportFragmentManager().beginTransaction() //
 						.replace(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 						.commit();
 			}
