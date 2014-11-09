@@ -20,7 +20,7 @@ import com.blackbooks.database.Database;
 import com.blackbooks.fragments.AbstractBookListFragment;
 import com.blackbooks.fragments.AbstractBookListFragment.BookListListener;
 import com.blackbooks.fragments.BookListByAuthorFragment;
-import com.blackbooks.fragments.BookListyFirstLetterFragment;
+import com.blackbooks.fragments.BookListByFirstLetterFragment;
 import com.blackbooks.helpers.FileHelper;
 import com.blackbooks.helpers.IsbnHelper;
 import com.blackbooks.helpers.Pic2ShopHelper;
@@ -58,8 +58,8 @@ public class BookList extends Activity implements BookListListener {
 				mCurrentFragment = new BookListByAuthorFragment();
 			} else if (defaultList.equals(BookListByAuthorFragment.class.getName())) {
 				mCurrentFragment = new BookListByAuthorFragment();
-			} else if (defaultList.equals(BookListyFirstLetterFragment.class.getName())) {
-				mCurrentFragment = new BookListyFirstLetterFragment();
+			} else if (defaultList.equals(BookListByFirstLetterFragment.class.getName())) {
+				mCurrentFragment = new BookListByFirstLetterFragment();
 			} else {
 				throw new IllegalStateException();
 			}
@@ -123,13 +123,13 @@ public class BookList extends Activity implements BookListListener {
 		case R.id.bookList_actionSortByFirstLetter:
 			result = true;
 
-			if (!(mCurrentFragment instanceof BookListyFirstLetterFragment)) {
+			if (!(mCurrentFragment instanceof BookListByFirstLetterFragment)) {
 				sharedPref = getSharedPreferences(BookList.PREFERENCES, MODE_PRIVATE);
 				editor = sharedPref.edit();
-				editor.putString(BookList.PREF_DEFAULT_LIST, BookListyFirstLetterFragment.class.getName());
+				editor.putString(BookList.PREF_DEFAULT_LIST, BookListByFirstLetterFragment.class.getName());
 				editor.commit();
 				toggleMenuItemLookup(false);
-				mCurrentFragment = new BookListyFirstLetterFragment();
+				mCurrentFragment = new BookListByFirstLetterFragment();
 				getFragmentManager().beginTransaction() //
 						.replace(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 						.commit();

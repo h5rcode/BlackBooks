@@ -19,7 +19,7 @@ import com.blackbooks.services.BookServices;
  * Implements {@link AbstractBookListFragment}. A fragment that lists books by
  * the first letter of their title.
  */
-public class BookListyFirstLetterFragment extends AbstractBookListFragment {
+public class BookListByFirstLetterFragment extends AbstractBookListFragment {
 
 	@Override
 	protected ArrayAdapter<ListItem> getBookListAdapter() {
