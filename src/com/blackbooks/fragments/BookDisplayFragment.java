@@ -230,11 +230,13 @@ public class BookDisplayFragment extends Fragment {
 		if (mBookInfo.thumbnail != null && mBookInfo.thumbnail.length > 0) {
 			Bitmap bitmap = BitmapFactory.decodeByteArray(mBookInfo.thumbnail, 0, mBookInfo.thumbnail.length);
 			mImageCover.setImageBitmap(bitmap);
+			mImageCover.setVisibility(View.VISIBLE);
 		} else {
 			mImageCover.setVisibility(View.GONE);
 		}
 		if (mBookInfo.subtitle != null) {
 			mTextSubtitle.setText(mBookInfo.subtitle);
+			mTextSubtitle.setVisibility(View.VISIBLE);
 		} else {
 			mTextSubtitle.setVisibility(View.GONE);
 		}
@@ -249,11 +251,13 @@ public class BookDisplayFragment extends Fragment {
 		if (showInfo) {
 			if (hasPageCount) {
 				mTextPageCount.setText(mBookInfo.pageCount.toString());
+				mGroupInfoUserFriendlyPageCount.setVisibility(View.VISIBLE);
 			} else {
 				mGroupInfoUserFriendlyPageCount.setVisibility(View.GONE);
 			}
 			if (hasCategories) {
 				mTextCategory.setText(StringUtils.joinCategoryNameList(mBookInfo.categories, ", "));
+				mGroupInfoUserFriendlyCategories.setVisibility(View.VISIBLE);
 			} else {
 				mGroupInfoUserFriendlyCategories.setVisibility(View.GONE);
 			}
@@ -261,29 +265,35 @@ public class BookDisplayFragment extends Fragment {
 				Locale locale = new Locale(mBookInfo.languageCode);
 				String language = locale.getDisplayLanguage();
 				mTextLanguage.setText(StringUtils.capitalize(language));
+				mGroupInfoUserFriendlyLanguage.setVisibility(View.VISIBLE);
 			} else {
 				mGroupInfoUserFriendlyLanguage.setVisibility(View.GONE);
 			}
 			if (hasIdentifiers) {
 				mTextIsbn.setText(mBookInfo.identifiers.get(0).identifier);
+				mGroupInfoTechnicalIsbn.setVisibility(View.VISIBLE);
 			} else {
 				mGroupInfoTechnicalIsbn.setVisibility(View.GONE);
 			}
 			if (hasPublisher) {
 				mTextPublisher.setText(mBookInfo.publisher.name);
+				mGroupInfoTechnicalPublisher.setVisibility(View.VISIBLE);
 			} else {
 				mGroupInfoTechnicalPublisher.setVisibility(View.GONE);
 			}
 			if (hasPublishedDate) {
 				mTextPublishedDate.setText(mBookInfo.publishedDate);
+				mGroupInfoTechnicalPublishedDate.setVisibility(View.VISIBLE);
 			} else {
 				mGroupInfoTechnicalPublishedDate.setVisibility(View.GONE);
 			}
+			mGroupInfo.setVisibility(View.VISIBLE);
 		} else {
 			mGroupInfo.setVisibility(View.GONE);
 		}
 		if (mBookInfo.description != null) {
 			mTextDescription.setText(mBookInfo.description);
+			mGroupDescription.setVisibility(View.VISIBLE);
 
 		} else {
 			mGroupDescription.setVisibility(View.GONE);

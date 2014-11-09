@@ -24,6 +24,8 @@ public final class BookEdit extends Activity implements BookEditListener {
 	public static final int MODE_EDIT = 2;
 
 	private static final String BOOK_ADD_FRAGMENT_TAG = "BOOK_ADD_FRAGMENT_TAG";
+	
+	private int mMode;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +38,9 @@ public final class BookEdit extends Activity implements BookEditListener {
 		if (fragment == null) {
 			Intent intent = this.getIntent();
 
-			int mode = intent.getIntExtra(EXTRA_MODE, 0);
+			mMode = intent.getIntExtra(EXTRA_MODE, 0);
 
-			switch (mode) {
+			switch (mMode) {
 			case MODE_ADD:
 				String isbn = null;
 				if (intent.hasExtra(EXTRA_ISBN)) {
@@ -85,6 +87,18 @@ public final class BookEdit extends Activity implements BookEditListener {
 
 	@Override
 	public void onSaved() {
-		NavUtils.navigateUpFromSameTask(this);
+		switch (mMode) {
+		case MODE_ADD:
+			NavUtils.navigateUpFromSameTask(this);
+			break;
+			
+		case MODE_EDIT:
+			setResult(RESULT_OK);
+			finish();
+			break;
+
+		default:
+			throw new IllegalStateException("Invalid mode.");
+		}
 	}
 }

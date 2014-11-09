@@ -454,6 +454,8 @@ public class BookEditFragment extends Fragment {
 		mBookInfo.languageCode = ((Language) mSpinnerLanguage.getSelectedItem()).getCode();
 		if (pageCountString != null && StringUtils.isInteger(pageCountString)) {
 			mBookInfo.pageCount = Long.valueOf(pageCountString);
+		} else {
+			mBookInfo.pageCount = null;
 		}
 		mBookInfo.publishedDate = publishedDate;
 		mBookInfo.description = description;
@@ -471,17 +473,16 @@ public class BookEditFragment extends Fragment {
 		}
 		mBookInfo.authors = authors;
 
+		Publisher publisher = new Publisher();
 		if (publisherName != null) {
-			Publisher publisher = new Publisher();
 			publisher.name = publisherName;
 
 			Publisher publisherDb = PublisherServices.getPublisherByCriteria(db, publisher);
 			if (publisherDb != null) {
-				mBookInfo.publisher = publisherDb;
-			} else {
-				mBookInfo.publisher = publisher;
+				publisher = publisherDb;
 			}
 		}
+		mBookInfo.publisher = publisher;
 
 		ArrayList<Identifier> identifiers = new ArrayList<Identifier>();
 		if (isbn != null) {
