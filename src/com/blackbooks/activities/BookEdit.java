@@ -83,9 +83,8 @@ public final class BookEdit extends FragmentActivity implements BookLoadListener
 			} else {
 				mProgressBar.setVisibility(View.GONE);
 				mViewPager.setVisibility(View.VISIBLE);
+				createTabs();
 			}
-
-			createTabs();
 		} else {
 			Intent intent = this.getIntent();
 			mMode = intent.getIntExtra(EXTRA_MODE, 0);

@@ -24,8 +24,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -46,7 +44,6 @@ import com.blackbooks.services.AuthorServices;
 import com.blackbooks.services.BookServices;
 import com.blackbooks.services.CategoryServices;
 import com.blackbooks.services.PublisherServices;
-import com.blackbooks.utils.Commons;
 import com.blackbooks.utils.StringUtils;
 import com.blackbooks.utils.VariableUtils;
 
@@ -63,15 +60,11 @@ public class BookEditGeneralFragment extends Fragment {
 	private static final int MODE_ADD = 1;
 	private static final int MODE_EDIT = 2;
 
-	private static final String BOOK_INFO = "BOOK_INFO";
-
 	private static final int REQUEST_EDIT_AUTHORS = 1;
 	private static final int REQUEST_EDIT_CATEGORIES = 2;
 
 	private SQLiteHelper mDbHelper;
 
-	private ProgressBar mProgressBar;
-	private ScrollView mScrollView;
 	private ImageView mImageThumbnail;
 	private EditText mTextTitle;
 	private EditText mTextSubtitle;
@@ -84,15 +77,12 @@ public class BookEditGeneralFragment extends Fragment {
 	private Button mButtonEditCategories;
 	private EditText mTextDescription;
 
-	private MenuItem mMenuItemSave;
-
 	private LanguagesAdapter mLanguagesAdapter;
 	private AutoCompleteAdapter<Publisher> mPublisherCompleteAdapter;
 
 	private int mMode;
 	private BookInfo mBookInfo;
 
-	private boolean mIsSearching;
 	private BookEditListener mBookEditListener;
 
 	private boolean mValidBookInfo;
@@ -182,8 +172,6 @@ public class BookEditGeneralFragment extends Fragment {
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.book_edit, menu);
-		mMenuItemSave = menu.findItem(R.id.bookEdit_actionSave);
-		toggleMenuItemSave();
 	}
 
 	@Override
@@ -287,14 +275,6 @@ public class BookEditGeneralFragment extends Fragment {
 
 		mDbHelper = new SQLiteHelper(this.getActivity());
 
-		if (mIsSearching) {
-			mProgressBar.setVisibility(View.VISIBLE);
-			mScrollView.setVisibility(View.GONE);
-		} else {
-			mProgressBar.setVisibility(View.GONE);
-			mScrollView.setVisibility(View.VISIBLE);
-		}
-
 		registerForContextMenu(mImageThumbnail);
 		mButtonEditAuthors.setOnClickListener(new OnClickListener() {
 
@@ -343,12 +323,6 @@ public class BookEditGeneralFragment extends Fragment {
 				});
 		mTextPublisher.setAdapter(mPublisherCompleteAdapter);
 
-		if (savedInstanceState != null && savedInstanceState.containsKey(BOOK_INFO)) {
-			mBookInfo = (BookInfo) savedInstanceState.getSerializable(BOOK_INFO);
-		} else if (mBookInfo == null) {
-			mBookInfo = new BookInfo();
-		}
-
 		handleArguments();
 		renderBookInfo();
 	}
@@ -362,19 +336,11 @@ public class BookEditGeneralFragment extends Fragment {
 		mBookInfo = (BookInfo) args.getSerializable(ARG_BOOK);
 	}
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putSerializable(BOOK_INFO, mBookInfo);
-	}
-
 	/**
 	 * Find the views of the activity that will contain the book information.
 	 */
 	private void findViews() {
 		View view = getView();
-		mProgressBar = (ProgressBar) view.findViewById(R.id.bookEditGeneral_progressBar);
-		mScrollView = (ScrollView) view.findViewById(R.id.bookEditGeneral_scrollView);
 		mImageThumbnail = (ImageView) view.findViewById(R.id.bookEditGeneral_buttonThumbnail);
 		mTextTitle = (EditText) view.findViewById(R.id.bookEditGeneral_textTitle);
 		mTextSubtitle = (EditText) view.findViewById(R.id.bookEditGeneral_textSubtitle);
@@ -545,17 +511,6 @@ public class BookEditGeneralFragment extends Fragment {
 			bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_undefined_thumbnail);
 		}
 		mImageThumbnail.setImageBitmap(bitmap);
-	}
-
-	/**
-	 * Enable or disable the save menu.
-	 */
-	private void toggleMenuItemSave() {
-		if (mMenuItemSave != null) {
-			boolean enable = !mIsSearching;
-			mMenuItemSave.setEnabled(enable);
-			mMenuItemSave.getIcon().setAlpha(enable ? Commons.ALPHA_ENABLED : Commons.ALPHA_DISABLED);
-		}
 	}
 
 	/**
