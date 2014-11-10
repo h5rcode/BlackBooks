@@ -59,9 +59,9 @@ import com.blackbooks.utils.StringUtils;
 import com.blackbooks.utils.VariableUtils;
 
 /**
- * Fragment to add a new book or edit an existing one.
+ * Fragment to edit the general information of a book.
  */
-public class BookEditFragment extends Fragment {
+public class BookEditGeneralFragment extends Fragment {
 
 	public static final String ARG_ISBN = "ARG_ISBN";
 
@@ -112,8 +112,8 @@ public class BookEditFragment extends Fragment {
 	 *            ISBN number (can be null).
 	 * @return BookAddFragment.
 	 */
-	public static BookEditFragment newInstanceAddMode(String isbn) {
-		BookEditFragment instance = new BookEditFragment();
+	public static BookEditGeneralFragment newInstanceAddMode(String isbn) {
+		BookEditGeneralFragment instance = new BookEditGeneralFragment();
 
 		Bundle args = new Bundle();
 		args.putInt(ARG_MODE, MODE_ADD);
@@ -133,8 +133,8 @@ public class BookEditFragment extends Fragment {
 	 *            Id of the book to edit.
 	 * @return BookAddFragment.
 	 */
-	public static BookEditFragment newInstanceEditMode(long booId) {
-		BookEditFragment instance = new BookEditFragment();
+	public static BookEditGeneralFragment newInstanceEditMode(long booId) {
+		BookEditGeneralFragment instance = new BookEditGeneralFragment();
 		Bundle args = new Bundle();
 		args.putInt(ARG_MODE, MODE_EDIT);
 		args.putLong(ARG_BOO_ID, booId);
@@ -276,9 +276,7 @@ public class BookEditFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_book_edit, container, false);
-
-		return view;
+		return inflater.inflate(R.layout.fragment_book_edit_general, container, false);
 	}
 
 	@Override
@@ -302,14 +300,14 @@ public class BookEditFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				BookEditFragment.this.editAuthors(v);
+				BookEditGeneralFragment.this.editAuthors(v);
 			}
 		});
 		mButtonEditCategories.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				BookEditFragment.this.editCategories(v);
+				BookEditGeneralFragment.this.editCategories(v);
 
 			}
 		});
@@ -395,19 +393,19 @@ public class BookEditFragment extends Fragment {
 	 */
 	private void findViews() {
 		View view = getView();
-		mProgressBar = (ProgressBar) view.findViewById(R.id.bookEdit_progressBar);
-		mScrollView = (ScrollView) view.findViewById(R.id.bookEdit_scrollView);
-		mImageThumbnail = (ImageView) view.findViewById(R.id.bookEdit_buttonThumbnail);
-		mTextTitle = (EditText) view.findViewById(R.id.bookEdit_textTitle);
-		mTextSubtitle = (EditText) view.findViewById(R.id.bookEdit_textSubtitle);
-		mSpinnerLanguage = (Spinner) view.findViewById(R.id.bookEdit_spinnerLanguage);
-		mButtonEditAuthors = (Button) view.findViewById(R.id.bookEdit_buttonEditAuthors);
-		mTextIsbn = (EditText) view.findViewById(R.id.bookEdit_textIsbn);
-		mTextPageCount = (EditText) view.findViewById(R.id.bookEdit_textPageCount);
-		mTextPublisher = (AutoCompleteTextView) view.findViewById(R.id.bookEdit_textPublisher);
-		mTextPublishedDate = (EditText) view.findViewById(R.id.bookEdit_textPublishedDate);
-		mButtonEditCategories = (Button) view.findViewById(R.id.bookEdit_buttonEditCategories);
-		mTextDescription = (EditText) view.findViewById(R.id.bookEdit_textDescription);
+		mProgressBar = (ProgressBar) view.findViewById(R.id.bookEditGeneral_progressBar);
+		mScrollView = (ScrollView) view.findViewById(R.id.bookEditGeneral_scrollView);
+		mImageThumbnail = (ImageView) view.findViewById(R.id.bookEditGeneral_buttonThumbnail);
+		mTextTitle = (EditText) view.findViewById(R.id.bookEditGeneral_textTitle);
+		mTextSubtitle = (EditText) view.findViewById(R.id.bookEditGeneral_textSubtitle);
+		mSpinnerLanguage = (Spinner) view.findViewById(R.id.bookEditGeneral_spinnerLanguage);
+		mButtonEditAuthors = (Button) view.findViewById(R.id.bookEditGeneral_buttonEditAuthors);
+		mTextIsbn = (EditText) view.findViewById(R.id.bookEditGeneral_textIsbn);
+		mTextPageCount = (EditText) view.findViewById(R.id.bookEditGeneral_textPageCount);
+		mTextPublisher = (AutoCompleteTextView) view.findViewById(R.id.bookEditGeneral_textPublisher);
+		mTextPublishedDate = (EditText) view.findViewById(R.id.bookEditGeneral_textPublishedDate);
+		mButtonEditCategories = (Button) view.findViewById(R.id.bookEditGeneral_buttonEditCategories);
+		mTextDescription = (EditText) view.findViewById(R.id.bookEditGeneral_textDescription);
 	}
 
 	/**
@@ -581,8 +579,8 @@ public class BookEditFragment extends Fragment {
 	}
 
 	/**
-	 * An activity hosting a {@link BookEditFragment} should implement this
-	 * interface to be notified when the user saves.
+	 * An activity hosting a {@link BookEditGeneralFragment} should implement
+	 * this interface to be notified when the user saves.
 	 */
 	public interface BookEditListener {
 
@@ -678,9 +676,9 @@ public class BookEditFragment extends Fragment {
 				renderBookInfo();
 			} else {
 				if (errorMessage != null) {
-					Toast.makeText(BookEditFragment.this.getActivity(), errorMessage, Toast.LENGTH_LONG).show();
+					Toast.makeText(BookEditGeneralFragment.this.getActivity(), errorMessage, Toast.LENGTH_LONG).show();
 				} else {
-					Toast.makeText(BookEditFragment.this.getActivity(), getString(R.string.message_no_result), Toast.LENGTH_LONG).show();
+					Toast.makeText(BookEditGeneralFragment.this.getActivity(), getString(R.string.message_no_result), Toast.LENGTH_LONG).show();
 				}
 			}
 

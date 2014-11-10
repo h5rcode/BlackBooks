@@ -34,12 +34,14 @@
     <string name="label_category">Category</string>
     <string name="label_categories">Categories</string>
     <string name="label_description">Description</string>
+    <string name="label_favourite">This is a favourite book</string>
     <string name="label_isbn">ISBN</string>
     <string name="label_language">Language</string>
     <string name="label_no_language">(No language set)</string>
     <string name="label_page_count">Page count</string>
     <string name="label_publisher">Publisher</string>
     <string name="label_published_date">Published date</string>
+    <string name="label_read">I have read this book</string>
     <string name="label_subtitle">Subtitle</string>
     <string name="label_title">Title</string>
     <string name="label_unspecified_author">(Unspecified author)</string>
@@ -83,6 +85,7 @@
     <string name="title_activity_isbn_enter">Enter ISBN</string>
     <string name="title_dialog_edit_author">Edit author</string>
     <string name="title_dialog_edit_category">Edit category</string>
-    <string name="title_tab_book_edit">General</string>
+    <string name="title_tab_book_edit_general">General</string>
+    <string name="title_tab_book_edit_personal">Personal</string>
 
 </resources>

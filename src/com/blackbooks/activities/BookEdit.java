@@ -16,8 +16,9 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.MenuItem;
 
 import com.blackbooks.R;
-import com.blackbooks.fragments.BookEditFragment;
-import com.blackbooks.fragments.BookEditFragment.BookEditListener;
+import com.blackbooks.fragments.BookEditGeneralFragment;
+import com.blackbooks.fragments.BookEditPersonalFragment;
+import com.blackbooks.fragments.BookEditGeneralFragment.BookEditListener;
 
 /**
  * Activity used to add a new book or edit an existing one.
@@ -30,6 +31,9 @@ public final class BookEdit extends FragmentActivity implements BookEditListener
 
 	public static final int MODE_ADD = 1;
 	public static final int MODE_EDIT = 2;
+	
+	private static final int TAB_GENERAL = 0;
+	private static final int TAB_PERSONAL = 1;
 
 	private BookEditPagerAdapter mPagerAdapter;
 	private ViewPager mViewPager;
@@ -52,7 +56,8 @@ public final class BookEdit extends FragmentActivity implements BookEditListener
 
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		actionBar.addTab(actionBar.newTab().setText(getString(R.string.title_tab_book_edit)).setTabListener(this));
+		actionBar.addTab(actionBar.newTab().setText(getString(R.string.title_tab_book_edit_general)).setTabListener(this));
+		actionBar.addTab(actionBar.newTab().setText(getString(R.string.title_tab_book_edit_personal)).setTabListener(this));
 
 		Intent intent = this.getIntent();
 
@@ -153,8 +158,12 @@ public final class BookEdit extends FragmentActivity implements BookEditListener
 		public Fragment getItem(int position) {
 			Fragment fragment = null;
 			switch (position) {
-			case 0:
+			case TAB_GENERAL:
 				fragment = createBookEditFragment();
+				break;
+				
+			case TAB_PERSONAL:
+				fragment = new BookEditPersonalFragment();
 				break;
 
 			default:
@@ -165,7 +174,7 @@ public final class BookEdit extends FragmentActivity implements BookEditListener
 
 		@Override
 		public int getCount() {
-			return 1;
+			return 2;
 		}
 
 		/**
@@ -178,11 +187,11 @@ public final class BookEdit extends FragmentActivity implements BookEditListener
 			Fragment fragment = null;
 			switch (mMode) {
 			case MODE_ADD:
-				fragment = BookEditFragment.newInstanceAddMode(mIsbn);
+				fragment = BookEditGeneralFragment.newInstanceAddMode(mIsbn);
 				break;
 
 			case MODE_EDIT:
-				fragment = BookEditFragment.newInstanceEditMode(mBookId);
+				fragment = BookEditGeneralFragment.newInstanceEditMode(mBookId);
 				break;
 
 			default:
