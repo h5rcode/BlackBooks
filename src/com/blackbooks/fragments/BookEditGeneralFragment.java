@@ -97,6 +97,7 @@ public class BookEditGeneralFragment extends Fragment {
 	private LanguagesAdapter mLanguagesAdapter;
 	private AutoCompleteAdapter<Publisher> mPublisherCompleteAdapter;
 
+	private int mMode;
 	private BookInfo mBookInfo;
 
 	private boolean mIsSearching;
@@ -250,7 +251,19 @@ public class BookEditGeneralFragment extends Fragment {
 			VariableUtils.getInstance().setReloadBookList(true);
 
 			String title = mBookInfo.title;
-			String message = String.format(getString(R.string.message_book_added), title);
+			String message;
+			switch (mMode) {
+			case MODE_ADD:
+				message = String.format(getString(R.string.message_book_added), title);
+				break;
+
+			case MODE_EDIT:
+				message = String.format(getString(R.string.message_book_modifed), title);
+				break;
+
+			default:
+				throw new IllegalStateException();
+			}
 			Toast.makeText(this.getActivity(), message, Toast.LENGTH_LONG).show();
 
 			if (mBookEditListener != null) {
@@ -357,9 +370,9 @@ public class BookEditGeneralFragment extends Fragment {
 	 */
 	private void handleArguments() {
 		Bundle args = getArguments();
-		int mode = args.getInt(ARG_MODE);
+		mMode = args.getInt(ARG_MODE);
 
-		switch (mode) {
+		switch (mMode) {
 		case MODE_ADD:
 			String isbn = null;
 			if (args != null) {
