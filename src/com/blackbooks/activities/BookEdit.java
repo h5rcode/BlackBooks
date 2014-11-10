@@ -107,6 +107,8 @@ public final class BookEdit extends FragmentActivity implements BookLoadListener
 					}
 				} else {
 					mBookInfo = new BookInfo();
+					mProgressBar.setVisibility(View.GONE);
+					mViewPager.setVisibility(View.VISIBLE);
 					createTabs();
 				}
 				break;
@@ -212,7 +214,11 @@ public final class BookEdit extends FragmentActivity implements BookLoadListener
 
 	@Override
 	public void onSearchFinished(BookInfo bookInfo) {
-		mBookInfo = bookInfo;
+		if (bookInfo != null) {
+			mBookInfo = bookInfo;
+		} else {
+			mBookInfo = new BookInfo();
+		}
 		createTabs();
 		mProgressBar.setVisibility(View.GONE);
 		mViewPager.setVisibility(View.VISIBLE);
