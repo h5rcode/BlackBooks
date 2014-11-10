@@ -1,19 +1,12 @@
 package com.blackbooks.fragments;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
-
-import org.apache.http.client.ClientProtocolException;
-import org.json.JSONException;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
@@ -49,7 +42,6 @@ import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Identifier;
 import com.blackbooks.model.persistent.Publisher;
-import com.blackbooks.search.BookSearcher;
 import com.blackbooks.services.AuthorServices;
 import com.blackbooks.services.BookServices;
 import com.blackbooks.services.CategoryServices;
@@ -65,7 +57,7 @@ public class BookEditGeneralFragment extends Fragment {
 
 	public static final String ARG_ISBN = "ARG_ISBN";
 
-	private static final String ARG_BOO_ID = "ARG_BOO_ID";
+	private static final String ARG_BOOK = "ARG_BOOK";
 	private static final String ARG_MODE = "ARG_MODE";
 
 	private static final int MODE_ADD = 1;
@@ -106,39 +98,34 @@ public class BookEditGeneralFragment extends Fragment {
 	private boolean mValidBookInfo;
 
 	/**
-	 * Create a new instance of BookAddFragment. The parameter {@code isbn} can
-	 * be used to initiate an internet search for some info.
+	 * Create a new instance of BookAddFragment in add mode.
 	 * 
-	 * @param isbn
-	 *            ISBN number (can be null).
+	 * @param bookInfo
+	 *            Book to edit.
 	 * @return BookAddFragment.
 	 */
-	public static BookEditGeneralFragment newInstanceAddMode(String isbn) {
+	public static BookEditGeneralFragment newInstanceAddMode(BookInfo bookInfo) {
 		BookEditGeneralFragment instance = new BookEditGeneralFragment();
-
 		Bundle args = new Bundle();
 		args.putInt(ARG_MODE, MODE_ADD);
-		if (isbn != null) {
-			args.putString(ARG_ISBN, isbn);
-		}
-
+		args.putInt(ARG_MODE, MODE_EDIT);
+		args.putSerializable(ARG_BOOK, bookInfo);
 		instance.setArguments(args);
 		return instance;
 	}
 
 	/**
-	 * Create a new instance of BookAddFragment in edit mode. The parameter
-	 * {@code booId} represents the id of the edited book.
+	 * Create a new instance of BookAddFragment in edit mode.
 	 * 
-	 * @param booId
-	 *            Id of the book to edit.
+	 * @param bookInfo
+	 *            Book to edit.
 	 * @return BookAddFragment.
 	 */
-	public static BookEditGeneralFragment newInstanceEditMode(long booId) {
+	public static BookEditGeneralFragment newInstanceEditMode(BookInfo bookInfo) {
 		BookEditGeneralFragment instance = new BookEditGeneralFragment();
 		Bundle args = new Bundle();
 		args.putInt(ARG_MODE, MODE_EDIT);
-		args.putLong(ARG_BOO_ID, booId);
+		args.putSerializable(ARG_BOOK, bookInfo);
 		instance.setArguments(args);
 		return instance;
 	}
@@ -363,6 +350,7 @@ public class BookEditGeneralFragment extends Fragment {
 		}
 
 		handleArguments();
+		renderBookInfo();
 	}
 
 	/**
@@ -371,28 +359,7 @@ public class BookEditGeneralFragment extends Fragment {
 	private void handleArguments() {
 		Bundle args = getArguments();
 		mMode = args.getInt(ARG_MODE);
-
-		switch (mMode) {
-		case MODE_ADD:
-			String isbn = null;
-			if (args != null) {
-				isbn = args.getString(ARG_ISBN);
-				args.remove(ARG_ISBN);
-			}
-			if (isbn != null) {
-				new BookSearch().execute(isbn);
-			}
-			break;
-
-		case MODE_EDIT:
-			long bookId = args.getLong(ARG_BOO_ID);
-			new BookLoad().execute(bookId);
-			break;
-
-		default:
-			throw new IllegalStateException("Argument " + ARG_MODE + " not set.");
-		}
-
+		mBookInfo = (BookInfo) args.getSerializable(ARG_BOOK);
 	}
 
 	@Override
@@ -603,103 +570,4 @@ public class BookEditGeneralFragment extends Fragment {
 		void onSaved();
 	}
 
-	/**
-	 * Task used to load the information of a book.
-	 */
-	private final class BookLoad extends AsyncTask<Long, Void, BookInfo> {
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			mIsSearching = true;
-			toggleMenuItemSave();
-			mProgressBar.setVisibility(View.VISIBLE);
-			mScrollView.setVisibility(View.GONE);
-		}
-
-		@Override
-		protected BookInfo doInBackground(Long... params) {
-			long bookId = params[0];
-
-			SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
-			SQLiteDatabase db = dbHelper.getReadableDatabase();
-			BookInfo bookInfo = BookServices.getBookInfo(db, bookId);
-			db.close();
-			return bookInfo;
-		}
-
-		@Override
-		protected void onPostExecute(BookInfo result) {
-			super.onPostExecute(result);
-			mBookInfo = result;
-			String title = getString(R.string.title_activity_book_edit_mode_edit);
-			getActivity().setTitle(String.format(title, mBookInfo.title));
-			renderBookInfo();
-			mIsSearching = false;
-			mProgressBar.setVisibility(View.GONE);
-			mScrollView.setVisibility(View.VISIBLE);
-			toggleMenuItemSave();
-		}
-	}
-
-	/**
-	 * Task performing the search for a book.
-	 */
-	private final class BookSearch extends AsyncTask<String, Void, BookInfo> {
-
-		private String errorMessage = null;
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-
-			mIsSearching = true;
-
-			toggleMenuItemSave();
-
-			mProgressBar.setVisibility(View.VISIBLE);
-			mScrollView.setVisibility(View.GONE);
-		}
-
-		@Override
-		protected BookInfo doInBackground(String... params) {
-			String barCode = params[0];
-			BookInfo book = null;
-			try {
-				book = BookSearcher.search(barCode);
-			} catch (ClientProtocolException e) {
-				errorMessage = getString(R.string.error_connection_problem);
-			} catch (JSONException e) {
-				errorMessage = getString(R.string.error_json_exception);
-			} catch (URISyntaxException e) {
-				errorMessage = getString(R.string.error_uri_syntax);
-			} catch (UnknownHostException e) {
-				errorMessage = getString(R.string.error_connection_problem);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-			return book;
-		}
-
-		@Override
-		protected void onPostExecute(BookInfo result) {
-			super.onPostExecute(result);
-			if (result != null) {
-				mBookInfo = result;
-				renderBookInfo();
-			} else {
-				if (errorMessage != null) {
-					Toast.makeText(BookEditGeneralFragment.this.getActivity(), errorMessage, Toast.LENGTH_LONG).show();
-				} else {
-					Toast.makeText(BookEditGeneralFragment.this.getActivity(), getString(R.string.message_no_result), Toast.LENGTH_LONG).show();
-				}
-			}
-
-			renderBookInfo();
-			mIsSearching = false;
-			mProgressBar.setVisibility(View.GONE);
-			mScrollView.setVisibility(View.VISIBLE);
-			toggleMenuItemSave();
-		}
-	}
 }
