@@ -1,10 +1,18 @@
 package com.blackbooks.activities;
 
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.ActionBar.TabListener;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.MenuItem;
 
 import com.blackbooks.R;
@@ -14,7 +22,7 @@ import com.blackbooks.fragments.BookEditFragment.BookEditListener;
 /**
  * Activity used to add a new book or edit an existing one.
  */
-public final class BookEdit extends FragmentActivity implements BookEditListener {
+public final class BookEdit extends FragmentActivity implements BookEditListener, OnPageChangeListener, TabListener {
 
 	public static final String EXTRA_BOOK_ID = "EXTRA_BOOK_ID";
 	public static final String EXTRA_MODE = "EXTRA_MODE";
@@ -23,48 +31,50 @@ public final class BookEdit extends FragmentActivity implements BookEditListener
 	public static final int MODE_ADD = 1;
 	public static final int MODE_EDIT = 2;
 
-	private static final String BOOK_ADD_FRAGMENT_TAG = "BOOK_ADD_FRAGMENT_TAG";
-	
+	private BookEditPagerAdapter mPagerAdapter;
+	private ViewPager mViewPager;
+
 	private int mMode;
+	private String mIsbn;
+	private long mBookId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_book_edit);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		FragmentManager fm = getSupportFragmentManager();
-		BookEditFragment fragment = (BookEditFragment) fm.findFragmentByTag(BOOK_ADD_FRAGMENT_TAG);
-		if (fragment == null) {
-			Intent intent = this.getIntent();
+		mPagerAdapter = new BookEditPagerAdapter(getSupportFragmentManager());
+		mViewPager = (ViewPager) findViewById(R.id.bookEdit_viewPager);
+		mViewPager.setAdapter(mPagerAdapter);
+		mViewPager.setOnPageChangeListener(this);
 
-			mMode = intent.getIntExtra(EXTRA_MODE, 0);
+		ActionBar actionBar = getActionBar();
 
-			switch (mMode) {
-			case MODE_ADD:
-				String isbn = null;
-				if (intent.hasExtra(EXTRA_ISBN)) {
-					isbn = intent.getStringExtra(EXTRA_ISBN);
-				}
-				fragment = BookEditFragment.newInstanceAddMode(isbn);
-				break;
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.addTab(actionBar.newTab().setText(getString(R.string.title_tab_book_edit)).setTabListener(this));
 
-			case MODE_EDIT:
-				if (intent.hasExtra(EXTRA_BOOK_ID)) {
-					long booId = intent.getLongExtra(EXTRA_BOOK_ID, 0);
-					fragment = BookEditFragment.newInstanceEditMode(booId);
-				} else {
-					throw new IllegalStateException("Extra " + EXTRA_BOOK_ID + " not set.");
-				}
-				break;
+		Intent intent = this.getIntent();
 
-			default:
-				throw new IllegalStateException("Extra " + EXTRA_MODE + " not set");
+		mMode = intent.getIntExtra(EXTRA_MODE, 0);
+
+		switch (mMode) {
+		case MODE_ADD:
+			if (intent.hasExtra(EXTRA_ISBN)) {
+				mIsbn = intent.getStringExtra(EXTRA_ISBN);
 			}
+			break;
 
-			fm.beginTransaction() //
-					.add(R.id.bookAdd_frameLayout, fragment, BOOK_ADD_FRAGMENT_TAG) //
-					.commit();
+		case MODE_EDIT:
+			if (intent.hasExtra(EXTRA_BOOK_ID)) {
+				mBookId = intent.getLongExtra(EXTRA_BOOK_ID, 0);
+			} else {
+				throw new IllegalStateException("Extra " + EXTRA_BOOK_ID + " not set.");
+			}
+			break;
+
+		default:
+			throw new IllegalStateException("Extra " + EXTRA_MODE + " not set");
 		}
 	}
 
@@ -91,7 +101,7 @@ public final class BookEdit extends FragmentActivity implements BookEditListener
 		case MODE_ADD:
 			NavUtils.navigateUpFromSameTask(this);
 			break;
-			
+
 		case MODE_EDIT:
 			setResult(RESULT_OK);
 			finish();
@@ -99,6 +109,86 @@ public final class BookEdit extends FragmentActivity implements BookEditListener
 
 		default:
 			throw new IllegalStateException("Invalid mode.");
+		}
+	}
+
+	@Override
+	public void onPageScrollStateChanged(int arg0) {
+
+	}
+
+	@Override
+	public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+	}
+
+	@Override
+	public void onPageSelected(int position) {
+		getActionBar().setSelectedNavigationItem(position);
+	}
+
+	@Override
+	public void onTabSelected(Tab tab, FragmentTransaction ft) {
+		mViewPager.setCurrentItem(tab.getPosition());
+	}
+
+	@Override
+	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+	}
+
+	@Override
+	public void onTabReselected(Tab tab, FragmentTransaction ft) {
+	}
+
+	/**
+	 * FragmentPagerAdapter used to define the different tabs of the activity.
+	 */
+	public class BookEditPagerAdapter extends FragmentPagerAdapter {
+
+		public BookEditPagerAdapter(FragmentManager fm) {
+			super(fm);
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			Fragment fragment = null;
+			switch (position) {
+			case 0:
+				fragment = createBookEditFragment();
+				break;
+
+			default:
+				throw new IllegalStateException();
+			}
+			return fragment;
+		}
+
+		@Override
+		public int getCount() {
+			return 1;
+		}
+
+		/**
+		 * Return a new instance of BookEditFragment, depending on the current
+		 * mode of the activity (add or edit).
+		 * 
+		 * @return BookEditFragment.
+		 */
+		private Fragment createBookEditFragment() {
+			Fragment fragment = null;
+			switch (mMode) {
+			case MODE_ADD:
+				fragment = BookEditFragment.newInstanceAddMode(mIsbn);
+				break;
+
+			case MODE_EDIT:
+				fragment = BookEditFragment.newInstanceEditMode(mBookId);
+				break;
+
+			default:
+				throw new IllegalStateException();
+			}
+			return fragment;
 		}
 	}
 }

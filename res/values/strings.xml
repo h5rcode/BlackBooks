@@ -83,5 +83,6 @@
     <string name="title_activity_isbn_enter">Enter ISBN</string>
     <string name="title_dialog_edit_author">Edit author</string>
     <string name="title_dialog_edit_category">Edit category</string>
+    <string name="title_tab_book_edit">General</string>
 
 </resources>
