@@ -5,6 +5,7 @@ import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -13,25 +14,28 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.blackbooks.R;
+import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.BookEditGeneralFragment;
-import com.blackbooks.fragments.BookEditGeneralFragment.BookEditListener;
 import com.blackbooks.fragments.BookEditPersonalFragment;
 import com.blackbooks.fragments.BookLoadFragment;
 import com.blackbooks.fragments.BookLoadFragment.BookLoadListener;
-import com.blackbooks.fragments.BookSearchFragment.BookSearchListener;
 import com.blackbooks.fragments.BookSearchFragment;
+import com.blackbooks.fragments.BookSearchFragment.BookSearchListener;
 import com.blackbooks.model.nonpersistent.BookInfo;
+import com.blackbooks.services.BookServices;
+import com.blackbooks.utils.VariableUtils;
 
 /**
  * Activity used to add a new book or edit an existing one.
  */
-public final class BookEdit extends FragmentActivity implements BookLoadListener, BookSearchListener, BookEditListener, OnPageChangeListener,
-		TabListener {
+public final class BookEdit extends FragmentActivity implements BookLoadListener, BookSearchListener, OnPageChangeListener, TabListener {
 
 	public static final String EXTRA_BOOK_ID = "EXTRA_BOOK_ID";
 	public static final String EXTRA_MODE = "EXTRA_MODE";
@@ -43,6 +47,7 @@ public final class BookEdit extends FragmentActivity implements BookLoadListener
 	private static final String STATE_MODE = "STATE_MODE";
 	private static final String STATE_IS_LOADING = "STATE_IS_LOADING";
 	private static final String STATE_IS_SEARCHING = "STATE_IS_SEARCHING";
+	private static final String STATE_BOOK_INFO = "STATE_BOOK_INFO";
 
 	private static final int TAB_GENERAL = 0;
 	private static final int TAB_PERSONAL = 1;
@@ -53,7 +58,9 @@ public final class BookEdit extends FragmentActivity implements BookLoadListener
 	private ProgressBar mProgressBar;
 	private BookEditPagerAdapter mPagerAdapter;
 	private ViewPager mViewPager;
+
 	private BookEditGeneralFragment mBookEditGeneralFragment;
+	private BookEditPersonalFragment mBookEditPersonalFragment;
 
 	private int mMode;
 	private boolean mIsLoading;
@@ -75,7 +82,9 @@ public final class BookEdit extends FragmentActivity implements BookLoadListener
 			mMode = savedInstanceState.getInt(STATE_MODE);
 			mIsLoading = savedInstanceState.getBoolean(STATE_IS_LOADING);
 			mIsSearching = savedInstanceState.getBoolean(STATE_IS_SEARCHING);
+			mBookInfo = (BookInfo) savedInstanceState.getSerializable(STATE_BOOK_INFO);
 			mBookEditGeneralFragment = (BookEditGeneralFragment) fm.getFragment(savedInstanceState, BookEditGeneralFragment.class.getName());
+			mBookEditPersonalFragment = (BookEditPersonalFragment) fm.getFragment(savedInstanceState, BookEditPersonalFragment.class.getName());
 
 			if (mIsLoading || mIsSearching) {
 				mProgressBar.setVisibility(View.VISIBLE);
@@ -134,7 +143,7 @@ public final class BookEdit extends FragmentActivity implements BookLoadListener
 				break;
 
 			default:
-				throw new IllegalStateException("Extra " + EXTRA_MODE + " not set");
+				throw new IllegalStateException("Extra " + EXTRA_MODE + " not set.");
 			}
 		}
 	}
@@ -145,17 +154,32 @@ public final class BookEdit extends FragmentActivity implements BookLoadListener
 		outState.putInt(STATE_MODE, mMode);
 		outState.putBoolean(STATE_IS_LOADING, mIsLoading);
 		outState.putBoolean(STATE_IS_SEARCHING, mIsSearching);
+		outState.putSerializable(STATE_BOOK_INFO, mBookInfo);
 
 		FragmentManager fm = getSupportFragmentManager();
 		if (mBookEditGeneralFragment != null) {
 			fm.putFragment(outState, BookEditGeneralFragment.class.getName(), mBookEditGeneralFragment);
 		}
+		if (mBookEditPersonalFragment != null) {
+			fm.putFragment(outState, BookEditPersonalFragment.class.getName(), mBookEditPersonalFragment);
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.book_edit, menu);
+		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		boolean result;
 		switch (item.getItemId()) {
+
+		case R.id.bookEdit_actionSave:
+			result = true;
+			save();
+			break;
 
 		case android.R.id.home:
 			finish();
@@ -167,23 +191,6 @@ public final class BookEdit extends FragmentActivity implements BookLoadListener
 			break;
 		}
 		return result;
-	}
-
-	@Override
-	public void onSaved() {
-		switch (mMode) {
-		case MODE_ADD:
-			NavUtils.navigateUpFromSameTask(this);
-			break;
-
-		case MODE_EDIT:
-			setResult(RESULT_OK);
-			finish();
-			break;
-
-		default:
-			throw new IllegalStateException("Invalid mode.");
-		}
 	}
 
 	@Override
@@ -200,11 +207,12 @@ public final class BookEdit extends FragmentActivity implements BookLoadListener
 
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
+		// Do nothing.
 	}
 
 	@Override
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
-
+		// Do nothing.
 	}
 
 	@Override
@@ -232,10 +240,12 @@ public final class BookEdit extends FragmentActivity implements BookLoadListener
 
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+		// Do nothing.
 	}
 
 	@Override
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
+		// Do nothing.
 	}
 
 	/**
@@ -253,10 +263,54 @@ public final class BookEdit extends FragmentActivity implements BookLoadListener
 	}
 
 	/**
+	 * Save the book information in the database.
+	 */
+	private void save() {
+		if (mBookEditGeneralFragment != null) {
+			boolean isValid = mBookEditGeneralFragment.readBookInfo(mBookInfo);
+
+			if (isValid) {
+				SQLiteHelper dbHelper = new SQLiteHelper(this);
+				SQLiteDatabase db = dbHelper.getWritableDatabase();
+				BookServices.saveBookInfo(db, mBookInfo);
+				db.close();
+
+				VariableUtils.getInstance().setReloadBookList(true);
+
+				String title = mBookInfo.title;
+				String message;
+				switch (mMode) {
+				case MODE_ADD:
+					message = String.format(getString(R.string.message_book_added), title);
+					Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+					NavUtils.navigateUpFromSameTask(this);
+					break;
+
+				case MODE_EDIT:
+					message = String.format(getString(R.string.message_book_modifed), title);
+					Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+					setResult(RESULT_OK);
+					finish();
+					break;
+
+				default:
+					throw new IllegalStateException();
+				}
+			}
+		}
+	}
+
+	/**
 	 * FragmentPagerAdapter used to define the different tabs of the activity.
 	 */
 	public class BookEditPagerAdapter extends FragmentPagerAdapter {
 
+		/**
+		 * Constructor.
+		 * 
+		 * @param fm
+		 *            FragmentManager.
+		 */
 		public BookEditPagerAdapter(FragmentManager fm) {
 			super(fm);
 		}
@@ -266,12 +320,17 @@ public final class BookEdit extends FragmentActivity implements BookLoadListener
 			Fragment fragment = null;
 			switch (position) {
 			case TAB_GENERAL:
-				createBookEditFragment();
+				if (mBookEditGeneralFragment == null) {
+					mBookEditGeneralFragment = BookEditGeneralFragment.newInstance(mBookInfo);
+				}
 				fragment = mBookEditGeneralFragment;
 				break;
 
 			case TAB_PERSONAL:
-				fragment = new BookEditPersonalFragment();
+				if (mBookEditPersonalFragment == null) {
+					mBookEditPersonalFragment = new BookEditPersonalFragment();
+				}
+				fragment = mBookEditPersonalFragment;
 				break;
 
 			default:
@@ -283,27 +342,6 @@ public final class BookEdit extends FragmentActivity implements BookLoadListener
 		@Override
 		public int getCount() {
 			return 2;
-		}
-
-		/**
-		 * If there is not already an instance of BookEditFragment, create a new
-		 * one.
-		 */
-		private void createBookEditFragment() {
-			if (mBookEditGeneralFragment == null) {
-				switch (mMode) {
-				case MODE_ADD:
-					mBookEditGeneralFragment = BookEditGeneralFragment.newInstanceAddMode(mBookInfo);
-					break;
-
-				case MODE_EDIT:
-					mBookEditGeneralFragment = BookEditGeneralFragment.newInstanceEditMode(mBookInfo);
-					break;
-
-				default:
-					throw new IllegalStateException();
-				}
-			}
 		}
 	}
 }

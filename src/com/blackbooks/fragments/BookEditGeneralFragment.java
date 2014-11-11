@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +24,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.blackbooks.R;
 import com.blackbooks.activities.BookAuthorsEdit;
@@ -41,24 +39,16 @@ import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Identifier;
 import com.blackbooks.model.persistent.Publisher;
 import com.blackbooks.services.AuthorServices;
-import com.blackbooks.services.BookServices;
 import com.blackbooks.services.CategoryServices;
 import com.blackbooks.services.PublisherServices;
 import com.blackbooks.utils.StringUtils;
-import com.blackbooks.utils.VariableUtils;
 
 /**
  * Fragment to edit the general information of a book.
  */
 public class BookEditGeneralFragment extends Fragment {
 
-	public static final String ARG_ISBN = "ARG_ISBN";
-
 	private static final String ARG_BOOK = "ARG_BOOK";
-	private static final String ARG_MODE = "ARG_MODE";
-
-	private static final int MODE_ADD = 1;
-	private static final int MODE_EDIT = 2;
 
 	private static final int REQUEST_EDIT_AUTHORS = 1;
 	private static final int REQUEST_EDIT_CATEGORIES = 2;
@@ -80,52 +70,23 @@ public class BookEditGeneralFragment extends Fragment {
 	private LanguagesAdapter mLanguagesAdapter;
 	private AutoCompleteAdapter<Publisher> mPublisherCompleteAdapter;
 
-	private int mMode;
 	private BookInfo mBookInfo;
-
-	private BookEditListener mBookEditListener;
 
 	private boolean mValidBookInfo;
 
 	/**
-	 * Create a new instance of BookAddFragment in add mode.
+	 * Create a new instance of BookAddFragment.
 	 * 
 	 * @param bookInfo
 	 *            Book to edit.
-	 * @return BookAddFragment.
+	 * @return BookEditGeneralFragment.
 	 */
-	public static BookEditGeneralFragment newInstanceAddMode(BookInfo bookInfo) {
+	public static BookEditGeneralFragment newInstance(BookInfo bookInfo) {
 		BookEditGeneralFragment instance = new BookEditGeneralFragment();
 		Bundle args = new Bundle();
-		args.putInt(ARG_MODE, MODE_ADD);
-		args.putInt(ARG_MODE, MODE_EDIT);
 		args.putSerializable(ARG_BOOK, bookInfo);
 		instance.setArguments(args);
 		return instance;
-	}
-
-	/**
-	 * Create a new instance of BookAddFragment in edit mode.
-	 * 
-	 * @param bookInfo
-	 *            Book to edit.
-	 * @return BookAddFragment.
-	 */
-	public static BookEditGeneralFragment newInstanceEditMode(BookInfo bookInfo) {
-		BookEditGeneralFragment instance = new BookEditGeneralFragment();
-		Bundle args = new Bundle();
-		args.putInt(ARG_MODE, MODE_EDIT);
-		args.putSerializable(ARG_BOOK, bookInfo);
-		instance.setArguments(args);
-		return instance;
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		if (activity instanceof BookEditListener) {
-			mBookEditListener = (BookEditListener) activity;
-		}
 	}
 
 	@Override
@@ -135,43 +96,11 @@ public class BookEditGeneralFragment extends Fragment {
 		setHasOptionsMenu(true);
 	}
 
-	/**
-	 * Start the activity to edit the list of authors.
-	 * 
-	 * @param view
-	 *            View.
-	 */
-	public void editAuthors(View view) {
-		Intent intent = new Intent(this.getActivity(), BookAuthorsEdit.class);
-		intent.putExtra(BookAuthorsEdit.EXTRA_BOOK_TITLE, mTextTitle.getText().toString());
-		intent.putExtra(BookAuthorsEdit.EXTRA_AUTHOR_LIST, mBookInfo.authors);
-		startActivityForResult(intent, REQUEST_EDIT_AUTHORS);
-	}
-
-	/**
-	 * Start the activity to edit the list of categories.
-	 * 
-	 * @param view
-	 *            View.
-	 */
-	public void editCategories(View view) {
-		Intent intent = new Intent(this.getActivity(), BookCategoriesEdit.class);
-		intent.putExtra(BookCategoriesEdit.EXTRA_BOOK_TITLE, mTextTitle.getText().toString());
-		intent.putExtra(BookCategoriesEdit.EXTRA_CATEGORY_LIST, mBookInfo.categories);
-		startActivityForResult(intent, REQUEST_EDIT_CATEGORIES);
-	}
-
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		MenuInflater inflater = getActivity().getMenuInflater();
 		inflater.inflate(R.menu.thumbnail_edit, menu);
-	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.book_edit, menu);
 	}
 
 	@Override
@@ -192,59 +121,6 @@ public class BookEditGeneralFragment extends Fragment {
 		}
 
 		return result;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		boolean result;
-		switch (item.getItemId()) {
-		case R.id.bookEdit_actionSave:
-			result = true;
-			save();
-			break;
-
-		default:
-			result = super.onOptionsItemSelected(item);
-			break;
-		}
-		return result;
-	}
-
-	/**
-	 * Save the new book and finish the activity.
-	 */
-	public void save() {
-		mValidBookInfo = true;
-		readBookInfo();
-
-		if (mValidBookInfo) {
-			SQLiteHelper dbHelper = new SQLiteHelper(this.getActivity());
-			SQLiteDatabase db = dbHelper.getWritableDatabase();
-			BookServices.saveBookInfo(db, mBookInfo);
-			db.close();
-
-			VariableUtils.getInstance().setReloadBookList(true);
-
-			String title = mBookInfo.title;
-			String message;
-			switch (mMode) {
-			case MODE_ADD:
-				message = String.format(getString(R.string.message_book_added), title);
-				break;
-
-			case MODE_EDIT:
-				message = String.format(getString(R.string.message_book_modifed), title);
-				break;
-
-			default:
-				throw new IllegalStateException();
-			}
-			Toast.makeText(this.getActivity(), message, Toast.LENGTH_LONG).show();
-
-			if (mBookEditListener != null) {
-				mBookEditListener.onSaved();
-			}
-		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -328,12 +204,106 @@ public class BookEditGeneralFragment extends Fragment {
 	}
 
 	/**
-	 * Handle the arguments of the fragment.
+	 * Validate the user input and read the book info from the view.
+	 * 
+	 * @param bookInfo
+	 *            BookInfo.
+	 * @return True if the book information is valid, false otherwise.
 	 */
-	private void handleArguments() {
-		Bundle args = getArguments();
-		mMode = args.getInt(ARG_MODE);
-		mBookInfo = (BookInfo) args.getSerializable(ARG_BOOK);
+	public boolean readBookInfo(BookInfo bookInfo) {
+		mValidBookInfo = true;
+
+		String title = getEditTextValue(mTextTitle, true);
+		String subtitle = getEditTextValue(mTextSubtitle, false);
+		String isbn = getEditTextValue(mTextIsbn, false);
+		String pageCountString = getEditTextValue(mTextPageCount, false);
+		String publisherName = getEditTextValue(mTextPublisher, false);
+		String publishedDate = getEditTextValue(mTextPublishedDate, false);
+		String description = getEditTextValue(mTextDescription, false);
+
+		bookInfo.title = title;
+		bookInfo.subtitle = subtitle;
+		bookInfo.languageCode = ((Language) mSpinnerLanguage.getSelectedItem()).getCode();
+		if (pageCountString != null && StringUtils.isInteger(pageCountString)) {
+			bookInfo.pageCount = Long.valueOf(pageCountString);
+		} else {
+			bookInfo.pageCount = null;
+		}
+		bookInfo.publishedDate = publishedDate;
+		bookInfo.description = description;
+
+		SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+		ArrayList<Author> authors = new ArrayList<Author>();
+		for (Author author : bookInfo.authors) {
+			Author authorDb = AuthorServices.getAuthorByCriteria(db, author);
+			if (authorDb != null) {
+				authors.add(authorDb);
+			} else {
+				authors.add(author);
+			}
+		}
+		bookInfo.authors = authors;
+
+		Publisher publisher = new Publisher();
+		if (publisherName != null) {
+			publisher.name = publisherName;
+
+			Publisher publisherDb = PublisherServices.getPublisherByCriteria(db, publisher);
+			if (publisherDb != null) {
+				publisher = publisherDb;
+			}
+		}
+		bookInfo.publisher = publisher;
+
+		ArrayList<Identifier> identifiers = new ArrayList<Identifier>();
+		if (isbn != null) {
+			Identifier identifier = new Identifier();
+			identifier.identifier = isbn;
+			identifiers.add(identifier);
+		}
+		bookInfo.identifiers = identifiers;
+
+		ArrayList<Category> categories = new ArrayList<Category>();
+		for (Category category : bookInfo.categories) {
+			Category categoryDb = CategoryServices.getCategoryByCriteria(db, category);
+			if (categoryDb != null) {
+				categories.add(categoryDb);
+			} else {
+				categories.add(category);
+			}
+		}
+		bookInfo.categories = categories;
+
+		db.close();
+
+		return mValidBookInfo;
+	}
+
+	/**
+	 * Start the activity to edit the list of authors.
+	 * 
+	 * @param view
+	 *            View.
+	 */
+	private void editAuthors(View view) {
+		Intent intent = new Intent(this.getActivity(), BookAuthorsEdit.class);
+		intent.putExtra(BookAuthorsEdit.EXTRA_BOOK_TITLE, mTextTitle.getText().toString());
+		intent.putExtra(BookAuthorsEdit.EXTRA_AUTHOR_LIST, mBookInfo.authors);
+		startActivityForResult(intent, REQUEST_EDIT_AUTHORS);
+	}
+
+	/**
+	 * Start the activity to edit the list of categories.
+	 * 
+	 * @param view
+	 *            View.
+	 */
+	private void editCategories(View view) {
+		Intent intent = new Intent(this.getActivity(), BookCategoriesEdit.class);
+		intent.putExtra(BookCategoriesEdit.EXTRA_BOOK_TITLE, mTextTitle.getText().toString());
+		intent.putExtra(BookCategoriesEdit.EXTRA_CATEGORY_LIST, mBookInfo.categories);
+		startActivityForResult(intent, REQUEST_EDIT_CATEGORIES);
 	}
 
 	/**
@@ -381,73 +351,11 @@ public class BookEditGeneralFragment extends Fragment {
 	}
 
 	/**
-	 * Validate the user input and read the book info from the view.
+	 * Handle the arguments of the fragment.
 	 */
-	private void readBookInfo() {
-
-		String title = getEditTextValue(mTextTitle, true);
-		String subtitle = getEditTextValue(mTextSubtitle, false);
-		String isbn = getEditTextValue(mTextIsbn, false);
-		String pageCountString = getEditTextValue(mTextPageCount, false);
-		String publisherName = getEditTextValue(mTextPublisher, false);
-		String publishedDate = getEditTextValue(mTextPublishedDate, false);
-		String description = getEditTextValue(mTextDescription, false);
-
-		mBookInfo.title = title;
-		mBookInfo.subtitle = subtitle;
-		mBookInfo.languageCode = ((Language) mSpinnerLanguage.getSelectedItem()).getCode();
-		if (pageCountString != null && StringUtils.isInteger(pageCountString)) {
-			mBookInfo.pageCount = Long.valueOf(pageCountString);
-		} else {
-			mBookInfo.pageCount = null;
-		}
-		mBookInfo.publishedDate = publishedDate;
-		mBookInfo.description = description;
-
-		SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
-		ArrayList<Author> authors = new ArrayList<Author>();
-		for (Author author : mBookInfo.authors) {
-			Author authorDb = AuthorServices.getAuthorByCriteria(db, author);
-			if (authorDb != null) {
-				authors.add(authorDb);
-			} else {
-				authors.add(author);
-			}
-		}
-		mBookInfo.authors = authors;
-
-		Publisher publisher = new Publisher();
-		if (publisherName != null) {
-			publisher.name = publisherName;
-
-			Publisher publisherDb = PublisherServices.getPublisherByCriteria(db, publisher);
-			if (publisherDb != null) {
-				publisher = publisherDb;
-			}
-		}
-		mBookInfo.publisher = publisher;
-
-		ArrayList<Identifier> identifiers = new ArrayList<Identifier>();
-		if (isbn != null) {
-			Identifier identifier = new Identifier();
-			identifier.identifier = isbn;
-			identifiers.add(identifier);
-		}
-		mBookInfo.identifiers = identifiers;
-
-		ArrayList<Category> categories = new ArrayList<Category>();
-		for (Category category : mBookInfo.categories) {
-			Category categoryDb = CategoryServices.getCategoryByCriteria(db, category);
-			if (categoryDb != null) {
-				categories.add(categoryDb);
-			} else {
-				categories.add(category);
-			}
-		}
-		mBookInfo.categories = categories;
-
-		db.close();
+	private void handleArguments() {
+		Bundle args = getArguments();
+		mBookInfo = (BookInfo) args.getSerializable(ARG_BOOK);
 	}
 
 	/**
@@ -512,17 +420,4 @@ public class BookEditGeneralFragment extends Fragment {
 		}
 		mImageThumbnail.setImageBitmap(bitmap);
 	}
-
-	/**
-	 * An activity hosting a {@link BookEditGeneralFragment} should implement
-	 * this interface to be notified when the user saves.
-	 */
-	public interface BookEditListener {
-
-		/**
-		 * Called when the user saves the book.
-		 */
-		void onSaved();
-	}
-
 }
