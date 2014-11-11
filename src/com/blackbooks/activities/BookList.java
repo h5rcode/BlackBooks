@@ -24,7 +24,6 @@ import com.blackbooks.fragments.BookListByFirstLetterFragment;
 import com.blackbooks.helpers.FileHelper;
 import com.blackbooks.helpers.IsbnHelper;
 import com.blackbooks.helpers.Pic2ShopHelper;
-import com.blackbooks.utils.Commons;
 
 /**
  * The book list activity. It hosts an AbstractBookListFragment used to display
@@ -38,8 +37,6 @@ public class BookList extends FragmentActivity implements BookListListener {
 	private static final String TAG = BookList.class.getName();
 
 	private AbstractBookListFragment mCurrentFragment;
-
-	private MenuItem mMenuSort;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +70,6 @@ public class BookList extends FragmentActivity implements BookListListener {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.book_list, menu);
-		mMenuSort = menu.findItem(R.id.bookList_menuSort);
 		return true;
 	}
 
@@ -111,7 +107,6 @@ public class BookList extends FragmentActivity implements BookListListener {
 				editor = sharedPref.edit();
 				editor.putString(BookList.PREF_DEFAULT_LIST, BookListByAuthorFragment.class.getName());
 				editor.commit();
-				toggleMenuItemLookup(false);
 				mCurrentFragment = new BookListByAuthorFragment();
 				getSupportFragmentManager().beginTransaction() //
 						.replace(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
@@ -128,7 +123,6 @@ public class BookList extends FragmentActivity implements BookListListener {
 				editor = sharedPref.edit();
 				editor.putString(BookList.PREF_DEFAULT_LIST, BookListByFirstLetterFragment.class.getName());
 				editor.commit();
-				toggleMenuItemLookup(false);
 				mCurrentFragment = new BookListByFirstLetterFragment();
 				getSupportFragmentManager().beginTransaction() //
 						.replace(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
@@ -202,21 +196,7 @@ public class BookList extends FragmentActivity implements BookListListener {
 		startActivityForResult(intent, Pic2ShopHelper.REQUEST_CODE_SCAN);
 	}
 
-	/**
-	 * Enable or disable the sort menu.
-	 * 
-	 * @param enable
-	 *            True to enable, false to disable.
-	 */
-	private void toggleMenuItemLookup(boolean enable) {
-		if (mMenuSort != null) {
-			mMenuSort.setEnabled(enable);
-			mMenuSort.getIcon().setAlpha(enable ? Commons.ALPHA_ENABLED : Commons.ALPHA_DISABLED);
-		}
-	}
-
 	@Override
 	public void onBookListLoaded() {
-		toggleMenuItemLookup(true);
 	}
 }

@@ -35,7 +35,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
 			mBookListListener = (BookListListener) activity;
 		}
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -112,7 +112,16 @@ public abstract class AbstractBookListFragment extends ListFragment {
 		VariableUtils.getInstance().setReloadBookList(true);
 	}
 
+	/**
+	 * Activites hosting {@link AbstractBookListFragment} or any fragment that
+	 * inherits from it should implement this interface to be notified when the
+	 * loading of the book list is complete.
+	 */
 	public interface BookListListener {
+
+		/**
+		 * Called when the book list is loaded.
+		 */
 		void onBookListLoaded();
 	}
 
@@ -121,23 +130,23 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	 * the UI.
 	 */
 	private class BookListLoadTask extends AsyncTask<Void, Void, ArrayList<ListItem>> {
-	
+
 		@Override
 		protected void onPreExecute() {
 			AbstractBookListFragment.this.setListShown(false);
 		}
-	
+
 		@Override
 		protected ArrayList<ListItem> doInBackground(Void... params) {
 			return loadBookList();
 		}
-	
+
 		@Override
 		protected void onPostExecute(ArrayList<ListItem> result) {
 			if (AbstractBookListFragment.this.getListAdapter() == null) {
 				AbstractBookListFragment.this.setListAdapter(mBookListAdapter);
 			}
-	
+
 			mBookListAdapter.clear();
 			mBookListAdapter.addAll(result);
 			mBookListAdapter.notifyDataSetChanged();
@@ -145,7 +154,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
 				AbstractBookListFragment.this.setListShown(true);
 			}
 			setReloadBookListToFalse();
-	
+
 			if (mBookListListener != null) {
 				mBookListListener.onBookListLoaded();
 			}
