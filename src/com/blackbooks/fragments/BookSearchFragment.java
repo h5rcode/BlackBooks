@@ -24,6 +24,8 @@ public class BookSearchFragment extends Fragment {
 
 	private static final String ARG_ISBN = "ARG_ISBN";
 
+	private BookSearchTask mBookSearchTask;
+
 	private BookSearchListener mBookSearchListener;
 
 	/**
@@ -55,55 +57,18 @@ public class BookSearchFragment extends Fragment {
 		Bundle args = getArguments();
 		String isbn = args.getString(ARG_ISBN);
 		if (isbn != null) {
-			new BookSearch().execute(isbn);
+			mBookSearchTask = new BookSearchTask();
+			mBookSearchTask.execute(isbn);
 		}
 	}
 
 	@Override
 	public void onDetach() {
 		super.onDetach();
+		if (mBookSearchTask != null) {
+			mBookSearchTask.cancel(true);
+		}
 		mBookSearchListener = null;
-	}
-
-	/**
-	 * Task performing the search for a book.
-	 */
-	public final class BookSearch extends AsyncTask<String, Void, BookInfo> {
-
-		private String errorMessage = null;
-
-		@Override
-		protected BookInfo doInBackground(String... params) {
-			String barCode = params[0];
-			BookInfo book = null;
-			try {
-				book = BookSearcher.search(barCode);
-			} catch (ClientProtocolException e) {
-				errorMessage = getString(R.string.error_connection_problem);
-			} catch (JSONException e) {
-				errorMessage = getString(R.string.error_json_exception);
-			} catch (URISyntaxException e) {
-				errorMessage = getString(R.string.error_uri_syntax);
-			} catch (UnknownHostException e) {
-				errorMessage = getString(R.string.error_connection_problem);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-			return book;
-		}
-
-		@Override
-		protected void onPostExecute(BookInfo result) {
-			super.onPostExecute(result);
-			if (result == null) {
-				if (errorMessage != null) {
-					Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_LONG).show();
-				} else {
-					Toast.makeText(getActivity(), getString(R.string.message_no_result), Toast.LENGTH_LONG).show();
-				}
-			}
-			mBookSearchListener.onSearchFinished(result);
-		}
 	}
 
 	/**
@@ -119,5 +84,46 @@ public class BookSearchFragment extends Fragment {
 		 *            BookInfo.
 		 */
 		void onSearchFinished(BookInfo bookInfo);
+	}
+
+	/**
+	 * Task performing the search for a book.
+	 */
+	private final class BookSearchTask extends AsyncTask<String, Void, BookInfo> {
+	
+		private Integer errorMessageId = null;
+	
+		@Override
+		protected BookInfo doInBackground(String... params) {
+			String barCode = params[0];
+			BookInfo book = null;
+			try {
+				book = BookSearcher.search(barCode);
+			} catch (ClientProtocolException e) {
+				errorMessageId = R.string.error_connection_problem;
+			} catch (JSONException e) {
+				errorMessageId = R.string.error_json_exception;
+			} catch (URISyntaxException e) {
+				errorMessageId = R.string.error_uri_syntax;
+			} catch (UnknownHostException e) {
+				errorMessageId = R.string.error_connection_problem;
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			return book;
+		}
+	
+		@Override
+		protected void onPostExecute(BookInfo result) {
+			super.onPostExecute(result);
+			if (result == null) {
+				if (errorMessageId != null) {
+					Toast.makeText(getActivity(), errorMessageId, Toast.LENGTH_LONG).show();
+				} else {
+					Toast.makeText(getActivity(), getString(R.string.message_no_result), Toast.LENGTH_LONG).show();
+				}
+			}
+			mBookSearchListener.onSearchFinished(result);
+		}
 	}
 }

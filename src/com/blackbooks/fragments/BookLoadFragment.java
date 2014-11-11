@@ -48,7 +48,7 @@ public class BookLoadFragment extends Fragment {
 
 		Bundle args = getArguments();
 		long bookId = args.getLong(ARG_BOO_ID);
-		new BookLoad().execute(bookId);
+		new BookLoadTask().execute(bookId);
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class BookLoadFragment extends Fragment {
 	/**
 	 * Task used to load the information of a book.
 	 */
-	public final class BookLoad extends AsyncTask<Long, Void, BookInfo> {
+	private final class BookLoadTask extends AsyncTask<Long, Void, BookInfo> {
 
 		@Override
 		protected BookInfo doInBackground(Long... params) {

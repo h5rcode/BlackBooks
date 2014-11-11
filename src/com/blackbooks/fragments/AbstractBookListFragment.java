@@ -26,21 +26,31 @@ public abstract class AbstractBookListFragment extends ListFragment {
 
 	private BookListListener mBookListListener;
 
+	private BookListLoadTask mBookListLoadTask;
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-
 		if (activity instanceof BookListListener) {
 			mBookListListener = (BookListListener) activity;
 		}
 	}
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mBookListAdapter = getBookListAdapter();
 		setRetainInstance(true);
 		setReloadBookListToTrue();
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		if (mBookListLoadTask != null) {
+			mBookListLoadTask.cancel(true);
+		}
+		mBookListListener = null;
 	}
 
 	@Override
@@ -60,7 +70,8 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	public void onResume() {
 		super.onResume();
 		if (getReloadBookList()) {
-			new BookSearch().execute();
+			mBookListLoadTask = new BookListLoadTask();
+			mBookListLoadTask.execute();
 		}
 	}
 
@@ -109,24 +120,24 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	 * Implementation of AsyncTask used to load the book list without blocking
 	 * the UI.
 	 */
-	private class BookSearch extends AsyncTask<Void, Void, ArrayList<ListItem>> {
-
+	private class BookListLoadTask extends AsyncTask<Void, Void, ArrayList<ListItem>> {
+	
 		@Override
 		protected void onPreExecute() {
 			AbstractBookListFragment.this.setListShown(false);
 		}
-
+	
 		@Override
 		protected ArrayList<ListItem> doInBackground(Void... params) {
 			return loadBookList();
 		}
-
+	
 		@Override
 		protected void onPostExecute(ArrayList<ListItem> result) {
 			if (AbstractBookListFragment.this.getListAdapter() == null) {
 				AbstractBookListFragment.this.setListAdapter(mBookListAdapter);
 			}
-
+	
 			mBookListAdapter.clear();
 			mBookListAdapter.addAll(result);
 			mBookListAdapter.notifyDataSetChanged();
@@ -134,7 +145,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
 				AbstractBookListFragment.this.setListShown(true);
 			}
 			setReloadBookListToFalse();
-
+	
 			if (mBookListListener != null) {
 				mBookListListener.onBookListLoaded();
 			}
