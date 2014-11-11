@@ -18,6 +18,8 @@ public class BookLoadFragment extends Fragment {
 	private static final String ARG_BOO_ID = "ARG_BOO_ID";
 
 	private BookLoadListener mBookLoadListener;
+	
+	private BookLoadTask mBookLoadTask;
 
 	/**
 	 * Return a new instance of BookLoadFragment, initialized with the id of the
@@ -48,36 +50,15 @@ public class BookLoadFragment extends Fragment {
 
 		Bundle args = getArguments();
 		long bookId = args.getLong(ARG_BOO_ID);
-		new BookLoadTask().execute(bookId);
+		mBookLoadTask = new BookLoadTask();
+		mBookLoadTask.execute(bookId);
 	}
 
 	@Override
 	public void onDetach() {
 		super.onDetach();
+		mBookLoadTask.cancel(true);
 		mBookLoadListener = null;
-	}
-
-	/**
-	 * Task used to load the information of a book.
-	 */
-	private final class BookLoadTask extends AsyncTask<Long, Void, BookInfo> {
-
-		@Override
-		protected BookInfo doInBackground(Long... params) {
-			long bookId = params[0];
-
-			SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
-			SQLiteDatabase db = dbHelper.getReadableDatabase();
-			BookInfo bookInfo = BookServices.getBookInfo(db, bookId);
-			db.close();
-			return bookInfo;
-		}
-
-		@Override
-		protected void onPostExecute(BookInfo result) {
-			super.onPostExecute(result);
-			mBookLoadListener.onBookLoaded(result);
-		}
 	}
 
 	/**
@@ -94,5 +75,28 @@ public class BookLoadFragment extends Fragment {
 		 *            BookInfo.
 		 */
 		void onBookLoaded(BookInfo bookInfo);
+	}
+
+	/**
+	 * Task used to load the information of a book.
+	 */
+	private final class BookLoadTask extends AsyncTask<Long, Void, BookInfo> {
+	
+		@Override
+		protected BookInfo doInBackground(Long... params) {
+			long bookId = params[0];
+	
+			SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
+			SQLiteDatabase db = dbHelper.getReadableDatabase();
+			BookInfo bookInfo = BookServices.getBookInfo(db, bookId);
+			db.close();
+			return bookInfo;
+		}
+	
+		@Override
+		protected void onPostExecute(BookInfo result) {
+			super.onPostExecute(result);
+			mBookLoadListener.onBookLoaded(result);
+		}
 	}
 }
