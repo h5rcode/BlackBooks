@@ -45,12 +45,27 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		if (getReloadBookList()) {
+			setReloadBookListToFalse();
+			mBookListLoadTask = new BookListLoadTask();
+			mBookListLoadTask.execute();
+		}
+	}
+
+	@Override
 	public void onDetach() {
 		super.onDetach();
+		mBookListListener = null;
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
 		if (mBookListLoadTask != null) {
 			mBookListLoadTask.cancel(true);
 		}
-		mBookListListener = null;
 	}
 
 	@Override
@@ -63,15 +78,6 @@ public abstract class AbstractBookListFragment extends ListFragment {
 			Intent i = new Intent(this.getActivity(), BookDisplay.class);
 			i.putExtra(BookDisplay.EXTRA_BOOK_ID, bookItem.getId());
 			this.startActivity(i);
-		}
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		if (getReloadBookList()) {
-			mBookListLoadTask = new BookListLoadTask();
-			mBookListLoadTask.execute();
 		}
 	}
 
@@ -153,7 +159,6 @@ public abstract class AbstractBookListFragment extends ListFragment {
 			if (AbstractBookListFragment.this.getView() != null) {
 				AbstractBookListFragment.this.setListShown(true);
 			}
-			setReloadBookListToFalse();
 
 			if (mBookListListener != null) {
 				mBookListListener.onBookListLoaded();
