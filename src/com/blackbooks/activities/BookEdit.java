@@ -266,8 +266,9 @@ public final class BookEdit extends FragmentActivity implements BookLoadListener
 	 * Save the book information in the database.
 	 */
 	private void save() {
-		if (mBookEditGeneralFragment != null) {
+		if (mBookEditGeneralFragment != null && mBookEditPersonalFragment != null) {
 			boolean isValid = mBookEditGeneralFragment.readBookInfo(mBookInfo);
+			isValid = isValid && mBookEditPersonalFragment.readBookInfo(mBookInfo);
 
 			if (isValid) {
 				SQLiteHelper dbHelper = new SQLiteHelper(this);
@@ -328,7 +329,7 @@ public final class BookEdit extends FragmentActivity implements BookLoadListener
 
 			case TAB_PERSONAL:
 				if (mBookEditPersonalFragment == null) {
-					mBookEditPersonalFragment = new BookEditPersonalFragment();
+					mBookEditPersonalFragment = BookEditPersonalFragment.newInstance(mBookInfo);
 				}
 				fragment = mBookEditPersonalFragment;
 				break;

@@ -58,6 +58,8 @@ public class BookInfo extends Book implements Serializable {
 		this.mainCategory = book.mainCategory;
 		this.smallThumbnail = book.smallThumbnail;
 		this.thumbnail = book.thumbnail;
+		this.isRead = book.isRead;
+		this.isFavourite = book.isFavourite;
 	}
 
 	/**

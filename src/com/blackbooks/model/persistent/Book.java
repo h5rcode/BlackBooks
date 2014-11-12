@@ -55,6 +55,17 @@ public class Book implements Serializable {
 
 	@Column(name = Cols.BOO_THUMBNAIL, type = SQLiteDataType.BLOB, version = 1)
 	public byte[] thumbnail;
+	
+	@Column(name = Cols.BOO_IS_READ, type = SQLiteDataType.INTEGER, mandatory = true, version = 1)
+	public Long isRead;
+	
+	@Column(name = Cols.BOO_IS_FAVOURITE, type = SQLiteDataType.INTEGER, mandatory = true, version = 1)
+	public Long isFavourite;
+	
+	public Book() {
+		this.isRead = 0L;
+		this.isFavourite = 0L;
+	}
 
 	public final static class Cols {
 		public final static String BOO_ID = "BOO_ID";
@@ -72,5 +83,7 @@ public class Book implements Serializable {
 		public final static String BOO_MAIN_CATEGORY = "BOO_MAIN_CATEGORY";
 		public final static String BOO_SMALL_THUMBNAIL = "BOO_SMALL_THUMBNAIL";
 		public final static String BOO_THUMBNAIL = "BOO_THUMBNAIL";
+		public final static String BOO_IS_READ = "BOO_IS_READ";
+		public final static String BOO_IS_FAVOURITE = "BOO_IS_FAVOURITE";
 	}
 }

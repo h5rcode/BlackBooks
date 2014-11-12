@@ -75,7 +75,7 @@ public class BookEditGeneralFragment extends Fragment {
 	private boolean mValidBookInfo;
 
 	/**
-	 * Create a new instance of BookAddFragment.
+	 * Create a new instance of BookEditGeneralFragment.
 	 * 
 	 * @param bookInfo
 	 *            Book to edit.
@@ -93,7 +93,6 @@ public class BookEditGeneralFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
-		setHasOptionsMenu(true);
 	}
 
 	@Override
