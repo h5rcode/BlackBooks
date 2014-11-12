@@ -65,10 +65,15 @@ public class BookSearchFragment extends Fragment {
 	@Override
 	public void onDetach() {
 		super.onDetach();
+		mBookSearchListener = null;
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
 		if (mBookSearchTask != null) {
 			mBookSearchTask.cancel(true);
 		}
-		mBookSearchListener = null;
 	}
 
 	/**
@@ -90,9 +95,9 @@ public class BookSearchFragment extends Fragment {
 	 * Task performing the search for a book.
 	 */
 	private final class BookSearchTask extends AsyncTask<String, Void, BookInfo> {
-	
+
 		private Integer errorMessageId = null;
-	
+
 		@Override
 		protected BookInfo doInBackground(String... params) {
 			String barCode = params[0];
@@ -112,7 +117,7 @@ public class BookSearchFragment extends Fragment {
 			}
 			return book;
 		}
-	
+
 		@Override
 		protected void onPostExecute(BookInfo result) {
 			super.onPostExecute(result);
@@ -123,7 +128,9 @@ public class BookSearchFragment extends Fragment {
 					Toast.makeText(getActivity(), getString(R.string.message_no_result), Toast.LENGTH_LONG).show();
 				}
 			}
-			mBookSearchListener.onSearchFinished(result);
+			if (mBookSearchListener != null) {
+				mBookSearchListener.onSearchFinished(result);
+			}
 		}
 	}
 }

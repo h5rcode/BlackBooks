@@ -18,7 +18,7 @@ public class BookLoadFragment extends Fragment {
 	private static final String ARG_BOO_ID = "ARG_BOO_ID";
 
 	private BookLoadListener mBookLoadListener;
-	
+
 	private BookLoadTask mBookLoadTask;
 
 	/**
@@ -47,7 +47,6 @@ public class BookLoadFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
-
 		Bundle args = getArguments();
 		long bookId = args.getLong(ARG_BOO_ID);
 		mBookLoadTask = new BookLoadTask();
@@ -57,8 +56,13 @@ public class BookLoadFragment extends Fragment {
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		mBookLoadTask.cancel(true);
 		mBookLoadListener = null;
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mBookLoadTask.cancel(true);
 	}
 
 	/**
@@ -81,22 +85,24 @@ public class BookLoadFragment extends Fragment {
 	 * Task used to load the information of a book.
 	 */
 	private final class BookLoadTask extends AsyncTask<Long, Void, BookInfo> {
-	
+
 		@Override
 		protected BookInfo doInBackground(Long... params) {
 			long bookId = params[0];
-	
+
 			SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
 			SQLiteDatabase db = dbHelper.getReadableDatabase();
 			BookInfo bookInfo = BookServices.getBookInfo(db, bookId);
 			db.close();
 			return bookInfo;
 		}
-	
+
 		@Override
 		protected void onPostExecute(BookInfo result) {
 			super.onPostExecute(result);
-			mBookLoadListener.onBookLoaded(result);
+			if (mBookLoadListener != null) {
+				mBookLoadListener.onBookLoaded(result);
+			}
 		}
 	}
 }
