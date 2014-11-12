@@ -89,6 +89,10 @@ public class BookDisplayFragment extends Fragment {
 		if (activity instanceof BookDisplayListener) {
 			mBookDisplayListener = (BookDisplayListener) activity;
 		}
+		mDbHelper = new SQLiteHelper(activity);
+		Bundle args = getArguments();
+		long bookId = args.getLong(ARG_BOOK_ID);
+		loadBookInfo(bookId);
 	}
 
 	@Override
@@ -100,31 +104,10 @@ public class BookDisplayFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_book_display, container, false);
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-
-		Bundle args = getArguments();
-		if (args != null) {
-			long bookId = args.getLong(ARG_BOOK_ID);
-			mDbHelper = new SQLiteHelper(this.getActivity());
-			findViews();
-			displayBook(bookId);
-		}
-	}
-
-	/**
-	 * Load the book info from the database and render it.
-	 * 
-	 * @param bookId
-	 *            Id of the book.
-	 */
-	private void displayBook(long bookId) {
-		loadBook(bookId);
+		View view = inflater.inflate(R.layout.fragment_book_display, container, false);
+		findViews(view);
 		renderBookInfo();
+		return view;
 	}
 
 	@Override
@@ -132,7 +115,8 @@ public class BookDisplayFragment extends Fragment {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == Activity.RESULT_OK) {
 			if (requestCode == REQUEST_CODE_EDIT_BOOK) {
-				displayBook(mBookInfo.id);
+				loadBookInfo(mBookInfo.id);
+				renderBookInfo();
 			}
 		}
 	}
@@ -167,32 +151,51 @@ public class BookDisplayFragment extends Fragment {
 	}
 
 	/**
-	 * Find the views of the activity that will contain the book information.
+	 * Delete the current book.
 	 */
-	private void findViews() {
-		View rootView = getView();
+	private void deleteBook() {
+		String title = mBookInfo.title;
+		String message = String.format(getString(R.string.message_book_deleted), title);
+	
+		SQLiteDatabase db = mDbHelper.getWritableDatabase();
+		BookServices.deleteBook(db, mBookInfo.id);
+		db.close();
+		VariableUtils.getInstance().setReloadBookList(true);
+		Toast.makeText(this.getActivity(), message, Toast.LENGTH_SHORT).show();
+	
+		if (mBookDisplayListener != null) {
+			mBookDisplayListener.onBookDeleted();
+		}
+	}
 
-		mImageCover = (ImageView) rootView.findViewById(R.id.bookDisplay_imageCover);
-		mTextTitle = (TextView) rootView.findViewById(R.id.bookDisplay_textTitle);
-		mTextSubtitle = (TextView) rootView.findViewById(R.id.bookDisplay_textSubtitle);
-		mTextAuthor = (TextView) rootView.findViewById(R.id.bookDisplay_textAuthor);
-		mTextIsbn = (TextView) rootView.findViewById(R.id.bookDisplay_textIsbn);
-		mTextPageCount = (TextView) rootView.findViewById(R.id.bookDisplay_textPageCount);
-		mTextPublisher = (TextView) rootView.findViewById(R.id.bookDisplay_textPublisher);
-		mTextPublishedDate = (TextView) rootView.findViewById(R.id.bookDisplay_textPublishedDate);
-		mTextCategory = (TextView) rootView.findViewById(R.id.bookDisplay_textCategory);
-		mTextLanguage = (TextView) rootView.findViewById(R.id.bookDisplay_textLanguage);
-		mTextLanguage = (TextView) rootView.findViewById(R.id.bookDisplay_textLanguage);
-		mTextDescription = (TextView) rootView.findViewById(R.id.bookDisplay_textDescription);
+	/**
+	 * Find the views of the activity that will contain the book information.
+	 * 
+	 * @param view
+	 *            View.
+	 */
+	private void findViews(View view) {
+		mImageCover = (ImageView) view.findViewById(R.id.bookDisplay_imageCover);
+		mTextTitle = (TextView) view.findViewById(R.id.bookDisplay_textTitle);
+		mTextSubtitle = (TextView) view.findViewById(R.id.bookDisplay_textSubtitle);
+		mTextAuthor = (TextView) view.findViewById(R.id.bookDisplay_textAuthor);
+		mTextIsbn = (TextView) view.findViewById(R.id.bookDisplay_textIsbn);
+		mTextPageCount = (TextView) view.findViewById(R.id.bookDisplay_textPageCount);
+		mTextPublisher = (TextView) view.findViewById(R.id.bookDisplay_textPublisher);
+		mTextPublishedDate = (TextView) view.findViewById(R.id.bookDisplay_textPublishedDate);
+		mTextCategory = (TextView) view.findViewById(R.id.bookDisplay_textCategory);
+		mTextLanguage = (TextView) view.findViewById(R.id.bookDisplay_textLanguage);
+		mTextLanguage = (TextView) view.findViewById(R.id.bookDisplay_textLanguage);
+		mTextDescription = (TextView) view.findViewById(R.id.bookDisplay_textDescription);
 
-		mGroupInfo = (LinearLayout) rootView.findViewById(R.id.bookDisplay_groupInfo);
-		mGroupInfoUserFriendlyPageCount = (LinearLayout) rootView.findViewById(R.id.bookDisplay_groupInfoUserFriendly_pageCount);
-		mGroupInfoUserFriendlyCategories = (LinearLayout) rootView.findViewById(R.id.bookDisplay_groupInfoUserFriendly_categories);
-		mGroupInfoUserFriendlyLanguage = (LinearLayout) rootView.findViewById(R.id.bookDisplay_groupInfoUserFriendly_language);
-		mGroupInfoTechnicalIsbn = (LinearLayout) rootView.findViewById(R.id.bookDisplay_groupInfoTechnical_isbn);
-		mGroupInfoTechnicalPublisher = (LinearLayout) rootView.findViewById(R.id.bookDisplay_groupInfoTechnical_publisher);
-		mGroupInfoTechnicalPublishedDate = (LinearLayout) rootView.findViewById(R.id.bookDisplay_groupInfoTechnical_publishedDate);
-		mGroupDescription = (LinearLayout) rootView.findViewById(R.id.bookDisplay_groupDescription);
+		mGroupInfo = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfo);
+		mGroupInfoUserFriendlyPageCount = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfoUserFriendly_pageCount);
+		mGroupInfoUserFriendlyCategories = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfoUserFriendly_categories);
+		mGroupInfoUserFriendlyLanguage = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfoUserFriendly_language);
+		mGroupInfoTechnicalIsbn = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfoTechnical_isbn);
+		mGroupInfoTechnicalPublisher = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfoTechnical_publisher);
+		mGroupInfoTechnicalPublishedDate = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfoTechnical_publishedDate);
+		mGroupDescription = (LinearLayout) view.findViewById(R.id.bookDisplay_groupDescription);
 	}
 
 	/**
@@ -201,11 +204,11 @@ public class BookDisplayFragment extends Fragment {
 	 * @param bookId
 	 *            Id of a book.
 	 */
-	private void loadBook(long bookId) {
+	private void loadBookInfo(long bookId) {
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 		mBookInfo = BookServices.getBookInfo(db, bookId);
 		db.close();
-		
+
 		if (mBookDisplayListener != null) {
 			mBookDisplayListener.onBookLoaded(mBookInfo);
 		}
@@ -301,24 +304,6 @@ public class BookDisplayFragment extends Fragment {
 	}
 
 	/**
-	 * Delete the current book.
-	 */
-	public void delete() {
-		String title = mBookInfo.title;
-		String message = String.format(getString(R.string.message_book_deleted), title);
-
-		SQLiteDatabase db = mDbHelper.getWritableDatabase();
-		BookServices.deleteBook(db, mBookInfo.id);
-		db.close();
-		VariableUtils.getInstance().setReloadBookList(true);
-		Toast.makeText(this.getActivity(), message, Toast.LENGTH_SHORT).show();
-		
-		if (mBookDisplayListener != null) {
-			mBookDisplayListener.onBookDeleted();
-		}
-	}
-
-	/**
 	 * Show the delete confirm dialog.
 	 */
 	private void showDeleteConfirmDialog() {
@@ -332,7 +317,7 @@ public class BookDisplayFragment extends Fragment {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				BookDisplayFragment.this.delete();
+				BookDisplayFragment.this.deleteBook();
 			}
 		}).setNegativeButton(cancelText, new OnClickListener() {
 
@@ -348,10 +333,12 @@ public class BookDisplayFragment extends Fragment {
 	 * interface to be notified when the book is loaded, deleted.
 	 */
 	public interface BookDisplayListener {
-		
+
 		/**
 		 * Called when the book is loaded.
-		 * @param bookInfo BookInfo.
+		 * 
+		 * @param bookInfo
+		 *            BookInfo.
 		 */
 		void onBookLoaded(BookInfo bookInfo);
 
