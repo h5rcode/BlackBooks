@@ -2,23 +2,33 @@ package com.blackbooks.search.openlibrary;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.concurrent.Callable;
 
 import org.json.JSONException;
 
+import com.blackbooks.search.BookSearchResult;
 import com.blackbooks.utils.HttpUtils;
 
 /**
  * Class that searches books using the OpenLibrary API.
  * 
  */
-public final class OpenLibrarySearcher {
+public final class OpenLibrarySearcher implements Callable<BookSearchResult> {
 
 	private final static String URI_FORMAT_STRING = "https://openlibrary.org/api/books?bibkeys=ISBN:%s&jscmd=data&format=json";
 
+	private String mIsbn;
+
 	/**
-	 * Private constructor.
+	 * Constructor.
 	 */
-	private OpenLibrarySearcher() {
+	public OpenLibrarySearcher(String isbn) {
+		mIsbn = isbn;
+	}
+
+	@Override
+	public BookSearchResult call() throws Exception {
+		return search(mIsbn);
 	}
 
 	/**
@@ -28,10 +38,13 @@ public final class OpenLibrarySearcher {
 	 *            ISBN code.
 	 * @return OpenLibraryBook.
 	 * @throws URISyntaxException
+	 *             If an incorrect URI was built for the search.
 	 * @throws JSONException
+	 *             If something bad happened during the parsing of the result.
 	 * @throws IOException
+	 *             If a connection problem occurred.
 	 */
-	public static OpenLibraryBook search(String isbn) throws URISyntaxException, JSONException, IOException {
+	private static OpenLibraryBook search(String isbn) throws URISyntaxException, JSONException, IOException {
 		String url = String.format(URI_FORMAT_STRING, isbn);
 		String json = HttpUtils.getJson(url);
 		OpenLibraryBook openLibraryBook = OpenLibraryJSONParser.parse(json);

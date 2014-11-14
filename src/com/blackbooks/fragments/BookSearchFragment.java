@@ -1,11 +1,9 @@
 package com.blackbooks.fragments;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 
 import org.apache.http.client.ClientProtocolException;
-import org.json.JSONException;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -106,10 +104,6 @@ public class BookSearchFragment extends Fragment {
 				book = BookSearcher.search(barCode);
 			} catch (ClientProtocolException e) {
 				errorMessageId = R.string.error_connection_problem;
-			} catch (JSONException e) {
-				errorMessageId = R.string.error_json_exception;
-			} catch (URISyntaxException e) {
-				errorMessageId = R.string.error_uri_syntax;
 			} catch (UnknownHostException e) {
 				errorMessageId = R.string.error_connection_problem;
 			} catch (IOException e) {

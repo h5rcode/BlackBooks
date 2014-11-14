@@ -2,11 +2,17 @@ package com.blackbooks.search.google;
 
 import java.util.ArrayList;
 
+import com.blackbooks.model.nonpersistent.BookInfo;
+import com.blackbooks.model.persistent.Author;
+import com.blackbooks.model.persistent.Category;
+import com.blackbooks.model.persistent.Identifier;
+import com.blackbooks.search.BookSearchResult;
+
 
 /**
  * A class used to store the info of a book returned by the Google Books API.
  */
-public class GoogleBook {
+public class GoogleBook implements BookSearchResult {
 	public Long bookId;
 	public String title;
 	public String subtitle;
@@ -35,5 +41,43 @@ public class GoogleBook {
 		this.authors = new ArrayList<String>();
 		this.industryIdentifiers = new ArrayList<GoogleIndustryIdentifier>();
 		this.categories = new ArrayList<String>();
+	}
+
+	@Override
+	public BookInfo toBookInfo() {
+		BookInfo bookInfo = new BookInfo();
+		bookInfo.title = this.title;
+		bookInfo.subtitle = this.subtitle;
+		bookInfo.languageCode = this.language;
+
+		ArrayList<String> authors = this.authors;
+		for (String authorName : authors) {
+			Author a = new Author();
+			a.name = authorName;
+
+			bookInfo.authors.add(a);
+		}
+
+		for (GoogleIndustryIdentifier industryIdentifer : this.industryIdentifiers) {
+			Identifier identifier = new Identifier();
+			identifier.identifier = industryIdentifer.identifier;
+
+			bookInfo.identifiers.add(identifier);
+		}
+
+		for (String categoryName : this.categories) {
+			Category category = new Category();
+			category.name = categoryName;
+
+			bookInfo.categories.add(category);
+		}
+
+		bookInfo.pageCount = this.pageCount;
+		bookInfo.publisher.name = this.publisher;
+		bookInfo.publishedDate = this.publishedDate;
+		bookInfo.description = this.description;
+		bookInfo.smallThumbnail = this.smallThumbnail;
+		bookInfo.thumbnail = this.thumbnail;
+		return bookInfo;
 	}
 }

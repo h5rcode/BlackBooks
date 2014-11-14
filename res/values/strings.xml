@@ -24,8 +24,6 @@
     <string name="button_save_author">Save</string>
     <string name="button_save_category">Save</string>
     <string name="error_connection_problem">Connection problem. Make sure the device has access to the Internet.</string>
-    <string name="error_json_exception">Error while processing the result of the search.</string>
-    <string name="error_uri_syntax">The search request is incorrect (incorrect URI).</string>
     <string name="field_mandatory">This field is mandatory.</string>
     <string name="image_thumbnail">Thumbnail</string>
     <string name="label_author">Author</string>

@@ -31,7 +31,9 @@ public final class HttpUtils {
 	 *            URL.
 	 * @return String.
 	 * @throws URISyntaxException
+	 *             If the specified url is incorrect.
 	 * @throws IOException
+	 *             In case of a connection problem.
 	 */
 	public static String getJson(String url) throws URISyntaxException, IOException {
 		URI uri = new URI(url);
@@ -55,7 +57,9 @@ public final class HttpUtils {
 	 *            URL.
 	 * @return Byte array.
 	 * @throws URISyntaxException
-	 * @throws IOException 
+	 *             If the specified url is incorrect.
+	 * @throws IOException
+	 *             In case of a connection problem.
 	 */
 	public static byte[] getBinary(String url) throws URISyntaxException, IOException {
 		URI uri = new URI(url);
