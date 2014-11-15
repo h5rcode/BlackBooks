@@ -17,11 +17,17 @@ import com.blackbooks.adapters.BookSearchResultsAdapter;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.services.BookServices;
+import com.blackbooks.utils.VariableUtils;
 
 /**
  * The activity that searches books in the library.
+ * 
+ * TODO: Use a Fragment.
  */
 public class BookSearch extends ListActivity {
+
+	private BookSearchResultsAdapter mAdapter;
+	private String mQuery;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,16 +36,26 @@ public class BookSearch extends ListActivity {
 		setContentView(R.layout.activity_book_search);
 		Intent intent = getIntent();
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-			String query = intent.getStringExtra(SearchManager.QUERY);
+			mQuery = intent.getStringExtra(SearchManager.QUERY);
 
-			String title = String.format(getString(R.string.title_activity_book_search), query);
+			String title = String.format(getString(R.string.title_activity_book_search), mQuery);
 			setTitle(title);
 
-			ArrayList<BookInfo> bookList = searchBooks(query);
+			ArrayList<BookInfo> bookList = searchBooks(mQuery);
+			mAdapter = new BookSearchResultsAdapter(this, mQuery);
+			mAdapter.addAll(bookList);
+			setListAdapter(mAdapter);
+		}
+	}
 
-			BookSearchResultsAdapter adapter = new BookSearchResultsAdapter(this, query);
-			adapter.addAll(bookList);
-			setListAdapter(adapter);
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (VariableUtils.getInstance().getReloadBookList()) {
+			ArrayList<BookInfo> bookList = searchBooks(mQuery);
+			mAdapter.clear();
+			mAdapter.addAll(bookList);
+			mAdapter.notifyDataSetChanged();
 		}
 	}
 
@@ -66,6 +82,13 @@ public class BookSearch extends ListActivity {
 		this.startActivity(i);
 	}
 
+	/**
+	 * Search the library for books whose title matches the query.
+	 * 
+	 * @param query
+	 *            The query.
+	 * @return List of {@link BookInfo}.
+	 */
 	private ArrayList<BookInfo> searchBooks(String query) {
 		SQLiteHelper dbHelper = new SQLiteHelper(this);
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
