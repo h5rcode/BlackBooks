@@ -1,7 +1,7 @@
 package com.blackbooks.sql;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
+import java.util.List;
 
 import com.blackbooks.model.metadata.Column;
 import com.blackbooks.model.metadata.Table;
@@ -26,7 +26,7 @@ final class SqlBuilder {
 	 *            Columns.
 	 * @return The SQL statement to create the table and its columns.
 	 */
-	public static String buildSqlCreateTable(Table table, ArrayList<Column> columns) {
+	public static String buildSqlCreateTable(Table table, List<Column> columns) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("CREATE TABLE IF NOT EXISTS");
 		sb.append(' ');

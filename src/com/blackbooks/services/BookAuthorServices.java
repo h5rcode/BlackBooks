@@ -1,6 +1,7 @@
 package com.blackbooks.services;
 
-import java.util.ArrayList;
+
+import java.util.List;
 
 import android.database.sqlite.SQLiteDatabase;
 
@@ -35,7 +36,7 @@ public class BookAuthorServices {
 	 *            Id of the referenced author.
 	 * @return List of BookAuthor.
 	 */
-	public static ArrayList<BookAuthor> getBookAuthorListByAuthor(SQLiteDatabase db, long authorId) {
+	public static List<BookAuthor> getBookAuthorListByAuthor(SQLiteDatabase db, long authorId) {
 		BookAuthor bookAuthor = new BookAuthor();
 		bookAuthor.authorId = authorId;
 		return BrokerManager.getBroker(BookAuthor.class).getAllByCriteria(db, bookAuthor);
@@ -51,7 +52,7 @@ public class BookAuthorServices {
 	 *            Id of the referenced book.
 	 * @return List of BookAuthor.
 	 */
-	public static ArrayList<BookAuthor> getBookAuthorListByBook(SQLiteDatabase db, long bookId) {
+	public static List<BookAuthor> getBookAuthorListByBook(SQLiteDatabase db, long bookId) {
 		BookAuthor bookAuthor = new BookAuthor();
 		bookAuthor.bookId = bookId;
 		return BrokerManager.getBroker(BookAuthor.class).getAllByCriteria(db, bookAuthor);

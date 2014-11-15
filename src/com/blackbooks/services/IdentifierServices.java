@@ -1,6 +1,7 @@
 package com.blackbooks.services;
 
-import java.util.ArrayList;
+
+import java.util.List;
 
 import android.database.sqlite.SQLiteDatabase;
 
@@ -35,7 +36,7 @@ public class IdentifierServices {
 	 *            Id of the referenced book.
 	 * @return List of Identifier.
 	 */
-	public static ArrayList<Identifier> getIdentifierListByBook(SQLiteDatabase db, long bookId) {
+	public static List<Identifier> getIdentifierListByBook(SQLiteDatabase db, long bookId) {
 		Identifier identifier = new Identifier();
 		identifier.bookId = bookId;
 		return BrokerManager.getBroker(Identifier.class).getAllByCriteria(db, identifier);

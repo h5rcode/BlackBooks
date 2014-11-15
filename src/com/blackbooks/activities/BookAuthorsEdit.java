@@ -2,6 +2,7 @@ package com.blackbooks.activities;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -229,10 +230,10 @@ public class BookAuthorsEdit extends Activity {
 		mAutoCompleteAdapter = new AutoCompleteAdapter<Author>(this, android.R.layout.simple_list_item_1, new AutoCompleteSearcher<Author>() {
 
 			@Override
-			public ArrayList<Author> search(CharSequence constraint) {
+			public List<Author> search(CharSequence constraint) {
 				SQLiteHelper mDbHelper = new SQLiteHelper(BookAuthorsEdit.this);
 				SQLiteDatabase db = mDbHelper.getReadableDatabase();
-				ArrayList<Author> authorList = AuthorServices.getAuthorListByText(db, constraint.toString());
+				List<Author> authorList = AuthorServices.getAuthorListByText(db, constraint.toString());
 				db.close();
 				return authorList;
 			}

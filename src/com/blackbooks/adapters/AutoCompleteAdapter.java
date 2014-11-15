@@ -1,6 +1,6 @@
 package com.blackbooks.adapters;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
@@ -15,7 +15,7 @@ public final class AutoCompleteAdapter<T> extends ArrayAdapter<String> implement
 
 	private AutoCompleteSearcher<T> mSearcher;
 	private Filter mFilter;
-	private ArrayList<T> mResult;
+	private List<T> mResult;
 
 	/**
 	 * Constructor.
@@ -63,7 +63,7 @@ public final class AutoCompleteAdapter<T> extends ArrayAdapter<String> implement
 		 *            The text input to use for the search.
 		 * @return The list of items corresponding to the text input.
 		 */
-		ArrayList<T> search(CharSequence constraint);
+		List<T> search(CharSequence constraint);
 
 		/**
 		 * Return the label of an item that will be displayed in the result

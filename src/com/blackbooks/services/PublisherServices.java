@@ -1,6 +1,6 @@
 package com.blackbooks.services;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.database.sqlite.SQLiteDatabase;
 
@@ -60,7 +60,7 @@ public class PublisherServices {
 	 *            Text.
 	 * @return List of Publisher.
 	 */
-	public static ArrayList<Publisher> getPublisherListByText(SQLiteDatabase db, String text) {
+	public static List<Publisher> getPublisherListByText(SQLiteDatabase db, String text) {
 		String sql = "SELECT * FROM PUBLISHER WHERE LOWER(PUB_NAME) LIKE '%' || LOWER(?) || '%' ORDER BY PUB_NAME";
 		String[] selectionArgs = { text };
 		return BrokerManager.getBroker(Publisher.class).rawSelect(db, sql, selectionArgs);

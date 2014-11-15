@@ -1,6 +1,7 @@
 package com.blackbooks.fragments;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -184,9 +185,9 @@ public class BookEditGeneralFragment extends Fragment {
 				new AutoCompleteSearcher<Publisher>() {
 
 					@Override
-					public ArrayList<Publisher> search(CharSequence constraint) {
+					public List<Publisher> search(CharSequence constraint) {
 						SQLiteDatabase db = mDbHelper.getReadableDatabase();
-						ArrayList<Publisher> publisherList = PublisherServices.getPublisherListByText(db, constraint.toString());
+						List<Publisher> publisherList = PublisherServices.getPublisherListByText(db, constraint.toString());
 						db.close();
 						return publisherList;
 					}
@@ -233,7 +234,7 @@ public class BookEditGeneralFragment extends Fragment {
 
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-		ArrayList<Author> authors = new ArrayList<Author>();
+		List<Author> authors = new ArrayList<Author>();
 		for (Author author : bookInfo.authors) {
 			Author authorDb = AuthorServices.getAuthorByCriteria(db, author);
 			if (authorDb != null) {
@@ -255,7 +256,7 @@ public class BookEditGeneralFragment extends Fragment {
 		}
 		bookInfo.publisher = publisher;
 
-		ArrayList<Identifier> identifiers = new ArrayList<Identifier>();
+		List<Identifier> identifiers = new ArrayList<Identifier>();
 		if (isbn != null) {
 			Identifier identifier = new Identifier();
 			identifier.identifier = isbn;
@@ -263,7 +264,7 @@ public class BookEditGeneralFragment extends Fragment {
 		}
 		bookInfo.identifiers = identifiers;
 
-		ArrayList<Category> categories = new ArrayList<Category>();
+		List<Category> categories = new ArrayList<Category>();
 		for (Category category : bookInfo.categories) {
 			Category categoryDb = CategoryServices.getCategoryByCriteria(db, category);
 			if (categoryDb != null) {
@@ -288,7 +289,7 @@ public class BookEditGeneralFragment extends Fragment {
 	private void editAuthors(View view) {
 		Intent intent = new Intent(this.getActivity(), BookAuthorsEdit.class);
 		intent.putExtra(BookAuthorsEdit.EXTRA_BOOK_TITLE, mTextTitle.getText().toString());
-		intent.putExtra(BookAuthorsEdit.EXTRA_AUTHOR_LIST, mBookInfo.authors);
+		intent.putExtra(BookAuthorsEdit.EXTRA_AUTHOR_LIST, (ArrayList<Author>) mBookInfo.authors);
 		startActivityForResult(intent, REQUEST_EDIT_AUTHORS);
 	}
 
@@ -301,7 +302,7 @@ public class BookEditGeneralFragment extends Fragment {
 	private void editCategories(View view) {
 		Intent intent = new Intent(this.getActivity(), BookCategoriesEdit.class);
 		intent.putExtra(BookCategoriesEdit.EXTRA_BOOK_TITLE, mTextTitle.getText().toString());
-		intent.putExtra(BookCategoriesEdit.EXTRA_CATEGORY_LIST, mBookInfo.categories);
+		intent.putExtra(BookCategoriesEdit.EXTRA_CATEGORY_LIST, (ArrayList<Category>) mBookInfo.categories);
 		startActivityForResult(intent, REQUEST_EDIT_CATEGORIES);
 	}
 

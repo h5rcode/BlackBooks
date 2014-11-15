@@ -1,6 +1,6 @@
 package com.blackbooks.services;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.database.sqlite.SQLiteDatabase;
 
@@ -59,7 +59,7 @@ public class CategoryServices {
 	 *            Text.
 	 * @return List of Category.
 	 */
-	public static ArrayList<Category> getCategoryListByText(SQLiteDatabase db, String text) {
+	public static List<Category> getCategoryListByText(SQLiteDatabase db, String text) {
 		String sql = "SELECT * FROM CATEGORY WHERE LOWER(CAT_NAME) LIKE '%' || LOWER(?) || '%' ORDER BY CAT_NAME";
 		String[] selectionArgs = { text };
 		return BrokerManager.getBroker(Category.class).rawSelect(db, sql, selectionArgs);

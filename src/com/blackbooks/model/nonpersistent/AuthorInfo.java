@@ -1,6 +1,7 @@
 package com.blackbooks.model.nonpersistent;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Book;
@@ -13,7 +14,7 @@ public class AuthorInfo extends Author {
 
 	private static final long serialVersionUID = -2843891916239884742L;
 
-	public ArrayList<Book> books;
+	public List<Book> books;
 
 	/**
 	 * Default constructor.

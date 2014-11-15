@@ -1,6 +1,7 @@
 package com.blackbooks.database;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.util.SparseArray;
 
@@ -30,15 +31,15 @@ public final class Database {
 	public final static int VERSION = 1;
 
 	private static Database mInstance = new Database();
-	private static ArrayList<Class<?>> mTables;
-	private static SparseArray<ArrayList<Class<?>>> mVersionTableMap;
+	private static List<Class<?>> mTables;
+	private static SparseArray<List<Class<?>>> mVersionTableMap;
 
 	/**
 	 * Constructor.
 	 */
 	private Database() {
 		mTables = new ArrayList<Class<?>>();
-		mVersionTableMap = new SparseArray<ArrayList<Class<?>>>();
+		mVersionTableMap = new SparseArray<List<Class<?>>>();
 
 		mTables.add(Publisher.class);
 		mTables.add(Book.class);
@@ -63,9 +64,9 @@ public final class Database {
 	/**
 	 * Get the list of all the tables in the database.
 	 * 
-	 * @return ArrayList<Class<?>>.
+	 * @return List<Class<?>>.
 	 */
-	public ArrayList<Class<?>> getTables() {
+	public List<Class<?>> getTables() {
 		return mTables;
 	}
 
@@ -74,9 +75,9 @@ public final class Database {
 	 * 
 	 * @param version
 	 *            Version.
-	 * @return ArrayList<Class<?>>.
+	 * @return List<Class<?>>.
 	 */
-	public ArrayList<Class<?>> getTablesByVersion(int version) {
+	public List<Class<?>> getTablesByVersion(int version) {
 		return mVersionTableMap.get(version);
 	}
 
@@ -89,7 +90,7 @@ public final class Database {
 			Table tableAnnotation = table.getAnnotation(Table.class);
 			int version = tableAnnotation.version();
 
-			ArrayList<Class<?>> tableList = mVersionTableMap.get(version);
+			List<Class<?>> tableList = mVersionTableMap.get(version);
 			if (tableList == null) {
 				tableList = new ArrayList<Class<?>>();
 				mVersionTableMap.put(version, tableList);

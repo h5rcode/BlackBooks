@@ -1,6 +1,7 @@
 package com.blackbooks.search.openlibrary;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
@@ -16,11 +17,11 @@ public class OpenLibraryBook implements BookSearchResult {
 	public String title;
 	public String subtitle;
 
-	public ArrayList<String> authors;
-	public ArrayList<String> publishers;
+	public List<String> authors;
+	public List<String> publishers;
 	public String isbn10;
 	public String isbn13;
-	public ArrayList<String> subjects;
+	public List<String> subjects;
 	public String publishDate;
 	public String coverLinkSmall;
 	public String coverLinkMedium;
@@ -44,7 +45,7 @@ public class OpenLibraryBook implements BookSearchResult {
 		bookInfo.title = this.title;
 		bookInfo.subtitle = this.subtitle;
 
-		ArrayList<String> authors = this.authors;
+		List<String> authors = this.authors;
 		for (String authorName : authors) {
 			Author a = new Author();
 			a.name = authorName;

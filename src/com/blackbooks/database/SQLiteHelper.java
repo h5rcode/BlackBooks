@@ -1,6 +1,6 @@
 package com.blackbooks.database;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -32,7 +32,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		Log.i(TAG, "Creating the database.");
 
 		Database database = Database.getInstance();
-		ArrayList<Class<?>> tables = database.getTables();
+		List<Class<?>> tables = database.getTables();
 
 		Log.i(TAG, "Creating tables.");
 		for (Class<?> table : tables) {

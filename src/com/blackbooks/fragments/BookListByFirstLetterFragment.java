@@ -2,6 +2,7 @@ package com.blackbooks.fragments;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.ArrayAdapter;
@@ -29,16 +30,16 @@ public class BookListByFirstLetterFragment extends AbstractBookListFragment {
 	/**
 	 * Return the list of items to display.
 	 * 
-	 * @return ArrayList.
+	 * @return List.
 	 */
 	@Override
-	protected ArrayList<ListItem> loadBookList() {
+	protected List<ListItem> loadBookList() {
 		SQLiteHelper mDbHelper = new SQLiteHelper(this.getActivity());
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
-		ArrayList<BookInfo> bookList = BookServices.getBookInfoList(db);
+		List<BookInfo> bookList = BookServices.getBookInfoList(db);
 		db.close();
 
-		LinkedHashMap<String, ArrayList<BookInfo>> bookMap = new LinkedHashMap<String, ArrayList<BookInfo>>();
+		LinkedHashMap<String, List<BookInfo>> bookMap = new LinkedHashMap<String, List<BookInfo>>();
 
 		for (BookInfo book : bookList) {
 			String firstLetter = book.title.substring(0, 1);
@@ -49,7 +50,7 @@ public class BookListByFirstLetterFragment extends AbstractBookListFragment {
 			bookMap.get(firstLetter).add(book);
 		}
 
-		ArrayList<ListItem> listItems = new ArrayList<ListItem>();
+		List<ListItem> listItems = new ArrayList<ListItem>();
 		for (String firstLetter : bookMap.keySet()) {
 			FirstLetterItem firstLetterItem = new FirstLetterItem(firstLetter);
 			listItems.add(firstLetterItem);

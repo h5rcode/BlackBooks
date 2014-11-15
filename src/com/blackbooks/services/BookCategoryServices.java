@@ -1,6 +1,6 @@
 package com.blackbooks.services;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.database.sqlite.SQLiteDatabase;
 
@@ -35,7 +35,7 @@ public class BookCategoryServices {
 	 *            Id of a book.
 	 * @return List of BookCategory.
 	 */
-	public static ArrayList<BookCategory> getBookCategoryListByBook(SQLiteDatabase db, long bookId) {
+	public static List<BookCategory> getBookCategoryListByBook(SQLiteDatabase db, long bookId) {
 		BookCategory bookCategory = new BookCategory();
 		bookCategory.bookId = bookId;
 		return BrokerManager.getBroker(BookCategory.class).getAllByCriteria(db, bookCategory);
@@ -50,7 +50,7 @@ public class BookCategoryServices {
 	 *            Id of a category.
 	 * @return List of BookCategory.
 	 */
-	public static ArrayList<BookCategory> getBookCategoryListByCategory(SQLiteDatabase db, long categoryId) {
+	public static List<BookCategory> getBookCategoryListByCategory(SQLiteDatabase db, long categoryId) {
 		BookCategory bookCategory = new BookCategory();
 		bookCategory.categoryId = categoryId;
 		return BrokerManager.getBroker(BookCategory.class).getAllByCriteria(db, bookCategory);

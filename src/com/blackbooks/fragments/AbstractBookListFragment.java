@@ -1,6 +1,6 @@
 package com.blackbooks.fragments;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -86,7 +86,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	 * method is run inside an AsyncTask (i.e. in a different thread) to avoid
 	 * blocking the activity with a long running database load.
 	 */
-	protected abstract ArrayList<ListItem> loadBookList();
+	protected abstract List<ListItem> loadBookList();
 
 	/**
 	 * Return a new instance of the adapter used to draw the list of books.
@@ -135,7 +135,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	 * Implementation of AsyncTask used to load the book list without blocking
 	 * the UI.
 	 */
-	private class BookListLoadTask extends AsyncTask<Void, Void, ArrayList<ListItem>> {
+	private class BookListLoadTask extends AsyncTask<Void, Void, List<ListItem>> {
 
 		@Override
 		protected void onPreExecute() {
@@ -143,12 +143,12 @@ public abstract class AbstractBookListFragment extends ListFragment {
 		}
 
 		@Override
-		protected ArrayList<ListItem> doInBackground(Void... params) {
+		protected List<ListItem> doInBackground(Void... params) {
 			return loadBookList();
 		}
 
 		@Override
-		protected void onPostExecute(ArrayList<ListItem> result) {
+		protected void onPostExecute(List<ListItem> result) {
 			if (AbstractBookListFragment.this.getListAdapter() == null) {
 				AbstractBookListFragment.this.setListAdapter(mBookListAdapter);
 			}

@@ -1,6 +1,7 @@
 package com.blackbooks.search.google;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
@@ -16,18 +17,18 @@ public class GoogleBook implements BookSearchResult {
 	public Long bookId;
 	public String title;
 	public String subtitle;
-	public ArrayList<String> authors;
+	public List<String> authors;
 	public String publisher;
 	public String publishedDate;
 	public String description;
-	public ArrayList<GoogleIndustryIdentifier> industryIdentifiers;
+	public List<GoogleIndustryIdentifier> industryIdentifiers;
 	public Long pageCount;
 	public String height;
 	public String width;
 	public String thickness;
 	public String printType;
 	public String mainCategory;
-	public ArrayList<String> categories;
+	public List<String> categories;
 	public String smallThumbnailLink;
 	public String thumbnailLink;
 	public byte[] smallThumbnail;
@@ -50,7 +51,7 @@ public class GoogleBook implements BookSearchResult {
 		bookInfo.subtitle = this.subtitle;
 		bookInfo.languageCode = this.language;
 
-		ArrayList<String> authors = this.authors;
+		List<String> authors = this.authors;
 		for (String authorName : authors) {
 			Author a = new Author();
 			a.name = authorName;

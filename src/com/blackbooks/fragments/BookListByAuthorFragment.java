@@ -1,6 +1,7 @@
 package com.blackbooks.fragments;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.ArrayAdapter;
@@ -27,13 +28,13 @@ public class BookListByAuthorFragment extends AbstractBookListFragment {
 	}
 	
 	@Override
-	protected ArrayList<ListItem> loadBookList() {
+	protected List<ListItem> loadBookList() {
 		SQLiteHelper dbHelper = new SQLiteHelper(this.getActivity());
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
-		ArrayList<AuthorInfo> authorInfoList = AuthorServices.getAuthorInfoList(db);
+		List<AuthorInfo> authorInfoList = AuthorServices.getAuthorInfoList(db);
 		db.close();
 
-		ArrayList<ListItem> listItems = new ArrayList<ListItem>();
+		List<ListItem> listItems = new ArrayList<ListItem>();
 
 		for (AuthorInfo authorInfo : authorInfoList) {
 			if (authorInfo.id == null) {

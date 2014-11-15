@@ -2,6 +2,7 @@ package com.blackbooks.model.nonpersistent;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Book;
@@ -17,13 +18,13 @@ public class BookInfo extends Book implements Serializable {
 
 	private static final long serialVersionUID = 6822093497761500275L;
 
-	public ArrayList<Author> authors;
+	public List<Author> authors;
 
 	public Publisher publisher;
 
-	public ArrayList<Identifier> identifiers;
+	public List<Identifier> identifiers;
 
-	public ArrayList<Category> categories;
+	public List<Category> categories;
 
 	/*
 	 * Default constructor.
@@ -117,7 +118,7 @@ public class BookInfo extends Book implements Serializable {
 		mergePublisher(bookInfo.publisher.name);
 	}
 
-	private void mergeAuthors(ArrayList<Author> authors) {
+	private void mergeAuthors(List<Author> authors) {
 		if (authors != null) {
 			for (Author author : authors) {
 				String authorName = author.name;
@@ -136,7 +137,7 @@ public class BookInfo extends Book implements Serializable {
 		}
 	}
 
-	private void mergeCategories(ArrayList<Category> categories) {
+	private void mergeCategories(List<Category> categories) {
 		if (categories != null) {
 			for (Category category : categories) {
 				String categoryName = category.name;
@@ -155,7 +156,7 @@ public class BookInfo extends Book implements Serializable {
 		}
 	}
 
-	private void mergeIdentifiers(ArrayList<Identifier> identifiers) {
+	private void mergeIdentifiers(List<Identifier> identifiers) {
 		if (identifiers != null) {
 			for (Identifier identifier : identifiers) {
 				String identifierValue = identifier.identifier;

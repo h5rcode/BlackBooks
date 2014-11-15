@@ -2,7 +2,7 @@ package com.blackbooks.utils;
 
 import java.security.InvalidParameterException;
 import java.text.Normalizer;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import com.blackbooks.model.persistent.Author;
@@ -100,7 +100,7 @@ public final class StringUtils {
 	 *            The separator.
 	 * @return A string value containing the names of the authors.
 	 */
-	public static String joinAuthorNameList(ArrayList<Author> authorList, String separator) {
+	public static String joinAuthorNameList(List<Author> authorList, String separator) {
 		String[] authorNameList = new String[authorList.size()];
 		for (int i = 0; i < authorList.size(); i++) {
 			Author author = authorList.get(i);
@@ -118,7 +118,7 @@ public final class StringUtils {
 	 *            The separator.
 	 * @return A string value containing the names of the categories.
 	 */
-	public static String joinCategoryNameList(ArrayList<Category> categoryList, String separator) {
+	public static String joinCategoryNameList(List<Category> categoryList, String separator) {
 		String[] categoryNameList = new String[categoryList.size()];
 		for (int i = 0; i < categoryList.size(); i++) {
 			Category category = categoryList.get(i);

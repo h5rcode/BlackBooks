@@ -1,9 +1,11 @@
 package com.blackbooks.adapters;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.TreeMap;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +19,8 @@ import com.blackbooks.utils.StringUtils;
 public class LanguagesAdapter extends ArrayAdapter<Language> {
 
 	private LayoutInflater mInflater;
-	private ArrayList<Language> mLanguageList = new ArrayList<Language>();
-	private ArrayList<String> mLanguageCodeList = new ArrayList<String>();
+	private List<Language> mLanguageList = new ArrayList<Language>();
+	private List<String> mLanguageCodeList = new ArrayList<String>();
 
 	public LanguagesAdapter(Context context) {
 		super(context, android.R.layout.simple_list_item_1);
@@ -44,6 +46,7 @@ public class LanguagesAdapter extends ArrayAdapter<Language> {
 		return mLanguageCodeList.indexOf(languageCode);
 	}
 
+	@SuppressLint("InflateParams")
 	private View getLanguageView(int position, View convertView, ViewGroup parent) {
 		View view = convertView;
 		view = mInflater.inflate(android.R.layout.simple_list_item_1, null);

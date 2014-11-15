@@ -1,6 +1,6 @@
 package com.blackbooks.activities;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.app.ListActivity;
 import android.app.SearchManager;
@@ -41,7 +41,7 @@ public class BookSearch extends ListActivity {
 			String title = String.format(getString(R.string.title_activity_book_search), mQuery);
 			setTitle(title);
 
-			ArrayList<BookInfo> bookList = searchBooks(mQuery);
+			List<BookInfo> bookList = searchBooks(mQuery);
 			mAdapter = new BookSearchResultsAdapter(this, mQuery);
 			mAdapter.addAll(bookList);
 			setListAdapter(mAdapter);
@@ -52,7 +52,7 @@ public class BookSearch extends ListActivity {
 	protected void onResume() {
 		super.onResume();
 		if (VariableUtils.getInstance().getReloadBookList()) {
-			ArrayList<BookInfo> bookList = searchBooks(mQuery);
+			List<BookInfo> bookList = searchBooks(mQuery);
 			mAdapter.clear();
 			mAdapter.addAll(bookList);
 			mAdapter.notifyDataSetChanged();
@@ -89,10 +89,10 @@ public class BookSearch extends ListActivity {
 	 *            The query.
 	 * @return List of {@link BookInfo}.
 	 */
-	private ArrayList<BookInfo> searchBooks(String query) {
+	private List<BookInfo> searchBooks(String query) {
 		SQLiteHelper dbHelper = new SQLiteHelper(this);
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
-		ArrayList<BookInfo> bookList = BookServices.searchBooks(db, query);
+		List<BookInfo> bookList = BookServices.searchBooks(db, query);
 		db.close();
 		return bookList;
 	}

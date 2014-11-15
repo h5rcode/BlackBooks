@@ -3,6 +3,7 @@ package com.blackbooks.services;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteDatabase;
@@ -82,30 +83,30 @@ public class AuthorServices {
 	 * @return List of AuthorInfo.
 	 */
 	@SuppressLint("UseSparseArrays")
-	public static ArrayList<AuthorInfo> getAuthorInfoList(SQLiteDatabase db) {
+	public static List<AuthorInfo> getAuthorInfoList(SQLiteDatabase db) {
 
-		ArrayList<Book> bookList = BrokerManager.getBroker(Book.class).getAll(db,
+		List<Book> bookList = BrokerManager.getBroker(Book.class).getAll(db,
 				new String[] { Book.Cols.BOO_ID, Book.Cols.BOO_TITLE, Book.Cols.BOO_SMALL_THUMBNAIL }, null);
-		ArrayList<BookAuthor> bookAuthorList = BrokerManager.getBroker(BookAuthor.class).getAll(db);
-		ArrayList<Author> authorList = BrokerManager.getBroker(Author.class).getAll(db, null, new String[] { Author.Cols.AUT_NAME });
+		List<BookAuthor> bookAuthorList = BrokerManager.getBroker(BookAuthor.class).getAll(db);
+		List<Author> authorList = BrokerManager.getBroker(Author.class).getAll(db, null, new String[] { Author.Cols.AUT_NAME });
 
-		HashMap<Long, ArrayList<BookAuthor>> authorBookMap = new HashMap<Long, ArrayList<BookAuthor>>();
-		HashMap<Long, ArrayList<BookAuthor>> bookAuthorMap = new HashMap<Long, ArrayList<BookAuthor>>();
+		HashMap<Long, List<BookAuthor>> authorBookMap = new HashMap<Long, List<BookAuthor>>();
+		HashMap<Long, List<BookAuthor>> bookAuthorMap = new HashMap<Long, List<BookAuthor>>();
 		HashMap<Long, Book> bookMap = new HashMap<Long, Book>();
 		for (BookAuthor bookAuthor : bookAuthorList) {
 			if (!authorBookMap.containsKey(bookAuthor.authorId)) {
 				authorBookMap.put(bookAuthor.authorId, new ArrayList<BookAuthor>());
 			}
-			ArrayList<BookAuthor> abList = authorBookMap.get(bookAuthor.authorId);
+			List<BookAuthor> abList = authorBookMap.get(bookAuthor.authorId);
 			abList.add(bookAuthor);
 
 			if (!bookAuthorMap.containsKey(bookAuthor.bookId)) {
 				bookAuthorMap.put(bookAuthor.bookId, new ArrayList<BookAuthor>());
 			}
-			ArrayList<BookAuthor> baList = bookAuthorMap.get(bookAuthor.bookId);
+			List<BookAuthor> baList = bookAuthorMap.get(bookAuthor.bookId);
 			baList.add(bookAuthor);
 		}
-		ArrayList<Book> booksWithoutAuthor = new ArrayList<Book>();
+		List<Book> booksWithoutAuthor = new ArrayList<Book>();
 		for (Book book : bookList) {
 			bookMap.put(book.id, book);
 			if (!bookAuthorMap.containsKey(book.id)) {
@@ -114,7 +115,7 @@ public class AuthorServices {
 		}
 
 		BookComparator bookComparator = new BookComparator();
-		ArrayList<AuthorInfo> authorInfoList = new ArrayList<AuthorInfo>();
+		List<AuthorInfo> authorInfoList = new ArrayList<AuthorInfo>();
 		if (booksWithoutAuthor.size() > 0) {
 			Collections.sort(booksWithoutAuthor, bookComparator);
 
@@ -124,7 +125,7 @@ public class AuthorServices {
 		}
 		for (Author author : authorList) {
 			AuthorInfo authorInfo = new AuthorInfo(author);
-			ArrayList<BookAuthor> baList = authorBookMap.get(author.id);
+			List<BookAuthor> baList = authorBookMap.get(author.id);
 			for (BookAuthor bookAuthor : baList) {
 				Book book = bookMap.get(bookAuthor.bookId);
 				authorInfo.books.add(book);
@@ -147,7 +148,7 @@ public class AuthorServices {
 	 *            Text.
 	 * @return List of Author.
 	 */
-	public static ArrayList<Author> getAuthorListByText(SQLiteDatabase db, String text) {
+	public static List<Author> getAuthorListByText(SQLiteDatabase db, String text) {
 		String sql = "SELECT * FROM AUTHOR WHERE LOWER(AUT_NAME) LIKE '%' || LOWER(?) || '%' ORDER BY AUT_NAME";
 		String[] selectionArgs = { text };
 		return BrokerManager.getBroker(Author.class).rawSelect(db, sql, selectionArgs);

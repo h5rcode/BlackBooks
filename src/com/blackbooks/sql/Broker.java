@@ -26,7 +26,7 @@ public class Broker<T> {
 	private Table mTable;
 	private Field mPrimaryKeyField;
 	private Column mPrimaryKeyColumn;
-	private ArrayList<Column> mColumns;
+	private List<Column> mColumns;
 	private HashMap<Field, Column> mColumnMap;
 
 	private String mSqlCreateTable;
@@ -154,9 +154,9 @@ public class Broker<T> {
 	 * 
 	 * @param db
 	 *            SQLiteDatabase
-	 * @return
+	 * @return List of T.
 	 */
-	public ArrayList<T> getAll(SQLiteDatabase db) {
+	public List<T> getAll(SQLiteDatabase db) {
 		return getAll(db, null, null);
 	}
 
@@ -172,9 +172,9 @@ public class Broker<T> {
 	 * 
 	 * @param sortingColumns
 	 *            The name of the columns used to sort the results.
-	 * @return
+	 * @return List of T.
 	 */
-	public ArrayList<T> getAll(SQLiteDatabase db, String[] selectedColumns, String[] sortingColumns) {
+	public List<T> getAll(SQLiteDatabase db, String[] selectedColumns, String[] sortingColumns) {
 		String orderBy = StringUtils.join(sortingColumns, ",");
 		Cursor cursor = query(db, selectedColumns, null, null, orderBy);
 		return cursorToBeanList(cursor);
@@ -193,7 +193,7 @@ public class Broker<T> {
 	 *            T.
 	 * @return List of rows corresponding to the criteria.
 	 */
-	public ArrayList<T> getAllByCriteria(SQLiteDatabase db, T criteria) {
+	public List<T> getAllByCriteria(SQLiteDatabase db, T criteria) {
 		Filter filter = buildFilter(criteria);
 
 		String selection = filter.condition;
@@ -214,7 +214,7 @@ public class Broker<T> {
 	 *            List of values.
 	 * @return List of rows corresponding to the values.
 	 */
-	public ArrayList<T> getAllWhereIn(SQLiteDatabase db, String column, List<?> values) {
+	public List<T> getAllWhereIn(SQLiteDatabase db, String column, List<?> values) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT * FROM");
 		sb.append(' ');
@@ -251,7 +251,7 @@ public class Broker<T> {
 	 * @return An instance of T.
 	 */
 	public T getByCriteria(SQLiteDatabase db, T criteria) {
-		ArrayList<T> list = getAllByCriteria(db, criteria);
+		List<T> list = getAllByCriteria(db, criteria);
 		T result = null;
 		if (list.size() == 1) {
 			result = list.get(0);
@@ -272,7 +272,7 @@ public class Broker<T> {
 	 *            bound as Strings.
 	 * @return List of T.
 	 */
-	public ArrayList<T> rawSelect(SQLiteDatabase db, String sql, String[] selectionArgs) {
+	public List<T> rawSelect(SQLiteDatabase db, String sql, String[] selectionArgs) {
 		Cursor cursor = db.rawQuery(sql, selectionArgs);
 		return cursorToBeanList(cursor);
 	}
@@ -441,8 +441,8 @@ public class Broker<T> {
 	 *            Cursor.
 	 * @return List of T.
 	 */
-	private ArrayList<T> cursorToBeanList(Cursor cursor) {
-		ArrayList<T> result = new ArrayList<T>();
+	private List<T> cursorToBeanList(Cursor cursor) {
+		List<T> result = new ArrayList<T>();
 		T bean = null;
 		while (cursor.moveToNext()) {
 			bean = cursorToBean(cursor);

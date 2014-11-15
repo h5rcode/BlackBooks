@@ -2,6 +2,7 @@ package com.blackbooks.activities;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -225,10 +226,10 @@ public class BookCategoriesEdit extends Activity {
 
 		mAutoCompleteAdapter = new AutoCompleteAdapter<Category>(this, android.R.layout.simple_list_item_1, new AutoCompleteSearcher<Category>() {
 
-			public ArrayList<Category> search(CharSequence constraint) {
+			public List<Category> search(CharSequence constraint) {
 				SQLiteHelper mDbHelper = new SQLiteHelper(BookCategoriesEdit.this);
 				SQLiteDatabase db = mDbHelper.getReadableDatabase();
-				ArrayList<Category> categoryList = CategoryServices.getCategoryListByText(db, constraint.toString());
+				List<Category> categoryList = CategoryServices.getCategoryListByText(db, constraint.toString());
 				db.close();
 				return categoryList;
 			}
