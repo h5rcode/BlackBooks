@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_vertical"
+    android:baselineAligned="false"
     android:orientation="horizontal" >
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="center_horizontal" >
+        android:gravity="center" >
 
         <ImageView
             android:id="@+id/search_results_item_book_small_thumbnail"
@@ -20,11 +20,26 @@
             android:src="@drawable/ic_undefined_thumbnail" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/search_results_item_book_title"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="6"
-        android:padding="5sp" />
+        android:orientation="vertical"
+        android:padding="5sp" >
+
+        <TextView
+            android:id="@+id/search_results_item_book_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/search_results_item_book_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="12sp" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -53,20 +53,20 @@ public class BookSearchResultsAdapter extends ArrayAdapter<BookInfo> {
 		BookInfo bookInfo = this.getItem(position);
 
 		if (bookInfo != null) {
-			view = mInflater.inflate(R.layout.list_books_by_first_letter_item_book, null);
+			view = mInflater.inflate(R.layout.search_results_item_book, null);
 
 			byte[] smallThumbnail = bookInfo.smallThumbnail;
 			if (smallThumbnail != null && smallThumbnail.length > 0) {
-				ImageView imageView = (ImageView) view.findViewById(R.id.books_by_first_letter_item_book_small_thumbnail);
+				ImageView imageView = (ImageView) view.findViewById(R.id.search_results_item_book_small_thumbnail);
 				Bitmap bitmap = BitmapFactory.decodeByteArray(smallThumbnail, 0, smallThumbnail.length);
 				imageView.setImageBitmap(bitmap);
 			}
 
-			TextView textTitle = (TextView) view.findViewById(R.id.books_by_first_letter_item_book_title);
+			TextView textTitle = (TextView) view.findViewById(R.id.search_results_item_book_title);
 			CharSequence highlightedTitle = highlight(mQuery, bookInfo.title);
 			textTitle.setText(highlightedTitle);
 
-			TextView textAuthor = (TextView) view.findViewById(R.id.books_by_first_letter_item_book_author);
+			TextView textAuthor = (TextView) view.findViewById(R.id.search_results_item_book_author);
 			List<Author> authorList = bookInfo.authors;
 			String authors;
 			if (authorList.size() > 0) {
