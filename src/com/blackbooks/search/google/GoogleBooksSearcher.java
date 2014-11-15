@@ -14,7 +14,7 @@ import com.blackbooks.utils.HttpUtils;
  */
 public final class GoogleBooksSearcher implements Callable<BookSearchResult> {
 
-	private final static String URI_FORMAT_STRING = "https://www.googleapis.com/books/v1/volumes?q=isbn:%s";
+	private static final String URI_FORMAT_STRING = "https://www.googleapis.com/books/v1/volumes?q=isbn:%s";
 
 	private String mIsbn;
 

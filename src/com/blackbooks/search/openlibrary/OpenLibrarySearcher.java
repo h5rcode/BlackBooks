@@ -15,7 +15,7 @@ import com.blackbooks.utils.HttpUtils;
  */
 public final class OpenLibrarySearcher implements Callable<BookSearchResult> {
 
-	private final static String URI_FORMAT_STRING = "https://openlibrary.org/api/books?bibkeys=ISBN:%s&jscmd=data&format=json";
+	private static final String URI_FORMAT_STRING = "https://openlibrary.org/api/books?bibkeys=ISBN:%s&jscmd=data&format=json";
 
 	private String mIsbn;
 

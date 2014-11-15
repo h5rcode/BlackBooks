@@ -56,7 +56,7 @@ public final class BookSearcher {
 			List<Future<BookSearchResult>> futureSearchResultList = executorService.invokeAll(searchers);
 			bookSearchResultList = getBookSearchResultList(futureSearchResultList);
 		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
+			Log.i(TAG, "A book search was interrupted.");
 		} finally {
 			executorService.shutdown();
 		}
