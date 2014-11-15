@@ -204,6 +204,43 @@ public class Broker<T> {
 	}
 
 	/**
+	 * Return the rows where a given column matches one of the given values..
+	 * 
+	 * @param db
+	 *            SQLiteDatabase.
+	 * @param column
+	 *            The column used to filter the rows.
+	 * @param values
+	 *            List of values.
+	 * @return List of rows corresponding to the values.
+	 */
+	public ArrayList<T> getAllWhereIn(SQLiteDatabase db, String column, List<?> values) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("SELECT * FROM");
+		sb.append(' ');
+		sb.append(mTable.name());
+		sb.append(' ');
+		sb.append("WHERE");
+		sb.append(' ');
+		sb.append(column);
+		sb.append(' ');
+		sb.append("IN (");
+
+		String selectionArgs[] = new String[values.size()];
+		for (int i = 0; i < values.size(); i++) {
+			sb.append('?');
+			if (i < values.size() - 1) {
+				sb.append(", ");
+			}
+
+			selectionArgs[i] = values.get(i).toString();
+		}
+		sb.append(')');
+		String sql = sb.toString();
+		return rawSelect(db, sql, selectionArgs);
+	}
+
+	/**
 	 * Get the one row matching a criteria. If no rows or more that one rows
 	 * match the criteria, the method returs null.
 	 * 

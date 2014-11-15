@@ -36,12 +36,19 @@
         </menu>
     </item>
     <item
+        android:id="@+id/bookList_actionSearch"
+        android:actionViewClass="android.widget.SearchView"
+        android:icon="@drawable/ic_action_search"
+        android:showAsAction="ifRoom|collapseActionView"
+        android:title="@string/menu_search">
+    </item>
+    <item
         android:icon="@drawable/ic_action_overflow"
         android:showAsAction="ifRoom"
         android:title="@string/menu_options">
         <menu>
             <item
-                android:id="@+id/bookList_backupDb"
+                android:id="@+id/bookList_actionBackupDb"
                 android:icon="@drawable/ic_action_save"
                 android:title="@string/action_backup_db"/>
         </menu>

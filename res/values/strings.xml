@@ -25,6 +25,7 @@
     <string name="button_save_category">Save</string>
     <string name="error_connection_problem">Connection problem. Make sure the device has access to the Internet.</string>
     <string name="field_mandatory">This field is mandatory.</string>
+    <string name="hint_search">Search books by title and authors</string>
     <string name="image_thumbnail">Thumbnail</string>
     <string name="label_author">Author</string>
     <string name="label_authors_format">by %s</string>
@@ -47,6 +48,7 @@
     <string name="menu_delete_book">Delete</string>
     <string name="menu_edit_book">Edit</string>
     <string name="menu_options">Options</string>
+    <string name="menu_search">Search</string>
     <string name="menu_sort">Sort</string>
     <string name="message_author_added">\"%s\" was added to the list of authors.</string>
     <string name="message_author_already_present">\"%s\" is already in the list of authors.</string>
@@ -81,6 +83,8 @@
     <string name="title_activity_book_edit_mode_edit">Edit \"%s\"</string>
     <string name="title_activity_book_list">Black Books</string>
     <string name="title_activity_isbn_enter">Enter ISBN</string>
+    <string name="title_activity_book_search">Search results for \"%s\"</string>
+    <string name="title_activity_book_search_default">Search results</string>
     <string name="title_dialog_edit_author">Edit author</string>
     <string name="title_dialog_edit_category">Edit category</string>
     <string name="title_tab_book_edit_general">General</string>

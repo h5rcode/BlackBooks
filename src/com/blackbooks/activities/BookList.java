@@ -3,6 +3,10 @@ package com.blackbooks.activities;
 import java.io.File;
 import java.io.IOException;
 
+import android.app.SearchManager;
+import android.app.SearchableInfo;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaScannerConnection;
@@ -13,6 +17,7 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.blackbooks.R;
@@ -70,6 +75,11 @@ public class BookList extends FragmentActivity implements BookListListener {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.book_list, menu);
+		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		SearchView searchView = (SearchView) menu.findItem(R.id.bookList_actionSearch).getActionView();
+		ComponentName componentName = getComponentName();
+		SearchableInfo searchableInfo = searchManager.getSearchableInfo(componentName);
+		searchView.setSearchableInfo(searchableInfo);
 		return true;
 	}
 
@@ -131,7 +141,14 @@ public class BookList extends FragmentActivity implements BookListListener {
 
 			break;
 
-		case R.id.bookList_backupDb:
+		case R.id.bookList_actionSearch:
+			result = true;
+			i = new Intent(this, BookSearch.class);
+			// startActivity(i);
+			// onSearchRequested();
+			break;
+
+		case R.id.bookList_actionBackupDb:
 			saveDbOnDisk();
 			result = true;
 			break;

@@ -1,10 +1,9 @@
 package com.blackbooks.services;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.util.LongSparseArray;
 
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
@@ -41,7 +40,7 @@ public class BookServices {
 			for (BookAuthor ba : baListByBook) {
 				ArrayList<BookAuthor> baListByAuthor = BookAuthorServices.getBookAuthorListByAuthor(db, ba.authorId);
 
-				if (baListByAuthor.size() == 0) {
+				if (baListByAuthor.isEmpty()) {
 					BrokerManager.getBroker(Author.class).delete(db, ba.authorId);
 				}
 			}
@@ -49,7 +48,7 @@ public class BookServices {
 			for (BookCategory bc : bcListByBook) {
 				ArrayList<BookCategory> bcListByCategory = BookCategoryServices.getBookCategoryListByCategory(db, bc.categoryId);
 
-				if (bcListByCategory.size() == 0) {
+				if (bcListByCategory.isEmpty()) {
 					BrokerManager.getBroker(Category.class).delete(db, bc.categoryId);
 				}
 			}
@@ -72,7 +71,7 @@ public class BookServices {
 	 * @return List of books.
 	 */
 	public static ArrayList<Book> getBookListByAuthor(SQLiteDatabase db, long authorId) {
-		String sql = "SELECT boo.* FROM BOOK_AUTHOR bka JOIN BOOk boo ON boo.BOO_ID = bka.BOO_ID WHERE bka.AUT_ID = ?";
+		String sql = "SELECT boo.* FROM BOOK_AUTHOR bka JOIN BOOk boo ON boo.BOO_ID = bka.BOO_ID WHERE bka.AUT_ID = ? ORDER BY BOO_TITLE";
 		String[] selectionArgs = { String.valueOf(authorId) };
 		return BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
 	}
@@ -135,42 +134,9 @@ public class BookServices {
 	 *            SQLiteDatabase.
 	 * @return List of BookInfo.
 	 */
-	@SuppressLint("UseSparseArrays")
 	public static ArrayList<BookInfo> getBookInfoList(SQLiteDatabase db) {
-
 		ArrayList<Book> bookList = BrokerManager.getBroker(Book.class).getAll(db, null, new String[] { Book.Cols.BOO_TITLE });
-		ArrayList<BookAuthor> bookAuthorList = BrokerManager.getBroker(BookAuthor.class).getAll(db);
-		ArrayList<Author> authorList = BrokerManager.getBroker(Author.class).getAll(db);
-
-		HashMap<Long, ArrayList<BookAuthor>> bookAuthorMap = new HashMap<Long, ArrayList<BookAuthor>>();
-		HashMap<Long, Author> authorMap = new HashMap<Long, Author>();
-		for (BookAuthor bookAuthor : bookAuthorList) {
-			if (!bookAuthorMap.containsKey(bookAuthor.bookId)) {
-				bookAuthorMap.put(bookAuthor.bookId, new ArrayList<BookAuthor>());
-			}
-			ArrayList<BookAuthor> baList = bookAuthorMap.get(bookAuthor.bookId);
-			baList.add(bookAuthor);
-		}
-		for (Author author : authorList) {
-			authorMap.put(author.id, author);
-		}
-
-		ArrayList<BookInfo> bookInfoList = new ArrayList<BookInfo>();
-		for (Book book : bookList) {
-			BookInfo bookInfo = new BookInfo(book);
-
-			ArrayList<BookAuthor> baList = bookAuthorMap.get(book.id);
-			if (baList != null) {
-				for (BookAuthor bookAuthor : baList) {
-					Author author = authorMap.get(bookAuthor.authorId);
-					bookInfo.authors.add(author);
-				}
-			}
-
-			bookInfoList.add(bookInfo);
-		}
-
-		return bookInfoList;
+		return getBookInfoList(db, bookList);
 	}
 
 	/**
@@ -200,6 +166,83 @@ public class BookServices {
 		} finally {
 			db.endTransaction();
 		}
+	}
+
+	/**
+	 * Search the books whose title matched the query.
+	 * 
+	 * @param db
+	 *            SQLiteDatabase.
+	 * @param query
+	 *            The searched text.
+	 * @return The books whose title contains the given query.
+	 */
+	public static ArrayList<BookInfo> searchBooks(SQLiteDatabase db, String query) {
+		String sql = "SELECT * FROM BOOK WHERE BOO_TITLE LIKE '%' || ? || '%' ORDER BY BOO_TITLE";
+		String selection[] = new String[] { query };
+		ArrayList<Book> bookList = BrokerManager.getBroker(Book.class).rawSelect(db, sql, selection);
+		return getBookInfoList(db, bookList);
+	}
+
+	/**
+	 * When given a list of {@link Book}, build a list of {@link BookInfo}
+	 * containing the original information of the books plus the list of their
+	 * authors.
+	 * 
+	 * @param db
+	 *            SQLiteDatabase.
+	 * @param bookList
+	 *            List of {@link Book}.
+	 * @return List of {@link BookInfo}.
+	 */
+	private static ArrayList<BookInfo> getBookInfoList(SQLiteDatabase db, ArrayList<Book> bookList) {
+		ArrayList<BookInfo> bookInfoList = new ArrayList<BookInfo>();
+
+		if (!bookList.isEmpty()) {
+			ArrayList<Long> bookIdList = new ArrayList<Long>();
+			for (Book book : bookList) {
+				bookIdList.add(book.id);
+			}
+
+			ArrayList<BookAuthor> bookAuthorList = BrokerManager.getBroker(BookAuthor.class).getAllWhereIn(db, BookAuthor.Cols.BOO_ID, bookIdList);
+
+			ArrayList<Long> authorIdList = new ArrayList<Long>();
+			for (BookAuthor bookAuthor : bookAuthorList) {
+				if (!authorIdList.contains(bookAuthor.authorId)) {
+					authorIdList.add(bookAuthor.authorId);
+				}
+			}
+
+			ArrayList<Author> authorList = BrokerManager.getBroker(Author.class).getAllWhereIn(db, Author.Cols.AUT_ID, authorIdList);
+
+			LongSparseArray<ArrayList<BookAuthor>> bookAuthorMap = new LongSparseArray<ArrayList<BookAuthor>>();
+			LongSparseArray<Author> authorMap = new LongSparseArray<Author>();
+			for (BookAuthor bookAuthor : bookAuthorList) {
+				if (bookAuthorMap.get(bookAuthor.bookId) == null) {
+					bookAuthorMap.put(bookAuthor.bookId, new ArrayList<BookAuthor>());
+				}
+				ArrayList<BookAuthor> baList = bookAuthorMap.get(bookAuthor.bookId);
+				baList.add(bookAuthor);
+			}
+			for (Author author : authorList) {
+				authorMap.put(author.id, author);
+			}
+
+			for (Book book : bookList) {
+				BookInfo bookInfo = new BookInfo(book);
+
+				ArrayList<BookAuthor> baList = bookAuthorMap.get(book.id);
+				if (baList != null) {
+					for (BookAuthor bookAuthor : baList) {
+						Author author = authorMap.get(bookAuthor.authorId);
+						bookInfo.authors.add(author);
+					}
+				}
+
+				bookInfoList.add(bookInfo);
+			}
+		}
+		return bookInfoList;
 	}
 
 	/**

@@ -1,6 +1,7 @@
 package com.blackbooks.utils;
 
 import java.security.InvalidParameterException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -124,5 +125,18 @@ public final class StringUtils {
 			categoryNameList[i] = category.name;
 		}
 		return join(categoryNameList, separator);
+	}
+
+	/**
+	 * Normalize a String.
+	 * 
+	 * @param text
+	 *            String value to normalize.
+	 * @return Normalized string value.
+	 */
+	public static String normalize(String text) {
+		return Normalizer.normalize(text, Normalizer.Form.NFD) //
+				.replaceAll("\\p{InCombiningDiacriticalMarks}+", "") //
+				.toLowerCase(Locale.getDefault());
 	}
 }

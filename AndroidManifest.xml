@@ -24,6 +24,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value="com.blackbooks.activities.BookSearch" />
         </activity>
         <activity
             android:name="com.blackbooks.activities.IsbnEnter"
@@ -60,6 +64,22 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blackbooks.activities.BookAdd" />
+        </activity>
+        <activity
+            android:name="com.blackbooks.activities.BookSearch"
+            android:label="@string/title_activity_book_search_default" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.blackbooks.activities.BookList" />
         </activity>
     </application>
 
