@@ -25,7 +25,7 @@ public final class HttpUtils {
 	}
 
 	/**
-	 * Perform a request and return a String representing a JSON object.
+	 * Perform a HTTP request and return its result as a String.
 	 * 
 	 * @param url
 	 *            URL.
@@ -35,7 +35,7 @@ public final class HttpUtils {
 	 * @throws IOException
 	 *             In case of a connection problem.
 	 */
-	public static String getJson(String url) throws URISyntaxException, IOException {
+	public static String getText(String url) throws URISyntaxException, IOException {
 		URI uri = new URI(url);
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpGet get = new HttpGet(uri);

@@ -9,12 +9,10 @@ import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Identifier;
 import com.blackbooks.search.BookSearchResult;
 
-
 /**
  * A class used to store the info of a book returned by the Google Books API.
  */
 public class GoogleBook implements BookSearchResult {
-	public Long bookId;
 	public String title;
 	public String subtitle;
 	public List<String> authors;

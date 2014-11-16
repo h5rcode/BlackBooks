@@ -12,6 +12,7 @@ import java.util.concurrent.Future;
 import android.util.Log;
 
 import com.blackbooks.model.nonpersistent.BookInfo;
+import com.blackbooks.search.amazon.AmazonSearcher;
 import com.blackbooks.search.google.GoogleBooksSearcher;
 import com.blackbooks.search.openlibrary.OpenLibrarySearcher;
 
@@ -31,7 +32,7 @@ public final class BookSearcher {
 	/**
 	 * Search information about the book corresponding to the given ISBN. This
 	 * method starts asynchronous tasks to search different sources of
-	 * information in parallel (Google books, Open library, etc.).
+	 * information in parallel (Amazon, Google books, Open library, etc.).
 	 * 
 	 * @param isbn
 	 *            ISBN.
@@ -46,9 +47,11 @@ public final class BookSearcher {
 	public static BookInfo search(String isbn) throws IOException, InterruptedException {
 		List<Callable<BookSearchResult>> searchers = new ArrayList<Callable<BookSearchResult>>();
 
+		AmazonSearcher amazonSearcher = new AmazonSearcher(isbn);
 		GoogleBooksSearcher googleBooksSearcher = new GoogleBooksSearcher(isbn);
 		OpenLibrarySearcher openLibrarySearcher = new OpenLibrarySearcher(isbn);
 
+		searchers.add(amazonSearcher);
 		searchers.add(googleBooksSearcher);
 		searchers.add(openLibrarySearcher);
 
@@ -91,7 +94,7 @@ public final class BookSearcher {
 					throw (IOException) cause;
 				} else {
 					Log.e(TAG, "A book search encountered an error.");
-					Log.e(TAG, cause.getMessage());
+					Log.e(TAG, cause.getMessage(), cause);
 				}
 			}
 			if (bookSearchResult != null) {
