@@ -108,6 +108,8 @@ public class BookSearchFragment extends Fragment {
 				errorMessageId = R.string.error_connection_problem;
 			} catch (IOException e) {
 				throw new RuntimeException(e);
+			} catch (InterruptedException e) {
+				// Do nothing. The method will terminate and return null.
 			}
 			return book;
 		}

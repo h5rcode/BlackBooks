@@ -40,8 +40,10 @@ public final class BookSearcher {
 	 * @throws IOException
 	 *             If any book search threw an IOException (most likely because
 	 *             of an internet connection problem).
+	 * @throws InterruptedException
+	 *             If the book search is interrupted.
 	 */
-	public static BookInfo search(String isbn) throws IOException {
+	public static BookInfo search(String isbn) throws IOException, InterruptedException {
 		List<Callable<BookSearchResult>> searchers = new ArrayList<Callable<BookSearchResult>>();
 
 		GoogleBooksSearcher googleBooksSearcher = new GoogleBooksSearcher(isbn);
@@ -55,8 +57,6 @@ public final class BookSearcher {
 		try {
 			List<Future<BookSearchResult>> futureSearchResultList = executorService.invokeAll(searchers);
 			bookSearchResultList = getBookSearchResultList(futureSearchResultList);
-		} catch (InterruptedException e) {
-			Log.i(TAG, "A book search was interrupted.");
 		} finally {
 			executorService.shutdown();
 		}
