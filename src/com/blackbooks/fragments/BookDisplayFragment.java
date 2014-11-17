@@ -28,6 +28,7 @@ import com.blackbooks.activities.BookEdit;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.services.BookServices;
+import com.blackbooks.utils.BitmapUtils;
 import com.blackbooks.utils.StringUtils;
 import com.blackbooks.utils.VariableUtils;
 
@@ -232,6 +233,7 @@ public class BookDisplayFragment extends Fragment {
 		mTextTitle.setText(mBookInfo.title);
 		if (mBookInfo.thumbnail != null && mBookInfo.thumbnail.length > 0) {
 			Bitmap bitmap = BitmapFactory.decodeByteArray(mBookInfo.thumbnail, 0, mBookInfo.thumbnail.length);
+			bitmap = BitmapUtils.resizeThumbnailBitmap(getActivity(), bitmap);
 			mImageCover.setImageBitmap(bitmap);
 			mImageCover.setVisibility(View.VISIBLE);
 		} else {

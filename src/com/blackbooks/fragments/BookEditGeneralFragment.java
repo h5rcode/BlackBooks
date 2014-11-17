@@ -42,6 +42,7 @@ import com.blackbooks.model.persistent.Publisher;
 import com.blackbooks.services.AuthorServices;
 import com.blackbooks.services.CategoryServices;
 import com.blackbooks.services.PublisherServices;
+import com.blackbooks.utils.BitmapUtils;
 import com.blackbooks.utils.StringUtils;
 
 /**
@@ -413,8 +414,10 @@ public class BookEditGeneralFragment extends Fragment {
 	 */
 	private void setImageThumbnail() {
 		Bitmap bitmap;
-		if (mBookInfo.thumbnail != null && mBookInfo.thumbnail.length > 0) {
-			bitmap = BitmapFactory.decodeByteArray(mBookInfo.thumbnail, 0, mBookInfo.thumbnail.length);
+		byte[] thumbnail = mBookInfo.thumbnail;
+		if (thumbnail != null && thumbnail.length > 0) {
+			bitmap = BitmapFactory.decodeByteArray(thumbnail, 0, thumbnail.length);
+			bitmap = BitmapUtils.resizeThumbnailBitmap(getActivity(), bitmap);
 		} else {
 			bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_undefined_thumbnail);
 		}

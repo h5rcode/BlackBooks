@@ -71,43 +71,43 @@ public class BookInfo extends Book implements Serializable {
 	 */
 	public void merge(BookInfo bookInfo) {
 		if (bookInfo != null) {
-			if (this.title == null) {
+			if (bookInfo.title != null) {
 				this.title = bookInfo.title;
 			}
-			if (this.subtitle == null) {
+			if (bookInfo.subtitle != null) {
 				this.subtitle = bookInfo.subtitle;
 			}
-			if (this.languageCode == null) {
+			if (bookInfo.languageCode != null) {
 				this.languageCode = bookInfo.languageCode;
 			}
-			if (this.publishedDate == null) {
+			if (bookInfo.publishedDate != null) {
 				this.publishedDate = bookInfo.publishedDate;
 			}
-			if (this.description == null) {
+			if (bookInfo.description != null) {
 				this.description = bookInfo.description;
 			}
-			if (this.pageCount == null) {
+			if (bookInfo.pageCount != null) {
 				this.pageCount = bookInfo.pageCount;
 			}
-			if (this.height == null) {
+			if (bookInfo.height != null) {
 				this.height = bookInfo.height;
 			}
-			if (this.width == null) {
+			if (bookInfo.width != null) {
 				this.width = bookInfo.width;
 			}
-			if (this.thickness == null) {
+			if (bookInfo.thickness != null) {
 				this.thickness = bookInfo.thickness;
 			}
-			if (this.printType == null) {
+			if (bookInfo.printType != null) {
 				this.printType = bookInfo.printType;
 			}
-			if (this.mainCategory == null) {
+			if (bookInfo.mainCategory != null) {
 				this.mainCategory = bookInfo.mainCategory;
 			}
-			if (this.smallThumbnail == null) {
+			if (bookInfo.smallThumbnail != null) {
 				this.smallThumbnail = bookInfo.smallThumbnail;
 			}
-			if (this.thumbnail == null) {
+			if (bookInfo.thumbnail != null) {
 				this.thumbnail = bookInfo.thumbnail;
 			}
 		}
@@ -176,7 +176,7 @@ public class BookInfo extends Book implements Serializable {
 	}
 
 	private void mergePublisher(String publisherName) {
-		if (this.publisher.name == null) {
+		if (publisherName != null) {
 			this.publisher.name = publisherName;
 		}
 	}

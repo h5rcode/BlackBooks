@@ -167,11 +167,11 @@ public final class AmazonXmlParser {
 			if (name.equals(ITEM_ATTRIBUTES)) {
 				itemAttributes = readItemAttributes(parser);
 			} else if (SMALL_IMAGE.equals(name)) {
-				smallImage = readImage(parser);
+				smallImage = readImage(parser, SMALL_IMAGE);
 			} else if (MEDIUM_IMAGE.equals(name)) {
-				mediumImage = readImage(parser);
+				mediumImage = readImage(parser, MEDIUM_IMAGE);
 			} else if (LARGE_IMAGE.equals(name)) {
-				largeImage = readImage(parser);
+				largeImage = readImage(parser, LARGE_IMAGE);
 			} else {
 				skip(parser);
 			}
@@ -221,12 +221,14 @@ public final class AmazonXmlParser {
 	 * 
 	 * @param parser
 	 *            XmlPullParser.
+	 * @param elementName
+	 *            Element name.
 	 * @return Image.
 	 * @throws XmlPullParserException
 	 * @throws IOException
 	 */
-	private static Image readImage(XmlPullParser parser) throws XmlPullParserException, IOException {
-		parser.require(XmlPullParser.START_TAG, ns, SMALL_IMAGE);
+	private static Image readImage(XmlPullParser parser, String elementName) throws XmlPullParserException, IOException {
+		parser.require(XmlPullParser.START_TAG, ns, elementName);
 
 		String url = null;
 

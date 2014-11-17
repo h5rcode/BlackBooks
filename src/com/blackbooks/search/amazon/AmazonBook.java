@@ -43,7 +43,11 @@ public class AmazonBook implements BookSearchResult {
 			bookInfo.publisher.name = this.publisher;
 		}
 		bookInfo.smallThumbnail = this.smallImage;
-		bookInfo.thumbnail = this.mediumImage;
+		if (this.largeImage != null) {
+			bookInfo.thumbnail = this.largeImage;
+		} else {
+			bookInfo.thumbnail = this.mediumImage;
+		}
 		return bookInfo;
 	}
 }
