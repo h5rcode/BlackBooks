@@ -14,7 +14,7 @@ import android.util.Xml;
  * Utility class to parse XML results returned by the Amazon Product Advertising
  * API.
  */
-public class AmazonXmlParser {
+public final class AmazonXmlParser {
 
 	private static final String ITEM_LOOKUP_RESPONSE = "ItemLookupResponse";
 	private static final String ITEMS = "Items";
@@ -33,8 +33,14 @@ public class AmazonXmlParser {
 	private static final String ns = null;
 
 	/**
-	 * Parse the JSON data returned by Google Books API and return an instance
-	 * of GoogleBook.
+	 * Private constructor.
+	 */
+	private AmazonXmlParser() {
+	}
+
+	/**
+	 * Parse the XML data returned by the Amazon Product Advertising API and
+	 * return an instance of AmazonBook.
 	 * 
 	 * @param xml
 	 *            The XML data to parse.
@@ -50,6 +56,15 @@ public class AmazonXmlParser {
 		return readItemLookupResponse(parser);
 	}
 
+	/**
+	 * Read the XML response and build an AmazonBook from it.
+	 * 
+	 * @param parser
+	 *            XmlPullParser.
+	 * @return AmazonBook.
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private static AmazonBook readItemLookupResponse(XmlPullParser parser) throws XmlPullParserException, IOException {
 		AmazonBook amazonBook = null;
 		List<Item> items = null;
@@ -79,17 +94,17 @@ public class AmazonXmlParser {
 				amazonBook.publisher = itemAttributes.publisher;
 			}
 
-			SmallImage smallImage = item.smallImage;
+			Image smallImage = item.smallImage;
 			if (smallImage != null) {
 				amazonBook.smallImageLink = smallImage.url;
 			}
 
-			MediumImage mediumImage = item.mediumImage;
+			Image mediumImage = item.mediumImage;
 			if (mediumImage != null) {
 				amazonBook.mediumImageLink = mediumImage.url;
 			}
 
-			LargeImage largeImage = item.largeImage;
+			Image largeImage = item.largeImage;
 			if (largeImage != null) {
 				amazonBook.largeImageLink = largeImage.url;
 			}
@@ -98,6 +113,15 @@ public class AmazonXmlParser {
 		return amazonBook;
 	}
 
+	/**
+	 * Read the Items element and return a list of Item.
+	 * 
+	 * @param parser
+	 *            XmlPullParser.
+	 * @return List of Item.
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private static List<Item> readItems(XmlPullParser parser) throws XmlPullParserException, IOException {
 		parser.require(XmlPullParser.START_TAG, ns, ITEMS);
 
@@ -118,13 +142,22 @@ public class AmazonXmlParser {
 		return items;
 	}
 
+	/**
+	 * Read an Item element.
+	 * 
+	 * @param parser
+	 *            XmlPullParser.
+	 * @return Item.
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private static Item readItem(XmlPullParser parser) throws XmlPullParserException, IOException {
 		parser.require(XmlPullParser.START_TAG, ns, ITEM);
 
 		ItemAttributes itemAttributes = null;
-		SmallImage smallImage = null;
-		MediumImage mediumImage = null;
-		LargeImage largeImage = null;
+		Image smallImage = null;
+		Image mediumImage = null;
+		Image largeImage = null;
 
 		while (parser.next() != XmlPullParser.END_TAG) {
 			if (parser.getEventType() != XmlPullParser.START_TAG) {
@@ -134,11 +167,11 @@ public class AmazonXmlParser {
 			if (name.equals(ITEM_ATTRIBUTES)) {
 				itemAttributes = readItemAttributes(parser);
 			} else if (SMALL_IMAGE.equals(name)) {
-				smallImage = readSmallImage(parser);
+				smallImage = readImage(parser);
 			} else if (MEDIUM_IMAGE.equals(name)) {
-				mediumImage = readMediumImage(parser);
+				mediumImage = readImage(parser);
 			} else if (LARGE_IMAGE.equals(name)) {
-				largeImage = readLargeImage(parser);
+				largeImage = readImage(parser);
 			} else {
 				skip(parser);
 			}
@@ -146,6 +179,15 @@ public class AmazonXmlParser {
 		return new Item(itemAttributes, smallImage, mediumImage, largeImage);
 	}
 
+	/**
+	 * Read an ItemAttributes element.
+	 * 
+	 * @param parser
+	 *            XmlPullParser.
+	 * @return ItemAttributes.
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private static ItemAttributes readItemAttributes(XmlPullParser parser) throws XmlPullParserException, IOException {
 		parser.require(XmlPullParser.START_TAG, ns, ITEM_ATTRIBUTES);
 
@@ -174,7 +216,16 @@ public class AmazonXmlParser {
 		return new ItemAttributes(author, title, isbn, publisher);
 	}
 
-	private static SmallImage readSmallImage(XmlPullParser parser) throws XmlPullParserException, IOException {
+	/**
+	 * Read an Image element.
+	 * 
+	 * @param parser
+	 *            XmlPullParser.
+	 * @return Image.
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
+	private static Image readImage(XmlPullParser parser) throws XmlPullParserException, IOException {
 		parser.require(XmlPullParser.START_TAG, ns, SMALL_IMAGE);
 
 		String url = null;
@@ -190,47 +241,20 @@ public class AmazonXmlParser {
 				skip(parser);
 			}
 		}
-		return new SmallImage(url);
+		return new Image(url);
 	}
 
-	private static MediumImage readMediumImage(XmlPullParser parser) throws XmlPullParserException, IOException {
-		parser.require(XmlPullParser.START_TAG, ns, MEDIUM_IMAGE);
-
-		String url = null;
-
-		while (parser.next() != XmlPullParser.END_TAG) {
-			if (parser.getEventType() != XmlPullParser.START_TAG) {
-				continue;
-			}
-			String name = parser.getName();
-			if (name.equals(URL)) {
-				url = readText(parser, URL);
-			} else {
-				skip(parser);
-			}
-		}
-		return new MediumImage(url);
-	}
-
-	private static LargeImage readLargeImage(XmlPullParser parser) throws XmlPullParserException, IOException {
-		parser.require(XmlPullParser.START_TAG, ns, LARGE_IMAGE);
-
-		String url = null;
-
-		while (parser.next() != XmlPullParser.END_TAG) {
-			if (parser.getEventType() != XmlPullParser.START_TAG) {
-				continue;
-			}
-			String name = parser.getName();
-			if (name.equals(URL)) {
-				url = readText(parser, URL);
-			} else {
-				skip(parser);
-			}
-		}
-		return new LargeImage(url);
-	}
-
+	/**
+	 * Read text.
+	 * 
+	 * @param parser
+	 *            XmlPullParser.
+	 * @param name
+	 *            Name of the XML element containing the text.
+	 * @return The text.
+	 * @throws IOException
+	 * @throws XmlPullParserException
+	 */
 	private static String readText(XmlPullParser parser, String name) throws IOException, XmlPullParserException {
 		String result = "";
 		parser.require(XmlPullParser.START_TAG, ns, name);
@@ -242,6 +266,14 @@ public class AmazonXmlParser {
 		return result;
 	}
 
+	/**
+	 * Skip the current XML element.
+	 * 
+	 * @param parser
+	 *            XmlPullParser.
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private static void skip(XmlPullParser parser) throws XmlPullParserException, IOException {
 		if (parser.getEventType() != XmlPullParser.START_TAG) {
 			throw new IllegalStateException();
@@ -259,14 +291,29 @@ public class AmazonXmlParser {
 		}
 	}
 
+	/**
+	 * Item.
+	 */
 	private static class Item {
 
 		public final ItemAttributes itemAttributes;
-		public final SmallImage smallImage;
-		public final MediumImage mediumImage;
-		public final LargeImage largeImage;
+		public final Image smallImage;
+		public final Image mediumImage;
+		public final Image largeImage;
 
-		public Item(ItemAttributes itemAttributes, SmallImage smallImage, MediumImage mediumImage, LargeImage largeImage) {
+		/**
+		 * Constructor.
+		 * 
+		 * @param itemAttributes
+		 *            ItemAttributes.
+		 * @param smallImage
+		 *            Image.
+		 * @param mediumImage
+		 *            Image.
+		 * @param largeImage
+		 *            Image.
+		 */
+		public Item(ItemAttributes itemAttributes, Image smallImage, Image mediumImage, Image largeImage) {
 			this.itemAttributes = itemAttributes;
 			this.smallImage = smallImage;
 			this.mediumImage = mediumImage;
@@ -275,6 +322,9 @@ public class AmazonXmlParser {
 
 	}
 
+	/**
+	 * ItemAttributes.
+	 */
 	private static class ItemAttributes {
 
 		public final String author;
@@ -282,6 +332,18 @@ public class AmazonXmlParser {
 		public final String isbn;
 		public final String publisher;
 
+		/**
+		 * Constructor.
+		 * 
+		 * @param author
+		 *            Author.
+		 * @param title
+		 *            Title.
+		 * @param isbn
+		 *            ISBN.
+		 * @param publisher
+		 *            Publisher.
+		 */
 		public ItemAttributes(String author, String title, String isbn, String publisher) {
 			this.author = author;
 			this.title = title;
@@ -290,29 +352,19 @@ public class AmazonXmlParser {
 		}
 	}
 
-	private static class SmallImage {
-
+	/**
+	 * Image.
+	 */
+	private static class Image {
 		public final String url;
 
-		public SmallImage(String url) {
-			this.url = url;
-		}
-	}
-
-	private static class MediumImage {
-
-		public final String url;
-
-		public MediumImage(String url) {
-			this.url = url;
-		}
-	}
-
-	private static class LargeImage {
-
-		public final String url;
-
-		public LargeImage(String url) {
+		/**
+		 * Constructor.
+		 * 
+		 * @param url
+		 *            URL.
+		 */
+		public Image(String url) {
 			this.url = url;
 		}
 	}
