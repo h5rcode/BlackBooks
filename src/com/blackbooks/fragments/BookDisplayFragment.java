@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,9 +38,10 @@ import com.blackbooks.utils.VariableUtils;
  */
 public class BookDisplayFragment extends Fragment {
 
-	private final static String ARG_BOOK_ID = "ARG_BOOK_ID";
+	private static final String ARG_BOOK_ID = "ARG_BOOK_ID";
+	private static final String IMAGE_DISPLAYS_FRAGMENT_TAG = "IMAGE_DISPLAYS_FRAGMENT_TAG";
 
-	private final static int REQUEST_CODE_EDIT_BOOK = 1;
+	private static final int REQUEST_CODE_EDIT_BOOK = 1;
 
 	private SQLiteHelper mDbHelper;
 
@@ -107,6 +109,21 @@ public class BookDisplayFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_book_display, container, false);
 		findViews(view);
+
+		android.view.View.OnClickListener listener = new android.view.View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				byte[] image = mBookInfo.thumbnail;
+				if (image != null && image.length > 0) {
+					FragmentManager fm = BookDisplayFragment.this.getFragmentManager();
+					ImageDisplayFragment fragment = ImageDisplayFragment.newInstance(image);
+					fragment.show(fm, IMAGE_DISPLAYS_FRAGMENT_TAG);
+				}
+			}
+		};
+		mImageCover.setOnClickListener(listener);
+
 		renderBookInfo();
 		return view;
 	}
@@ -157,13 +174,13 @@ public class BookDisplayFragment extends Fragment {
 	private void deleteBook() {
 		String title = mBookInfo.title;
 		String message = String.format(getString(R.string.message_book_deleted), title);
-	
+
 		SQLiteDatabase db = mDbHelper.getWritableDatabase();
 		BookServices.deleteBook(db, mBookInfo.id);
 		db.close();
 		VariableUtils.getInstance().setReloadBookList(true);
 		Toast.makeText(this.getActivity(), message, Toast.LENGTH_SHORT).show();
-	
+
 		if (mBookDisplayListener != null) {
 			mBookDisplayListener.onBookDeleted();
 		}

@@ -34,6 +34,7 @@
     <string name="label_categories">Categories</string>
     <string name="label_description">Description</string>
     <string name="label_favourite">This is a favourite book</string>
+    <string name="label_image">Image</string>
     <string name="label_isbn">ISBN</string>
     <string name="label_language">Language</string>
     <string name="label_no_language">(No language set)</string>
