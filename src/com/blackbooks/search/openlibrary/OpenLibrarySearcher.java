@@ -47,15 +47,6 @@ public final class OpenLibrarySearcher implements Callable<BookSearchResult> {
 	private static OpenLibraryBook search(String isbn) throws URISyntaxException, JSONException, IOException {
 		String url = String.format(URI_FORMAT_STRING, isbn);
 		String json = HttpUtils.getText(url);
-		OpenLibraryBook openLibraryBook = OpenLibraryJSONParser.parse(json);
-		if (openLibraryBook != null) {
-			if (openLibraryBook.coverLinkSmall != null) {
-				openLibraryBook.coverSmall = HttpUtils.getBinary(openLibraryBook.coverLinkSmall);
-			}
-			if (openLibraryBook.coverLinkMedium != null) {
-				openLibraryBook.coverMedium = HttpUtils.getBinary(openLibraryBook.coverLinkMedium);
-			}
-		}
-		return openLibraryBook;
+		return OpenLibraryJSONParser.parse(json);
 	}
 }

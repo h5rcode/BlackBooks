@@ -51,15 +51,6 @@ public final class GoogleBooksSearcher implements Callable<BookSearchResult> {
 		String url = String.format(URI_FORMAT_STRING, isbn);
 		String json = HttpUtils.getText(url);
 
-		GoogleBook googleBook = new GoogleBooksJSONParser().parse(json);
-		if (googleBook != null) {
-			if (googleBook.thumbnailLink != null) {
-				googleBook.thumbnail = HttpUtils.getBinary(googleBook.thumbnailLink);
-			}
-			if (googleBook.smallThumbnailLink != null) {
-				googleBook.smallThumbnail = HttpUtils.getBinary(googleBook.smallThumbnailLink);
-			}
-		}
-		return googleBook;
+		return new GoogleBooksJSONParser().parse(json);
 	}
 }

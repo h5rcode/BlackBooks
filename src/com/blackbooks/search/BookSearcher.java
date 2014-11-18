@@ -48,8 +48,8 @@ public final class BookSearcher {
 		List<Callable<BookSearchResult>> searchers = new ArrayList<Callable<BookSearchResult>>();
 
 		AmazonSearcher amazonSearcher = new AmazonSearcher(isbn);
-		GoogleBooksSearcher googleBooksSearcher = new GoogleBooksSearcher(isbn);
 		OpenLibrarySearcher openLibrarySearcher = new OpenLibrarySearcher(isbn);
+		GoogleBooksSearcher googleBooksSearcher = new GoogleBooksSearcher(isbn);
 
 		searchers.add(amazonSearcher);
 		searchers.add(googleBooksSearcher);
