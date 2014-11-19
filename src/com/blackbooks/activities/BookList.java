@@ -26,6 +26,7 @@ import com.blackbooks.fragments.AbstractBookListFragment;
 import com.blackbooks.fragments.AbstractBookListFragment.BookListListener;
 import com.blackbooks.fragments.BookListByAuthorFragment;
 import com.blackbooks.fragments.BookListByFirstLetterFragment;
+import com.blackbooks.fragments.BookListByLanguageFragment;
 import com.blackbooks.helpers.FileHelper;
 import com.blackbooks.helpers.IsbnHelper;
 import com.blackbooks.helpers.Pic2ShopHelper;
@@ -62,6 +63,8 @@ public class BookList extends FragmentActivity implements BookListListener {
 				mCurrentFragment = new BookListByAuthorFragment();
 			} else if (defaultList.equals(BookListByFirstLetterFragment.class.getName())) {
 				mCurrentFragment = new BookListByFirstLetterFragment();
+			} else if (defaultList.equals(BookListByLanguageFragment.class.getName())) {
+				mCurrentFragment = new BookListByLanguageFragment();
 			} else {
 				mCurrentFragment = new BookListByAuthorFragment();
 			}
@@ -86,71 +89,43 @@ public class BookList extends FragmentActivity implements BookListListener {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		boolean result;
+		boolean result = true;
 		Intent i;
-		SharedPreferences sharedPref;
-		SharedPreferences.Editor editor;
 
 		switch (item.getItemId()) {
 		case R.id.bookList_actionScanIsbn:
 			startIsbnScan();
-			result = true;
 			break;
 
 		case R.id.bookList_actionTypeIsbn:
 			i = new Intent(this, IsbnEnter.class);
 			this.startActivity(i);
-			result = true;
 			break;
 
 		case R.id.bookList_actionAddManually:
 			i = new Intent(this, BookEdit.class);
 			i.putExtra(BookEdit.EXTRA_MODE, BookEdit.MODE_ADD);
 			this.startActivity(i);
-			result = true;
 			break;
 
 		case R.id.bookList_actionSortByAuthor:
-			result = true;
-			if (!(mCurrentFragment instanceof BookListByAuthorFragment)) {
-				sharedPref = getSharedPreferences(BookList.PREFERENCES, MODE_PRIVATE);
-				editor = sharedPref.edit();
-				editor.putString(BookList.PREF_DEFAULT_LIST, BookListByAuthorFragment.class.getName());
-				editor.commit();
-				mCurrentFragment = new BookListByAuthorFragment();
-				getSupportFragmentManager().beginTransaction() //
-						.replace(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
-						.commit();
-			}
-
+			sortByAuthor();
 			break;
 
 		case R.id.bookList_actionSortByFirstLetter:
-			result = true;
+			sortByFirstLetter();
+			break;
 
-			if (!(mCurrentFragment instanceof BookListByFirstLetterFragment)) {
-				sharedPref = getSharedPreferences(BookList.PREFERENCES, MODE_PRIVATE);
-				editor = sharedPref.edit();
-				editor.putString(BookList.PREF_DEFAULT_LIST, BookListByFirstLetterFragment.class.getName());
-				editor.commit();
-				mCurrentFragment = new BookListByFirstLetterFragment();
-				getSupportFragmentManager().beginTransaction() //
-						.replace(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
-						.commit();
-			}
-
+		case R.id.bookList_actionSortByLanguage:
+			sortByLanguage();
 			break;
 
 		case R.id.bookList_actionSearch:
-			result = true;
 			i = new Intent(this, BookSearch.class);
-			// startActivity(i);
-			// onSearchRequested();
 			break;
 
 		case R.id.bookList_actionBackupDb:
 			saveDbOnDisk();
-			result = true;
 			break;
 
 		default:
@@ -202,6 +177,45 @@ public class BookList extends FragmentActivity implements BookListListener {
 		} catch (IOException e) {
 			Log.e(TAG, e.getMessage(), e);
 			Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+		}
+	}
+
+	private void sortByAuthor() {
+		if (!(mCurrentFragment instanceof BookListByAuthorFragment)) {
+			SharedPreferences sharedPref = getSharedPreferences(BookList.PREFERENCES, MODE_PRIVATE);
+			SharedPreferences.Editor editor = sharedPref.edit();
+			editor.putString(BookList.PREF_DEFAULT_LIST, BookListByAuthorFragment.class.getName());
+			editor.commit();
+			mCurrentFragment = new BookListByAuthorFragment();
+			getSupportFragmentManager().beginTransaction() //
+					.replace(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
+					.commit();
+		}
+	}
+
+	private void sortByFirstLetter() {
+		if (!(mCurrentFragment instanceof BookListByFirstLetterFragment)) {
+			SharedPreferences sharedPref = getSharedPreferences(BookList.PREFERENCES, MODE_PRIVATE);
+			SharedPreferences.Editor editor = sharedPref.edit();
+			editor.putString(BookList.PREF_DEFAULT_LIST, BookListByFirstLetterFragment.class.getName());
+			editor.commit();
+			mCurrentFragment = new BookListByFirstLetterFragment();
+			getSupportFragmentManager().beginTransaction() //
+					.replace(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
+					.commit();
+		}
+	}
+
+	private void sortByLanguage() {
+		if (!(mCurrentFragment instanceof BookListByLanguageFragment)) {
+			SharedPreferences sharedPref = getSharedPreferences(BookList.PREFERENCES, MODE_PRIVATE);
+			SharedPreferences.Editor editor = sharedPref.edit();
+			editor.putString(BookList.PREF_DEFAULT_LIST, BookListByLanguageFragment.class.getName());
+			editor.commit();
+			mCurrentFragment = new BookListByLanguageFragment();
+			getSupportFragmentManager().beginTransaction() //
+					.replace(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
+					.commit();
 		}
 	}
 

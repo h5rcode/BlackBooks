@@ -2,8 +2,6 @@ package com.blackbooks.adapters;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.TreeMap;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,18 +12,20 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.blackbooks.R;
-import com.blackbooks.utils.StringUtils;
+import com.blackbooks.model.nonpersistent.Language;
+import com.blackbooks.utils.LanguageUtils;
 
 public class LanguagesAdapter extends ArrayAdapter<Language> {
 
-	private LayoutInflater mInflater;
-	private List<Language> mLanguageList = new ArrayList<Language>();
-	private List<String> mLanguageCodeList = new ArrayList<String>();
+	private final LayoutInflater mInflater;
+	private final List<Language> mLanguageList;
+	private final List<String> mLanguageCodeList;
 
 	public LanguagesAdapter(Context context) {
 		super(context, android.R.layout.simple_list_item_1);
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		initLanguages();
+		mLanguageList = LanguageUtils.getLanguageList(context.getString(R.string.label_no_language));
+		mLanguageCodeList = new ArrayList<String>();
 		for (Language language : mLanguageList) {
 			super.add(language);
 			mLanguageCodeList.add(language.getCode());
@@ -58,21 +58,5 @@ public class LanguagesAdapter extends ArrayAdapter<Language> {
 			view.setTag(language.getCode());
 		}
 		return view;
-	}
-
-	private void initLanguages() {
-		Locale[] locales = Locale.getAvailableLocales();
-		TreeMap<String, Language> languageMap = new TreeMap<String, Language>();
-		for (Locale locale : locales) {
-			String displayLanguage = StringUtils.capitalize(locale.getDisplayLanguage());
-			if (!languageMap.containsKey(displayLanguage)) {
-				languageMap.put(displayLanguage, new Language(locale.getLanguage(), displayLanguage));
-			}
-		}
-
-		mLanguageList.add(new Language(null, this.getContext().getString(R.string.label_no_language)));
-		for (Language language : languageMap.values()) {
-			mLanguageList.add(language);
-		}
 	}
 }

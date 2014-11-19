@@ -137,7 +137,68 @@ public class BookServices {
 	 */
 	public static List<BookInfo> getBookInfoList(SQLiteDatabase db) {
 		List<Book> bookList = BrokerManager.getBroker(Book.class).getAll(db, null, new String[] { Book.Cols.BOO_TITLE });
-		return getBookInfoList(db, bookList);
+		return getBookInfoListFromBookList(db, bookList);
+	}
+
+	/**
+	 * When given a list of {@link Book}, build a list of {@link BookInfo}
+	 * containing the original information of the books plus the list of their
+	 * authors.
+	 * 
+	 * @param db
+	 *            SQLiteDatabase.
+	 * @param bookList
+	 *            List of {@link Book}.
+	 * @return List of {@link BookInfo}.
+	 */
+	public static List<BookInfo> getBookInfoListFromBookList(SQLiteDatabase db, List<Book> bookList) {
+		List<BookInfo> bookInfoList = new ArrayList<BookInfo>();
+	
+		if (!bookList.isEmpty()) {
+			List<Long> bookIdList = new ArrayList<Long>();
+			for (Book book : bookList) {
+				bookIdList.add(book.id);
+			}
+	
+			List<BookAuthor> bookAuthorList = BrokerManager.getBroker(BookAuthor.class).getAllWhereIn(db, BookAuthor.Cols.BOO_ID, bookIdList);
+	
+			List<Long> authorIdList = new ArrayList<Long>();
+			for (BookAuthor bookAuthor : bookAuthorList) {
+				if (!authorIdList.contains(bookAuthor.authorId)) {
+					authorIdList.add(bookAuthor.authorId);
+				}
+			}
+	
+			List<Author> authorList = BrokerManager.getBroker(Author.class).getAllWhereIn(db, Author.Cols.AUT_ID, authorIdList);
+	
+			LongSparseArray<List<BookAuthor>> bookAuthorMap = new LongSparseArray<List<BookAuthor>>();
+			LongSparseArray<Author> authorMap = new LongSparseArray<Author>();
+			for (BookAuthor bookAuthor : bookAuthorList) {
+				if (bookAuthorMap.get(bookAuthor.bookId) == null) {
+					bookAuthorMap.put(bookAuthor.bookId, new ArrayList<BookAuthor>());
+				}
+				List<BookAuthor> baList = bookAuthorMap.get(bookAuthor.bookId);
+				baList.add(bookAuthor);
+			}
+			for (Author author : authorList) {
+				authorMap.put(author.id, author);
+			}
+	
+			for (Book book : bookList) {
+				BookInfo bookInfo = new BookInfo(book);
+	
+				List<BookAuthor> baList = bookAuthorMap.get(book.id);
+				if (baList != null) {
+					for (BookAuthor bookAuthor : baList) {
+						Author author = authorMap.get(bookAuthor.authorId);
+						bookInfo.authors.add(author);
+					}
+				}
+	
+				bookInfoList.add(bookInfo);
+			}
+		}
+		return bookInfoList;
 	}
 
 	/**
@@ -182,68 +243,7 @@ public class BookServices {
 		String sql = "SELECT * FROM BOOK WHERE BOO_TITLE LIKE '%' || ? || '%' ORDER BY BOO_TITLE";
 		String selection[] = new String[] { query };
 		List<Book> bookList = BrokerManager.getBroker(Book.class).rawSelect(db, sql, selection);
-		return getBookInfoList(db, bookList);
-	}
-
-	/**
-	 * When given a list of {@link Book}, build a list of {@link BookInfo}
-	 * containing the original information of the books plus the list of their
-	 * authors.
-	 * 
-	 * @param db
-	 *            SQLiteDatabase.
-	 * @param bookList
-	 *            List of {@link Book}.
-	 * @return List of {@link BookInfo}.
-	 */
-	private static List<BookInfo> getBookInfoList(SQLiteDatabase db, List<Book> bookList) {
-		List<BookInfo> bookInfoList = new ArrayList<BookInfo>();
-
-		if (!bookList.isEmpty()) {
-			List<Long> bookIdList = new ArrayList<Long>();
-			for (Book book : bookList) {
-				bookIdList.add(book.id);
-			}
-
-			List<BookAuthor> bookAuthorList = BrokerManager.getBroker(BookAuthor.class).getAllWhereIn(db, BookAuthor.Cols.BOO_ID, bookIdList);
-
-			List<Long> authorIdList = new ArrayList<Long>();
-			for (BookAuthor bookAuthor : bookAuthorList) {
-				if (!authorIdList.contains(bookAuthor.authorId)) {
-					authorIdList.add(bookAuthor.authorId);
-				}
-			}
-
-			List<Author> authorList = BrokerManager.getBroker(Author.class).getAllWhereIn(db, Author.Cols.AUT_ID, authorIdList);
-
-			LongSparseArray<List<BookAuthor>> bookAuthorMap = new LongSparseArray<List<BookAuthor>>();
-			LongSparseArray<Author> authorMap = new LongSparseArray<Author>();
-			for (BookAuthor bookAuthor : bookAuthorList) {
-				if (bookAuthorMap.get(bookAuthor.bookId) == null) {
-					bookAuthorMap.put(bookAuthor.bookId, new ArrayList<BookAuthor>());
-				}
-				List<BookAuthor> baList = bookAuthorMap.get(bookAuthor.bookId);
-				baList.add(bookAuthor);
-			}
-			for (Author author : authorList) {
-				authorMap.put(author.id, author);
-			}
-
-			for (Book book : bookList) {
-				BookInfo bookInfo = new BookInfo(book);
-
-				List<BookAuthor> baList = bookAuthorMap.get(book.id);
-				if (baList != null) {
-					for (BookAuthor bookAuthor : baList) {
-						Author author = authorMap.get(bookAuthor.authorId);
-						bookInfo.authors.add(author);
-					}
-				}
-
-				bookInfoList.add(bookInfo);
-			}
-		}
-		return bookInfoList;
+		return getBookInfoListFromBookList(db, bookList);
 	}
 
 	/**

@@ -1,4 +1,4 @@
-package com.blackbooks.adapters;
+package com.blackbooks.model.nonpersistent;
 
 public class Language {
 

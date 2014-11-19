@@ -13,6 +13,7 @@
     <string name="action_scan_isbn">Scan ISBN</string>
     <string name="action_sort_by_author">By author</string>
     <string name="action_sort_by_first_letter">By first letter</string>
+    <string name="action_sort_by_language">By language</string>
     <string name="button_add_author">Add</string>
     <string name="button_add_category">Add</string>
     <string name="button_cancel_edit_author">Cancel</string>
@@ -44,7 +45,9 @@
     <string name="label_read">I have read this book</string>
     <string name="label_subtitle">Subtitle</string>
     <string name="label_title">Title</string>
+    <string name="label_total">(%d)</string>
     <string name="label_unspecified_author">(Unspecified author)</string>
+    <string name="label_unspecified_language">(Unspecified language)</string>
     <string name="menu_add_book">Add book</string>
     <string name="menu_delete_book">Delete</string>
     <string name="menu_edit_book">Edit</string>

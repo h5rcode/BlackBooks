@@ -33,6 +33,10 @@
                 android:id="@+id/bookList_actionSortByFirstLetter"
                 android:icon="@drawable/ic_action_brightness_auto"
                 android:title="@string/action_sort_by_first_letter"/>
+            <item
+                android:id="@+id/bookList_actionSortByLanguage"
+                android:icon="@drawable/ic_action_map"
+                android:title="@string/action_sort_by_language"/>
         </menu>
     </item>
     <item
