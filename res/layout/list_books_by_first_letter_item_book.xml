@@ -30,7 +30,8 @@
         <TextView
             android:id="@+id/books_by_first_letter_item_book_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/books_by_first_letter_item_book_author"
