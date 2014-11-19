@@ -53,14 +53,16 @@
         </activity>
         <activity
             android:name="com.blackbooks.activities.BookAuthorsEdit"
-            android:label="@string/title_activity_book_authors_edit" >
+            android:label="@string/title_activity_book_authors_edit"
+            android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blackbooks.activities.BookAdd" />
         </activity>
         <activity
             android:name="com.blackbooks.activities.BookCategoriesEdit"
-            android:label="@string/title_activity_book_categories_edit" >
+            android:label="@string/title_activity_book_categories_edit"
+            android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blackbooks.activities.BookAdd" />
