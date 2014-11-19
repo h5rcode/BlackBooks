@@ -76,75 +76,10 @@ public final class BookEdit extends FragmentActivity implements BookLoadListener
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		FragmentManager fm = getSupportFragmentManager();
-
 		if (savedInstanceState != null) {
-			mMode = savedInstanceState.getInt(STATE_MODE);
-			mIsLoading = savedInstanceState.getBoolean(STATE_IS_LOADING);
-			mIsSearching = savedInstanceState.getBoolean(STATE_IS_SEARCHING);
-			mBookInfo = (BookInfo) savedInstanceState.getSerializable(STATE_BOOK_INFO);
-			mBookEditGeneralFragment = (BookEditGeneralFragment) fm.getFragment(savedInstanceState, BookEditGeneralFragment.class.getName());
-			mBookEditPersonalFragment = (BookEditPersonalFragment) fm.getFragment(savedInstanceState, BookEditPersonalFragment.class.getName());
-
-			if (mIsLoading || mIsSearching) {
-				mProgressBar.setVisibility(View.VISIBLE);
-				mViewPager.setVisibility(View.GONE);
-			} else {
-				mProgressBar.setVisibility(View.GONE);
-				mViewPager.setVisibility(View.VISIBLE);
-				createTabs();
-			}
+			restoreState(savedInstanceState);
 		} else {
-			Intent intent = this.getIntent();
-			mMode = intent.getIntExtra(EXTRA_MODE, 0);
-
-			switch (mMode) {
-			case MODE_ADD:
-				setTitle(getString(R.string.title_activity_book_edit_mode_add));
-				if (intent.hasExtra(EXTRA_ISBN)) {
-					BookSearchFragment bookSearchFragment = (BookSearchFragment) fm.findFragmentByTag(TAG_BOOK_SEARCH_FRAGMENT);
-
-					if (bookSearchFragment == null && !mIsSearching) {
-						mIsSearching = true;
-						mProgressBar.setVisibility(View.VISIBLE);
-						mViewPager.setVisibility(View.GONE);
-						String isbn = intent.getStringExtra(EXTRA_ISBN);
-						bookSearchFragment = BookSearchFragment.newIntance(isbn);
-						fm.beginTransaction() //
-								.add(bookSearchFragment, TAG_BOOK_SEARCH_FRAGMENT) //
-								.commit();
-					}
-				} else {
-					mBookInfo = new BookInfo();
-					mProgressBar.setVisibility(View.GONE);
-					mViewPager.setVisibility(View.VISIBLE);
-					createTabs();
-				}
-				break;
-
-			case MODE_EDIT:
-				if (intent.hasExtra(EXTRA_BOOK_ID)) {
-					BookLoadFragment bookLoadFragment = (BookLoadFragment) fm.findFragmentByTag(TAG_BOOK_LOAD_FRAGMENT);
-
-					if (bookLoadFragment == null && !mIsLoading) {
-						mIsLoading = true;
-						mProgressBar.setVisibility(View.VISIBLE);
-						mViewPager.setVisibility(View.GONE);
-						long bookId = intent.getLongExtra(EXTRA_BOOK_ID, 0);
-						bookLoadFragment = BookLoadFragment.newInstance(bookId);
-						fm.beginTransaction() //
-								.add(bookLoadFragment, TAG_BOOK_LOAD_FRAGMENT) //
-								.commit();
-					}
-
-				} else {
-					throw new IllegalStateException("Extra " + EXTRA_BOOK_ID + " not set.");
-				}
-				break;
-
-			default:
-				throw new IllegalStateException("Extra " + EXTRA_MODE + " not set.");
-			}
+			initState();
 		}
 	}
 
@@ -196,8 +131,7 @@ public final class BookEdit extends FragmentActivity implements BookLoadListener
 	@Override
 	public void onBookLoaded(BookInfo bookInfo) {
 		mBookInfo = bookInfo;
-		String title = getString(R.string.title_activity_book_edit_mode_edit);
-		setTitle(String.format(title, mBookInfo.title));
+		setTitleEditMode();
 		createTabs();
 
 		mProgressBar.setVisibility(View.GONE);
@@ -263,6 +197,124 @@ public final class BookEdit extends FragmentActivity implements BookLoadListener
 	}
 
 	/**
+	 * Initializes the state of the activity depending on the mode (Add or
+	 * Edit).
+	 */
+	private void initState() {
+		Intent intent = this.getIntent();
+		mMode = intent.getIntExtra(EXTRA_MODE, 0);
+
+		switch (mMode) {
+		case MODE_ADD:
+			initStateAddMode(intent);
+			break;
+
+		case MODE_EDIT:
+			initStateEditMode(intent);
+			break;
+
+		default:
+			throw new IllegalStateException("Extra " + EXTRA_MODE + " not set.");
+		}
+	}
+
+	/**
+	 * Initializes the state of the activity in Add mode.
+	 * 
+	 * @param intent
+	 *            Intent.
+	 */
+	private void initStateAddMode(Intent intent) {
+		setTitleAddMode();
+		if (intent.hasExtra(EXTRA_ISBN)) {
+			FragmentManager fm = getSupportFragmentManager();
+			BookSearchFragment bookSearchFragment = (BookSearchFragment) fm.findFragmentByTag(TAG_BOOK_SEARCH_FRAGMENT);
+
+			if (bookSearchFragment == null && !mIsSearching) {
+				mIsSearching = true;
+				mProgressBar.setVisibility(View.VISIBLE);
+				mViewPager.setVisibility(View.GONE);
+				String isbn = intent.getStringExtra(EXTRA_ISBN);
+				bookSearchFragment = BookSearchFragment.newIntance(isbn);
+				fm.beginTransaction() //
+						.add(bookSearchFragment, TAG_BOOK_SEARCH_FRAGMENT) //
+						.commit();
+			}
+		} else {
+			mBookInfo = new BookInfo();
+			mProgressBar.setVisibility(View.GONE);
+			mViewPager.setVisibility(View.VISIBLE);
+			createTabs();
+		}
+	}
+
+	/**
+	 * Initializes the state of the activity in Edit mode.
+	 * 
+	 * @param intent
+	 *            Intent.
+	 */
+	private void initStateEditMode(Intent intent) {
+		if (intent.hasExtra(EXTRA_BOOK_ID)) {
+			FragmentManager fm = getSupportFragmentManager();
+			BookLoadFragment bookLoadFragment = (BookLoadFragment) fm.findFragmentByTag(TAG_BOOK_LOAD_FRAGMENT);
+
+			if (bookLoadFragment == null && !mIsLoading) {
+				mIsLoading = true;
+				mProgressBar.setVisibility(View.VISIBLE);
+				mViewPager.setVisibility(View.GONE);
+				long bookId = intent.getLongExtra(EXTRA_BOOK_ID, 0);
+				bookLoadFragment = BookLoadFragment.newInstance(bookId);
+				fm.beginTransaction() //
+						.add(bookLoadFragment, TAG_BOOK_LOAD_FRAGMENT) //
+						.commit();
+			}
+
+		} else {
+			throw new IllegalStateException("Extra " + EXTRA_BOOK_ID + " not set.");
+		}
+	}
+
+	/**
+	 * Restore the state of the activity (for instance after the screen
+	 * orientation changes).
+	 * 
+	 * @param savedInstanceState
+	 *            Bundle.
+	 */
+	private void restoreState(Bundle savedInstanceState) {
+		FragmentManager fm = getSupportFragmentManager();
+		mMode = savedInstanceState.getInt(STATE_MODE);
+		mIsLoading = savedInstanceState.getBoolean(STATE_IS_LOADING);
+		mIsSearching = savedInstanceState.getBoolean(STATE_IS_SEARCHING);
+		mBookInfo = (BookInfo) savedInstanceState.getSerializable(STATE_BOOK_INFO);
+		mBookEditGeneralFragment = (BookEditGeneralFragment) fm.getFragment(savedInstanceState, BookEditGeneralFragment.class.getName());
+		mBookEditPersonalFragment = (BookEditPersonalFragment) fm.getFragment(savedInstanceState, BookEditPersonalFragment.class.getName());
+
+		switch (mMode) {
+		case MODE_ADD:
+			setTitleAddMode();
+			break;
+
+		case MODE_EDIT:
+			setTitleEditMode();
+			break;
+
+		default:
+			throw new IllegalStateException("Invalid STATE_MODE.");
+		}
+
+		if (mIsLoading || mIsSearching) {
+			mProgressBar.setVisibility(View.VISIBLE);
+			mViewPager.setVisibility(View.GONE);
+		} else {
+			mProgressBar.setVisibility(View.GONE);
+			mViewPager.setVisibility(View.VISIBLE);
+			createTabs();
+		}
+	}
+
+	/**
 	 * Save the book information in the database.
 	 */
 	private void save() {
@@ -299,6 +351,15 @@ public final class BookEdit extends FragmentActivity implements BookLoadListener
 				}
 			}
 		}
+	}
+
+	private void setTitleAddMode() {
+		setTitle(getString(R.string.title_activity_book_edit_mode_add));
+	}
+
+	private void setTitleEditMode() {
+		String title = getString(R.string.title_activity_book_edit_mode_edit);
+		setTitle(String.format(title, mBookInfo.title));
 	}
 
 	/**
