@@ -40,15 +40,15 @@ public final class AmazonXmlParser {
 
 	/**
 	 * Parse the XML data returned by the Amazon Product Advertising API and
-	 * return an instance of AmazonBook.
+	 * return a list of AmazonBook.
 	 * 
 	 * @param xml
 	 *            The XML data to parse.
-	 * @return AmazonBook.
+	 * @return List of AmazonBook.
 	 * @throws XmlPullParserException
 	 * @throws IOException
 	 */
-	public static AmazonBook parse(String xml) throws XmlPullParserException, IOException {
+	public static List<AmazonBook> parse(String xml) throws XmlPullParserException, IOException {
 		XmlPullParser parser = Xml.newPullParser();
 		parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
 		parser.setInput(new StringReader(xml));
@@ -57,16 +57,15 @@ public final class AmazonXmlParser {
 	}
 
 	/**
-	 * Read the XML response and build an AmazonBook from it.
+	 * Read the XML response and build a list of AmazonBook from it.
 	 * 
 	 * @param parser
 	 *            XmlPullParser.
-	 * @return AmazonBook.
+	 * @return List of AmazonBook.
 	 * @throws XmlPullParserException
 	 * @throws IOException
 	 */
-	private static AmazonBook readItemLookupResponse(XmlPullParser parser) throws XmlPullParserException, IOException {
-		AmazonBook amazonBook = null;
+	private static List<AmazonBook> readItemLookupResponse(XmlPullParser parser) throws XmlPullParserException, IOException {
 		List<Item> items = null;
 
 		parser.require(XmlPullParser.START_TAG, ns, ITEM_LOOKUP_RESPONSE);
@@ -82,34 +81,49 @@ public final class AmazonXmlParser {
 			}
 		}
 
+		List<AmazonBook> amazonBookList = new ArrayList<AmazonBook>();
 		if (items != null && !items.isEmpty()) {
-			Item item = items.get(0);
-			amazonBook = new AmazonBook();
-
-			ItemAttributes itemAttributes = item.itemAttributes;
-			if (itemAttributes != null) {
-				amazonBook.title = itemAttributes.title;
-				amazonBook.author = itemAttributes.author;
-				amazonBook.isbn = itemAttributes.isbn;
-				amazonBook.publisher = itemAttributes.publisher;
-			}
-
-			Image smallImage = item.smallImage;
-			if (smallImage != null) {
-				amazonBook.smallImageLink = smallImage.url;
-			}
-
-			Image mediumImage = item.mediumImage;
-			if (mediumImage != null) {
-				amazonBook.mediumImageLink = mediumImage.url;
-			}
-
-			Image largeImage = item.largeImage;
-			if (largeImage != null) {
-				amazonBook.largeImageLink = largeImage.url;
+			for (Item item : items) {
+				AmazonBook amazonBook = itemToAmazonBook(item);
+				amazonBookList.add(amazonBook);
 			}
 		}
 
+		return amazonBookList;
+	}
+
+	/**
+	 * Build an {@link AmazonBook} from an {@link Item}.
+	 * 
+	 * @param item
+	 *            Item.
+	 * @return AmazonBook.
+	 */
+	private static AmazonBook itemToAmazonBook(Item item) {
+		AmazonBook amazonBook = new AmazonBook();
+
+		ItemAttributes itemAttributes = item.itemAttributes;
+		if (itemAttributes != null) {
+			amazonBook.title = itemAttributes.title;
+			amazonBook.author = itemAttributes.author;
+			amazonBook.isbn = itemAttributes.isbn;
+			amazonBook.publisher = itemAttributes.publisher;
+		}
+
+		Image smallImage = item.smallImage;
+		if (smallImage != null) {
+			amazonBook.smallImageLink = smallImage.url;
+		}
+
+		Image mediumImage = item.mediumImage;
+		if (mediumImage != null) {
+			amazonBook.mediumImageLink = mediumImage.url;
+		}
+
+		Image largeImage = item.largeImage;
+		if (largeImage != null) {
+			amazonBook.largeImageLink = largeImage.url;
+		}
 		return amazonBook;
 	}
 

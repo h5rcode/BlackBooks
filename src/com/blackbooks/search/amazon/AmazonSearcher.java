@@ -2,6 +2,7 @@ package com.blackbooks.search.amazon;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -49,7 +50,10 @@ public class AmazonSearcher implements Callable<BookSearchResult> {
 	private static AmazonBook search(String isbn) throws URISyntaxException, IOException, XmlPullParserException {
 		String url = getAmazonUrl(isbn);
 		String xml = HttpUtils.getText(url);
-		AmazonBook amazonBook = AmazonXmlParser.parse(xml);
+		List<AmazonBook> amazonBookList = AmazonXmlParser.parse(xml);
+
+		AmazonBook amazonBook = selectAmazonBook(amazonBookList);
+
 		if (amazonBook != null) {
 			if (amazonBook.smallImageLink != null) {
 				amazonBook.smallImage = HttpUtils.getBinary(amazonBook.smallImageLink);
@@ -80,5 +84,41 @@ public class AmazonSearcher implements Callable<BookSearchResult> {
 		String url = String.format(URI_FORMAT_STRING, isbn);
 		String amazonUrl = HttpUtils.getText(url);
 		return amazonUrl;
+	}
+
+	/**
+	 * Select the AmazonBook that will be returned by the search.
+	 * 
+	 * @param amazonBookList
+	 *            List of AmazonBook.
+	 * @return AmazonBook.
+	 */
+	private static AmazonBook selectAmazonBook(List<AmazonBook> amazonBookList) {
+		AmazonBook result = null;
+		int maxScore = -1;
+		for (AmazonBook amazonBook : amazonBookList) {
+			int score = 0;
+
+			if (amazonBook.title != null) {
+				score += 10000;
+			}
+			if (amazonBook.author != null) {
+				score += 1000;
+			}
+			if (amazonBook.largeImageLink != null) {
+				score += 100;
+			}
+			if (amazonBook.mediumImageLink != null) {
+				score += 10;
+			}
+			if (amazonBook.smallImageLink != null) {
+				score += 1;
+			}
+			if (score > maxScore) {
+				maxScore = score;
+				result = amazonBook;
+			}
+		}
+		return result;
 	}
 }
