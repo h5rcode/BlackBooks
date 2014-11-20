@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.conn.HttpHostConnectException;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -103,6 +104,8 @@ public class BookSearchFragment extends Fragment {
 			try {
 				book = BookSearcher.search(barCode);
 			} catch (ClientProtocolException e) {
+				errorMessageId = R.string.error_connection_problem;
+			} catch (HttpHostConnectException e) {
 				errorMessageId = R.string.error_connection_problem;
 			} catch (UnknownHostException e) {
 				errorMessageId = R.string.error_connection_problem;
