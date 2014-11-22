@@ -14,10 +14,21 @@ import com.blackbooks.model.persistent.Book;
 import com.blackbooks.sql.BrokerManager;
 import com.blackbooks.utils.LanguageUtils;
 
+/**
+ * Language services.
+ * 
+ */
 public class LanguageServices {
 
+	/**
+	 * Get the list of all the books, returned in lists of LanguageInfo.
+	 * 
+	 * @param db
+	 *            SQLiteDatabase.
+	 * @return List of LanguageInfo.
+	 */
 	public static List<LanguageInfo> getLanguageInfoList(SQLiteDatabase db) {
-		String[] selectedColumns = new String[] { Book.Cols.BOO_ID, Book.Cols.BOO_TITLE, Book.Cols.BOO_LANGUAGE_CODE, Book.Cols.BOO_SMALL_THUMBNAIL };
+		String[] selectedColumns = new String[] { Book.Cols.BOO_ID, Book.Cols.BOO_TITLE, Book.Cols.BOO_LANGUAGE_CODE };
 		String[] sortingColumns = new String[] { Book.Cols.BOO_LANGUAGE_CODE, Book.Cols.BOO_TITLE };
 		List<Book> bookList = BrokerManager.getBroker(Book.class).getAll(db, selectedColumns, sortingColumns);
 		List<BookInfo> bookInfoList = BookServices.getBookInfoListFromBookList(db, bookList);

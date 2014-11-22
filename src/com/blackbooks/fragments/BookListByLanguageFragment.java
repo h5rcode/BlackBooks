@@ -19,17 +19,24 @@ import com.blackbooks.services.LanguageServices;
 
 public class BookListByLanguageFragment extends AbstractBookListFragment {
 
-
 	@Override
 	protected ArrayAdapter<ListItem> getBookListAdapter() {
 		return new BooksByLanguageAdapter(this.getActivity());
 	}
-	
+
 	@Override
 	protected List<ListItem> loadBookList() {
 		SQLiteHelper dbHelper = new SQLiteHelper(this.getActivity());
-		SQLiteDatabase db = dbHelper.getReadableDatabase();
-		List<LanguageInfo> languageList = LanguageServices.getLanguageInfoList(db);
+		SQLiteDatabase db = null;
+		List<LanguageInfo> languageList;
+		try {
+			db = dbHelper.getReadableDatabase();
+			languageList = LanguageServices.getLanguageInfoList(db);
+		} finally {
+			if (db != null) {
+				db.close();
+			}
+		}
 
 		List<ListItem> listItems = new ArrayList<ListItem>();
 

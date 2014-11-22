@@ -11,13 +11,20 @@
         android:layout_weight="1"
         android:gravity="center_horizontal" >
 
+        <ProgressBar
+            android:id="@+id/books_by_author_item_book_progressBar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <ImageView
             android:id="@+id/item_book_small_thumbnail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/image_thumbnail"
-            android:src="@drawable/ic_undefined_thumbnail" />
+            android:src="@drawable/ic_undefined_thumbnail"
+            android:visibility="gone" />
     </LinearLayout>
 
     <TextView

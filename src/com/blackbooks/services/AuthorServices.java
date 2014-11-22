@@ -85,8 +85,8 @@ public class AuthorServices {
 	@SuppressLint("UseSparseArrays")
 	public static List<AuthorInfo> getAuthorInfoList(SQLiteDatabase db) {
 
-		List<Book> bookList = BrokerManager.getBroker(Book.class).getAll(db,
-				new String[] { Book.Cols.BOO_ID, Book.Cols.BOO_TITLE, Book.Cols.BOO_SMALL_THUMBNAIL }, null);
+		String[] selectedColumns = new String[] { Book.Cols.BOO_ID, Book.Cols.BOO_TITLE };
+		List<Book> bookList = BrokerManager.getBroker(Book.class).getAll(db, selectedColumns, null);
 		List<BookAuthor> bookAuthorList = BrokerManager.getBroker(BookAuthor.class).getAll(db);
 		List<Author> authorList = BrokerManager.getBroker(Author.class).getAll(db, null, new String[] { Author.Cols.AUT_NAME });
 

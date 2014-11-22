@@ -3,16 +3,16 @@ package com.blackbooks.adapters;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blackbooks.R;
+import com.blackbooks.cache.ThumbnailManager;
 import com.blackbooks.utils.StringUtils;
 
 /**
@@ -21,7 +21,8 @@ import com.blackbooks.utils.StringUtils;
  */
 public class BooksByLanguageAdapter extends ArrayAdapter<ListItem> {
 
-	private LayoutInflater mInflater;
+	private final LayoutInflater mInflater;
+	private final ThumbnailManager mThumbnailManager;
 
 	/**
 	 * Constructor.
@@ -32,6 +33,7 @@ public class BooksByLanguageAdapter extends ArrayAdapter<ListItem> {
 	public BooksByLanguageAdapter(Context context) {
 		super(context, 0);
 		this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.mThumbnailManager = ThumbnailManager.getInstance();
 	}
 
 	@Override
@@ -46,12 +48,9 @@ public class BooksByLanguageAdapter extends ArrayAdapter<ListItem> {
 
 				view = mInflater.inflate(R.layout.list_books_by_language_item_book, parent, false);
 
-				byte[] smallThumbnail = entry.getSmallThumbnail();
-				if (smallThumbnail != null && smallThumbnail.length > 0) {
-					ImageView imageView = (ImageView) view.findViewById(R.id.books_by_language_item_book_small_thumbnail);
-					Bitmap bitmap = BitmapFactory.decodeByteArray(smallThumbnail, 0, smallThumbnail.length);
-					imageView.setImageBitmap(bitmap);
-				}
+				ImageView imageView = (ImageView) view.findViewById(R.id.books_by_language_item_book_small_thumbnail);
+				ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.books_by_language_item_book_progressBar);
+				mThumbnailManager.drawSmallThumbnail(entry.getId(), getContext(), imageView, progressBar);
 
 				TextView textTitle = (TextView) view.findViewById(R.id.books_by_language_item_book_title);
 				textTitle.setText(entry.getTitle());

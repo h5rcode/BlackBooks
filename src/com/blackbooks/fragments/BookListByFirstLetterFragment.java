@@ -35,9 +35,16 @@ public class BookListByFirstLetterFragment extends AbstractBookListFragment {
 	@Override
 	protected List<ListItem> loadBookList() {
 		SQLiteHelper mDbHelper = new SQLiteHelper(this.getActivity());
-		SQLiteDatabase db = mDbHelper.getReadableDatabase();
-		List<BookInfo> bookList = BookServices.getBookInfoList(db);
-		db.close();
+		SQLiteDatabase db = null;
+		List<BookInfo> bookList;
+		try {
+			db = mDbHelper.getReadableDatabase();
+			bookList = BookServices.getBookInfoList(db);
+		} finally {
+			if (db != null) {
+				db.close();
+			}
+		}
 
 		LinkedHashMap<String, List<BookInfo>> bookMap = new LinkedHashMap<String, List<BookInfo>>();
 
