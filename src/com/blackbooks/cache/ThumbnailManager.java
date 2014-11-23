@@ -82,6 +82,18 @@ public final class ThumbnailManager {
 	}
 
 	/**
+	 * Remove the small and normal thumbnail corresponding to a book from the
+	 * cache.
+	 * 
+	 * @param bookId
+	 *            Id of the book.
+	 */
+	public void removeThumbnails(long bookId) {
+		mSmallThumbnailCache.remove(bookId);
+		mThumbnailCache.remove(bookId);
+	}
+
+	/**
 	 * Draw a thumbnail.
 	 * 
 	 * @param bookId

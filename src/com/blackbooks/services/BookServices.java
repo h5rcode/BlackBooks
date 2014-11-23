@@ -6,6 +6,7 @@ import java.util.List;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.util.LongSparseArray;
 
+import com.blackbooks.cache.ThumbnailManager;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Book;
@@ -55,7 +56,7 @@ public class BookServices {
 			}
 
 			PublisherServices.deletePublishersWithoutBooks(db);
-
+			ThumbnailManager.getInstance().removeThumbnails(bookId);
 			db.setTransactionSuccessful();
 		} finally {
 			db.endTransaction();
@@ -238,7 +239,7 @@ public class BookServices {
 			updateBookAuthorList(db, bookInfo);
 			updateBookCategoryList(db, bookInfo);
 			updateIdentifierList(db, bookInfo);
-
+			ThumbnailManager.getInstance().removeThumbnails(bookInfo.id);
 			db.setTransactionSuccessful();
 		} finally {
 			db.endTransaction();
