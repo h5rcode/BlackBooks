@@ -19,7 +19,7 @@ public class Book implements Serializable {
 
 	@Column(name = Cols.BOO_SUBTITLE, type = SQLiteDataType.TEXT, version = 1)
 	public String subtitle;
-	
+
 	@Column(name = Cols.BOO_LANGUAGE_CODE, type = SQLiteDataType.TEXT, version = 1)
 	public String languageCode;
 
@@ -55,13 +55,19 @@ public class Book implements Serializable {
 
 	@Column(name = Cols.BOO_THUMBNAIL, type = SQLiteDataType.BLOB, version = 1)
 	public byte[] thumbnail;
-	
+
 	@Column(name = Cols.BOO_IS_READ, type = SQLiteDataType.INTEGER, mandatory = true, version = 1)
 	public Long isRead;
-	
+
 	@Column(name = Cols.BOO_IS_FAVOURITE, type = SQLiteDataType.INTEGER, mandatory = true, version = 1)
 	public Long isFavourite;
-	
+
+	@Column(name = Cols.BOO_ISBN_10, type = SQLiteDataType.TEXT, version = 1)
+	public String isbn10;
+
+	@Column(name = Cols.BOO_ISBN_13, type = SQLiteDataType.TEXT, version = 1)
+	public String isbn13;
+
 	public Book() {
 		this.isRead = 0L;
 		this.isFavourite = 0L;
@@ -85,5 +91,7 @@ public class Book implements Serializable {
 		public final static String BOO_THUMBNAIL = "BOO_THUMBNAIL";
 		public final static String BOO_IS_READ = "BOO_IS_READ";
 		public final static String BOO_IS_FAVOURITE = "BOO_IS_FAVOURITE";
+		public final static String BOO_ISBN_10 = "BOO_ISBN_10";
+		public final static String BOO_ISBN_13 = "BOO_ISBN_13";
 	}
 }

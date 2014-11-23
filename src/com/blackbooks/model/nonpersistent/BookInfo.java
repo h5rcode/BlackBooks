@@ -7,7 +7,6 @@ import java.util.List;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.model.persistent.Category;
-import com.blackbooks.model.persistent.Identifier;
 import com.blackbooks.model.persistent.Publisher;
 
 /**
@@ -22,8 +21,6 @@ public class BookInfo extends Book implements Serializable {
 
 	public Publisher publisher;
 
-	public List<Identifier> identifiers;
-
 	public List<Category> categories;
 
 	/*
@@ -32,7 +29,6 @@ public class BookInfo extends Book implements Serializable {
 	public BookInfo() {
 		this.authors = new ArrayList<Author>();
 		this.publisher = new Publisher();
-		this.identifiers = new ArrayList<Identifier>();
 		this.categories = new ArrayList<Category>();
 	}
 
@@ -61,6 +57,8 @@ public class BookInfo extends Book implements Serializable {
 		this.thumbnail = book.thumbnail;
 		this.isRead = book.isRead;
 		this.isFavourite = book.isFavourite;
+		this.isbn10 = book.isbn10;
+		this.isbn13 = book.isbn13;
 	}
 
 	/**
@@ -110,11 +108,16 @@ public class BookInfo extends Book implements Serializable {
 			if (bookInfo.thumbnail != null) {
 				this.thumbnail = bookInfo.thumbnail;
 			}
+			if (bookInfo.isbn10 != null) {
+				this.isbn10 = bookInfo.isbn10;
+			}
+			if (bookInfo.isbn13 != null) {
+				this.isbn13 = bookInfo.isbn13;
+			}
 		}
 
 		mergeAuthors(bookInfo.authors);
 		mergeCategories(bookInfo.categories);
-		mergeIdentifiers(bookInfo.identifiers);
 		mergePublisher(bookInfo.publisher.name);
 	}
 
@@ -151,25 +154,6 @@ public class BookInfo extends Book implements Serializable {
 
 				if (!found) {
 					this.categories.add(category);
-				}
-			}
-		}
-	}
-
-	private void mergeIdentifiers(List<Identifier> identifiers) {
-		if (identifiers != null) {
-			for (Identifier identifier : identifiers) {
-				String identifierValue = identifier.identifier;
-				boolean found = false;
-				for (Identifier thisAuthor : this.identifiers) {
-					if (thisAuthor.identifier.equals(identifierValue)) {
-						found = true;
-						continue;
-					}
-				}
-
-				if (!found) {
-					this.identifiers.add(identifier);
 				}
 			}
 		}

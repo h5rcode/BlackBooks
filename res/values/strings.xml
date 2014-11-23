@@ -37,6 +37,8 @@
     <string name="label_favourite">This is a favourite book</string>
     <string name="label_image">Image</string>
     <string name="label_isbn">ISBN</string>
+    <string name="label_isbn10">ISBN-10</string>
+    <string name="label_isbn13">ISBN-13</string>
     <string name="label_language">Language</string>
     <string name="label_no_language">(No language set)</string>
     <string name="label_page_count">Page count</string>

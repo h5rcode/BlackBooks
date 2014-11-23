@@ -1,8 +1,8 @@
 package com.blackbooks.search.amazon;
 
+import com.blackbooks.helpers.IsbnHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
-import com.blackbooks.model.persistent.Identifier;
 import com.blackbooks.search.BookSearchResult;
 
 /**
@@ -34,9 +34,11 @@ public class AmazonBook implements BookSearchResult {
 			bookInfo.authors.add(a);
 		}
 		if (this.isbn != null) {
-			Identifier identifier = new Identifier();
-			identifier.identifier = this.isbn;
-			bookInfo.identifiers.add(identifier);
+			if (IsbnHelper.isValidIsbn10(this.isbn)) {
+				bookInfo.isbn10 = this.isbn;
+			} else if (IsbnHelper.isValidIsbn13(this.isbn)) {
+				bookInfo.isbn13 = this.isbn;
+			}
 		}
 
 		if (this.publisher != null) {

@@ -6,7 +6,6 @@ import java.util.List;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Category;
-import com.blackbooks.model.persistent.Identifier;
 import com.blackbooks.search.BookSearchResult;
 
 /**
@@ -33,6 +32,9 @@ public class GoogleBook implements BookSearchResult {
 	public byte[] thumbnail;
 	public String language;
 
+	private static final String ISBN_10 = "ISBN_10";
+	private static final String ISBN_13 = "ISBN_13";
+
 	/**
 	 * Default constructor.
 	 */
@@ -58,10 +60,11 @@ public class GoogleBook implements BookSearchResult {
 		}
 
 		for (GoogleIndustryIdentifier industryIdentifer : this.industryIdentifiers) {
-			Identifier identifier = new Identifier();
-			identifier.identifier = industryIdentifer.identifier;
-
-			bookInfo.identifiers.add(identifier);
+			if (industryIdentifer.type.equals(ISBN_10)) {
+				bookInfo.isbn10 = industryIdentifer.identifier;
+			} else if (industryIdentifer.type.equals(ISBN_13)) {
+				bookInfo.isbn13 = industryIdentifer.identifier;
+			}
 		}
 
 		for (String categoryName : this.categories) {

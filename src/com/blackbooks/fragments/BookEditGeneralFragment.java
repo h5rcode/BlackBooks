@@ -37,7 +37,6 @@ import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.nonpersistent.Language;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Category;
-import com.blackbooks.model.persistent.Identifier;
 import com.blackbooks.model.persistent.Publisher;
 import com.blackbooks.services.AuthorServices;
 import com.blackbooks.services.CategoryServices;
@@ -62,7 +61,8 @@ public class BookEditGeneralFragment extends Fragment {
 	private EditText mTextSubtitle;
 	private Spinner mSpinnerLanguage;
 	private Button mButtonEditAuthors;
-	private EditText mTextIsbn;
+	private EditText mTextIsbn10;
+	private EditText mTextIsbn13;
 	private EditText mTextPageCount;
 	private AutoCompleteTextView mTextPublisher;
 	private EditText mTextPublishedDate;
@@ -216,7 +216,8 @@ public class BookEditGeneralFragment extends Fragment {
 
 		String title = getEditTextValue(mTextTitle, true);
 		String subtitle = getEditTextValue(mTextSubtitle, false);
-		String isbn = getEditTextValue(mTextIsbn, false);
+		String isbn10 = getEditTextValue(mTextIsbn10, false);
+		String isbn13 = getEditTextValue(mTextIsbn13, false);
 		String pageCountString = getEditTextValue(mTextPageCount, false);
 		String publisherName = getEditTextValue(mTextPublisher, false);
 		String publishedDate = getEditTextValue(mTextPublishedDate, false);
@@ -224,6 +225,8 @@ public class BookEditGeneralFragment extends Fragment {
 
 		bookInfo.title = title;
 		bookInfo.subtitle = subtitle;
+		bookInfo.isbn10 = isbn10;
+		bookInfo.isbn13 = isbn13;
 		bookInfo.languageCode = ((Language) mSpinnerLanguage.getSelectedItem()).getCode();
 		if (pageCountString != null && StringUtils.isInteger(pageCountString)) {
 			bookInfo.pageCount = Long.valueOf(pageCountString);
@@ -256,14 +259,6 @@ public class BookEditGeneralFragment extends Fragment {
 			}
 		}
 		bookInfo.publisher = publisher;
-
-		List<Identifier> identifiers = new ArrayList<Identifier>();
-		if (isbn != null) {
-			Identifier identifier = new Identifier();
-			identifier.identifier = isbn;
-			identifiers.add(identifier);
-		}
-		bookInfo.identifiers = identifiers;
 
 		List<Category> categories = new ArrayList<Category>();
 		for (Category category : bookInfo.categories) {
@@ -317,7 +312,8 @@ public class BookEditGeneralFragment extends Fragment {
 		mTextSubtitle = (EditText) view.findViewById(R.id.bookEditGeneral_textSubtitle);
 		mSpinnerLanguage = (Spinner) view.findViewById(R.id.bookEditGeneral_spinnerLanguage);
 		mButtonEditAuthors = (Button) view.findViewById(R.id.bookEditGeneral_buttonEditAuthors);
-		mTextIsbn = (EditText) view.findViewById(R.id.bookEditGeneral_textIsbn);
+		mTextIsbn10 = (EditText) view.findViewById(R.id.bookEditGeneral_textIsbn10);
+		mTextIsbn13 = (EditText) view.findViewById(R.id.bookEditGeneral_textIsbn13);
 		mTextPageCount = (EditText) view.findViewById(R.id.bookEditGeneral_textPageCount);
 		mTextPublisher = (AutoCompleteTextView) view.findViewById(R.id.bookEditGeneral_textPublisher);
 		mTextPublishedDate = (EditText) view.findViewById(R.id.bookEditGeneral_textPublishedDate);
@@ -366,6 +362,8 @@ public class BookEditGeneralFragment extends Fragment {
 		setImageThumbnail();
 		mTextTitle.setText(mBookInfo.title);
 		mTextSubtitle.setText(mBookInfo.subtitle);
+		mTextIsbn10.setText(mBookInfo.isbn10);
+		mTextIsbn13.setText(mBookInfo.isbn13);
 		int languageToSelect = mLanguagesAdapter.getPosition(mBookInfo.languageCode);
 		if (languageToSelect < 0) {
 			languageToSelect = 0;
@@ -373,9 +371,6 @@ public class BookEditGeneralFragment extends Fragment {
 		mSpinnerLanguage.setSelection(languageToSelect);
 
 		setButtonEditAuthorsText();
-		if (mBookInfo.identifiers.size() > 0) {
-			mTextIsbn.setText(mBookInfo.identifiers.get(0).identifier);
-		}
 		if (mBookInfo.pageCount != null) {
 			mTextPageCount.setText(mBookInfo.pageCount.toString());
 		}

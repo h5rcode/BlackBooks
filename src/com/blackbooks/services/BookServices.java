@@ -13,7 +13,6 @@ import com.blackbooks.model.persistent.Book;
 import com.blackbooks.model.persistent.BookAuthor;
 import com.blackbooks.model.persistent.BookCategory;
 import com.blackbooks.model.persistent.Category;
-import com.blackbooks.model.persistent.Identifier;
 import com.blackbooks.sql.BrokerManager;
 
 /**
@@ -136,9 +135,6 @@ public class BookServices {
 			bookInfo.categories.add(category);
 		}
 
-		List<Identifier> identifierList = IdentifierServices.getIdentifierListByBook(db, bookId);
-		bookInfo.identifiers = identifierList;
-
 		return bookInfo;
 	}
 
@@ -238,7 +234,6 @@ public class BookServices {
 			PublisherServices.deletePublishersWithoutBooks(db);
 			updateBookAuthorList(db, bookInfo);
 			updateBookCategoryList(db, bookInfo);
-			updateIdentifierList(db, bookInfo);
 			ThumbnailManager.getInstance().removeThumbnails(bookInfo.id);
 			db.setTransactionSuccessful();
 		} finally {
@@ -306,22 +301,5 @@ public class BookServices {
 			BookCategoryServices.saveBookCategory(db, bookCategory);
 		}
 		CategoryServices.deleteCategoriesWithoutBooks(db);
-	}
-
-	/**
-	 * Delete the identifiers of a book and create the new ones.
-	 * 
-	 * @param db
-	 *            SQLiteDatabase.
-	 * @param bookInfo
-	 *            BookInfo.
-	 */
-	private static void updateIdentifierList(SQLiteDatabase db, BookInfo bookInfo) {
-		IdentifierServices.deleteIdentifierListByBook(db, bookInfo.id);
-		for (Identifier identifier : bookInfo.identifiers) {
-			identifier.id = null;
-			identifier.bookId = bookInfo.id;
-			IdentifierServices.saveIdentifier(db, identifier);
-		}
 	}
 }

@@ -175,7 +175,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/bookDisplay_groupInfoTechnical_isbn"
+                        android:id="@+id/bookDisplay_groupInfoTechnical_isbn10"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical" >
@@ -183,11 +183,29 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_isbn"
+                            android:text="@string/label_isbn10"
                             android:textSize="20sp" />
 
                         <TextView
-                            android:id="@+id/bookDisplay_textIsbn"
+                            android:id="@+id/bookDisplay_textIsbn10"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    
+                    <LinearLayout
+                        android:id="@+id/bookDisplay_groupInfoTechnical_isbn13"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_isbn13"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/bookDisplay_textIsbn13"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </LinearLayout>

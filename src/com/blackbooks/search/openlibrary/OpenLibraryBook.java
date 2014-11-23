@@ -6,7 +6,6 @@ import java.util.List;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Category;
-import com.blackbooks.model.persistent.Identifier;
 import com.blackbooks.search.BookSearchResult;
 
 /**
@@ -53,14 +52,10 @@ public class OpenLibraryBook implements BookSearchResult {
 			bookInfo.authors.add(a);
 		}
 		if (this.isbn10 != null) {
-			Identifier identifier = new Identifier();
-			identifier.identifier = this.isbn10;
-			bookInfo.identifiers.add(identifier);
+			bookInfo.isbn10 = this.isbn10;
 		}
 		if (this.isbn13 != null) {
-			Identifier identifier = new Identifier();
-			identifier.identifier = this.isbn13;
-			bookInfo.identifiers.add(identifier);
+			bookInfo.isbn13 = this.isbn13;
 		}
 
 		for (String subjectName : this.subjects) {

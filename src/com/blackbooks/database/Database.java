@@ -11,7 +11,6 @@ import com.blackbooks.model.persistent.Book;
 import com.blackbooks.model.persistent.BookAuthor;
 import com.blackbooks.model.persistent.BookCategory;
 import com.blackbooks.model.persistent.Category;
-import com.blackbooks.model.persistent.Identifier;
 import com.blackbooks.model.persistent.Publisher;
 
 /**
@@ -45,7 +44,6 @@ public final class Database {
 		mTables.add(Book.class);
 		mTables.add(Author.class);
 		mTables.add(BookAuthor.class);
-		mTables.add(Identifier.class);
 		mTables.add(Category.class);
 		mTables.add(BookCategory.class);
 
