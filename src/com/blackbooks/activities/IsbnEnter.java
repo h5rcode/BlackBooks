@@ -32,6 +32,7 @@ public class IsbnEnter extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
 		setContentView(R.layout.activity_isbn_enter);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -40,6 +41,12 @@ public class IsbnEnter extends Activity {
 
 		mTextIsbn.setRawInputType(Configuration.KEYBOARD_QWERTY);
 		mTextIsbn.addTextChangedListener(new IsbnValidator());
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
 	}
 
 	@Override

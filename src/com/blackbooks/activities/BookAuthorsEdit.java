@@ -62,7 +62,7 @@ public class BookAuthorsEdit extends Activity {
 			addAuthorList();
 			result = true;
 			break;
-			
+
 		case android.R.id.home:
 			result = true;
 			finish();
@@ -206,6 +206,7 @@ public class BookAuthorsEdit extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
 		setContentView(R.layout.activity_book_authors_edit);
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -244,8 +245,8 @@ public class BookAuthorsEdit extends Activity {
 			}
 		});
 
-		mAuthorArrayAdapter = new EditableArrayAdapter<Author>(this, R.id.bookAuthorsEdit_authorList, R.layout.list_authors_item_author, R.id.item_author_name,
-				R.id.item_author_button_remove, mAuthorList) {
+		mAuthorArrayAdapter = new EditableArrayAdapter<Author>(this, R.id.bookAuthorsEdit_authorList, R.layout.list_authors_item_author,
+				R.id.item_author_name, R.id.item_author_button_remove, mAuthorList) {
 
 			@Override
 			protected String getDisplayLabel(Author object) {
@@ -276,6 +277,12 @@ public class BookAuthorsEdit extends Activity {
 		super.onSaveInstanceState(outState);
 		outState.putString(BOOK_TITLE, mBookTitle);
 		outState.putSerializable(AUTHOR_LIST, mAuthorList);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
 	}
 
 	/**

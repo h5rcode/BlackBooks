@@ -203,6 +203,7 @@ public class BookCategoriesEdit extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
 		setContentView(R.layout.activity_book_categories_edit);
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -238,8 +239,8 @@ public class BookCategoriesEdit extends Activity {
 				return item.name;
 			}
 		});
-		mCategoryArrayAdapter = new EditableArrayAdapter<Category>(this, R.id.bookCategoriesEdit_categoryList, R.layout.list_categories_item_category,
-				R.id.item_category_name, R.id.item_category_button_remove, mCategoryList) {
+		mCategoryArrayAdapter = new EditableArrayAdapter<Category>(this, R.id.bookCategoriesEdit_categoryList,
+				R.layout.list_categories_item_category, R.id.item_category_name, R.id.item_category_button_remove, mCategoryList) {
 
 			protected String getDisplayLabel(Category object) {
 				return object.name;
@@ -269,6 +270,12 @@ public class BookCategoriesEdit extends Activity {
 		super.onSaveInstanceState(outState);
 		outState.putString(BOOK_TITLE, mBookTitle);
 		outState.putSerializable(CATEGORY_LIST, mCategoryList);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
 	}
 
 	private Category getCategoryByCriteria(Category criteria) {
