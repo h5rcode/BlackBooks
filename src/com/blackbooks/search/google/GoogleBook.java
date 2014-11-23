@@ -7,6 +7,7 @@ import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.search.BookSearchResult;
+import com.blackbooks.search.BookSearchResultSource;
 
 /**
  * A class used to store the info of a book returned by the Google Books API.
@@ -44,6 +45,11 @@ public class GoogleBook implements BookSearchResult {
 		this.categories = new ArrayList<String>();
 	}
 
+	@Override
+	public BookSearchResultSource getResultSource() {
+		return BookSearchResultSource.GOOGLE_BOOKS;
+	}
+	
 	@Override
 	public BookInfo toBookInfo() {
 		BookInfo bookInfo = new BookInfo();

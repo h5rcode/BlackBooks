@@ -4,6 +4,7 @@ import com.blackbooks.helpers.IsbnHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.search.BookSearchResult;
+import com.blackbooks.search.BookSearchResultSource;
 
 /**
  * A class used to store the info of a book returned by the Amazon Product
@@ -21,6 +22,11 @@ public class AmazonBook implements BookSearchResult {
 	public byte[] smallImage;
 	public byte[] mediumImage;
 	public byte[] largeImage;
+
+	@Override
+	public BookSearchResultSource getResultSource() {
+		return BookSearchResultSource.AMAZON;
+	}
 
 	@Override
 	public BookInfo toBookInfo() {

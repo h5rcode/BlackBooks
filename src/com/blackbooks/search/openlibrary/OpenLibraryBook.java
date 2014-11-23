@@ -7,6 +7,7 @@ import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.search.BookSearchResult;
+import com.blackbooks.search.BookSearchResultSource;
 
 /**
  * The result of a book search using the Open Library API.
@@ -38,6 +39,11 @@ public class OpenLibraryBook implements BookSearchResult {
 		this.subjects = new ArrayList<String>();
 	}
 
+	@Override
+	public BookSearchResultSource getResultSource() {
+		return BookSearchResultSource.OPEN_LIBRARY;
+	}
+	
 	@Override
 	public BookInfo toBookInfo() {
 		BookInfo bookInfo = new BookInfo();

@@ -3,6 +3,8 @@ package com.blackbooks.search;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -115,8 +117,13 @@ public final class BookSearcher {
 	 */
 	private static BookInfo mergeSearchResults(List<BookSearchResult> bookSearchResultList) {
 		BookInfo bookInfo = null;
-		boolean isFirst = true;
+		Map<Integer, BookSearchResult> resultMap = new TreeMap<Integer, BookSearchResult>();
 		for (BookSearchResult bookSearchResult : bookSearchResultList) {
+			resultMap.put(bookSearchResult.getResultSource().getMergeOrder(), bookSearchResult);
+		}
+
+		boolean isFirst = true;
+		for (BookSearchResult bookSearchResult : resultMap.values()) {
 			if (isFirst) {
 				isFirst = false;
 				bookInfo = new BookInfo();
@@ -124,6 +131,7 @@ public final class BookSearcher {
 			BookInfo resultBookInfo = bookSearchResult.toBookInfo();
 			bookInfo.merge(resultBookInfo);
 		}
+
 		return bookInfo;
 	}
 }
