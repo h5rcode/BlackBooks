@@ -60,15 +60,18 @@ public class BookDisplayFragment extends Fragment {
 	private TextView mTextLanguage;
 	private TextView mTextDescription;
 
-	private LinearLayout mGroupInfo;
-	private LinearLayout mGroupInfoUserFriendlyPageCount;
-	private LinearLayout mGroupInfoUserFriendlyCategories;
-	private LinearLayout mGroupInfoUserFriendlyLanguage;
-	private LinearLayout mGroupInfoTechnicalIsbn10;
-	private LinearLayout mGroupInfoTechnicalIsbn13;
-	private LinearLayout mGroupInfoTechnicalPublisher;
-	private LinearLayout mGroupInfoTechnicalPublishedDate;
+	private LinearLayout mGroup1;
 	private LinearLayout mGroupDescription;
+	private LinearLayout mGroupPublisher;
+	private LinearLayout mGroupIsbn;
+
+	private LinearLayout mGroup1PageCount;
+	private LinearLayout mGroupCategories;
+	private LinearLayout mGroup1Language;
+	private LinearLayout mGroupIsbnIsbn10;
+	private LinearLayout mGroupIsbnIsbn13;
+	private LinearLayout mGroupPublisherPublisher;
+	private LinearLayout mGroupPublisherPublishedDate;
 
 	private BookDisplayListener mBookDisplayListener;
 
@@ -209,15 +212,18 @@ public class BookDisplayFragment extends Fragment {
 		mTextLanguage = (TextView) view.findViewById(R.id.bookDisplay_textLanguage);
 		mTextDescription = (TextView) view.findViewById(R.id.bookDisplay_textDescription);
 
-		mGroupInfo = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfo);
-		mGroupInfoUserFriendlyPageCount = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfoUserFriendly_pageCount);
-		mGroupInfoUserFriendlyCategories = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfoUserFriendly_categories);
-		mGroupInfoUserFriendlyLanguage = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfoUserFriendly_language);
-		mGroupInfoTechnicalIsbn10 = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfoTechnical_isbn10);
-		mGroupInfoTechnicalIsbn13 = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfoTechnical_isbn13);
-		mGroupInfoTechnicalPublisher = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfoTechnical_publisher);
-		mGroupInfoTechnicalPublishedDate = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfoTechnical_publishedDate);
+		mGroup1 = (LinearLayout) view.findViewById(R.id.bookDisplay_group1);
+		mGroupCategories = (LinearLayout) view.findViewById(R.id.bookDisplay_groupCategories);
 		mGroupDescription = (LinearLayout) view.findViewById(R.id.bookDisplay_groupDescription);
+		mGroupPublisher = (LinearLayout) view.findViewById(R.id.bookDisplay_groupPublisher);
+		mGroupIsbn = (LinearLayout) view.findViewById(R.id.bookDisplay_groupIsbn);
+
+		mGroup1PageCount = (LinearLayout) view.findViewById(R.id.bookDisplay_group1_pageCount);
+		mGroup1Language = (LinearLayout) view.findViewById(R.id.bookDisplay_group1_language);
+		mGroupPublisherPublisher = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfoPublisher_publisher);
+		mGroupPublisherPublishedDate = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfoPublisher_publishedDate);
+		mGroupIsbnIsbn10 = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfoIsbn_isbn10);
+		mGroupIsbnIsbn13 = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfoIsbn_isbn13);
 	}
 
 	/**
@@ -248,11 +254,14 @@ public class BookDisplayFragment extends Fragment {
 		boolean hasPublisher = mBookInfo.publisher.name != null;
 		boolean hasPublishedDate = mBookInfo.publishedDate != null;
 
-		boolean showInfoUserFriendly = hasPageCount || hasCategories || hasLanguage;
-		boolean showInfoTechnical = hasIsbn10 || hasIsbn13 || hasPublisher || hasPublishedDate;
-		boolean showInfo = showInfoUserFriendly || showInfoTechnical;
+		boolean showGroup1 = hasPageCount || hasLanguage;
+		boolean showGroupPublisher = hasPublisher || hasPublishedDate;
+		boolean showGroupIsbn = hasIsbn10 || hasIsbn13;
 
+		// Title.
 		mTextTitle.setText(mBookInfo.title);
+
+		// Thumbnail.
 		if (mBookInfo.thumbnail != null && mBookInfo.thumbnail.length > 0) {
 			Bitmap bitmap = BitmapFactory.decodeByteArray(mBookInfo.thumbnail, 0, mBookInfo.thumbnail.length);
 			bitmap = BitmapUtils.resizeThumbnailBitmap(getActivity(), bitmap);
@@ -261,12 +270,16 @@ public class BookDisplayFragment extends Fragment {
 		} else {
 			mImageCover.setVisibility(View.GONE);
 		}
+
+		// Subtitle.
 		if (mBookInfo.subtitle != null) {
 			mTextSubtitle.setText(mBookInfo.subtitle);
 			mTextSubtitle.setVisibility(View.VISIBLE);
 		} else {
 			mTextSubtitle.setVisibility(View.GONE);
 		}
+
+		// Authors.
 		if (mBookInfo.authors.size() > 0) {
 			String authorsFormat = getString(R.string.label_authors_format);
 			String authors = String.format(authorsFormat, StringUtils.joinAuthorNameList(mBookInfo.authors, ", "));
@@ -275,61 +288,80 @@ public class BookDisplayFragment extends Fragment {
 			mTextAuthor.setText(getString(R.string.label_unspecified_author));
 		}
 
-		if (showInfo) {
+		// Page count and language.
+		if (showGroup1) {
 			if (hasPageCount) {
 				mTextPageCount.setText(mBookInfo.pageCount.toString());
-				mGroupInfoUserFriendlyPageCount.setVisibility(View.VISIBLE);
+				mGroup1PageCount.setVisibility(View.VISIBLE);
 			} else {
-				mGroupInfoUserFriendlyPageCount.setVisibility(View.GONE);
-			}
-			if (hasCategories) {
-				mTextCategory.setText(StringUtils.joinCategoryNameList(mBookInfo.categories, ", "));
-				mGroupInfoUserFriendlyCategories.setVisibility(View.VISIBLE);
-			} else {
-				mGroupInfoUserFriendlyCategories.setVisibility(View.GONE);
+				mGroup1PageCount.setVisibility(View.INVISIBLE);
 			}
 			if (hasLanguage) {
 				Locale locale = new Locale(mBookInfo.languageCode);
 				String language = locale.getDisplayLanguage();
 				mTextLanguage.setText(StringUtils.capitalize(language));
-				mGroupInfoUserFriendlyLanguage.setVisibility(View.VISIBLE);
+				mGroup1Language.setVisibility(View.VISIBLE);
 			} else {
-				mGroupInfoUserFriendlyLanguage.setVisibility(View.GONE);
+				mGroup1Language.setVisibility(View.INVISIBLE);
 			}
-			if (hasIsbn10) {
-				mTextIsbn10.setText(mBookInfo.isbn10);
-				mGroupInfoTechnicalIsbn10.setVisibility(View.VISIBLE);
-			} else {
-				mGroupInfoTechnicalIsbn10.setVisibility(View.GONE);
-			}
-			if (hasIsbn13) {
-				mTextIsbn13.setText(mBookInfo.isbn13);
-				mGroupInfoTechnicalIsbn13.setVisibility(View.VISIBLE);
-			} else {
-				mGroupInfoTechnicalIsbn13.setVisibility(View.GONE);
-			}
-			if (hasPublisher) {
-				mTextPublisher.setText(mBookInfo.publisher.name);
-				mGroupInfoTechnicalPublisher.setVisibility(View.VISIBLE);
-			} else {
-				mGroupInfoTechnicalPublisher.setVisibility(View.GONE);
-			}
-			if (hasPublishedDate) {
-				mTextPublishedDate.setText(mBookInfo.publishedDate);
-				mGroupInfoTechnicalPublishedDate.setVisibility(View.VISIBLE);
-			} else {
-				mGroupInfoTechnicalPublishedDate.setVisibility(View.GONE);
-			}
-			mGroupInfo.setVisibility(View.VISIBLE);
+			mGroup1.setVisibility(View.VISIBLE);
 		} else {
-			mGroupInfo.setVisibility(View.GONE);
+			mGroup1.setVisibility(View.GONE);
 		}
+
+		// Categories.
+		if (hasCategories) {
+			mTextCategory.setText(StringUtils.joinCategoryNameList(mBookInfo.categories, ", "));
+			mGroupCategories.setVisibility(View.VISIBLE);
+		} else {
+			mGroupCategories.setVisibility(View.GONE);
+		}
+
+		// Description.
 		if (mBookInfo.description != null) {
 			mTextDescription.setText(mBookInfo.description);
 			mGroupDescription.setVisibility(View.VISIBLE);
 
 		} else {
 			mGroupDescription.setVisibility(View.GONE);
+		}
+
+		// Publisher.
+		if (showGroupPublisher) {
+			if (hasPublisher) {
+				mTextPublisher.setText(mBookInfo.publisher.name);
+				mGroupPublisherPublisher.setVisibility(View.VISIBLE);
+			} else {
+				mGroupPublisherPublisher.setVisibility(View.INVISIBLE);
+			}
+			if (hasPublishedDate) {
+				mTextPublishedDate.setText(mBookInfo.publishedDate);
+				mGroupPublisherPublishedDate.setVisibility(View.VISIBLE);
+			} else {
+				mGroupPublisherPublishedDate.setVisibility(View.INVISIBLE);
+			}
+			mGroupPublisher.setVisibility(View.VISIBLE);
+		} else {
+			mGroupPublisher.setVisibility(View.GONE);
+		}
+
+		// ISBN-10 and ISBN-13.
+		if (showGroupIsbn) {
+			if (hasIsbn10) {
+				mTextIsbn10.setText(mBookInfo.isbn10);
+				mGroupIsbnIsbn10.setVisibility(View.VISIBLE);
+			} else {
+				mGroupIsbnIsbn10.setVisibility(View.INVISIBLE);
+			}
+			if (hasIsbn13) {
+				mTextIsbn13.setText(mBookInfo.isbn13);
+				mGroupIsbnIsbn13.setVisibility(View.VISIBLE);
+			} else {
+				mGroupIsbnIsbn13.setVisibility(View.INVISIBLE);
+			}
+			mGroupIsbn.setVisibility(View.VISIBLE);
+		} else {
+			mGroupIsbn.setVisibility(View.GONE);
 		}
 	}
 

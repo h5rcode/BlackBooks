@@ -227,6 +227,8 @@ public class BookServices {
 			if (bookInfo.publisher.name != null) {
 				PublisherServices.savePublisher(db, bookInfo.publisher);
 				bookInfo.publisherId = bookInfo.publisher.id;
+			} else {
+				bookInfo.publisherId = null;
 			}
 
 			BrokerManager.getBroker(Book.class).save(db, bookInfo);
