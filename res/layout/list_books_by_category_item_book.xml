@@ -13,13 +13,20 @@
         android:layout_weight="1"
         android:gravity="center" >
 
+        <ProgressBar
+            android:id="@+id/books_by_category_item_book_progressBar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <ImageView
-            android:id="@+id/search_results_item_book_small_thumbnail"
+            android:id="@+id/books_by_category_item_book_small_thumbnail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/image_thumbnail"
-            android:src="@drawable/ic_undefined_thumbnail" />
+            android:src="@drawable/ic_undefined_thumbnail"
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
@@ -30,13 +37,13 @@
         android:padding="5sp" >
 
         <TextView
-            android:id="@+id/search_results_item_book_title"
+            android:id="@+id/books_by_category_item_book_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="17sp" />
+            android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/search_results_item_book_author"
+            android:id="@+id/books_by_category_item_book_author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"

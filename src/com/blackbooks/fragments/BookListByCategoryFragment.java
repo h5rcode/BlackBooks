@@ -8,30 +8,35 @@ import android.widget.ArrayAdapter;
 
 import com.blackbooks.R;
 import com.blackbooks.adapters.BookItem;
-import com.blackbooks.adapters.BooksByLanguageAdapter;
-import com.blackbooks.adapters.LanguageItem;
+import com.blackbooks.adapters.BooksByCategoryAdapter;
+import com.blackbooks.adapters.CategoryItem;
 import com.blackbooks.adapters.ListItem;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
-import com.blackbooks.model.nonpersistent.LanguageInfo;
+import com.blackbooks.model.nonpersistent.CategoryInfo;
 import com.blackbooks.model.persistent.Author;
-import com.blackbooks.services.LanguageServices;
+import com.blackbooks.services.CategoryServices;
 
-public class BookListByLanguageFragment extends AbstractBookListFragment {
+/**
+ * Implements {@link AbstractBookListFragment}. A fragment that lists books by
+ * categories.
+ */
+public class BookListByCategoryFragment extends AbstractBookListFragment {
 
 	@Override
 	protected ArrayAdapter<ListItem> getBookListAdapter() {
-		return new BooksByLanguageAdapter(this.getActivity());
+		return new BooksByCategoryAdapter(getActivity());
 	}
 
 	@Override
 	protected List<ListItem> loadBookList() {
+
 		SQLiteHelper dbHelper = new SQLiteHelper(this.getActivity());
 		SQLiteDatabase db = null;
-		List<LanguageInfo> languageList;
+		List<CategoryInfo> categoryList;
 		try {
 			db = dbHelper.getReadableDatabase();
-			languageList = LanguageServices.getLanguageInfoList(db);
+			categoryList = CategoryServices.getCategoryInfoList(db);
 		} finally {
 			if (db != null) {
 				db.close();
@@ -39,16 +44,13 @@ public class BookListByLanguageFragment extends AbstractBookListFragment {
 		}
 
 		List<ListItem> listItems = new ArrayList<ListItem>();
-
-		for (LanguageInfo language : languageList) {
-			if (language.displayName == null) {
-				language.displayName = getString(R.string.label_unspecified_language);
+		for (CategoryInfo categoryInfo : categoryList) {
+			if (categoryInfo.id == null) {
+				categoryInfo.name = getString(R.string.label_unspecified_category);
 			}
-
-			LanguageItem languageItem = new LanguageItem(language.displayName, language.books.size());
-			listItems.add(languageItem);
-
-			for (BookInfo book : language.books) {
+			CategoryItem categoryItem = new CategoryItem(categoryInfo.name, categoryInfo.books.size());
+			listItems.add(categoryItem);
+			for (BookInfo book : categoryInfo.books) {
 				BookItem bookItem = new BookItem(book.id, book.title, book.smallThumbnail);
 				for (Author author : book.authors) {
 					bookItem.getAuthors().add(author.name);

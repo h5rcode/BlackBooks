@@ -43,7 +43,7 @@ public class LanguageServices {
 				if (unspecifiedLanguage == null) {
 					unspecifiedLanguage = new LanguageInfo();
 				}
-				unspecifiedLanguage.bookList.add(book);
+				unspecifiedLanguage.books.add(book);
 			} else {
 				LanguageInfo language;
 				if (languageMap.containsKey(languageCode)) {
@@ -58,7 +58,7 @@ public class LanguageServices {
 
 					displayNameMap.put(displayName, language);
 				}
-				language.bookList.add(book);
+				language.books.add(book);
 			}
 		}
 

@@ -1,6 +1,5 @@
 package com.blackbooks.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +18,8 @@ import com.blackbooks.cache.ThumbnailManager;
  */
 public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> {
 
-	private LayoutInflater mInflater;
-	private ThumbnailManager mThumbnailManager;
+	private final LayoutInflater mInflater;
+	private final ThumbnailManager mThumbnailManager;
 
 	/**
 	 * Constructor.
@@ -36,7 +35,6 @@ public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> {
 		this.mThumbnailManager = ThumbnailManager.getInstance();
 	}
 
-	@SuppressLint("InflateParams")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = convertView;
@@ -47,7 +45,7 @@ public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> {
 			if (itemType == ListItemType.Entry) {
 				BookItem entry = (BookItem) item;
 
-				view = mInflater.inflate(R.layout.list_books_by_author_item_book, null);
+				view = mInflater.inflate(R.layout.list_books_by_author_item_book, parent, false);
 				ImageView imageView = (ImageView) view.findViewById(R.id.item_book_small_thumbnail);
 				ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.books_by_author_item_book_progressBar);
 				mThumbnailManager.drawSmallThumbnail(entry.getId(), getContext(), imageView, progressBar);
@@ -58,7 +56,7 @@ public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> {
 			} else if (itemType == ListItemType.Header) {
 				AuthorItem header = (AuthorItem) item;
 
-				view = mInflater.inflate(R.layout.list_books_by_author_item_author, null);
+				view = mInflater.inflate(R.layout.list_books_by_author_item_author, parent, false);
 
 				TextView textViewName = (TextView) view.findViewById(R.id.header_author_name);
 				textViewName.setText(header.getName());

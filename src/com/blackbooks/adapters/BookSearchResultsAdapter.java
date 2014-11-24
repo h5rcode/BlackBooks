@@ -2,7 +2,6 @@ package com.blackbooks.adapters;
 
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,8 +27,8 @@ import com.blackbooks.utils.StringUtils;
  */
 public class BookSearchResultsAdapter extends ArrayAdapter<BookInfo> {
 
-	private String mQuery;
-	private LayoutInflater mInflater;
+	private final String mQuery;
+	private final LayoutInflater mInflater;
 
 	/**
 	 * Constructor.
@@ -45,7 +44,6 @@ public class BookSearchResultsAdapter extends ArrayAdapter<BookInfo> {
 		this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
-	@SuppressLint("InflateParams")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = convertView;
@@ -53,7 +51,7 @@ public class BookSearchResultsAdapter extends ArrayAdapter<BookInfo> {
 		BookInfo bookInfo = this.getItem(position);
 
 		if (bookInfo != null) {
-			view = mInflater.inflate(R.layout.search_results_item_book, null);
+			view = mInflater.inflate(R.layout.search_results_item_book, parent, false);
 
 			byte[] smallThumbnail = bookInfo.smallThumbnail;
 			if (smallThumbnail != null && smallThumbnail.length > 0) {
