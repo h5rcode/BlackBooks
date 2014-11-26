@@ -58,18 +58,15 @@ public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> {
 
 				view = mInflater.inflate(R.layout.list_books_by_author_item_author, parent, false);
 
-				TextView textViewName = (TextView) view.findViewById(R.id.header_author_name);
+				TextView textViewName = (TextView) view.findViewById(R.id.books_by_author_name);
 				textViewName.setText(header.getName());
 
-				/*
-				 * TextView textViewTotalBooks = (TextView)
-				 * view.findViewById(R.id.header_author_total_books);
-				 * textViewTotalBooks
-				 * .setText(String.valueOf(header.getTotalBooks()));
-				 */
+				TextView textViewTotalBooks = (TextView) view.findViewById(R.id.books_by_author_item_total);
+				String total = this.getContext().getString(R.string.label_total);
+				total = String.format(total, header.getTotalBooks());
+				textViewTotalBooks.setText(total);
 			}
 		}
-
 		return view;
 	}
 }
