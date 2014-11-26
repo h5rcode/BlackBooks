@@ -71,7 +71,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/bookDisplay_group1"
+            android:id="@+id/bookDisplay_groupInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
@@ -88,7 +88,43 @@
                 android:orientation="horizontal" >
 
                 <LinearLayout
-                    android:id="@+id/bookDisplay_group1_language"
+                    android:id="@+id/bookDisplay_groupInfo_publisher"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingRight="7sp" >
+
+                    <TextView
+                        android:id="@+id/bookDisplay_textPublisher"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/bookDisplay_groupInfo_publishedDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingLeft="7sp" >
+
+                    <TextView
+                        android:id="@+id/bookDisplay_textPublishedDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:id="@+id/bookDisplay_groupInfo_language"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -103,7 +139,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/bookDisplay_group1_pageCount"
+                    android:id="@+id/bookDisplay_groupInfo_pageCount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -140,67 +176,6 @@
                 android:id="@+id/bookDisplay_textDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/bookDisplay_groupPublisher"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <View
-                style="@style/HorizontalDivider"
-                android:layout_marginBottom="5sp"
-                android:layout_marginTop="5sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:baselineAligned="false"
-                android:orientation="horizontal" >
-
-                <LinearLayout
-                    android:id="@+id/bookDisplay_groupInfoPublisher_publisher"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingRight="7sp" >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="@string/label_publisher"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/bookDisplay_textPublisher"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/bookDisplay_groupInfoPublisher_publishedDate"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingLeft="7sp" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/label_published_date"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/bookDisplay_textPublishedDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
