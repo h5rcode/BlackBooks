@@ -2,24 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_vertical"
     android:orientation="horizontal"
     android:padding="8sp" >
 
     <TextView
         android:id="@+id/books_by_category_item_category"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_weight="5"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/books_by_category_item_total"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:lines="1"
+        android:layout_weight="1"
         android:paddingLeft="8sp"
         android:textColor="@color/grey_500"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
 </LinearLayout>
