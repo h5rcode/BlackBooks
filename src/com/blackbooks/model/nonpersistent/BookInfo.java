@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Book;
+import com.blackbooks.model.persistent.BookShelf;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Publisher;
 
@@ -23,6 +24,8 @@ public class BookInfo extends Book implements Serializable {
 
 	public List<Category> categories;
 
+	public BookShelf bookShelf;
+
 	/*
 	 * Default constructor.
 	 */
@@ -30,6 +33,7 @@ public class BookInfo extends Book implements Serializable {
 		this.authors = new ArrayList<Author>();
 		this.publisher = new Publisher();
 		this.categories = new ArrayList<Category>();
+		this.bookShelf = new BookShelf();
 	}
 
 	/**
@@ -59,6 +63,7 @@ public class BookInfo extends Book implements Serializable {
 		this.isFavourite = book.isFavourite;
 		this.isbn10 = book.isbn10;
 		this.isbn13 = book.isbn13;
+		this.bookShelfId = book.bookShelfId;
 	}
 
 	/**

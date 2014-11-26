@@ -128,6 +128,9 @@ public class BookServices {
 		if (book.publisherId != null) {
 			bookInfo.publisher = PublisherServices.getPublisher(db, book.publisherId);
 		}
+		if (book.bookShelfId != null) {
+			bookInfo.bookShelf = BookShelfServices.getBookShelf(db, book.bookShelfId);
+		}
 
 		List<BookCategory> bookCategoryList = BookCategoryServices.getBookCategoryListByBook(db, book.id);
 		for (BookCategory bookCategory : bookCategoryList) {
@@ -229,6 +232,13 @@ public class BookServices {
 				bookInfo.publisherId = bookInfo.publisher.id;
 			} else {
 				bookInfo.publisherId = null;
+			}
+
+			if (bookInfo.bookShelf.name != null) {
+				BookShelfServices.saveBookShelf(db, bookInfo.bookShelf);
+				bookInfo.bookShelfId = bookInfo.bookShelf.id;
+			} else {
+				bookInfo.bookShelfId = null;
 			}
 
 			BrokerManager.getBroker(Book.class).save(db, bookInfo);

@@ -1,14 +1,23 @@
 package com.blackbooks.fragments;
 
+import java.util.List;
+
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 
 import com.blackbooks.R;
+import com.blackbooks.adapters.AutoCompleteAdapter;
+import com.blackbooks.adapters.AutoCompleteAdapter.AutoCompleteSearcher;
+import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
+import com.blackbooks.model.persistent.BookShelf;
+import com.blackbooks.services.BookShelfServices;
 
 /**
  * Fragment to edit the information concerning the owner of the book.
@@ -18,10 +27,15 @@ public class BookEditPersonalFragment extends Fragment {
 
 	private static final String ARG_BOOK = "ARG_BOOK";
 
+	private SQLiteHelper mDbHelper;
+
 	private CheckBox mCheckBoxRead;
 	private CheckBox mCheckBoxFavourite;
+	private AutoCompleteTextView mTextBookShelf;
 
 	private BookInfo mBookInfo;
+
+	private AutoCompleteAdapter<BookShelf> mBookShelfAutoCompleteAdapter;
 
 	/**
 	 * Create a new instance of BookEditPersonalFragment.
@@ -54,8 +68,29 @@ public class BookEditPersonalFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+
+		mDbHelper = new SQLiteHelper(getActivity());
+
 		findViews();
 		renderBookInfo();
+
+		mBookShelfAutoCompleteAdapter = new AutoCompleteAdapter<BookShelf>(this.getActivity(), android.R.layout.simple_list_item_1,
+				new AutoCompleteSearcher<BookShelf>() {
+
+					@Override
+					public List<BookShelf> search(CharSequence constraint) {
+						SQLiteDatabase db = mDbHelper.getReadableDatabase();
+						List<BookShelf> bookShelfList = BookShelfServices.getBookShelfListByText(db, constraint.toString());
+						db.close();
+						return bookShelfList;
+					}
+
+					@Override
+					public String getDisplayLabel(BookShelf item) {
+						return item.name;
+					}
+				});
+		mTextBookShelf.setAdapter(mBookShelfAutoCompleteAdapter);
 	}
 
 	/**
@@ -68,7 +103,22 @@ public class BookEditPersonalFragment extends Fragment {
 	public boolean readBookInfo(BookInfo bookInfo) {
 		bookInfo.isRead = mCheckBoxRead.isChecked() ? 1L : 0L;
 		bookInfo.isFavourite = mCheckBoxFavourite.isChecked() ? 1L : 0L;
+		String bookShelfName = mTextBookShelf.getText().toString();
 
+		BookShelf bookShelf = new BookShelf();
+		SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+		if (bookShelfName != null) {
+			bookShelf.name = bookShelfName;
+
+			BookShelf bookShelfDb = BookShelfServices.getBookShelfByCriteria(db, bookShelf);
+			if (bookShelfDb != null) {
+				bookShelf = bookShelfDb;
+			}
+		}
+		db.close();
+
+		bookInfo.bookShelf = bookShelf;
 		return true;
 	}
 
@@ -79,6 +129,7 @@ public class BookEditPersonalFragment extends Fragment {
 		View view = getView();
 		mCheckBoxRead = (CheckBox) view.findViewById(R.id.bookEditPersonal_checkRead);
 		mCheckBoxFavourite = (CheckBox) view.findViewById(R.id.bookEditPersonal_checkFavourite);
+		mTextBookShelf = (AutoCompleteTextView) view.findViewById(R.id.bookEditPersonal_textBookShelf);
 	}
 
 	/**
@@ -87,5 +138,6 @@ public class BookEditPersonalFragment extends Fragment {
 	private void renderBookInfo() {
 		mCheckBoxRead.setChecked(mBookInfo.isRead != 0);
 		mCheckBoxFavourite.setChecked(mBookInfo.isFavourite != 0);
+		mTextBookShelf.setText(mBookInfo.bookShelf.name);
 	}
 }

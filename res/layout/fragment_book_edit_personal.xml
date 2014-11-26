@@ -47,6 +47,26 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/label_book_shelf" />
+
+            <AutoCompleteTextView
+                android:id="@+id/bookEditPersonal_textBookShelf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:hint="@string/label_book_shelf"
+                android:inputType="textCapSentences" />
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

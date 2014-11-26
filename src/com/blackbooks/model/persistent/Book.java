@@ -68,6 +68,9 @@ public class Book implements Serializable {
 	@Column(name = Cols.BOO_ISBN_13, type = SQLiteDataType.TEXT, version = 1)
 	public String isbn13;
 
+	@Column(name = Cols.BSH_ID, type = SQLiteDataType.INTEGER, referencedType = BookShelf.class, version = 1)
+	public Long bookShelfId;
+
 	public Book() {
 		this.isRead = 0L;
 		this.isFavourite = 0L;
@@ -93,5 +96,6 @@ public class Book implements Serializable {
 		public final static String BOO_IS_FAVOURITE = "BOO_IS_FAVOURITE";
 		public final static String BOO_ISBN_10 = "BOO_ISBN_10";
 		public final static String BOO_ISBN_13 = "BOO_ISBN_13";
+		public static final String BSH_ID = "BSH_ID";
 	}
 }
