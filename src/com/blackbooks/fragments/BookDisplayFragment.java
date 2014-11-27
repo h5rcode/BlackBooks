@@ -48,6 +48,8 @@ public class BookDisplayFragment extends Fragment {
 	private BookInfo mBookInfo;
 
 	private ImageView mImageCover;
+	private ImageView mImageRead;
+	private ImageView mImageFavourite;
 	private TextView mTextTitle;
 	private TextView mTextSubtitle;
 	private TextView mTextAuthor;
@@ -198,6 +200,8 @@ public class BookDisplayFragment extends Fragment {
 	 */
 	private void findViews(View view) {
 		mImageCover = (ImageView) view.findViewById(R.id.bookDisplay_imageCover);
+		mImageRead = (ImageView) view.findViewById(R.id.bookDisplay_imageRead);
+		mImageFavourite = (ImageView) view.findViewById(R.id.bookDisplay_imageFavourite);
 		mTextTitle = (TextView) view.findViewById(R.id.bookDisplay_textTitle);
 		mTextSubtitle = (TextView) view.findViewById(R.id.bookDisplay_textSubtitle);
 		mTextAuthor = (TextView) view.findViewById(R.id.bookDisplay_textAuthor);
@@ -257,6 +261,20 @@ public class BookDisplayFragment extends Fragment {
 
 		// Title.
 		mTextTitle.setText(mBookInfo.title);
+
+		// "Read" icon.
+		if (mBookInfo.isRead == 0) {
+			mImageRead.setVisibility(View.GONE);
+		} else {
+			mImageRead.setVisibility(View.VISIBLE);
+		}
+
+		// "Favourite" icon.
+		if (mBookInfo.isFavourite == 0) {
+			mImageFavourite.setVisibility(View.GONE);
+		} else {
+			mImageFavourite.setVisibility(View.VISIBLE);
+		}
 
 		// Thumbnail.
 		if (mBookInfo.thumbnail != null && mBookInfo.thumbnail.length > 0) {
