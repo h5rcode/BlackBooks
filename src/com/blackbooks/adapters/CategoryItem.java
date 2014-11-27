@@ -1,13 +1,13 @@
 package com.blackbooks.adapters;
 
+import com.blackbooks.model.nonpersistent.CategoryInfo;
+
 public class CategoryItem implements ListItem {
 
-	private final String mName;
-	private final int mTotal;
+	private final CategoryInfo mCategory;
 
-	public CategoryItem(String name, int total) {
-		mName = name;
-		mTotal = total;
+	public CategoryItem(CategoryInfo category) {
+		mCategory = category;
 	}
 
 	@Override
@@ -15,11 +15,7 @@ public class CategoryItem implements ListItem {
 		return ListItemType.Header;
 	}
 
-	public String getName() {
-		return mName;
-	}
-	
-	public int getTotal() {
-		return mTotal;
+	public CategoryInfo getCategory() {
+		return mCategory;
 	}
 }

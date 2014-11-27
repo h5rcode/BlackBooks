@@ -6,9 +6,11 @@
     <string name="action_add_categories">Add categories</string>
     <string name="action_add_manually">Add manually</string>
     <string name="action_backup_db">Backup DB on disk</string>
+    <string name="action_delete_category">Delete category</string>
     <string name="action_enter_isbn">Enter ISBN</string>
     <string name="action_lookup_isbn">Lookup ISBN</string>
     <string name="action_remove_thumbnail">Remove thumbnail</string>
+    <string name="action_rename_category">Rename category</string>
     <string name="action_save_book">Save</string>
     <string name="action_scan_isbn">Scan ISBN</string>
     <string name="action_sort_by_author">By author</string>
@@ -68,10 +70,15 @@
     <string name="message_book_modifed">\"%s\" was successfully modified.</string>
     <string name="message_category_added">\"%s\" was added to the list of categories.</string>
     <string name="message_category_already_present">\"%s\" is already in the list of categories.</string>
+    <string name="message_category_deleted">Category \"%s\" was successfully deleted.</string>
     <string name="message_category_missing">Please enter a category.</string>
+    <string name="message_category_modified">Category \"%1$s\" was successfully renamed to \"%2$s\".</string>
     <string name="message_confirm_delete_book">Do you really want to delete \"%s\"?</string>
     <string name="message_confirm_delete_book_cancel">No</string>
     <string name="message_confirm_delete_book_confirm">Yes</string>
+    <string name="message_confirm_delete_category">Do you really want to remove the category \"%s\"? The related books will NOT be deleted.</string>
+    <string name="message_confirm_delete_category_cancel">No</string>
+    <string name="message_confirm_delete_category_confirm">Yes</string>
     <string name="message_invalid_isbn">%s is not a valid ISBN number.</string>
     <string name="message_isbn_search_info_format">Only digits and the letter \'X\' are allowed.</string>
     <string name="message_isbn_search_invalid_format">Invalid format</string>

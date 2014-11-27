@@ -14,7 +14,7 @@ public class Category implements Serializable {
 	@Column(name = Cols.CAT_ID, primaryKey = true, type = SQLiteDataType.INTEGER, version = 1)
 	public Long id;
 
-	@Column(name = Cols.CAT_NAME, type = SQLiteDataType.TEXT, mandatory = true, version = 1)
+	@Column(name = Cols.CAT_NAME, type = SQLiteDataType.TEXT, unique = true, mandatory = true, version = 1)
 	public String name;
 
 	public final static class Cols {

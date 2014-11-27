@@ -48,9 +48,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	public void onResume() {
 		super.onResume();
 		if (getReloadBookList()) {
-			setReloadBookListToFalse();
-			mBookListLoadTask = new BookListLoadTask();
-			mBookListLoadTask.execute();
+			loadData();
 		}
 	}
 
@@ -59,7 +57,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
 		super.onDetach();
 		mBookListListener = null;
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
@@ -96,6 +94,15 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	protected abstract ArrayAdapter<ListItem> getBookListAdapter();
 
 	/**
+	 * Load the data to be displayed in the fragment.
+	 */
+	protected final void loadData() {
+		setReloadBookListToFalse();
+		mBookListLoadTask = new BookListLoadTask();
+		mBookListLoadTask.execute();
+	}
+
+	/**
 	 * Return a value indicating if the book list should be reloaded.
 	 * 
 	 * @return True to refresh the book list, false otherwise.
@@ -119,7 +126,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	}
 
 	/**
-	 * Activites hosting {@link AbstractBookListFragment} or any fragment that
+	 * Activities hosting {@link AbstractBookListFragment} or any fragment that
 	 * inherits from it should implement this interface to be notified when the
 	 * loading of the book list is complete.
 	 */

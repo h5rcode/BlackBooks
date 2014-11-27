@@ -29,6 +29,18 @@ public class CategoryServices {
 	}
 
 	/**
+	 * Delete a category.
+	 * 
+	 * @param db
+	 *            SQLiteDatabase.
+	 * @param categoryId
+	 *            Id of a category.
+	 */
+	public static void deleteCategory(SQLiteDatabase db, long categoryId) {
+		BrokerManager.getBroker(Category.class).delete(db, categoryId);
+	}
+
+	/**
 	 * Get a category from the database.
 	 * 
 	 * @param db
@@ -59,7 +71,8 @@ public class CategoryServices {
 
 		List<BookInfo> bookInfoList = BookServices.getBookInfoList(db);
 		List<BookCategory> bcList = BrokerManager.getBroker(BookCategory.class).getAll(db);
-		List<Category> categoryList = BrokerManager.getBroker(Category.class).getAll(db, null, new String[] { Category.Cols.CAT_NAME });
+		List<Category> categoryList = BrokerManager.getBroker(Category.class).getAll(db, null,
+				new String[] { Category.Cols.CAT_NAME });
 
 		LongSparseArray<CategoryInfo> categoryMap = new LongSparseArray<CategoryInfo>();
 		LongSparseArray<List<Long>> bcMap = new LongSparseArray<List<Long>>();

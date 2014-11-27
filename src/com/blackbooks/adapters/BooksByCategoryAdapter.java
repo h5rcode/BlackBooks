@@ -2,10 +2,6 @@ package com.blackbooks.adapters;
 
 import java.util.List;
 
-import com.blackbooks.R;
-import com.blackbooks.cache.ThumbnailManager;
-import com.blackbooks.utils.StringUtils;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.blackbooks.R;
+import com.blackbooks.cache.ThumbnailManager;
+import com.blackbooks.model.nonpersistent.CategoryInfo;
+import com.blackbooks.utils.StringUtils;
 
 /**
  * An adapter handling instances of ListItem representing either a category or a
@@ -65,15 +66,16 @@ public class BooksByCategoryAdapter extends ArrayAdapter<ListItem> {
 				textAuthor.setText(authors);
 			} else if (itemType == ListItemType.Header) {
 				CategoryItem header = (CategoryItem) item;
+				CategoryInfo category = header.getCategory();
 
 				view = mInflater.inflate(R.layout.list_books_by_category_item_category, parent, false);
 
 				TextView textViewName = (TextView) view.findViewById(R.id.books_by_category_item_category);
 				TextView textViewTotal = (TextView) view.findViewById(R.id.books_by_category_item_total);
 
-				textViewName.setText(header.getName());
+				textViewName.setText(category.name);
 				String total = this.getContext().getString(R.string.label_total);
-				total = String.format(total, header.getTotal());
+				total = String.format(total, category.books.size());
 				textViewTotal.setText(total);
 			}
 		}
