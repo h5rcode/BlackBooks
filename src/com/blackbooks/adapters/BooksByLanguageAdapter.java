@@ -1,7 +1,5 @@
 package com.blackbooks.adapters;
 
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +11,7 @@ import android.widget.TextView;
 
 import com.blackbooks.R;
 import com.blackbooks.cache.ThumbnailManager;
+import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.utils.StringUtils;
 
 /**
@@ -45,21 +44,21 @@ public class BooksByLanguageAdapter extends ArrayAdapter<ListItem> {
 			ListItemType itemType = item.getListItemType();
 			if (itemType == ListItemType.Entry) {
 				BookItem entry = (BookItem) item;
+				BookInfo book = entry.getBook();
 
 				view = mInflater.inflate(R.layout.list_books_by_language_item_book, parent, false);
 
 				ImageView imageView = (ImageView) view.findViewById(R.id.books_by_language_item_book_small_thumbnail);
 				ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.books_by_language_item_book_progressBar);
-				mThumbnailManager.drawSmallThumbnail(entry.getId(), getContext(), imageView, progressBar);
+				mThumbnailManager.drawSmallThumbnail(book.id, getContext(), imageView, progressBar);
 
 				TextView textTitle = (TextView) view.findViewById(R.id.books_by_language_item_book_title);
-				textTitle.setText(entry.getTitle());
+				textTitle.setText(book.title);
 
 				TextView textAuthor = (TextView) view.findViewById(R.id.books_by_language_item_book_author);
-				List<String> authorList = entry.getAuthors();
 				String authors;
-				if (authorList.size() > 0) {
-					authors = StringUtils.join(entry.getAuthors().toArray(new String[] {}), ", ");
+				if (book.authors.size() > 0) {
+					authors = StringUtils.joinAuthorNameList(book.authors, ", ");
 				} else {
 					authors = getContext().getString(R.string.label_unspecified_author);
 				}

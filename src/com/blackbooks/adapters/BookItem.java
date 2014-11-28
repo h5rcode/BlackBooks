@@ -1,22 +1,13 @@
 package com.blackbooks.adapters;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.blackbooks.model.nonpersistent.BookInfo;
 
 public class BookItem implements ListItem {
 
-	private long id;
+	private final BookInfo mBook;
 
-	private String title;
-
-	private byte[] smallThumbnail;
-
-	private List<String> authors;
-
-	public BookItem(long id, String title, byte[] smallThumbnail) {
-		this.id = id;
-		this.title = title;
-		this.smallThumbnail = smallThumbnail;
+	public BookItem(BookInfo book) {
+		mBook = book;
 	}
 
 	@Override
@@ -24,22 +15,7 @@ public class BookItem implements ListItem {
 		return ListItemType.Entry;
 	}
 
-	public long getId() {
-		return id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public byte[] getSmallThumbnail() {
-		return smallThumbnail;
-	}
-	
-	public List<String> getAuthors() {
-		if (authors == null)  {
-			authors = new ArrayList<String>();
-		}
-		return authors;
+	public BookInfo getBook() {
+		return mBook;
 	}
 }

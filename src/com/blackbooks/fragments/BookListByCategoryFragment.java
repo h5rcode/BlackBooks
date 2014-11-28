@@ -26,7 +26,6 @@ import com.blackbooks.fragments.CategoryDeleteFragment.CategoryDeleteListener;
 import com.blackbooks.fragments.CategoryEditFragment.CategoryEditListener;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.nonpersistent.CategoryInfo;
-import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.services.CategoryServices;
 
@@ -164,10 +163,7 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
 			CategoryItem categoryItem = new CategoryItem(categoryInfo);
 			listItems.add(categoryItem);
 			for (BookInfo book : categoryInfo.books) {
-				BookItem bookItem = new BookItem(book.id, book.title, book.smallThumbnail);
-				for (Author author : book.authors) {
-					bookItem.getAuthors().add(author.name);
-				}
+				BookItem bookItem = new BookItem(book);
 				listItems.add(bookItem);
 			}
 		}

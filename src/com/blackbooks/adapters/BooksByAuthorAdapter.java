@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.blackbooks.R;
 import com.blackbooks.cache.ThumbnailManager;
+import com.blackbooks.model.nonpersistent.BookInfo;
 
 /**
  * An adapter handling instances of ListItem representing either an author or a
@@ -44,14 +45,15 @@ public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> {
 			ListItemType itemType = item.getListItemType();
 			if (itemType == ListItemType.Entry) {
 				BookItem entry = (BookItem) item;
+				BookInfo book = entry.getBook();
 
 				view = mInflater.inflate(R.layout.list_books_by_author_item_book, parent, false);
 				ImageView imageView = (ImageView) view.findViewById(R.id.item_book_small_thumbnail);
 				ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.books_by_author_item_book_progressBar);
-				mThumbnailManager.drawSmallThumbnail(entry.getId(), getContext(), imageView, progressBar);
+				mThumbnailManager.drawSmallThumbnail(book.id, getContext(), imageView, progressBar);
 
 				TextView textView = (TextView) view.findViewById(R.id.item_book_title);
-				textView.setText(entry.getTitle());
+				textView.setText(book.title);
 
 			} else if (itemType == ListItemType.Header) {
 				AuthorItem header = (AuthorItem) item;

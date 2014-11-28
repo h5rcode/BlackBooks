@@ -15,6 +15,7 @@ import com.blackbooks.activities.BookDisplay;
 import com.blackbooks.adapters.BookItem;
 import com.blackbooks.adapters.ListItem;
 import com.blackbooks.adapters.ListItemType;
+import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.utils.VariableUtils;
 
 /**
@@ -73,8 +74,9 @@ public abstract class AbstractBookListFragment extends ListFragment {
 
 		if (itemType == ListItemType.Entry) {
 			BookItem bookItem = (BookItem) item;
+			BookInfo book = bookItem.getBook();
 			Intent i = new Intent(this.getActivity(), BookDisplay.class);
-			i.putExtra(BookDisplay.EXTRA_BOOK_ID, bookItem.getId());
+			i.putExtra(BookDisplay.EXTRA_BOOK_ID, book.id);
 			this.startActivity(i);
 		}
 	}

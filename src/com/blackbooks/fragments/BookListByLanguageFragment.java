@@ -14,7 +14,6 @@ import com.blackbooks.adapters.ListItem;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.nonpersistent.LanguageInfo;
-import com.blackbooks.model.persistent.Author;
 import com.blackbooks.services.LanguageServices;
 
 public class BookListByLanguageFragment extends AbstractBookListFragment {
@@ -49,10 +48,7 @@ public class BookListByLanguageFragment extends AbstractBookListFragment {
 			listItems.add(languageItem);
 
 			for (BookInfo book : language.books) {
-				BookItem bookItem = new BookItem(book.id, book.title, book.smallThumbnail);
-				for (Author author : book.authors) {
-					bookItem.getAuthors().add(author.name);
-				}
+				BookItem bookItem = new BookItem(book);
 				listItems.add(bookItem);
 			}
 		}

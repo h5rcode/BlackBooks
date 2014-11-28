@@ -13,7 +13,6 @@ import com.blackbooks.adapters.FirstLetterItem;
 import com.blackbooks.adapters.ListItem;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
-import com.blackbooks.model.persistent.Author;
 import com.blackbooks.services.BookServices;
 
 /**
@@ -63,10 +62,7 @@ public class BookListByFirstLetterFragment extends AbstractBookListFragment {
 			listItems.add(firstLetterItem);
 
 			for (BookInfo book : bookMap.get(firstLetter)) {
-				BookItem bookItem = new BookItem(book.id, book.title, book.smallThumbnail);
-				for (Author author : book.authors) {
-					bookItem.getAuthors().add(author.name);
-				}
+				BookItem bookItem = new BookItem(book);
 				listItems.add(bookItem);
 			}
 		}

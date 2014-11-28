@@ -1,7 +1,5 @@
 package com.blackbooks.adapters;
 
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +11,7 @@ import android.widget.TextView;
 
 import com.blackbooks.R;
 import com.blackbooks.cache.ThumbnailManager;
+import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.utils.StringUtils;
 
 /**
@@ -45,24 +44,39 @@ public class BooksByFirstLetterAdapter extends ArrayAdapter<ListItem> {
 			ListItemType itemType = item.getListItemType();
 			if (itemType == ListItemType.Entry) {
 				BookItem entry = (BookItem) item;
+				BookInfo book = entry.getBook();
 
 				view = mInflater.inflate(R.layout.list_books_by_first_letter_item_book, parent, false);
 
 				ImageView imageView = (ImageView) view.findViewById(R.id.books_by_first_letter_item_book_small_thumbnail);
 				ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.books_by_first_letter_item_book_progressBar);
-				mThumbnailManager.drawSmallThumbnail(entry.getId(), getContext(), imageView, progressBar);
+				mThumbnailManager.drawSmallThumbnail(book.id, getContext(), imageView, progressBar);
 				TextView textTitle = (TextView) view.findViewById(R.id.books_by_first_letter_item_book_title);
-				textTitle.setText(entry.getTitle());
+				textTitle.setText(book.title);
 
 				TextView textAuthor = (TextView) view.findViewById(R.id.books_by_first_letter_item_book_author);
-				List<String> authorList = entry.getAuthors();
 				String authors;
-				if (authorList.size() > 0) {
-					authors = StringUtils.join(entry.getAuthors().toArray(new String[] {}), ", ");
+				if (book.authors.size() > 0) {
+					authors = StringUtils.joinAuthorNameList(book.authors, ", ");
 				} else {
 					authors = getContext().getString(R.string.label_unspecified_author);
 				}
 				textAuthor.setText(authors);
+
+				ImageView imageRead = (ImageView) view.findViewById(R.id.books_by_first_letter_item_book_imageRead);
+				ImageView imageFavourite = (ImageView) view.findViewById(R.id.books_by_first_letter_item_book_imageFavourite);
+
+				if (book.isRead != 0) {
+					imageRead.setVisibility(View.VISIBLE);
+				} else {
+					imageRead.setVisibility(View.GONE);
+				}
+				if (book.isFavourite != 0) {
+					imageFavourite.setVisibility(View.VISIBLE);
+				} else {
+					imageFavourite.setVisibility(View.GONE);
+				}
+
 			} else if (itemType == ListItemType.Header) {
 				FirstLetterItem header = (FirstLetterItem) item;
 
