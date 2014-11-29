@@ -51,6 +51,9 @@ public class BooksByCategoryAdapter extends ArrayAdapter<ListItem> {
 
 				ImageView imageView = (ImageView) view.findViewById(R.id.books_by_category_item_book_small_thumbnail);
 				ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.books_by_category_item_book_progressBar);
+				ImageView imageRead = (ImageView) view.findViewById(R.id.books_by_categoy_item_book_imageRead);
+				ImageView imageFavourite = (ImageView) view.findViewById(R.id.books_by_categoy_item_book_imageFavourite);
+
 				mThumbnailManager.drawSmallThumbnail(book.id, getContext(), imageView, progressBar);
 				TextView textTitle = (TextView) view.findViewById(R.id.books_by_category_item_book_title);
 				textTitle.setText(book.title);
@@ -63,6 +66,17 @@ public class BooksByCategoryAdapter extends ArrayAdapter<ListItem> {
 					authors = getContext().getString(R.string.label_unspecified_author);
 				}
 				textAuthor.setText(authors);
+
+				if (book.isRead != 0) {
+					imageRead.setVisibility(View.VISIBLE);
+				} else {
+					imageRead.setVisibility(View.GONE);
+				}
+				if (book.isFavourite != 0) {
+					imageFavourite.setVisibility(View.VISIBLE);
+				} else {
+					imageFavourite.setVisibility(View.GONE);
+				}
 			} else if (itemType == ListItemType.Header) {
 				CategoryItem header = (CategoryItem) item;
 				CategoryInfo category = header.getCategory();
