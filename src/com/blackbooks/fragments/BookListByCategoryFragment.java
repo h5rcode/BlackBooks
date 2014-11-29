@@ -92,34 +92,52 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
 	}
 
 	@Override
-	public String onCategoryEdited(Category category, String newName) {
+	public String checkNewName(Category category, String newName) {
 		String errorMessage = null;
 		String oldName = category.name;
 		newName = newName.trim();
+		if (newName.length() == 0) {
+			errorMessage = getString(R.string.message_category_missing);
+		} else if (oldName.equals(newName)) {
+			errorMessage = getString(R.string.message_category_identical_name);
+		} else {
+
+			Category criteria = new Category();
+			criteria.name = newName;
+
+			SQLiteHelper dbHelper = new SQLiteHelper(this.getActivity());
+			SQLiteDatabase db = dbHelper.getWritableDatabase();
+			Category categoryDb = CategoryServices.getCategoryByCriteria(db, category);
+			db.close();
+
+			if (categoryDb != null) {
+				errorMessage = getString(R.string.message_category_already_exists);
+			}
+
+			super.loadData();
+		}
+		return errorMessage;
+	}
+
+	@Override
+	public void onCategoryEdit(Category category, String newName) {
+		String oldName = category.name;
 		if (!oldName.equals(newName)) {
 			category.name = newName;
 
 			SQLiteHelper dbHelper = new SQLiteHelper(this.getActivity());
 			SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-			Category categoryDb = CategoryServices.getCategoryByCriteria(db, category);
+			CategoryServices.saveCategory(db, category);
 
-			if (categoryDb == null) {
-				CategoryServices.saveCategory(db, category);
-
-				String message = getString(R.string.message_category_modified);
-				message = String.format(message, oldName, newName);
-				Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-
-			} else {
-				errorMessage = "There is already a category with this name";
-			}
+			String message = getString(R.string.message_category_modified);
+			message = String.format(message, oldName, newName);
+			Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
 
 			db.close();
 
 			super.loadData();
 		}
-		return errorMessage;
 	}
 
 	@Override

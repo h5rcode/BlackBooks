@@ -69,8 +69,10 @@
     <string name="message_book_deleted">\"%s\" was successfully deleted.</string>
     <string name="message_book_modifed">\"%s\" was successfully modified.</string>
     <string name="message_category_added">\"%s\" was added to the list of categories.</string>
+    <string name="message_category_already_exists">There is already a category with this name.</string>
     <string name="message_category_already_present">\"%s\" is already in the list of categories.</string>
     <string name="message_category_deleted">Category \"%s\" was successfully deleted.</string>
+    <string name="message_category_identical_name">Please enter a different name.</string>
     <string name="message_category_missing">Please enter a category.</string>
     <string name="message_category_modified">Category \"%1$s\" was successfully renamed to \"%2$s\".</string>
     <string name="message_confirm_delete_book">Do you really want to delete \"%s\"?</string>

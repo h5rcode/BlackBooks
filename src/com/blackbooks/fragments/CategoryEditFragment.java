@@ -99,11 +99,12 @@ public class CategoryEditFragment extends DialogFragment {
 			@Override
 			public void onClick(View v) {
 				String newName = textCategory.getText().toString();
-				String errorMessage = mCategoryEditListener.onCategoryEdited(mCategory, newName);
+				String errorMessage = mCategoryEditListener.checkNewName(mCategory, newName);
 				if (errorMessage == null) {
 					textCategory.setText(null);
 					textCategory.setError(null);
 					dismiss();
+					mCategoryEditListener.onCategoryEdit(mCategory, newName);
 				} else {
 					textCategory.setError(errorMessage);
 				}
@@ -127,7 +128,7 @@ public class CategoryEditFragment extends DialogFragment {
 	public interface CategoryEditListener {
 
 		/**
-		 * Called when the category is edited.
+		 * Called when a new category name has been entered.
 		 * 
 		 * @param category
 		 *            The edited category.
@@ -137,6 +138,16 @@ public class CategoryEditFragment extends DialogFragment {
 		 *         Null if everything went well and the dialog should be
 		 *         dismissed.
 		 */
-		String onCategoryEdited(Category category, String newName);
+		String checkNewName(Category category, String newName);
+
+		/**
+		 * Called when the category is edited.
+		 * 
+		 * @param category
+		 *            The edited category.
+		 * @param newName
+		 *            The new name of the category.
+		 */
+		void onCategoryEdit(Category category, String newName);
 	}
 }
