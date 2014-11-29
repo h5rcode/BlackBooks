@@ -50,6 +50,9 @@ public class BooksByFirstLetterAdapter extends ArrayAdapter<ListItem> {
 
 				ImageView imageView = (ImageView) view.findViewById(R.id.books_by_first_letter_item_book_small_thumbnail);
 				ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.books_by_first_letter_item_book_progressBar);
+				ImageView imageRead = (ImageView) view.findViewById(R.id.books_by_first_letter_item_book_imageRead);
+				ImageView imageFavourite = (ImageView) view.findViewById(R.id.books_by_first_letter_item_book_imageFavourite);
+
 				mThumbnailManager.drawSmallThumbnail(book.id, getContext(), imageView, progressBar);
 				TextView textTitle = (TextView) view.findViewById(R.id.books_by_first_letter_item_book_title);
 				textTitle.setText(book.title);
@@ -62,9 +65,6 @@ public class BooksByFirstLetterAdapter extends ArrayAdapter<ListItem> {
 					authors = getContext().getString(R.string.label_unspecified_author);
 				}
 				textAuthor.setText(authors);
-
-				ImageView imageRead = (ImageView) view.findViewById(R.id.books_by_first_letter_item_book_imageRead);
-				ImageView imageFavourite = (ImageView) view.findViewById(R.id.books_by_first_letter_item_book_imageFavourite);
 
 				if (book.isRead != 0) {
 					imageRead.setVisibility(View.VISIBLE);

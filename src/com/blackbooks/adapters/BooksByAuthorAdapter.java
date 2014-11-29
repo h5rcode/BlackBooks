@@ -50,10 +50,24 @@ public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> {
 				view = mInflater.inflate(R.layout.list_books_by_author_item_book, parent, false);
 				ImageView imageView = (ImageView) view.findViewById(R.id.item_book_small_thumbnail);
 				ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.books_by_author_item_book_progressBar);
+				ImageView imageRead = (ImageView)view.findViewById(R.id.books_by_author_item_book_imageRead);
+				ImageView imageFavourite = (ImageView)view.findViewById(R.id.books_by_author_item_book_imageFavourite);
+				
 				mThumbnailManager.drawSmallThumbnail(book.id, getContext(), imageView, progressBar);
-
 				TextView textView = (TextView) view.findViewById(R.id.item_book_title);
 				textView.setText(book.title);
+				
+				if (book.isRead != 0) {
+					imageRead.setVisibility(View.VISIBLE);
+				} else {
+					imageRead.setVisibility(View.GONE);
+				}
+				
+				if (book.isFavourite != 0) {
+					imageFavourite.setVisibility(View.VISIBLE);
+				} else {
+					imageFavourite.setVisibility(View.GONE);
+				}
 
 			} else if (itemType == ListItemType.Header) {
 				AuthorItem header = (AuthorItem) item;
