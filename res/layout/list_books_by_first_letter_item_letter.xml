@@ -14,4 +14,14 @@
         android:layout_height="wrap_content"
         android:textSize="20sp" />
 
+    <TextView
+        android:id="@+id/books_by_first_letter_item_total"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:paddingLeft="8sp"
+        android:paddingRight="8sp"
+        android:textColor="@color/grey_500"
+        android:textSize="20sp" />
 </LinearLayout>

@@ -58,10 +58,12 @@ public class BookListByFirstLetterFragment extends AbstractBookListFragment {
 
 		List<ListItem> listItems = new ArrayList<ListItem>();
 		for (String firstLetter : bookMap.keySet()) {
-			FirstLetterItem firstLetterItem = new FirstLetterItem(firstLetter);
+			List<BookInfo> letterBookList = bookMap.get(firstLetter);
+
+			FirstLetterItem firstLetterItem = new FirstLetterItem(firstLetter, letterBookList.size());
 			listItems.add(firstLetterItem);
 
-			for (BookInfo book : bookMap.get(firstLetter)) {
+			for (BookInfo book : letterBookList) {
 				BookItem bookItem = new BookItem(book);
 				listItems.add(bookItem);
 			}

@@ -84,6 +84,11 @@ public class BooksByFirstLetterAdapter extends ArrayAdapter<ListItem> {
 
 				TextView textViewName = (TextView) view.findViewById(R.id.books_by_first_letter_item_letter);
 				textViewName.setText(header.getValue());
+
+				TextView textViewTotalBooks = (TextView) view.findViewById(R.id.books_by_first_letter_item_total);
+				String total = this.getContext().getString(R.string.label_total);
+				total = String.format(total, header.getTotalBooks());
+				textViewTotalBooks.setText(total);
 			}
 		}
 

@@ -2,10 +2,12 @@ package com.blackbooks.adapters;
 
 public class FirstLetterItem implements ListItem {
 
-	private String mValue;
+	private final String mValue;
+	private final int mTotalBook;
 
-	public FirstLetterItem(String value) {
+	public FirstLetterItem(String value, int totalBooks) {
 		mValue = value;
+		mTotalBook = totalBooks;
 	}
 
 	@Override
@@ -15,5 +17,9 @@ public class FirstLetterItem implements ListItem {
 	
 	public String getValue() {
 		return mValue;
+	}
+	
+	public int getTotalBooks() {
+		return mTotalBook;
 	}
 }
