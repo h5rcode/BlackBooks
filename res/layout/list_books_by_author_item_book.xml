@@ -5,6 +5,8 @@
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingBottom="1sp"
+    android:paddingLeft="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_vertical_margin"
     android:paddingTop="1sp" >
 
     <LinearLayout
