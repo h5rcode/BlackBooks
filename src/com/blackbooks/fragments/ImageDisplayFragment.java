@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
@@ -53,6 +54,13 @@ public class ImageDisplayFragment extends DialogFragment {
 		ImageView imageView = (ImageView) view.findViewById(R.id.imageDisplay_image);
 		Bitmap bitmap = BitmapFactory.decodeByteArray(mImage, 0, mImage.length);
 		imageView.setImageBitmap(bitmap);
+		imageView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				ImageDisplayFragment.this.dismiss();
+			}
+		});
 		return view;
 	}
 }
