@@ -107,7 +107,7 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
 
 			SQLiteHelper dbHelper = new SQLiteHelper(this.getActivity());
 			SQLiteDatabase db = dbHelper.getWritableDatabase();
-			Category categoryDb = CategoryServices.getCategoryByCriteria(db, category);
+			Category categoryDb = CategoryServices.getCategoryByCriteria(db, criteria);
 			db.close();
 
 			if (categoryDb != null) {
