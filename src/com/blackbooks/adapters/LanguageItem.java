@@ -2,8 +2,8 @@ package com.blackbooks.adapters;
 
 public class LanguageItem implements ListItem {
 
-	public String mDisplayName;
-	public int mTotal;
+	private final String mDisplayName;
+	private final int mTotal;
 
 	public LanguageItem(String displayName, int total) {
 		mDisplayName = displayName;
@@ -18,7 +18,7 @@ public class LanguageItem implements ListItem {
 	public String getDisplayName() {
 		return mDisplayName;
 	}
-	
+
 	public int getTotal() {
 		return mTotal;
 	}

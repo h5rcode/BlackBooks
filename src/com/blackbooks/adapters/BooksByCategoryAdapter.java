@@ -1,5 +1,9 @@
 package com.blackbooks.adapters;
 
+import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,22 +11,26 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.blackbooks.R;
 import com.blackbooks.cache.ThumbnailManager;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.nonpersistent.CategoryInfo;
+import com.blackbooks.model.persistent.Category;
 import com.blackbooks.utils.StringUtils;
 
 /**
  * An adapter handling instances of ListItem representing either a category or a
  * book.
  */
-public class BooksByCategoryAdapter extends ArrayAdapter<ListItem> {
+public class BooksByCategoryAdapter extends ArrayAdapter<ListItem> implements SectionIndexer {
 
 	private final LayoutInflater mInflater;
 	private final ThumbnailManager mThumbnailManager;
+	private final Map<String, Integer> mSectionPositionMap;
+	private String[] mSections;
 
 	/**
 	 * Constructor.
@@ -34,6 +42,8 @@ public class BooksByCategoryAdapter extends ArrayAdapter<ListItem> {
 		super(context, 0);
 		this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.mThumbnailManager = ThumbnailManager.getInstance();
+		this.mSectionPositionMap = new TreeMap<String, Integer>();
+		this.mSections = new String[] {};
 	}
 
 	@Override
@@ -94,5 +104,53 @@ public class BooksByCategoryAdapter extends ArrayAdapter<ListItem> {
 		}
 
 		return view;
+	}
+
+	@Override
+	public void addAll(Collection<? extends ListItem> collection) {
+		super.addAll(collection);
+		mSectionPositionMap.clear();
+
+		int i = 0;
+		for (ListItem listItem : collection) {
+			if (listItem.getListItemType() == ListItemType.Header) {
+				CategoryItem categoryItem = (CategoryItem) listItem;
+				Category category = categoryItem.getCategory();
+				String categoryName = category.name;
+				String firstLetter = categoryName.substring(0, 1);
+				if (!mSectionPositionMap.containsKey(firstLetter)) {
+					mSectionPositionMap.put(firstLetter, i);
+				}
+			}
+			i++;
+		}
+		mSections = mSectionPositionMap.keySet().toArray(new String[mSectionPositionMap.size()]);
+	}
+
+	@Override
+	public Object[] getSections() {
+		return mSections;
+	}
+
+	@Override
+	public int getPositionForSection(int section) {
+		int index = section;
+		if (index >= mSections.length) {
+			index = mSections.length - 1;
+		}
+		return mSectionPositionMap.get(mSections[index]);
+	}
+
+	@Override
+	public int getSectionForPosition(int position) {
+		int i = 0;
+		for (String section : mSectionPositionMap.keySet()) {
+			int sectionPosition = mSectionPositionMap.get(section);
+			if (sectionPosition >= position) {
+				break;
+			}
+			i++;
+		}
+		return i;
 	}
 }
