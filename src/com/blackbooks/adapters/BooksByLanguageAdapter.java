@@ -139,14 +139,6 @@ public class BooksByLanguageAdapter extends ArrayAdapter<ListItem> implements Se
 
 	@Override
 	public int getSectionForPosition(int position) {
-		int i = 0;
-		for (String section : mSectionPositionMap.keySet()) {
-			int sectionPosition = mSectionPositionMap.get(section);
-			if (sectionPosition >= position) {
-				break;
-			}
-			i++;
-		}
-		return i;
+		return 0;
 	}
 }
