@@ -1,9 +1,12 @@
 package com.blackbooks.sql;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.blackbooks.model.metadata.Column;
+import com.blackbooks.model.metadata.FTSColumn;
+import com.blackbooks.model.metadata.FTSTable;
 import com.blackbooks.model.metadata.Table;
 
 /**
@@ -18,7 +21,7 @@ final class SqlBuilder {
 	}
 
 	/**
-	 * Builds the SQLite script to create a table declaration.
+	 * Builds the SQLite script to create a table.
 	 * 
 	 * @param table
 	 *            Table.
@@ -28,7 +31,7 @@ final class SqlBuilder {
 	 */
 	public static String buildSqlCreateTable(Table table, List<Column> columns) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("CREATE TABLE IF NOT EXISTS");
+		sb.append("CREATE TABLE");
 		sb.append(' ');
 		sb.append(table.name());
 		sb.append(' ');
@@ -51,6 +54,52 @@ final class SqlBuilder {
 				sb.append('\n');
 				sb.append('\t');
 				sb.append(foreignKey);
+			}
+		}
+
+		sb.append('\n');
+		sb.append(')');
+		sb.append(';');
+
+		return sb.toString();
+	}
+
+	/**
+	 * Builds the SQLite script to create a FTS table.
+	 * 
+	 * @param table
+	 *            Table.
+	 * @param columns
+	 *            Columns.
+	 * @return The SQL statement to create the FTS table and its columns.
+	 */
+	public static String buildSqlCreateFTSTable(FTSTable table, List<FTSColumn> columns) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("CREATE VIRTUAL TABLE");
+		sb.append(' ');
+		sb.append(table.name());
+		sb.append(' ');
+		sb.append("USING");
+		sb.append(' ');
+		sb.append(table.ftsModuleVersion().name());
+		sb.append(" (");
+
+		List<FTSColumn> filteredColumns = new ArrayList<FTSColumn>();
+
+		for (FTSColumn ftsColumn : columns) {
+			if (!ftsColumn.primaryKey()) {
+				filteredColumns.add(ftsColumn);
+			}
+		}
+
+		int size = filteredColumns.size();
+		for (int i = 0; i < size; i++) {
+			sb.append('\n');
+			FTSColumn column = filteredColumns.get(i);
+			sb.append('\t');
+			sb.append(column.name());
+			if (i < size - 1) {
+				sb.append(',');
 			}
 		}
 

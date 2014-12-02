@@ -6,8 +6,10 @@ import com.blackbooks.model.metadata.Column;
 import com.blackbooks.model.metadata.Column.SQLiteDataType;
 import com.blackbooks.model.metadata.Table;
 
-@Table(name = "BOOK", version = 1)
+@Table(name = Book.NAME, version = 1)
 public class Book implements Serializable {
+
+	public static final String NAME = "BOOK";
 
 	private static final long serialVersionUID = 7409388866384981075L;
 

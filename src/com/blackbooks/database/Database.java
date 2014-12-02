@@ -3,9 +3,6 @@ package com.blackbooks.database;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.util.SparseArray;
-
-import com.blackbooks.model.metadata.Table;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.model.persistent.BookAuthor;
@@ -13,6 +10,7 @@ import com.blackbooks.model.persistent.BookCategory;
 import com.blackbooks.model.persistent.BookShelf;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Publisher;
+import com.blackbooks.model.persistent.fts.BookFTS;
 
 /**
  * Class describing the data base.
@@ -32,14 +30,13 @@ public final class Database {
 
 	private static Database mInstance = new Database();
 	private static List<Class<?>> mTables;
-	private static SparseArray<List<Class<?>>> mVersionTableMap;
+	private static List<Class<?>> mFTSTables;
 
 	/**
 	 * Constructor.
 	 */
 	private Database() {
 		mTables = new ArrayList<Class<?>>();
-		mVersionTableMap = new SparseArray<List<Class<?>>>();
 
 		mTables.add(BookShelf.class);
 		mTables.add(Publisher.class);
@@ -49,7 +46,8 @@ public final class Database {
 		mTables.add(Category.class);
 		mTables.add(BookCategory.class);
 
-		initVersionTableMap();
+		mFTSTables = new ArrayList<Class<?>>();
+		mFTSTables.add(BookFTS.class);
 	}
 
 	/**
@@ -71,31 +69,11 @@ public final class Database {
 	}
 
 	/**
-	 * Get the list of tables that were added at a given version.
+	 * Get the list of all the Full-Text-Search tables in the database.
 	 * 
-	 * @param version
-	 *            Version.
 	 * @return List<Class<?>>.
 	 */
-	public List<Class<?>> getTablesByVersion(int version) {
-		return mVersionTableMap.get(version);
-	}
-
-	/**
-	 * Fills a map that associates a version and the list of tables that were
-	 * added at this version.
-	 */
-	private void initVersionTableMap() {
-		for (Class<?> table : mTables) {
-			Table tableAnnotation = table.getAnnotation(Table.class);
-			int version = tableAnnotation.version();
-
-			List<Class<?>> tableList = mVersionTableMap.get(version);
-			if (tableList == null) {
-				tableList = new ArrayList<Class<?>>();
-				mVersionTableMap.put(version, tableList);
-			}
-			tableList.add(table);
-		}
+	public List<Class<?>> getFTSTables() {
+		return mFTSTables;
 	}
 }

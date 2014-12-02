@@ -108,7 +108,7 @@ public class BookEditPersonalFragment extends Fragment {
 		BookShelf bookShelf = new BookShelf();
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-		if (bookShelfName != null) {
+		if (bookShelfName != null && !bookShelfName.isEmpty()) {
 			bookShelf.name = bookShelfName;
 
 			BookShelf bookShelfDb = BookShelfServices.getBookShelfByCriteria(db, bookShelf);

@@ -9,6 +9,8 @@ import android.util.Log;
 
 import com.blackbooks.sql.Broker;
 import com.blackbooks.sql.BrokerManager;
+import com.blackbooks.sql.FTSBroker;
+import com.blackbooks.sql.FTSBrokerManager;
 
 /**
  * Helper class to create/open/upgrade the database.
@@ -40,6 +42,15 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			broker.createTable(db);
 		}
 		Log.i(TAG, "Tables successfully created.");
+
+		List<Class<?>> ftsTables = database.getFTSTables();
+
+		Log.i(TAG, "Creating the Full-Text-Search tables.");
+		for (Class<?> ftsTable : ftsTables) {
+			FTSBroker<?> ftsBroker = FTSBrokerManager.getBroker(ftsTable);
+			ftsBroker.createTable(db);
+		}
+		Log.i(TAG, "Full-Text-Search tables successfully created.");
 
 		Log.i(TAG, "Database successfully created.");
 	}

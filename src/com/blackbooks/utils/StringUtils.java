@@ -135,8 +135,12 @@ public final class StringUtils {
 	 * @return Normalized string value.
 	 */
 	public static String normalize(String text) {
-		return Normalizer.normalize(text, Normalizer.Form.NFD) //
-				.replaceAll("\\p{InCombiningDiacriticalMarks}+", "") //
-				.toLowerCase(Locale.getDefault());
+		String normalizedText = null;
+		if (text != null) {
+			normalizedText = Normalizer.normalize(text, Normalizer.Form.NFD) //
+					.replaceAll("\\p{InCombiningDiacriticalMarks}+", "") //
+					.toLowerCase(Locale.getDefault());
+		}
+		return normalizedText;
 	}
 }

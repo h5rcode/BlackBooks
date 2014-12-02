@@ -38,6 +38,7 @@ public class BookSearch extends ListActivity {
 		Intent intent = getIntent();
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			mQuery = intent.getStringExtra(SearchManager.QUERY);
+			mQuery = mQuery.replace("*", "");
 
 			String title = String.format(getString(R.string.title_activity_book_search), mQuery);
 			setTitle(title);

@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.blackbooks.model.metadata.Column;
 import com.blackbooks.model.metadata.Table;
+import com.blackbooks.utils.ReflectionUtils;
 import com.blackbooks.utils.StringUtils;
 
 /**
@@ -289,11 +290,11 @@ public class Broker<T> {
 	 * @return Id of the inserted or updated row.
 	 */
 	public long save(SQLiteDatabase db, T bean) {
-		Long id = (Long) getFieldValue(mPrimaryKeyField, bean);
+		Long id = (Long) ReflectionUtils.getFieldValue(mPrimaryKeyField, bean);
 
 		if (id == null) {
 			id = insert(db, bean);
-			setFieldValue(mPrimaryKeyField, bean, id);
+			ReflectionUtils.setFieldValue(mPrimaryKeyField, bean, id);
 		} else {
 			update(db, bean);
 		}
@@ -324,17 +325,17 @@ public class Broker<T> {
 			String columnName = column.name();
 			switch (column.type()) {
 			case BLOB:
-				byte[] byteArrayValue = (byte[]) getFieldValue(field, bean);
+				byte[] byteArrayValue = (byte[]) ReflectionUtils.getFieldValue(field, bean);
 				values.put(columnName, byteArrayValue);
 				break;
 
 			case INTEGER:
-				Long intValue = (Long) getFieldValue(field, bean);
+				Long intValue = (Long) ReflectionUtils.getFieldValue(field, bean);
 				values.put(columnName, intValue);
 				break;
 
 			case TEXT:
-				String stringValue = (String) getFieldValue(field, bean);
+				String stringValue = (String) ReflectionUtils.getFieldValue(field, bean);
 				if (stringValue != null) {
 					stringValue = stringValue.trim();
 				}
@@ -362,7 +363,7 @@ public class Broker<T> {
 
 		for (Field field : mColumnMap.keySet()) {
 			Object fieldValue;
-			fieldValue = getFieldValue(field, criteria);
+			fieldValue = ReflectionUtils.getFieldValue(field, criteria);
 			if (fieldValue != null) {
 				Column column = mColumnMap.get(field);
 
@@ -403,7 +404,7 @@ public class Broker<T> {
 	 *         result.
 	 */
 	private T cursorToBean(Cursor cursor) {
-		T bean = getNewInstance();
+		T bean = ReflectionUtils.getNewInstance(mType);
 
 		for (Field field : mColumnMap.keySet()) {
 			Column column = mColumnMap.get(field);
@@ -413,17 +414,17 @@ public class Broker<T> {
 				switch (column.type()) {
 				case BLOB:
 					byte[] byteArrayValue = cursor.getBlob(index);
-					setFieldValue(field, bean, byteArrayValue);
+					ReflectionUtils.setFieldValue(field, bean, byteArrayValue);
 					break;
 
 				case INTEGER:
 					Long intValue = cursor.getLong(index);
-					setFieldValue(field, bean, intValue);
+					ReflectionUtils.setFieldValue(field, bean, intValue);
 					break;
 
 				case TEXT:
 					String stringValue = cursor.getString(index);
-					setFieldValue(field, bean, stringValue);
+					ReflectionUtils.setFieldValue(field, bean, stringValue);
 					break;
 
 				default:
@@ -449,45 +450,6 @@ public class Broker<T> {
 			result.add(bean);
 		}
 		return result;
-	}
-
-	/**
-	 * Get a new instance of the T class.
-	 * 
-	 * @return New instance of T.
-	 */
-	private T getNewInstance() {
-		T newInstance = null;
-		try {
-			newInstance = mType.newInstance();
-		} catch (InstantiationException e) {
-			throw new RuntimeException(e);
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException(e);
-		}
-		return newInstance;
-	}
-
-	/**
-	 * Returns the value of the field in the specified bean.
-	 * 
-	 * @param field
-	 *            Field.
-	 * @param bean
-	 *            T.
-	 * @return Value.
-	 */
-	private Object getFieldValue(Field field, T bean) {
-		Object value = null;
-		try {
-			value = field.get(bean);
-		} catch (IllegalArgumentException e) {
-			throw new RuntimeException(e);
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException(e);
-		}
-
-		return value;
 	}
 
 	/**
@@ -531,26 +493,6 @@ public class Broker<T> {
 	}
 
 	/**
-	 * Sets the value of the field in the specified bean to the value.
-	 * 
-	 * @param field
-	 *            Field.
-	 * @param bean
-	 *            Bean.
-	 * @param value
-	 *            Value.
-	 */
-	private void setFieldValue(Field field, T bean, Object value) {
-		try {
-			field.set(bean, value);
-		} catch (IllegalArgumentException e) {
-			throw new RuntimeException(e);
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	/**
 	 * Update the row corresponding to a bean.
 	 * 
 	 * @param db
@@ -561,7 +503,7 @@ public class Broker<T> {
 	private void update(SQLiteDatabase db, T bean) {
 		ContentValues values = buildContentValues(bean);
 		String whereClause = mPrimaryKeyColumn.name() + " = ?";
-		Object primaryKey = getFieldValue(mPrimaryKeyField, bean);
+		Object primaryKey = ReflectionUtils.getFieldValue(mPrimaryKeyField, bean);
 		String[] whereArgs = new String[] { primaryKey.toString() };
 		db.updateWithOnConflict(mTable.name(), values, whereClause, whereArgs, SQLiteDatabase.CONFLICT_ROLLBACK);
 	}

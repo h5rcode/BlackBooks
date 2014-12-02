@@ -4,8 +4,10 @@ import com.blackbooks.model.metadata.Column;
 import com.blackbooks.model.metadata.Column.SQLiteDataType;
 import com.blackbooks.model.metadata.Table;
 
-@Table(name = "BOOK_CATEGORY", version = 1)
+@Table(name = BookCategory.NAME, version = 1)
 public class BookCategory {
+	
+	public static final String NAME = "BOOK_CATEGORY";
 
 	@Column(name = Cols.BCA_ID, primaryKey = true, type = SQLiteDataType.INTEGER, version = 1)
 	public Long id;

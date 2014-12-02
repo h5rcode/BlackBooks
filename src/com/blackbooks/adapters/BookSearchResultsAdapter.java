@@ -3,8 +3,6 @@ package com.blackbooks.adapters;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -14,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blackbooks.R;
+import com.blackbooks.cache.ThumbnailManager;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.utils.StringUtils;
@@ -28,6 +28,7 @@ import com.blackbooks.utils.StringUtils;
 public class BookSearchResultsAdapter extends ArrayAdapter<BookInfo> {
 
 	private final String mQuery;
+	private final ThumbnailManager mThumbnailManager;
 	private final LayoutInflater mInflater;
 
 	/**
@@ -41,6 +42,7 @@ public class BookSearchResultsAdapter extends ArrayAdapter<BookInfo> {
 	public BookSearchResultsAdapter(Context context, String query) {
 		super(context, 0);
 		this.mQuery = query;
+		this.mThumbnailManager = ThumbnailManager.getInstance();
 		this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
@@ -53,14 +55,11 @@ public class BookSearchResultsAdapter extends ArrayAdapter<BookInfo> {
 		if (bookInfo != null) {
 			view = mInflater.inflate(R.layout.search_results_item_book, parent, false);
 
-			byte[] smallThumbnail = bookInfo.smallThumbnail;
-			if (smallThumbnail != null && smallThumbnail.length > 0) {
-				ImageView imageView = (ImageView) view.findViewById(R.id.search_results_item_book_small_thumbnail);
-				Bitmap bitmap = BitmapFactory.decodeByteArray(smallThumbnail, 0, smallThumbnail.length);
-				imageView.setImageBitmap(bitmap);
-			}
-
+			ImageView imageView = (ImageView) view.findViewById(R.id.search_results_item_book_small_thumbnail);
+			ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.search_results_item_book_progressBar);
 			TextView textTitle = (TextView) view.findViewById(R.id.search_results_item_book_title);
+
+			mThumbnailManager.drawSmallThumbnail(bookInfo.id, getContext(), imageView, progressBar);
 			CharSequence highlightedTitle = highlight(mQuery, bookInfo.title);
 			textTitle.setText(highlightedTitle);
 

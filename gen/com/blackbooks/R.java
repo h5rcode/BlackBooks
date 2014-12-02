@@ -54,18 +54,18 @@ public final class R {
         public static final int ic_undefined_thumbnail=0x7f020014;
     }
     public static final class id {
-        public static final int bookAuthorsEdit_actionSave=0x7f0b0063;
+        public static final int bookAuthorsEdit_actionSave=0x7f0b0064;
         public static final int bookAuthorsEdit_authorList=0x7f0b0003;
         public static final int bookAuthorsEdit_buttonAddAuthor=0x7f0b0002;
         public static final int bookAuthorsEdit_textAuthor=0x7f0b0001;
         public static final int bookAuthorsEdit_textInfo=0x7f0b0000;
-        public static final int bookCategoriesEdit_actionSave=0x7f0b0064;
+        public static final int bookCategoriesEdit_actionSave=0x7f0b0065;
         public static final int bookCategoriesEdit_buttonAddCategory=0x7f0b0006;
         public static final int bookCategoriesEdit_categoryList=0x7f0b0007;
         public static final int bookCategoriesEdit_textCategory=0x7f0b0005;
         public static final int bookCategoriesEdit_textInfo=0x7f0b0004;
-        public static final int bookDisplay_actionDelete=0x7f0b0066;
-        public static final int bookDisplay_actionEdit=0x7f0b0065;
+        public static final int bookDisplay_actionDelete=0x7f0b0067;
+        public static final int bookDisplay_actionEdit=0x7f0b0066;
         public static final int bookDisplay_frameLayout=0x7f0b0008;
         public static final int bookDisplay_groupCategories=0x7f0b001a;
         public static final int bookDisplay_groupDescription=0x7f0b0025;
@@ -107,20 +107,20 @@ public final class R {
         public static final int bookEditPersonal_checkFavourite=0x7f0b003a;
         public static final int bookEditPersonal_checkRead=0x7f0b0039;
         public static final int bookEditPersonal_textBookShelf=0x7f0b003b;
-        public static final int bookEdit_actionSave=0x7f0b0067;
+        public static final int bookEdit_actionSave=0x7f0b0068;
         public static final int bookEdit_progressBar=0x7f0b0009;
         public static final int bookEdit_viewPager=0x7f0b000a;
-        public static final int bookList_actionAddManually=0x7f0b006a;
-        public static final int bookList_actionBackupDb=0x7f0b0071;
-        public static final int bookList_actionScanIsbn=0x7f0b0068;
-        public static final int bookList_actionSearch=0x7f0b0070;
-        public static final int bookList_actionSortByAuthor=0x7f0b006c;
-        public static final int bookList_actionSortByCategory=0x7f0b006e;
-        public static final int bookList_actionSortByFirstLetter=0x7f0b006d;
-        public static final int bookList_actionSortByLanguage=0x7f0b006f;
-        public static final int bookList_actionTypeIsbn=0x7f0b0069;
+        public static final int bookList_actionAddManually=0x7f0b006b;
+        public static final int bookList_actionBackupDb=0x7f0b0072;
+        public static final int bookList_actionScanIsbn=0x7f0b0069;
+        public static final int bookList_actionSearch=0x7f0b0071;
+        public static final int bookList_actionSortByAuthor=0x7f0b006d;
+        public static final int bookList_actionSortByCategory=0x7f0b006f;
+        public static final int bookList_actionSortByFirstLetter=0x7f0b006e;
+        public static final int bookList_actionSortByLanguage=0x7f0b0070;
+        public static final int bookList_actionTypeIsbn=0x7f0b006a;
         public static final int bookList_frameLayout=0x7f0b000b;
-        public static final int bookList_menuSort=0x7f0b006b;
+        public static final int bookList_menuSort=0x7f0b006c;
         public static final int books_by_author_item_book_imageFavourite=0x7f0b0045;
         public static final int books_by_author_item_book_imageRead=0x7f0b0044;
         public static final int books_by_author_item_book_progressBar=0x7f0b0041;
@@ -150,8 +150,8 @@ public final class R {
         public static final int books_by_language_item_book_title=0x7f0b0058;
         public static final int books_by_language_item_language=0x7f0b005c;
         public static final int books_by_language_item_total=0x7f0b005d;
-        public static final int categoryEdit_actionDelete=0x7f0b0073;
-        public static final int categoryEdit_actionEdit=0x7f0b0072;
+        public static final int categoryEdit_actionDelete=0x7f0b0074;
+        public static final int categoryEdit_actionEdit=0x7f0b0073;
         public static final int editAuthor_cancel=0x7f0b000f;
         public static final int editAuthor_confirm=0x7f0b0010;
         public static final int editAuthor_textAuthor=0x7f0b000e;
@@ -159,7 +159,7 @@ public final class R {
         public static final int editCategory_confirm=0x7f0b0013;
         public static final int editCategory_textCategory=0x7f0b0011;
         public static final int imageDisplay_image=0x7f0b003c;
-        public static final int isbnEnter_actionLookup=0x7f0b0074;
+        public static final int isbnEnter_actionLookup=0x7f0b0075;
         public static final int isbnEnter_textIsbn=0x7f0b000c;
         public static final int isbnEnter_textStatus=0x7f0b000d;
         public static final int item_author_button_remove=0x7f0b003e;
@@ -168,10 +168,11 @@ public final class R {
         public static final int item_book_title=0x7f0b0043;
         public static final int item_category_button_remove=0x7f0b005f;
         public static final int item_category_name=0x7f0b005e;
-        public static final int search_results_item_book_author=0x7f0b0062;
-        public static final int search_results_item_book_small_thumbnail=0x7f0b0060;
-        public static final int search_results_item_book_title=0x7f0b0061;
-        public static final int thumbnailEdit_actionRemove=0x7f0b0075;
+        public static final int search_results_item_book_author=0x7f0b0063;
+        public static final int search_results_item_book_progressBar=0x7f0b0060;
+        public static final int search_results_item_book_small_thumbnail=0x7f0b0061;
+        public static final int search_results_item_book_title=0x7f0b0062;
+        public static final int thumbnailEdit_actionRemove=0x7f0b0076;
     }
     public static final class layout {
         public static final int activity_book_authors_edit=0x7f030000;

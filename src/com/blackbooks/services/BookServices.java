@@ -13,7 +13,11 @@ import com.blackbooks.model.persistent.Book;
 import com.blackbooks.model.persistent.BookAuthor;
 import com.blackbooks.model.persistent.BookCategory;
 import com.blackbooks.model.persistent.Category;
+import com.blackbooks.model.persistent.fts.BookFTS;
 import com.blackbooks.sql.BrokerManager;
+import com.blackbooks.sql.FTSBroker;
+import com.blackbooks.sql.FTSBrokerManager;
+import com.blackbooks.utils.StringUtils;
 
 /**
  * Book services.
@@ -53,6 +57,8 @@ public class BookServices {
 					BrokerManager.getBroker(Category.class).delete(db, bc.categoryId);
 				}
 			}
+
+			FTSBrokerManager.getBroker(BookFTS.class).delete(db, bookId);
 
 			PublisherServices.deletePublishersWithoutBooks(db);
 			ThumbnailManager.getInstance().removeThumbnails(bookId);
@@ -229,6 +235,8 @@ public class BookServices {
 	public static void saveBookInfo(SQLiteDatabase db, BookInfo bookInfo) {
 		db.beginTransaction();
 		try {
+			boolean isCreation = bookInfo.id == null;
+
 			if (bookInfo.publisher.name != null) {
 				PublisherServices.savePublisher(db, bookInfo.publisher);
 				bookInfo.publisherId = bookInfo.publisher.id;
@@ -244,6 +252,14 @@ public class BookServices {
 			}
 
 			BrokerManager.getBroker(Book.class).save(db, bookInfo);
+
+			FTSBroker<BookFTS> brokerBookFTS = FTSBrokerManager.getBroker(BookFTS.class);
+			BookFTS bookFts = new BookFTS(bookInfo);
+			if (isCreation) {
+				brokerBookFTS.insert(db, bookFts);
+			} else {
+				brokerBookFTS.update(db, bookFts);
+			}
 
 			PublisherServices.deletePublishersWithoutBooks(db);
 			updateBookAuthorList(db, bookInfo);
@@ -265,8 +281,14 @@ public class BookServices {
 	 * @return The books whose title contains the given query.
 	 */
 	public static List<BookInfo> searchBooks(SQLiteDatabase db, String query) {
-		String sql = "SELECT * FROM BOOK WHERE BOO_TITLE LIKE '%' || ? || '%' ORDER BY BOO_TITLE";
-		String selection[] = new String[] { query };
+
+		String sql = "SELECT book." + Book.Cols.BOO_ID + ", book." + Book.Cols.BOO_TITLE + ", book." + Book.Cols.BOO_SUBTITLE
+				+ ", book." + Book.Cols.BOO_DESCRIPTION + " FROM " + BookFTS.NAME + " book_fts JOIN " + Book.NAME
+				+ " book ON book." + Book.Cols.BOO_ID + " = book_fts." + BookFTS.Cols.DOCID + " WHERE book_fts MATCH ?";
+
+		String term = StringUtils.normalize(query);
+		term += "*";
+		String selection[] = new String[] { term };
 		List<Book> bookList = BrokerManager.getBroker(Book.class).rawSelect(db, sql, selection);
 		return getBookInfoListFromBookList(db, bookList);
 	}
