@@ -29,7 +29,7 @@
     <string name="button_save_category">Save</string>
     <string name="error_connection_problem">Connection problem. Make sure the device has access to the Internet.</string>
     <string name="field_mandatory">This field is mandatory.</string>
-    <string name="hint_search">Search books by title and authors</string>
+    <string name="hint_search">Search books</string>
     <string name="image_thumbnail">Thumbnail</string>
     <string name="label_author">Author</string>
     <string name="label_authors_format">by %s</string>

@@ -16,7 +16,7 @@ import com.blackbooks.R;
 import com.blackbooks.adapters.BookSearchResultsAdapter;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
-import com.blackbooks.services.BookServices;
+import com.blackbooks.services.FullTextSearchServices;
 import com.blackbooks.utils.VariableUtils;
 
 /**
@@ -100,7 +100,7 @@ public class BookSearch extends ListActivity {
 	private List<BookInfo> searchBooks(String query) {
 		SQLiteHelper dbHelper = new SQLiteHelper(this);
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
-		List<BookInfo> bookList = BookServices.searchBooks(db, query);
+		List<BookInfo> bookList = FullTextSearchServices.searchBooks(db, query);
 		db.close();
 		return bookList;
 	}

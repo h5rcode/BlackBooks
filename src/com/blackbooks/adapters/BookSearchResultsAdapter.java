@@ -1,6 +1,8 @@
 package com.blackbooks.adapters;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -27,6 +30,7 @@ import com.blackbooks.utils.StringUtils;
  */
 public class BookSearchResultsAdapter extends ArrayAdapter<BookInfo> {
 
+	private static final Pattern PATTERN = Pattern.compile("[^\\s\\p{Punct}]+");
 	private final String mQuery;
 	private final ThumbnailManager mThumbnailManager;
 	private final LayoutInflater mInflater;
@@ -58,12 +62,25 @@ public class BookSearchResultsAdapter extends ArrayAdapter<BookInfo> {
 			ImageView imageView = (ImageView) view.findViewById(R.id.search_results_item_book_small_thumbnail);
 			ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.search_results_item_book_progressBar);
 			TextView textTitle = (TextView) view.findViewById(R.id.search_results_item_book_title);
+			TextView textSubtitle = (TextView) view.findViewById(R.id.search_results_item_book_subtitle);
+			LinearLayout layoutDescription = (LinearLayout) view.findViewById(R.id.search_results_item_book_description_layout);
+			TextView textDescriptionStart = (TextView) view.findViewById(R.id.search_results_item_book_description_start);
+			TextView textDescriptionEnd = (TextView) view.findViewById(R.id.search_results_item_book_description_end);
+			TextView textAuthor = (TextView) view.findViewById(R.id.search_results_item_book_author);
 
 			mThumbnailManager.drawSmallThumbnail(bookInfo.id, getContext(), imageView, progressBar);
-			CharSequence highlightedTitle = highlight(mQuery, bookInfo.title);
-			textTitle.setText(highlightedTitle);
+			textTitle.setText(highlight(mQuery, bookInfo.title));
+			if (bookInfo.subtitle == null) {
+				textSubtitle.setVisibility(View.GONE);
+			} else {
+				textSubtitle.setText(highlight(mQuery, bookInfo.subtitle));
+			}
+			if (bookInfo.description == null) {
+				layoutDescription.setVisibility(View.GONE);
+			} else {
+				highlightDescription(mQuery, bookInfo.description, textDescriptionStart, textDescriptionEnd);
+			}
 
-			TextView textAuthor = (TextView) view.findViewById(R.id.search_results_item_book_author);
 			List<Author> authorList = bookInfo.authors;
 			String authors;
 			if (authorList.size() > 0) {
@@ -87,30 +104,88 @@ public class BookSearchResultsAdapter extends ArrayAdapter<BookInfo> {
 	 * @return A CharSequence where the parts matching the searched text are
 	 *         highlighted.
 	 */
-	public static CharSequence highlight(String search, String originalText) {
-		// ignore case and accents
-		// the same thing should have been done for the search text
+	private static CharSequence highlight(String search, String originalText) {
 		String normalizedOriginalText = StringUtils.normalize(originalText);
 		String normalizedSearch = StringUtils.normalize(search);
 
-		int start = normalizedOriginalText.indexOf(normalizedSearch);
+		int start = firstIndexOf(normalizedSearch, normalizedOriginalText);
 		if (start < 0) {
-			// not found, nothing to to
 			return originalText;
 		} else {
-			// highlight each appearance in the original text
-			// while searching in normalized text
 			Spannable highlighted = new SpannableString(originalText);
-			while (start >= 0) {
+			if (start >= 0) {
 				int spanStart = Math.min(start, originalText.length());
 				int spanEnd = Math.min(start + normalizedSearch.length(), originalText.length());
 
-				highlighted.setSpan(new StyleSpan(Typeface.BOLD), spanStart, spanEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				highlightSpannable(highlighted, spanStart, spanEnd);
 
 				start = normalizedOriginalText.indexOf(normalizedSearch, spanEnd);
 			}
 
 			return highlighted;
 		}
+	}
+
+	/**
+	 * Highlight a portion of a spannable.
+	 * 
+	 * @param spannable
+	 *            The spannable.
+	 * @param highlightStart
+	 *            Start index of the highlight within the spannable.
+	 * @param highlightEnd
+	 *            End index of the highlight within the spannable.
+	 */
+	private static void highlightSpannable(Spannable spannable, int highlightStart, int highlightEnd) {
+		spannable.setSpan(new StyleSpan(Typeface.BOLD), highlightStart, highlightEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+	}
+
+	private static void highlightDescription(String search, String originalText, TextView textDescriptionStart,
+			TextView textDescriptionEnd) {
+		String normalizedOriginalText = StringUtils.normalize(originalText);
+		String normalizedSearch = StringUtils.normalize(search);
+
+		int startIndex = firstIndexOf(normalizedSearch, normalizedOriginalText);
+
+		if (startIndex >= 0) {
+			int endIndex = startIndex + normalizedSearch.length();
+
+			Spannable highlighted = new SpannableString(originalText.substring(0, endIndex));
+			highlightSpannable(highlighted, startIndex, endIndex);
+			String endText = originalText.substring(endIndex);
+
+			textDescriptionStart.setText(highlighted);
+			textDescriptionEnd.setText(endText);
+		} else {
+			textDescriptionStart.setVisibility(View.GONE);
+			textDescriptionEnd.setText(originalText);
+		}
+	}
+
+	/**
+	 * Returns the index of the first token of a text that starts with a search
+	 * term.
+	 * 
+	 * @param search
+	 *            The search term.
+	 * @param text
+	 *            The searched text.
+	 * @return Index of the first token that starts with the search term, -1 if
+	 *         there is none.
+	 */
+	private static int firstIndexOf(String search, String text) {
+		Matcher matcher = PATTERN.matcher(text);
+
+		int startIndex = -1;
+
+		boolean found = false;
+		while (!found && matcher.find()) {
+			String token = matcher.group();
+			if (token.startsWith(search)) {
+				found = true;
+				startIndex = matcher.start();
+			}
+		}
+		return startIndex;
 	}
 }
