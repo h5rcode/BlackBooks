@@ -14,7 +14,7 @@ public final class IsbnHelper {
 	/**
 	 * Verifies if a given String represents a valid ISBN-10 or ISBN-13 number.
 	 * 
-	 * @param isbn10
+	 * @param isbn
 	 *            The String value to check.
 	 * @return True if the String value represents a valid ISBN-10 or ISBN-13
 	 *         number. False otherwise.

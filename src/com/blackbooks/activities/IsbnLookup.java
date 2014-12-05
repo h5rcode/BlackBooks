@@ -13,16 +13,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blackbooks.R;
 import com.blackbooks.helpers.IsbnHelper;
+import com.blackbooks.helpers.Pic2ShopHelper;
 import com.blackbooks.utils.Commons;
 
 /**
- * Activity to enter an ISBN number and start a search for information on the
- * internet.
+ * Activity to start an ISBN lookup operation on the Internet. The activity can
+ * get the ISBN to used to do the lookup either from the user interface or from
+ * a bar code scan. Start the activity with an intent having the extra
+ * {@link #EXTRA_SCAN} set to <code>true</code>.
  */
-public class IsbnEnter extends Activity {
+public class IsbnLookup extends Activity {
+
+	/**
+	 * A boolean extra used to initiate a bar code scan if set to
+	 * <code>true</code>.
+	 */
+	public static final String EXTRA_SCAN = "EXTRA_SCAN";
 
 	private EditText mTextIsbn;
 	private TextView mTextStatus;
@@ -33,7 +43,7 @@ public class IsbnEnter extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
-		setContentView(R.layout.activity_isbn_enter);
+		setContentView(R.layout.activity_isbn_lookup);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mTextIsbn = (EditText) findViewById(R.id.isbnEnter_textIsbn);
@@ -41,6 +51,37 @@ public class IsbnEnter extends Activity {
 
 		mTextIsbn.setRawInputType(Configuration.KEYBOARD_QWERTY);
 		mTextIsbn.addTextChangedListener(new IsbnValidator());
+
+		Intent intent = getIntent();
+		// Do not start the scan if the activity has been recreated
+		// (savedInstance != null).
+		if (intent != null && savedInstanceState == null) {
+			Bundle extras = intent.getExtras();
+			if (extras != null && extras.getBoolean(EXTRA_SCAN)) {
+				Intent scanIntent = new Intent(Pic2ShopHelper.ACTION);
+				startActivityForResult(scanIntent, Pic2ShopHelper.REQUEST_CODE_SCAN);
+			}
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == Pic2ShopHelper.REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
+			String barCode = data.getStringExtra(Pic2ShopHelper.BARCODE);
+
+			if (IsbnHelper.isValidIsbn(barCode)) {
+				Intent i = new Intent(this, BookEdit.class);
+				i.putExtra(BookEdit.EXTRA_MODE, BookEdit.MODE_ADD);
+				i.putExtra(BookEdit.EXTRA_ISBN, barCode);
+				this.startActivity(i);
+			} else {
+				String message = getString(R.string.message_invalid_isbn);
+				message = String.format(message, barCode);
+				Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+			}
+		}
+		finish();
 	}
 
 	@Override
@@ -96,10 +137,10 @@ public class IsbnEnter extends Activity {
 	 *            ISBN.
 	 */
 	private void startIsbnSearch(String isbn) {
-		Intent i = new Intent(IsbnEnter.this, BookEdit.class);
+		Intent i = new Intent(IsbnLookup.this, BookEdit.class);
 		i.putExtra(BookEdit.EXTRA_MODE, BookEdit.MODE_ADD);
 		i.putExtra(BookEdit.EXTRA_ISBN, isbn);
-		IsbnEnter.this.startActivity(i);
+		IsbnLookup.this.startActivity(i);
 	}
 
 	/**

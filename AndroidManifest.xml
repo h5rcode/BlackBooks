@@ -30,8 +30,8 @@
                 android:value="com.blackbooks.activities.BookSearch" />
         </activity>
         <activity
-            android:name="com.blackbooks.activities.IsbnEnter"
-            android:label="@string/title_activity_isbn_enter" >
+            android:name="com.blackbooks.activities.IsbnLookup"
+            android:label="@string/title_activity_isbn_lookup" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blackbooks.activities.BookList" />

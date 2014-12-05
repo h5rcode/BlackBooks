@@ -106,7 +106,7 @@ public class BookList extends FragmentActivity implements BookListListener {
 			break;
 
 		case R.id.bookList_actionTypeIsbn:
-			i = new Intent(this, IsbnEnter.class);
+			i = new Intent(this, IsbnLookup.class);
 			this.startActivity(i);
 			break;
 
@@ -259,7 +259,10 @@ public class BookList extends FragmentActivity implements BookListListener {
 			ScannerInstallFragment fragment = new ScannerInstallFragment();
 			fragment.show(fm, SCANNER_INSTALL_FRAGMENT);
 		} else {
-			startActivityForResult(intent, Pic2ShopHelper.REQUEST_CODE_SCAN);
+
+			intent = new Intent(this, IsbnLookup.class);
+			intent.putExtra(IsbnLookup.EXTRA_SCAN, true);
+			this.startActivity(intent);
 		}
 	}
 
