@@ -28,7 +28,8 @@ public class FullTextSearchServices {
 
 		String sql = "SELECT book." + Book.Cols.BOO_ID + ", book." + Book.Cols.BOO_TITLE + ", book." + Book.Cols.BOO_SUBTITLE
 				+ ", book." + Book.Cols.BOO_DESCRIPTION + " FROM " + BookFTS.NAME + " book_fts JOIN " + Book.NAME
-				+ " book ON book." + Book.Cols.BOO_ID + " = book_fts." + BookFTS.Cols.DOCID + " WHERE book_fts MATCH ?";
+				+ " book ON book." + Book.Cols.BOO_ID + " = book_fts." + BookFTS.Cols.DOCID + " WHERE book_fts MATCH ? ORDER BY "
+				+ Book.Cols.BOO_TITLE;
 
 		String term = StringUtils.normalize(query);
 		term += "*";
