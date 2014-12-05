@@ -50,16 +50,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_language" />
-
-        <Spinner
-            android:id="@+id/bookEditGeneral_spinnerLanguage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="@string/label_authors" />
 
         <Button
@@ -73,38 +63,15 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_isbn10" />
+            android:text="@string/label_categories" />
 
-        <EditText
-            android:id="@+id/bookEditGeneral_textIsbn10"
+        <Button
+            android:id="@+id/bookEditGeneral_buttonEditCategories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/label_isbn10"
-            android:inputType="number" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_isbn13" />
-
-        <EditText
-            android:id="@+id/bookEditGeneral_textIsbn13"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/label_isbn13"
-            android:inputType="number" />
-        
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_page_count" />
-
-        <EditText
-            android:id="@+id/bookEditGeneral_textPageCount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/label_page_count"
-            android:inputType="number" />
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@string/button_edit_categories" />
 
         <TextView
             android:layout_width="match_parent"
@@ -133,15 +100,24 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_categories" />
+            android:text="@string/label_page_count" />
 
-        <Button
-            android:id="@+id/bookEditGeneral_buttonEditCategories"
+        <EditText
+            android:id="@+id/bookEditGeneral_textPageCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="@string/button_edit_categories" />
+            android:hint="@string/label_page_count"
+            android:inputType="number" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_language" />
+
+        <Spinner
+            android:id="@+id/bookEditGeneral_spinnerLanguage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:layout_width="match_parent"
@@ -154,6 +130,30 @@
             android:layout_height="wrap_content"
             android:hint="@string/label_description"
             android:inputType="textCapSentences|textMultiLine" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_isbn10" />
+
+        <EditText
+            android:id="@+id/bookEditGeneral_textIsbn10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/label_isbn10"
+            android:inputType="number" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_isbn13" />
+
+        <EditText
+            android:id="@+id/bookEditGeneral_textIsbn13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/label_isbn13"
+            android:inputType="number" />
     </LinearLayout>
 
 </ScrollView>
