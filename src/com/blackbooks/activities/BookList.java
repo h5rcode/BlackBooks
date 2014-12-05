@@ -2,6 +2,7 @@ package com.blackbooks.activities;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import android.app.SearchManager;
 import android.app.SearchableInfo;
@@ -9,6 +10,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.os.Environment;
@@ -28,6 +31,7 @@ import com.blackbooks.fragments.BookListByAuthorFragment;
 import com.blackbooks.fragments.BookListByCategoryFragment;
 import com.blackbooks.fragments.BookListByFirstLetterFragment;
 import com.blackbooks.fragments.BookListByLanguageFragment;
+import com.blackbooks.fragments.ScannerInstallFragment;
 import com.blackbooks.helpers.FileHelper;
 import com.blackbooks.helpers.IsbnHelper;
 import com.blackbooks.helpers.Pic2ShopHelper;
@@ -38,6 +42,7 @@ import com.blackbooks.helpers.Pic2ShopHelper;
  */
 public class BookList extends FragmentActivity implements BookListListener {
 
+	private static final String SCANNER_INSTALL_FRAGMENT = "SCANNER_INSTALL_FRAGMENT";
 	private static final String PREFERENCES = "PREFERENCES";
 	private static final String PREF_DEFAULT_LIST = "PREF_DEFAULT_LIST";
 	private static final String BOOK_LIST_FRAGMENT_TAG = "BOOK_LIST_FRAGMENT_TAG";
@@ -177,7 +182,8 @@ public class BookList extends FragmentActivity implements BookListListener {
 
 				MediaScannerConnection.scanFile(this, new String[] { backupDB.getAbsolutePath() }, null, null);
 
-				Toast.makeText(this, "File " + backupDB.getName() + " saved in " + dwnldFolder.getName() + ".", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "File " + backupDB.getName() + " saved in " + dwnldFolder.getName() + ".", Toast.LENGTH_LONG)
+						.show();
 			} else {
 				Toast.makeText(this, "Cannot write", Toast.LENGTH_LONG).show();
 			}
@@ -244,7 +250,17 @@ public class BookList extends FragmentActivity implements BookListListener {
 	 */
 	private void startIsbnScan() {
 		Intent intent = new Intent(Pic2ShopHelper.ACTION);
-		startActivityForResult(intent, Pic2ShopHelper.REQUEST_CODE_SCAN);
+
+		PackageManager pm = this.getPackageManager();
+		List<ResolveInfo> resolveInfo = pm.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+
+		if (resolveInfo.isEmpty()) {
+			FragmentManager fm = getSupportFragmentManager();
+			ScannerInstallFragment fragment = new ScannerInstallFragment();
+			fragment.show(fm, SCANNER_INSTALL_FRAGMENT);
+		} else {
+			startActivityForResult(intent, Pic2ShopHelper.REQUEST_CODE_SCAN);
+		}
 	}
 
 	@Override

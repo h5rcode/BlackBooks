@@ -22,6 +22,11 @@ public class Pic2ShopHelper {
 	public static final String BARCODE = "BARCODE";
 
 	/**
+	 * The URI of the application on Android market.
+	 */
+	public static final String URI_MARKET = "market://details?id=com.visionsmarts.pic2shop";
+
+	/**
 	 * Private constructor.
 	 */
 	private Pic2ShopHelper() {
