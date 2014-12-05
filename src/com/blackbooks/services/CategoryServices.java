@@ -24,7 +24,10 @@ public class CategoryServices {
 	 *            SQLiteDatabase.
 	 */
 	public static void deleteCategoriesWithoutBooks(SQLiteDatabase db) {
-		String sql = "DELETE FROM CATEGORY WHERE CAT_ID IN (SELECT cat.CAT_ID FROM CATEGORY cat LEFT JOIN BOOK_CATEGORY bca ON bca.CAT_ID = cat.CAT_ID WHERE bca.BCA_ID IS NULL)";
+		String sql = "DELETE FROM " + Category.NAME + " WHERE " + Category.Cols.CAT_ID + " IN (SELECT cat."
+				+ Category.Cols.CAT_ID + " FROM " + Category.NAME + " cat LEFT JOIN " + BookCategory.NAME + " bca ON bca."
+				+ BookCategory.Cols.CAT_ID + " = cat." + Category.Cols.CAT_ID + " WHERE bca." + BookCategory.Cols.BCA_ID
+				+ " IS NULL)";
 		BrokerManager.getBroker(Category.class).executeSql(db, sql);
 	}
 
@@ -55,7 +58,7 @@ public class CategoryServices {
 
 	/**
 	 * Get the one row matching a criteria. If no rows or more that one rows
-	 * match the criteria, the method returs null.
+	 * match the criteria, the method returns null.
 	 * 
 	 * @param db
 	 *            SQLiteDatabase.
@@ -124,7 +127,8 @@ public class CategoryServices {
 	 * @return List of Category.
 	 */
 	public static List<Category> getCategoryListByText(SQLiteDatabase db, String text) {
-		String sql = "SELECT * FROM CATEGORY WHERE LOWER(CAT_NAME) LIKE '%' || LOWER(?) || '%' ORDER BY CAT_NAME";
+		String sql = "SELECT * FROM " + Category.NAME + " WHERE LOWER(" + Category.Cols.CAT_NAME
+				+ ") LIKE '%' || LOWER(?) || '%' ORDER BY " + Category.Cols.CAT_NAME;
 		String[] selectionArgs = { text };
 		return BrokerManager.getBroker(Category.class).rawSelect(db, sql, selectionArgs);
 	}

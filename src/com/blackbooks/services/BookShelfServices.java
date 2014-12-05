@@ -27,7 +27,7 @@ public class BookShelfServices {
 
 	/**
 	 * Get the one row matching a criteria. If no rows or more that one rows
-	 * match the criteria, the method returs null.
+	 * match the criteria, the method returns null.
 	 * 
 	 * @param db
 	 *            SQLiteDatabase.
@@ -49,7 +49,8 @@ public class BookShelfServices {
 	 * @return List of BookShelf.
 	 */
 	public static List<BookShelf> getBookShelfListByText(SQLiteDatabase db, String text) {
-		String sql = "SELECT * FROM BOOK_SHELF WHERE LOWER(BSH_NAME) LIKE '%' || LOWER(?) || '%' ORDER BY BSH_NAME";
+		String sql = "SELECT * FROM " + BookShelf.NAME + " WHERE LOWER(" + BookShelf.Cols.BSH_NAME
+				+ ") LIKE '%' || LOWER(?) || '%' ORDER BY " + BookShelf.Cols.BSH_NAME;
 		String[] selectionArgs = { text };
 		return BrokerManager.getBroker(BookShelf.class).rawSelect(db, sql, selectionArgs);
 	}

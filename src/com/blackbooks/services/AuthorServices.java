@@ -27,7 +27,9 @@ public class AuthorServices {
 	 *            SQLiteDatabase.
 	 */
 	public static void deleteAuthorsWithoutBooks(SQLiteDatabase db) {
-		String sql = "DELETE FROM AUTHOR WHERE AUT_ID IN (SELECT aut.AUT_ID FROM AUTHOR aut LEFT JOIN BOOK_AUTHOR bka ON bka.AUT_ID = aut.AUT_ID WHERE bka.BKA_ID IS NULL)";
+		String sql = "DELETE FROM " + Author.NAME + " WHERE " + Author.Cols.AUT_ID + " IN (SELECT aut." + Author.Cols.AUT_ID
+				+ " FROM " + Author.NAME + " aut LEFT JOIN " + BookAuthor.NAME + " bka ON bka." + BookAuthor.Cols.AUT_ID
+				+ " = aut." + Author.Cols.AUT_ID + " WHERE bka." + BookAuthor.Cols.BKA_ID + " IS NULL)";
 
 		BrokerManager.getBroker(Author.class).executeSql(db, sql);
 	}
@@ -47,7 +49,7 @@ public class AuthorServices {
 
 	/**
 	 * Get the one row matching a criteria. If no rows or more that one rows
-	 * match the criteria, the method returs null.
+	 * match the criteria, the method returns null.
 	 * 
 	 * @param db
 	 *            SQLiteDatabase.
@@ -150,7 +152,8 @@ public class AuthorServices {
 	 * @return List of Author.
 	 */
 	public static List<Author> getAuthorListByText(SQLiteDatabase db, String text) {
-		String sql = "SELECT * FROM AUTHOR WHERE LOWER(AUT_NAME) LIKE '%' || LOWER(?) || '%' ORDER BY AUT_NAME";
+		String sql = "SELECT * FROM " + Author.NAME + " WHERE LOWER(" + Author.Cols.AUT_NAME
+				+ ") LIKE '%' || LOWER(?) || '%' ORDER BY " + Author.Cols.AUT_NAME;
 		String[] selectionArgs = { text };
 		return BrokerManager.getBroker(Author.class).rawSelect(db, sql, selectionArgs);
 	}

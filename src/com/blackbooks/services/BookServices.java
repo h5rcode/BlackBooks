@@ -68,7 +68,7 @@ public class BookServices {
 	}
 
 	/**
-	 * Get the books of an autor.
+	 * Get the books of an author.
 	 * 
 	 * @param db
 	 *            SQLiteDatabase.
@@ -77,7 +77,9 @@ public class BookServices {
 	 * @return List of books.
 	 */
 	public static List<Book> getBookListByAuthor(SQLiteDatabase db, long authorId) {
-		String sql = "SELECT boo.* FROM BOOK_AUTHOR bka JOIN BOOk boo ON boo.BOO_ID = bka.BOO_ID WHERE bka.AUT_ID = ? ORDER BY BOO_TITLE";
+		String sql = "SELECT boo.* FROM " + BookAuthor.NAME + " bka JOIN " + Book.NAME + " boo ON boo." + Book.Cols.BOO_ID
+				+ " = bka." + BookAuthor.Cols.BOO_ID + " WHERE bka." + BookAuthor.Cols.AUT_ID + " = ? ORDER BY "
+				+ Book.Cols.BOO_TITLE;
 		String[] selectionArgs = { String.valueOf(authorId) };
 		return BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
 	}
