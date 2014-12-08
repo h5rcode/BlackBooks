@@ -9,6 +9,11 @@ public enum ListItemType {
 	 * Header.
 	 */
 	Header,
+	
+	/**
+	 * Header 2.
+	 */
+	Header2,
 
 	/**
 	 * Entry.

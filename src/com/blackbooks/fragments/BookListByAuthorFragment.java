@@ -11,9 +11,11 @@ import com.blackbooks.adapters.AuthorItem;
 import com.blackbooks.adapters.BookItem;
 import com.blackbooks.adapters.BooksByAuthorAdapter;
 import com.blackbooks.adapters.ListItem;
+import com.blackbooks.adapters.SeriesItem;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.AuthorInfo;
 import com.blackbooks.model.nonpersistent.BookInfo;
+import com.blackbooks.model.nonpersistent.SeriesInfo;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.services.AuthorServices;
 
@@ -51,10 +53,15 @@ public class BookListByAuthorFragment extends AbstractBookListFragment {
 			AuthorItem authorItem = new AuthorItem(authorInfo.id, authorInfo.name, authorInfo.books.size());
 			listItems.add(authorItem);
 
-			for (Book book : authorInfo.books) {
-				BookInfo bookInfo = new BookInfo(book);
-				BookItem bookEntry = new BookItem(bookInfo);
-				listItems.add(bookEntry);
+			for (SeriesInfo series : authorInfo.series) {
+				SeriesItem seriesItem = new SeriesItem(series);
+				listItems.add(seriesItem);
+
+				for (Book book : series.books) {
+					BookInfo bookInfo = new BookInfo(book);
+					BookItem bookEntry = new BookItem(bookInfo);
+					listItems.add(bookEntry);
+				}
 			}
 		}
 		return listItems;

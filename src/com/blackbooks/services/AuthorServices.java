@@ -8,11 +8,14 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.blackbooks.comparators.BookComparator;
+import com.blackbooks.comparators.BookComparatorNumber;
+import com.blackbooks.comparators.BookComparatorTitle;
 import com.blackbooks.model.nonpersistent.AuthorInfo;
+import com.blackbooks.model.nonpersistent.SeriesInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.model.persistent.BookAuthor;
+import com.blackbooks.model.persistent.Series;
 import com.blackbooks.sql.BrokerManager;
 
 /**
@@ -88,14 +91,16 @@ public class AuthorServices {
 	public static List<AuthorInfo> getAuthorInfoList(SQLiteDatabase db) {
 
 		String[] selectedColumns = new String[] { Book.Cols.BOO_ID, Book.Cols.BOO_TITLE, Book.Cols.BOO_DESCRIPTION,
-				Book.Cols.BOO_IS_READ, Book.Cols.BOO_IS_FAVOURITE };
+				Book.Cols.BOO_IS_READ, Book.Cols.BOO_IS_FAVOURITE, Book.Cols.SER_ID, Book.Cols.BOO_NUMBER };
 		List<Book> bookList = BrokerManager.getBroker(Book.class).getAll(db, selectedColumns, null);
+		List<Series> seriesList = BrokerManager.getBroker(Series.class).getAll(db);
 		List<BookAuthor> bookAuthorList = BrokerManager.getBroker(BookAuthor.class).getAll(db);
 		List<Author> authorList = BrokerManager.getBroker(Author.class).getAll(db, null, new String[] { Author.Cols.AUT_NAME });
 
 		HashMap<Long, List<BookAuthor>> authorBookMap = new HashMap<Long, List<BookAuthor>>();
 		HashMap<Long, List<BookAuthor>> bookAuthorMap = new HashMap<Long, List<BookAuthor>>();
 		HashMap<Long, Book> bookMap = new HashMap<Long, Book>();
+		HashMap<Long, Series> seriesMap = new HashMap<Long, Series>();
 		for (BookAuthor bookAuthor : bookAuthorList) {
 			if (!authorBookMap.containsKey(bookAuthor.authorId)) {
 				authorBookMap.put(bookAuthor.authorId, new ArrayList<BookAuthor>());
@@ -117,24 +122,51 @@ public class AuthorServices {
 			}
 		}
 
-		BookComparator bookComparator = new BookComparator();
+		seriesMap.put(null, new Series());
+		for (Series series : seriesList) {
+			seriesMap.put(series.id, series);
+		}
+
+		BookComparatorTitle bookComparatorTitle = new BookComparatorTitle();
 		List<AuthorInfo> authorInfoList = new ArrayList<AuthorInfo>();
 		if (booksWithoutAuthor.size() > 0) {
-			Collections.sort(booksWithoutAuthor, bookComparator);
+			Collections.sort(booksWithoutAuthor, bookComparatorTitle);
 
 			AuthorInfo unspecifiedAuthor = new AuthorInfo();
-			unspecifiedAuthor.books = booksWithoutAuthor;
+			SeriesInfo series = new SeriesInfo();
+			series.books = booksWithoutAuthor;
+			unspecifiedAuthor.series.add(series);
 			authorInfoList.add(unspecifiedAuthor);
 		}
+
+		BookComparatorNumber bookComparatorNumber = new BookComparatorNumber();
 		for (Author author : authorList) {
 			AuthorInfo authorInfo = new AuthorInfo(author);
 			List<BookAuthor> baList = authorBookMap.get(author.id);
+
+			HashMap<Long, SeriesInfo> seriesBookMap = new HashMap<Long, SeriesInfo>();
+
 			for (BookAuthor bookAuthor : baList) {
 				Book book = bookMap.get(bookAuthor.bookId);
+
+				SeriesInfo seriesInfo = seriesBookMap.get(book.seriesId);
+				if (seriesInfo == null) {
+					Series series = seriesMap.get(book.seriesId);
+					seriesInfo = new SeriesInfo(series);
+					seriesBookMap.put(series.id, seriesInfo);
+				}
+				seriesBookMap.get(book.seriesId).books.add(book);
+
 				authorInfo.books.add(book);
 			}
 
-			Collections.sort(authorInfo.books, bookComparator);
+			for (SeriesInfo series : seriesBookMap.values()) {
+				authorInfo.series.add(series);
+
+				Collections.sort(series.books, bookComparatorNumber);
+			}
+
+			Collections.sort(authorInfo.books, bookComparatorTitle);
 
 			authorInfoList.add(authorInfo);
 		}

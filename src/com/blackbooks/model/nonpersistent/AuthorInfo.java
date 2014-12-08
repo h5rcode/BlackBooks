@@ -15,12 +15,15 @@ public class AuthorInfo extends Author {
 	private static final long serialVersionUID = -2843891916239884742L;
 
 	public List<Book> books;
+	
+	public List<SeriesInfo> series;
 
 	/**
 	 * Default constructor.
 	 */
 	public AuthorInfo() {
 		this.books = new ArrayList<Book>();
+		this.series = new ArrayList<SeriesInfo>();
 	}
 
 	/**

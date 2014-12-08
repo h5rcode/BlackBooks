@@ -9,6 +9,7 @@ import com.blackbooks.model.persistent.Book;
 import com.blackbooks.model.persistent.BookShelf;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Publisher;
+import com.blackbooks.model.persistent.Series;
 
 /**
  * All the info about a book.
@@ -21,12 +22,14 @@ public class BookInfo extends Book implements Serializable {
 	public List<Author> authors;
 
 	public Publisher publisher;
-
+	
 	public List<Category> categories;
 
 	public BookShelf bookShelf;
 
-	/*
+	public Series series;
+
+	/**
 	 * Default constructor.
 	 */
 	public BookInfo() {
@@ -34,6 +37,7 @@ public class BookInfo extends Book implements Serializable {
 		this.publisher = new Publisher();
 		this.categories = new ArrayList<Category>();
 		this.bookShelf = new BookShelf();
+		this.series = new Series();
 	}
 
 	/**
@@ -64,6 +68,7 @@ public class BookInfo extends Book implements Serializable {
 		this.isbn10 = book.isbn10;
 		this.isbn13 = book.isbn13;
 		this.bookShelfId = book.bookShelfId;
+		this.number = book.number;
 	}
 
 	/**

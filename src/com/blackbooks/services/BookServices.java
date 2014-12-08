@@ -60,7 +60,10 @@ public class BookServices {
 			FTSBrokerManager.getBroker(BookFTS.class).delete(db, bookId);
 
 			PublisherServices.deletePublishersWithoutBooks(db);
+			SeriesServices.deleteSeriesWithoutBooks(db);
+
 			ThumbnailManager.getInstance().removeThumbnails(bookId);
+
 			db.setTransactionSuccessful();
 		} finally {
 			db.endTransaction();
@@ -137,6 +140,9 @@ public class BookServices {
 		}
 		if (book.bookShelfId != null) {
 			bookInfo.bookShelf = BookShelfServices.getBookShelf(db, book.bookShelfId);
+		}
+		if (book.seriesId != null) {
+			bookInfo.series = SeriesServices.getSeries(db, book.seriesId);
 		}
 
 		List<BookCategory> bookCategoryList = BookCategoryServices.getBookCategoryListByBook(db, book.id);
@@ -252,6 +258,13 @@ public class BookServices {
 				bookInfo.bookShelfId = null;
 			}
 
+			if (bookInfo.series.name != null) {
+				SeriesServices.saveSeries(db, bookInfo.series);
+				bookInfo.seriesId = bookInfo.series.id;
+			} else {
+				bookInfo.series.id = null;
+			}
+
 			BrokerManager.getBroker(Book.class).save(db, bookInfo);
 
 			FTSBroker<BookFTS> brokerBookFTS = FTSBrokerManager.getBroker(BookFTS.class);
@@ -260,12 +273,16 @@ public class BookServices {
 				brokerBookFTS.insert(db, bookFts);
 			} else {
 				brokerBookFTS.update(db, bookFts);
+
+				PublisherServices.deletePublishersWithoutBooks(db);
+				SeriesServices.deleteSeriesWithoutBooks(db);
+
+				ThumbnailManager.getInstance().removeThumbnails(bookInfo.id);
 			}
 
-			PublisherServices.deletePublishersWithoutBooks(db);
 			updateBookAuthorList(db, bookInfo);
 			updateBookCategoryList(db, bookInfo);
-			ThumbnailManager.getInstance().removeThumbnails(bookInfo.id);
+
 			db.setTransactionSuccessful();
 		} finally {
 			db.endTransaction();

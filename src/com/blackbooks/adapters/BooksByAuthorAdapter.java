@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.blackbooks.R;
 import com.blackbooks.cache.ThumbnailManager;
 import com.blackbooks.model.nonpersistent.BookInfo;
+import com.blackbooks.model.persistent.Series;
 
 /**
  * An adapter handling instances of ListItem representing either an author or a
@@ -53,50 +54,11 @@ public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> implements Sect
 		if (item != null) {
 			ListItemType itemType = item.getListItemType();
 			if (itemType == ListItemType.Entry) {
-				BookItem entry = (BookItem) item;
-				BookInfo book = entry.getBook();
-
-				view = mInflater.inflate(R.layout.list_books_by_author_item_book, parent, false);
-				ImageView imageView = (ImageView) view.findViewById(R.id.books_by_author_item_book_small_thumbnail);
-				TextView textTitle = (TextView) view.findViewById(R.id.books_by_author_item_book_title);
-				TextView textDescription = (TextView) view.findViewById(R.id.books_by_author_item_book_description);
-				ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.books_by_author_item_book_progressBar);
-				ImageView imageRead = (ImageView) view.findViewById(R.id.books_by_author_item_book_imageRead);
-				ImageView imageFavourite = (ImageView) view.findViewById(R.id.books_by_author_item_book_imageFavourite);
-
-				mThumbnailManager.drawSmallThumbnail(book.id, getContext(), imageView, progressBar);
-
-				textTitle.setText(book.title);
-				if (book.description != null) {
-					textDescription.setText(book.description);
-				} else {
-					textDescription.setVisibility(View.GONE);
-				}
-
-				if (book.isRead != 0) {
-					imageRead.setVisibility(View.VISIBLE);
-				} else {
-					imageRead.setVisibility(View.GONE);
-				}
-
-				if (book.isFavourite != 0) {
-					imageFavourite.setVisibility(View.VISIBLE);
-				} else {
-					imageFavourite.setVisibility(View.GONE);
-				}
-
+				view = getViewBook(parent, item);
+			} else if (itemType == ListItemType.Header2) {
+				view = getViewSeries(parent, item);
 			} else if (itemType == ListItemType.Header) {
-				AuthorItem header = (AuthorItem) item;
-
-				view = mInflater.inflate(R.layout.list_books_by_author_item_author, parent, false);
-
-				TextView textViewName = (TextView) view.findViewById(R.id.books_by_author_name);
-				textViewName.setText(header.getName());
-
-				TextView textViewTotalBooks = (TextView) view.findViewById(R.id.books_by_author_item_total);
-				String total = this.getContext().getString(R.string.label_total);
-				total = String.format(total, header.getTotalBooks());
-				textViewTotalBooks.setText(total);
+				view = getViewAuthor(parent, item);
 			}
 		}
 		return view;
@@ -139,5 +101,80 @@ public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> implements Sect
 	@Override
 	public int getSectionForPosition(int position) {
 		return 0;
+	}
+
+	private View getViewAuthor(ViewGroup parent, ListItem item) {
+		View view;
+		AuthorItem header = (AuthorItem) item;
+
+		view = mInflater.inflate(R.layout.list_books_by_author_item_author, parent, false);
+
+		TextView textViewName = (TextView) view.findViewById(R.id.books_by_author_name);
+		textViewName.setText(header.getName());
+
+		TextView textViewTotalBooks = (TextView) view.findViewById(R.id.books_by_author_item_total);
+		String total = this.getContext().getString(R.string.label_total);
+		total = String.format(total, header.getTotalBooks());
+		textViewTotalBooks.setText(total);
+		return view;
+	}
+
+	private View getViewSeries(ViewGroup parent, ListItem item) {
+		View view;
+		SeriesItem seriesItem = (SeriesItem) item;
+		Series series = seriesItem.getSeries();
+
+		if (series.id != null) {
+			view = mInflater.inflate(R.layout.list_books_by_author_item_series, parent, false);
+
+			TextView textViewName = (TextView) view.findViewById(R.id.books_by_author_item_series_name);
+			textViewName.setText(series.name);
+		} else {
+			view = new View(getContext());
+			view.setVisibility(View.GONE);
+		}
+		return view;
+	}
+
+	private View getViewBook(ViewGroup parent, ListItem item) {
+		View view;
+		BookItem entry = (BookItem) item;
+		BookInfo book = entry.getBook();
+
+		view = mInflater.inflate(R.layout.list_books_by_author_item_book, parent, false);
+		ImageView imageView = (ImageView) view.findViewById(R.id.books_by_author_item_book_small_thumbnail);
+		TextView textNumber = (TextView) view.findViewById(R.id.books_by_author_item_book_number);
+		TextView textTitle = (TextView) view.findViewById(R.id.books_by_author_item_book_title);
+		TextView textDescription = (TextView) view.findViewById(R.id.books_by_author_item_book_description);
+		ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.books_by_author_item_book_progressBar);
+		ImageView imageRead = (ImageView) view.findViewById(R.id.books_by_author_item_book_imageRead);
+		ImageView imageFavourite = (ImageView) view.findViewById(R.id.books_by_author_item_book_imageFavourite);
+
+		mThumbnailManager.drawSmallThumbnail(book.id, getContext(), imageView, progressBar);
+
+		if (book.series != null && book.number != null) {
+			textNumber.setText(book.number);
+		} else {
+			textNumber.setVisibility(View.GONE);
+		}
+		textTitle.setText(book.title);
+		if (book.description != null) {
+			textDescription.setText(book.description);
+		} else {
+			textDescription.setVisibility(View.GONE);
+		}
+
+		if (book.isRead != 0) {
+			imageRead.setVisibility(View.VISIBLE);
+		} else {
+			imageRead.setVisibility(View.GONE);
+		}
+
+		if (book.isFavourite != 0) {
+			imageFavourite.setVisibility(View.VISIBLE);
+		} else {
+			imageFavourite.setVisibility(View.GONE);
+		}
+		return view;
 	}
 }

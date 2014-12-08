@@ -10,6 +10,7 @@ import com.blackbooks.model.persistent.BookCategory;
 import com.blackbooks.model.persistent.BookShelf;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Publisher;
+import com.blackbooks.model.persistent.Series;
 import com.blackbooks.model.persistent.fts.BookFTS;
 
 /**
@@ -38,6 +39,7 @@ public final class Database {
 	private Database() {
 		mTables = new ArrayList<Class<?>>();
 
+		mTables.add(Series.class);
 		mTables.add(BookShelf.class);
 		mTables.add(Publisher.class);
 		mTables.add(Book.class);

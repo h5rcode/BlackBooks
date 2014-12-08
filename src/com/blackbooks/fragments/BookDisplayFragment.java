@@ -306,7 +306,7 @@ public class BookDisplayFragment extends Fragment {
 		// Page count, language, publisher and published date.
 		if (showGroupInfo) {
 			if (hasPageCount) {
-				String pageCount = getString(R.string.labe_page_count_format);
+				String pageCount = getString(R.string.label_page_count_format);
 				pageCount = String.format(pageCount, mBookInfo.pageCount);
 				mTextPageCount.setText(pageCount);
 				mGroup1PageCount.setVisibility(View.VISIBLE);

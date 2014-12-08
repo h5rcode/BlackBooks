@@ -48,10 +48,12 @@
     <string name="label_language">Language</string>
     <string name="label_no_language">(No language set)</string>
     <string name="label_page_count">Page count</string>
-    <string name="labe_page_count_format">%d pages</string>
+    <string name="label_page_count_format">%d pages</string>
     <string name="label_publisher">Publisher</string>
     <string name="label_published_date">Published date</string>
     <string name="label_read">I have read this book</string>
+    <string name="label_series">Series</string>
+    <string name="label_series_number">#</string>
     <string name="label_subtitle">Subtitle</string>
     <string name="label_title">Title</string>
     <string name="label_total">(%d)</string>

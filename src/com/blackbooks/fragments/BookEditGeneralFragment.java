@@ -38,9 +38,11 @@ import com.blackbooks.model.nonpersistent.Language;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Publisher;
+import com.blackbooks.model.persistent.Series;
 import com.blackbooks.services.AuthorServices;
 import com.blackbooks.services.CategoryServices;
 import com.blackbooks.services.PublisherServices;
+import com.blackbooks.services.SeriesServices;
 import com.blackbooks.utils.BitmapUtils;
 import com.blackbooks.utils.StringUtils;
 
@@ -65,12 +67,13 @@ public class BookEditGeneralFragment extends Fragment {
 	private EditText mTextIsbn13;
 	private EditText mTextPageCount;
 	private AutoCompleteTextView mTextPublisher;
+	private AutoCompleteTextView mTextSeries;
+	private EditText mTextNumber;
 	private EditText mTextPublishedDate;
 	private Button mButtonEditCategories;
 	private EditText mTextDescription;
 
 	private LanguagesAdapter mLanguagesAdapter;
-	private AutoCompleteAdapter<Publisher> mPublisherCompleteAdapter;
 
 	private BookInfo mBookInfo;
 
@@ -182,7 +185,7 @@ public class BookEditGeneralFragment extends Fragment {
 			}
 		});
 
-		mPublisherCompleteAdapter = new AutoCompleteAdapter<Publisher>(this.getActivity(), android.R.layout.simple_list_item_1,
+		AutoCompleteAdapter<Publisher> publisherAutoCompleteAdapter = new AutoCompleteAdapter<Publisher>(this.getActivity(), android.R.layout.simple_list_item_1,
 				new AutoCompleteSearcher<Publisher>() {
 
 					@Override
@@ -198,7 +201,25 @@ public class BookEditGeneralFragment extends Fragment {
 						return item.name;
 					}
 				});
-		mTextPublisher.setAdapter(mPublisherCompleteAdapter);
+		mTextPublisher.setAdapter(publisherAutoCompleteAdapter);
+
+		AutoCompleteAdapter<Series> seriesAutoCompleteAdapter = new AutoCompleteAdapter<Series>(this.getActivity(),
+				android.R.layout.simple_list_item_1, new AutoCompleteSearcher<Series>() {
+
+					@Override
+					public List<Series> search(CharSequence constraint) {
+						SQLiteDatabase db = mDbHelper.getReadableDatabase();
+						List<Series> seriesList = SeriesServices.getSeriesListByText(db, constraint.toString());
+						db.close();
+						return seriesList;
+					}
+
+					@Override
+					public String getDisplayLabel(Series item) {
+						return item.name;
+					}
+				});
+		mTextSeries.setAdapter(seriesAutoCompleteAdapter);
 
 		handleArguments();
 		renderBookInfo();
@@ -222,6 +243,8 @@ public class BookEditGeneralFragment extends Fragment {
 		String publisherName = getEditTextValue(mTextPublisher, false);
 		String publishedDate = getEditTextValue(mTextPublishedDate, false);
 		String description = getEditTextValue(mTextDescription, false);
+		String seriesName = getEditTextValue(mTextSeries, false);
+		String number = getEditTextValue(mTextNumber, false);
 
 		bookInfo.title = title;
 		bookInfo.subtitle = subtitle;
@@ -234,6 +257,7 @@ public class BookEditGeneralFragment extends Fragment {
 			bookInfo.pageCount = null;
 		}
 		bookInfo.publishedDate = publishedDate;
+		bookInfo.number = number;
 		bookInfo.description = description;
 
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -259,6 +283,17 @@ public class BookEditGeneralFragment extends Fragment {
 			}
 		}
 		bookInfo.publisher = publisher;
+
+		Series series = new Series();
+		if (seriesName != null) {
+			series.name = seriesName;
+
+			Series seriesDb = SeriesServices.getSeriesByCriteria(db, series);
+			if (seriesDb != null) {
+				series = seriesDb;
+			}
+		}
+		bookInfo.series = series;
 
 		List<Category> categories = new ArrayList<Category>();
 		for (Category category : bookInfo.categories) {
@@ -317,6 +352,8 @@ public class BookEditGeneralFragment extends Fragment {
 		mTextPageCount = (EditText) view.findViewById(R.id.bookEditGeneral_textPageCount);
 		mTextPublisher = (AutoCompleteTextView) view.findViewById(R.id.bookEditGeneral_textPublisher);
 		mTextPublishedDate = (EditText) view.findViewById(R.id.bookEditGeneral_textPublishedDate);
+		mTextSeries = (AutoCompleteTextView) view.findViewById(R.id.bookEditGeneral_textSeries);
+		mTextNumber = (EditText) view.findViewById(R.id.bookEditGeneral_textNum);
 		mButtonEditCategories = (Button) view.findViewById(R.id.bookEditGeneral_buttonEditCategories);
 		mTextDescription = (EditText) view.findViewById(R.id.bookEditGeneral_textDescription);
 	}
@@ -376,6 +413,8 @@ public class BookEditGeneralFragment extends Fragment {
 		}
 		mTextPublisher.setText(mBookInfo.publisher.name);
 		mTextPublishedDate.setText(mBookInfo.publishedDate);
+		mTextSeries.setText(mBookInfo.series.name);
+		mTextNumber.setText(mBookInfo.number);
 		setButtonEditCategoriesText();
 		mTextDescription.setText(mBookInfo.description);
 	}

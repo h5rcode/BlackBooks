@@ -73,31 +73,39 @@ public class Book implements Serializable {
 	@Column(name = Cols.BSH_ID, type = SQLiteDataType.INTEGER, referencedType = BookShelf.class, version = 1)
 	public Long bookShelfId;
 
+	@Column(name = Cols.SER_ID, type = SQLiteDataType.INTEGER, referencedType = Series.class, version = 1)
+	public Long seriesId;
+
+	@Column(name = Cols.BOO_NUMBER, type = SQLiteDataType.TEXT, version = 1)
+	public String number;
+
 	public Book() {
 		this.isRead = 0L;
 		this.isFavourite = 0L;
 	}
 
-	public final static class Cols {
-		public final static String BOO_ID = "BOO_ID";
-		public final static String BOO_TITLE = "BOO_TITLE";
-		public final static String BOO_SUBTITLE = "BOO_SUBTITLE";
-		public final static String BOO_LANGUAGE_CODE = "BOO_LANGUAGE_CODE";
-		public final static String PUB_ID = "PUB_ID";
-		public final static String BOO_PUBLISHED_DATE = "BOO_PUBLISHED_DATE";
-		public final static String BOO_DESCRIPTION = "BOO_DESCRIPTION";
-		public final static String BOO_PAGE_COUNT = "BOO_PAGE_COUNT";
-		public final static String BOO_HEIGHT = "BOO_HEIGHT";
-		public final static String BOO_WIDTH = "BOO_WIDTH";
-		public final static String BOO_THICKNESS = "BOO_THICKNESS";
-		public final static String BOO_PRINT_TYPE = "BOO_PRINT_TYPE";
-		public final static String BOO_MAIN_CATEGORY = "BOO_MAIN_CATEGORY";
-		public final static String BOO_SMALL_THUMBNAIL = "BOO_SMALL_THUMBNAIL";
-		public final static String BOO_THUMBNAIL = "BOO_THUMBNAIL";
-		public final static String BOO_IS_READ = "BOO_IS_READ";
-		public final static String BOO_IS_FAVOURITE = "BOO_IS_FAVOURITE";
-		public final static String BOO_ISBN_10 = "BOO_ISBN_10";
-		public final static String BOO_ISBN_13 = "BOO_ISBN_13";
+	public static final class Cols {
+		public static final String BOO_ID = "BOO_ID";
+		public static final String BOO_TITLE = "BOO_TITLE";
+		public static final String BOO_SUBTITLE = "BOO_SUBTITLE";
+		public static final String BOO_LANGUAGE_CODE = "BOO_LANGUAGE_CODE";
+		public static final String PUB_ID = "PUB_ID";
+		public static final String BOO_PUBLISHED_DATE = "BOO_PUBLISHED_DATE";
+		public static final String BOO_DESCRIPTION = "BOO_DESCRIPTION";
+		public static final String BOO_PAGE_COUNT = "BOO_PAGE_COUNT";
+		public static final String BOO_HEIGHT = "BOO_HEIGHT";
+		public static final String BOO_WIDTH = "BOO_WIDTH";
+		public static final String BOO_THICKNESS = "BOO_THICKNESS";
+		public static final String BOO_PRINT_TYPE = "BOO_PRINT_TYPE";
+		public static final String BOO_MAIN_CATEGORY = "BOO_MAIN_CATEGORY";
+		public static final String BOO_SMALL_THUMBNAIL = "BOO_SMALL_THUMBNAIL";
+		public static final String BOO_THUMBNAIL = "BOO_THUMBNAIL";
+		public static final String BOO_IS_READ = "BOO_IS_READ";
+		public static final String BOO_IS_FAVOURITE = "BOO_IS_FAVOURITE";
+		public static final String BOO_ISBN_10 = "BOO_ISBN_10";
+		public static final String BOO_ISBN_13 = "BOO_ISBN_13";
 		public static final String BSH_ID = "BSH_ID";
+		public static final String SER_ID = "SER_ID";
+		public static final String BOO_NUMBER = "BOO_NUMBER";
 	}
 }
