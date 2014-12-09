@@ -185,8 +185,8 @@ public class BookEditGeneralFragment extends Fragment {
 			}
 		});
 
-		AutoCompleteAdapter<Publisher> publisherAutoCompleteAdapter = new AutoCompleteAdapter<Publisher>(this.getActivity(), android.R.layout.simple_list_item_1,
-				new AutoCompleteSearcher<Publisher>() {
+		AutoCompleteAdapter<Publisher> publisherAutoCompleteAdapter = new AutoCompleteAdapter<Publisher>(this.getActivity(),
+				android.R.layout.simple_list_item_1, new AutoCompleteSearcher<Publisher>() {
 
 					@Override
 					public List<Publisher> search(CharSequence constraint) {
@@ -244,7 +244,7 @@ public class BookEditGeneralFragment extends Fragment {
 		String publishedDate = getEditTextValue(mTextPublishedDate, false);
 		String description = getEditTextValue(mTextDescription, false);
 		String seriesName = getEditTextValue(mTextSeries, false);
-		String number = getEditTextValue(mTextNumber, false);
+		String numberString = getEditTextValue(mTextNumber, false);
 
 		bookInfo.title = title;
 		bookInfo.subtitle = subtitle;
@@ -257,7 +257,11 @@ public class BookEditGeneralFragment extends Fragment {
 			bookInfo.pageCount = null;
 		}
 		bookInfo.publishedDate = publishedDate;
-		bookInfo.number = number;
+		if (numberString != null && StringUtils.isInteger(numberString)) {
+			bookInfo.number = Long.valueOf(numberString);
+		} else {
+			bookInfo.number = null;
+		}
 		bookInfo.description = description;
 
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -353,7 +357,7 @@ public class BookEditGeneralFragment extends Fragment {
 		mTextPublisher = (AutoCompleteTextView) view.findViewById(R.id.bookEditGeneral_textPublisher);
 		mTextPublishedDate = (EditText) view.findViewById(R.id.bookEditGeneral_textPublishedDate);
 		mTextSeries = (AutoCompleteTextView) view.findViewById(R.id.bookEditGeneral_textSeries);
-		mTextNumber = (EditText) view.findViewById(R.id.bookEditGeneral_textNum);
+		mTextNumber = (EditText) view.findViewById(R.id.bookEditGeneral_textNumber);
 		mButtonEditCategories = (Button) view.findViewById(R.id.bookEditGeneral_buttonEditCategories);
 		mTextDescription = (EditText) view.findViewById(R.id.bookEditGeneral_textDescription);
 	}
@@ -414,7 +418,9 @@ public class BookEditGeneralFragment extends Fragment {
 		mTextPublisher.setText(mBookInfo.publisher.name);
 		mTextPublishedDate.setText(mBookInfo.publishedDate);
 		mTextSeries.setText(mBookInfo.series.name);
-		mTextNumber.setText(mBookInfo.number);
+		if (mBookInfo.number != null) {
+			mTextNumber.setText(mBookInfo.number.toString());
+		}
 		setButtonEditCategoriesText();
 		mTextDescription.setText(mBookInfo.description);
 	}

@@ -53,6 +53,7 @@
     <string name="label_published_date">Published date</string>
     <string name="label_read">I have read this book</string>
     <string name="label_series">Series</string>
+    <string name="label_series_number_format">(%d)</string>
     <string name="label_series_number">#</string>
     <string name="label_subtitle">Subtitle</string>
     <string name="label_title">Title</string>

@@ -51,6 +51,7 @@ public class BookDisplayFragment extends Fragment {
 	private ImageView mImageRead;
 	private ImageView mImageFavourite;
 	private TextView mTextTitle;
+	private TextView mTextSeries;
 	private TextView mTextSubtitle;
 	private TextView mTextAuthor;
 	private TextView mTextIsbn10;
@@ -203,6 +204,7 @@ public class BookDisplayFragment extends Fragment {
 		mImageRead = (ImageView) view.findViewById(R.id.bookDisplay_imageRead);
 		mImageFavourite = (ImageView) view.findViewById(R.id.bookDisplay_imageFavourite);
 		mTextTitle = (TextView) view.findViewById(R.id.bookDisplay_textTitle);
+		mTextSeries = (TextView) view.findViewById(R.id.bookDisplay_textSeries);
 		mTextSubtitle = (TextView) view.findViewById(R.id.bookDisplay_textSubtitle);
 		mTextAuthor = (TextView) view.findViewById(R.id.bookDisplay_textAuthor);
 		mTextIsbn10 = (TextView) view.findViewById(R.id.bookDisplay_textIsbn10);
@@ -261,6 +263,26 @@ public class BookDisplayFragment extends Fragment {
 
 		// Title.
 		mTextTitle.setText(mBookInfo.title);
+
+		// Series.
+		String series = null;
+		if (mBookInfo.series.name != null) {
+			series = mBookInfo.series.name;
+		}
+		if (mBookInfo.number != null) {
+			String number = String.format(getString(R.string.label_series_number_format), mBookInfo.number);
+			if (series == null) {
+				series = number;
+			} else {
+				series += " " + number;
+			}
+		}
+		if (series == null) {
+			mTextSeries.setVisibility(View.GONE);
+		} else {
+			mTextSeries.setText(series);
+			mTextSeries.setVisibility(View.VISIBLE);
+		}
 
 		// "Read" icon.
 		if (mBookInfo.isRead == 0) {

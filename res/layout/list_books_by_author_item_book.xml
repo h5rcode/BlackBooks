@@ -48,8 +48,10 @@
                 android:id="@+id/books_by_author_item_book_number"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginRight="5sp"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <TextView

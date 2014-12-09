@@ -76,8 +76,8 @@ public class Book implements Serializable {
 	@Column(name = Cols.SER_ID, type = SQLiteDataType.INTEGER, referencedType = Series.class, version = 1)
 	public Long seriesId;
 
-	@Column(name = Cols.BOO_NUMBER, type = SQLiteDataType.TEXT, version = 1)
-	public String number;
+	@Column(name = Cols.BOO_NUMBER, type = SQLiteDataType.INTEGER, version = 1)
+	public Long number;
 
 	public Book() {
 		this.isRead = 0L;
