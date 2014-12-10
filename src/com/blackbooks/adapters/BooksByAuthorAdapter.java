@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import android.content.Context;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> implements Sect
 	private final LayoutInflater mInflater;
 	private final ThumbnailManager mThumbnailManager;
 	private final Map<String, Integer> mSectionPositionMap;
+	private final SparseArray<String> mPositionSectionMap;
 	private String[] mSections;
 
 	/**
@@ -43,6 +45,7 @@ public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> implements Sect
 		this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.mThumbnailManager = ThumbnailManager.getInstance();
 		this.mSectionPositionMap = new TreeMap<String, Integer>();
+		this.mPositionSectionMap = new SparseArray<String>();
 		this.mSections = new String[] {};
 	}
 
@@ -68,18 +71,21 @@ public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> implements Sect
 	public void addAll(Collection<? extends ListItem> collection) {
 		super.addAll(collection);
 		mSectionPositionMap.clear();
+		mPositionSectionMap.clear();
 
-		int i = 0;
+		int position = 0;
+		String currentSection = null;
 		for (ListItem listItem : collection) {
 			if (listItem.getListItemType() == ListItemType.Header) {
 				AuthorItem authorItem = (AuthorItem) listItem;
 				String authorName = authorItem.getName();
-				String firstLetter = authorName.substring(0, 1);
-				if (!mSectionPositionMap.containsKey(firstLetter)) {
-					mSectionPositionMap.put(firstLetter, i);
+				currentSection = authorName.substring(0, 1);
+				if (!mSectionPositionMap.containsKey(currentSection)) {
+					mSectionPositionMap.put(currentSection, position);
 				}
 			}
-			i++;
+			mPositionSectionMap.put(position, currentSection);
+			position++;
 		}
 		mSections = mSectionPositionMap.keySet().toArray(new String[mSectionPositionMap.size()]);
 	}
@@ -95,12 +101,23 @@ public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> implements Sect
 		if (index >= mSections.length) {
 			index = mSections.length - 1;
 		}
-		return mSectionPositionMap.get(mSections[index]);
+		int position = mSectionPositionMap.get(mSections[index]);
+		return position;
 	}
 
 	@Override
 	public int getSectionForPosition(int position) {
-		return 0;
+		String currentSection = mPositionSectionMap.get(position);
+		int sectionIndex = 0;
+
+		for (int i = 0; i < mSections.length; i++) {
+			String section = mSections[i];
+			if (section.equals(currentSection)) {
+				break;
+			}
+			sectionIndex++;
+		}
+		return sectionIndex;
 	}
 
 	private View getViewAuthor(ViewGroup parent, ListItem item) {

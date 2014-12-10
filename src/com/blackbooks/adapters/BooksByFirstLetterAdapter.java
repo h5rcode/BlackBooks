@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import android.content.Context;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class BooksByFirstLetterAdapter extends ArrayAdapter<ListItem> implements
 	private final LayoutInflater mInflater;
 	private final ThumbnailManager mThumbnailManager;
 	private final Map<String, Integer> mSectionPositionMap;
+	private final SparseArray<String> mPositionSectionMap;
 	private String[] mSections;
 
 	/**
@@ -41,6 +43,7 @@ public class BooksByFirstLetterAdapter extends ArrayAdapter<ListItem> implements
 		this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.mThumbnailManager = ThumbnailManager.getInstance();
 		this.mSectionPositionMap = new TreeMap<String, Integer>();
+		this.mPositionSectionMap = new SparseArray<String>();
 		this.mSections = new String[] {};
 	}
 
@@ -109,14 +112,16 @@ public class BooksByFirstLetterAdapter extends ArrayAdapter<ListItem> implements
 		super.addAll(collection);
 		mSectionPositionMap.clear();
 
-		int i = 0;
+		int position = 0;
+		String currentSection = null;
 		for (ListItem listItem : collection) {
 			if (listItem.getListItemType() == ListItemType.Header) {
 				FirstLetterItem authorItem = (FirstLetterItem) listItem;
-				String firstLetter = authorItem.getValue();
-				mSectionPositionMap.put(firstLetter, i);
+				currentSection = authorItem.getValue();
+				mSectionPositionMap.put(currentSection, position);
 			}
-			i++;
+			mPositionSectionMap.put(position, currentSection);
+			position++;
 		}
 		mSections = mSectionPositionMap.keySet().toArray(new String[mSectionPositionMap.size()]);
 	}
@@ -137,6 +142,16 @@ public class BooksByFirstLetterAdapter extends ArrayAdapter<ListItem> implements
 
 	@Override
 	public int getSectionForPosition(int position) {
-		return 0;
+		String currentSection = mPositionSectionMap.get(position);
+		int sectionIndex = 0;
+
+		for (int i = 0; i < mSections.length; i++) {
+			String section = mSections[i];
+			if (section.equals(currentSection)) {
+				break;
+			}
+			sectionIndex++;
+		}
+		return sectionIndex;
 	}
 }
