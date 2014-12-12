@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 
 import com.blackbooks.R;
 import com.blackbooks.database.Database;
+import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.AbstractBookListFragment;
 import com.blackbooks.fragments.AbstractBookListFragment.BookListListener;
 import com.blackbooks.fragments.BookListByAuthorFragment;
@@ -35,6 +37,7 @@ import com.blackbooks.fragments.ScannerInstallFragment;
 import com.blackbooks.helpers.FileHelper;
 import com.blackbooks.helpers.IsbnHelper;
 import com.blackbooks.helpers.Pic2ShopHelper;
+import com.blackbooks.services.ExportServices;
 
 /**
  * The book list activity. It hosts an AbstractBookListFragment used to display
@@ -136,6 +139,10 @@ public class BookList extends FragmentActivity implements BookListListener {
 			i = new Intent(this, BookSearch.class);
 			break;
 
+		case R.id.bookList_actionExport:
+			exportBooks();
+			break;
+
 		case R.id.bookList_actionBackupDb:
 			saveDbOnDisk();
 			break;
@@ -190,6 +197,27 @@ public class BookList extends FragmentActivity implements BookListListener {
 		} catch (IOException e) {
 			Log.e(TAG, e.getMessage(), e);
 			Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+		}
+	}
+
+	private void exportBooks() {
+		File dwnldFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+
+		if (FileHelper.isExternalStorageWritable() && dwnldFolder.canWrite()) {
+			File exportFile = new File(dwnldFolder, "Export.csv");
+			SQLiteHelper dbHelper = new SQLiteHelper(this);
+			SQLiteDatabase db = dbHelper.getReadableDatabase();
+			try {
+				ExportServices.exportBookList(db, exportFile);
+				Toast.makeText(this, "File " + exportFile.getName() + " saved in " + dwnldFolder.getName() + ".",
+						Toast.LENGTH_LONG).show();
+			} catch (IOException e) {
+				Log.e(TAG, e.getMessage(), e);
+				Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+			} finally {
+				db.close();
+			}
+			MediaScannerConnection.scanFile(this, new String[] { exportFile.getAbsolutePath() }, null, null);
 		}
 	}
 

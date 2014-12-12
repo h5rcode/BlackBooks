@@ -16,6 +16,11 @@ import android.os.Environment;
 public final class FileHelper {
 
 	/**
+	 * UTF-8 Byte Order Mark (BOM).
+	 */
+	public static final String UTF8_BOM = "\uFEFF";
+
+	/**
 	 * Private constructor.
 	 */
 	private FileHelper() {
@@ -47,7 +52,7 @@ public final class FileHelper {
 	/**
 	 * Indicates whether the external storage is writable or not.
 	 * 
-	 * @return True if the exteral storage is writable, false otherwise.
+	 * @return True if the external storage is writable, false otherwise.
 	 */
 	public static boolean isExternalStorageWritable() {
 		String state = Environment.getExternalStorageState();

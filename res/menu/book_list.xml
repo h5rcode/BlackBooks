@@ -51,6 +51,11 @@
         android:title="@string/menu_search">
     </item>
     <item
+        android:id="@+id/bookList_actionExport"
+        android:icon="@drawable/ic_action_export"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_export"/>
+    <item
         android:icon="@drawable/ic_action_overflow"
         android:showAsAction="ifRoom"
         android:title="@string/menu_options">
