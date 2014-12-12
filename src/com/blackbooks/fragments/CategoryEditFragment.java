@@ -65,6 +65,7 @@ public class CategoryEditFragment extends DialogFragment {
 			mAutoCompleteAdapter = new AutoCompleteAdapter<Category>(getActivity(), android.R.layout.simple_list_item_1,
 					new AutoCompleteSearcher<Category>() {
 
+						@Override
 						public List<Category> search(CharSequence constraint) {
 							SQLiteHelper mDbHelper = new SQLiteHelper(getActivity());
 							SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -73,6 +74,7 @@ public class CategoryEditFragment extends DialogFragment {
 							return categoryList;
 						}
 
+						@Override
 						public String getDisplayLabel(Category item) {
 							return item.name;
 						}

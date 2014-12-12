@@ -42,7 +42,7 @@ public final class BitmapUtils {
 		if (height > maxHeight) {
 			int width = bitmap.getWidth();
 			float widthHeightRatio = (float) width / (float) height;
-			int newWidth = (int) (widthHeightRatio * (float) maxHeight);
+			int newWidth = (int) (widthHeightRatio * maxHeight);
 			result = Bitmap.createScaledBitmap(bitmap, newWidth, maxHeight, false);
 		}
 		return result;

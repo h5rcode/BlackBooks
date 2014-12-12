@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -137,7 +138,7 @@ public class BookSearchResultsAdapter extends ArrayAdapter<BookInfo> {
 	 *            End index of the highlight within the spannable.
 	 */
 	private static void highlightSpannable(Spannable spannable, int highlightStart, int highlightEnd) {
-		spannable.setSpan(new StyleSpan(Typeface.BOLD), highlightStart, highlightEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannable.setSpan(new StyleSpan(Typeface.BOLD), highlightStart, highlightEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 	}
 
 	private static void highlightDescription(String search, String originalText, TextView textDescriptionStart,

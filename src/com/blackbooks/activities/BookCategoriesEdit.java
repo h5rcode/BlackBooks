@@ -227,6 +227,7 @@ public class BookCategoriesEdit extends Activity {
 
 		mAutoCompleteAdapter = new AutoCompleteAdapter<Category>(this, android.R.layout.simple_list_item_1, new AutoCompleteSearcher<Category>() {
 
+			@Override
 			public List<Category> search(CharSequence constraint) {
 				SQLiteHelper mDbHelper = new SQLiteHelper(BookCategoriesEdit.this);
 				SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -235,6 +236,7 @@ public class BookCategoriesEdit extends Activity {
 				return categoryList;
 			}
 
+			@Override
 			public String getDisplayLabel(Category item) {
 				return item.name;
 			}
@@ -242,6 +244,7 @@ public class BookCategoriesEdit extends Activity {
 		mCategoryArrayAdapter = new EditableArrayAdapter<Category>(this, R.id.bookCategoriesEdit_categoryList,
 				R.layout.list_categories_item_category, R.id.item_category_name, R.id.item_category_button_remove, mCategoryList) {
 
+			@Override
 			protected String getDisplayLabel(Category object) {
 				return object.name;
 			}
