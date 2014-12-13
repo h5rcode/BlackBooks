@@ -74,9 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="5sp"
-            android:background="@color/grey_400"
             android:contentDescription="@string/image_thumbnail"
-            android:padding="5sp"
             android:src="@drawable/ic_undefined_thumbnail" />
 
         <TextView
