@@ -1,2 +1,5 @@
 Application icon
 http://commons.wikimedia.org/wiki/File:Open_book_01.svg
+
+Error report icon
+http://commons.wikimedia.org/wiki/File:Exclamation.svg

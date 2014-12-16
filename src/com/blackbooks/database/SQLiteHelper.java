@@ -11,13 +11,12 @@ import com.blackbooks.sql.Broker;
 import com.blackbooks.sql.BrokerManager;
 import com.blackbooks.sql.FTSBroker;
 import com.blackbooks.sql.FTSBrokerManager;
+import com.blackbooks.utils.LogUtils;
 
 /**
  * Helper class to create/open/upgrade the database.
  */
 public class SQLiteHelper extends SQLiteOpenHelper {
-
-	private final static String TAG = SQLiteHelper.class.getName();
 
 	/**
 	 * Constructor.
@@ -31,28 +30,28 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		Log.i(TAG, "Creating the database.");
+		Log.i(LogUtils.TAG, "Creating the database.");
 
 		Database database = Database.getInstance();
 		List<Class<?>> tables = database.getTables();
 
-		Log.i(TAG, "Creating tables.");
+		Log.i(LogUtils.TAG, "Creating tables.");
 		for (Class<?> table : tables) {
 			Broker<?> broker = BrokerManager.getBroker(table);
 			broker.createTable(db);
 		}
-		Log.i(TAG, "Tables successfully created.");
+		Log.i(LogUtils.TAG, "Tables successfully created.");
 
 		List<Class<?>> ftsTables = database.getFTSTables();
 
-		Log.i(TAG, "Creating the Full-Text-Search tables.");
+		Log.i(LogUtils.TAG, "Creating the Full-Text-Search tables.");
 		for (Class<?> ftsTable : ftsTables) {
 			FTSBroker<?> ftsBroker = FTSBrokerManager.getBroker(ftsTable);
 			ftsBroker.createTable(db);
 		}
-		Log.i(TAG, "Full-Text-Search tables successfully created.");
+		Log.i(LogUtils.TAG, "Full-Text-Search tables successfully created.");
 
-		Log.i(TAG, "Database successfully created.");
+		Log.i(LogUtils.TAG, "Database successfully created.");
 	}
 
 	@Override

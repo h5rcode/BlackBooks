@@ -17,13 +17,12 @@ import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.search.amazon.AmazonSearcher;
 import com.blackbooks.search.google.GoogleBooksSearcher;
 import com.blackbooks.search.openlibrary.OpenLibrarySearcher;
+import com.blackbooks.utils.LogUtils;
 
 /**
  * A class that searches for books using ISBN numbers.
  */
 public final class BookSearcher {
-
-	private static final String TAG = BookSearcher.class.getName();
 
 	/**
 	 * Private constructor.
@@ -95,8 +94,8 @@ public final class BookSearcher {
 				if (cause instanceof IOException) {
 					throw (IOException) cause;
 				} else {
-					Log.e(TAG, "A book search encountered an error.");
-					Log.e(TAG, cause.getMessage(), cause);
+					Log.e(LogUtils.TAG, "A book search encountered an error.");
+					Log.e(LogUtils.TAG, cause.getMessage(), cause);
 				}
 			}
 			if (bookSearchResult != null) {

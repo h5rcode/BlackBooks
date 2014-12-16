@@ -241,6 +241,7 @@ public class BookServices {
 	 */
 	public static void saveBookInfo(SQLiteDatabase db, BookInfo bookInfo) {
 		db.beginTransaction();
+		int a = 3 / 0;
 		try {
 			boolean isCreation = bookInfo.id == null;
 

@@ -38,6 +38,7 @@ import com.blackbooks.helpers.FileHelper;
 import com.blackbooks.helpers.IsbnHelper;
 import com.blackbooks.helpers.Pic2ShopHelper;
 import com.blackbooks.services.ExportServices;
+import com.blackbooks.utils.LogUtils;
 
 /**
  * The book list activity. It hosts an AbstractBookListFragment used to display
@@ -49,7 +50,6 @@ public class BookList extends FragmentActivity implements BookListListener {
 	private static final String PREFERENCES = "PREFERENCES";
 	private static final String PREF_DEFAULT_LIST = "PREF_DEFAULT_LIST";
 	private static final String BOOK_LIST_FRAGMENT_TAG = "BOOK_LIST_FRAGMENT_TAG";
-	private static final String TAG = BookList.class.getName();
 
 	private AbstractBookListFragment mCurrentFragment;
 
@@ -195,7 +195,7 @@ public class BookList extends FragmentActivity implements BookListListener {
 				Toast.makeText(this, "Cannot write", Toast.LENGTH_LONG).show();
 			}
 		} catch (IOException e) {
-			Log.e(TAG, e.getMessage(), e);
+			Log.e(LogUtils.TAG, e.getMessage(), e);
 			Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
 		}
 	}
@@ -212,7 +212,7 @@ public class BookList extends FragmentActivity implements BookListListener {
 				Toast.makeText(this, "File " + exportFile.getName() + " saved in " + dwnldFolder.getName() + ".",
 						Toast.LENGTH_LONG).show();
 			} catch (IOException e) {
-				Log.e(TAG, e.getMessage(), e);
+				Log.e(LogUtils.TAG, e.getMessage(), e);
 				Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
 			} finally {
 				db.close();
