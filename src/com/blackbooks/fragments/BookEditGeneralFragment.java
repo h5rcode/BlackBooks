@@ -1,5 +1,7 @@
 package com.blackbooks.fragments;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -26,6 +29,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.blackbooks.R;
 import com.blackbooks.activities.BookAuthorsEdit;
@@ -34,6 +38,7 @@ import com.blackbooks.adapters.AutoCompleteAdapter;
 import com.blackbooks.adapters.AutoCompleteAdapter.AutoCompleteSearcher;
 import com.blackbooks.adapters.LanguagesAdapter;
 import com.blackbooks.database.SQLiteHelper;
+import com.blackbooks.helpers.FileHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.nonpersistent.Language;
 import com.blackbooks.model.persistent.Author;
@@ -45,6 +50,7 @@ import com.blackbooks.services.CategoryServices;
 import com.blackbooks.services.PublisherServices;
 import com.blackbooks.services.SeriesServices;
 import com.blackbooks.utils.BitmapUtils;
+import com.blackbooks.utils.LogUtils;
 import com.blackbooks.utils.StringUtils;
 
 /**
@@ -57,6 +63,7 @@ public class BookEditGeneralFragment extends Fragment {
 
 	private static final int REQUEST_EDIT_AUTHORS = 1;
 	private static final int REQUEST_EDIT_CATEGORIES = 2;
+	private static final int REQUEST_PICK_IMAGE = 3;
 
 	private SQLiteHelper mDbHelper;
 
@@ -121,6 +128,15 @@ public class BookEditGeneralFragment extends Fragment {
 			result = true;
 			break;
 
+		case R.id.thumbnailEdit_actionPickImage:
+			Intent intent = new Intent();
+			intent.setType("image/*");
+			intent.setAction(Intent.ACTION_GET_CONTENT);
+			intent.addCategory(Intent.CATEGORY_OPENABLE);
+			startActivityForResult(intent, REQUEST_PICK_IMAGE);
+			result = true;
+			break;
+
 		default:
 			result = super.onContextItemSelected(item);
 			break;
@@ -140,6 +156,18 @@ public class BookEditGeneralFragment extends Fragment {
 			} else if (requestCode == REQUEST_EDIT_CATEGORIES) {
 				mBookInfo.categories = (ArrayList<Category>) data.getSerializableExtra(BookCategoriesEdit.EXTRA_CATEGORY_LIST);
 				setButtonEditCategoriesText();
+			} else if (requestCode == REQUEST_PICK_IMAGE) {
+
+				try {
+					InputStream stream = getActivity().getContentResolver().openInputStream(data.getData());
+					byte[] image = FileHelper.readBytes(stream);
+					mBookInfo.smallThumbnail = BitmapUtils.compress(getActivity(), image, 160);
+					mBookInfo.thumbnail = BitmapUtils.compress(getActivity(), image, 500);
+					setImageThumbnail();
+				} catch (IOException e) {
+					Log.e(LogUtils.TAG, "Could not read selected image.", e);
+					Toast.makeText(getActivity(), getString(R.string.message_cant_read_selected_image), Toast.LENGTH_LONG).show();
+				}
 			}
 		}
 	}

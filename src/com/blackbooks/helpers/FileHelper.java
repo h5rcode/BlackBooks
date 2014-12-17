@@ -1,5 +1,6 @@
 package com.blackbooks.helpers;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -61,5 +62,29 @@ public final class FileHelper {
 			result = true;
 		}
 		return result;
+	}
+
+	/**
+	 * Return all the bytes contained in an InputStream.
+	 * 
+	 * @param stream
+	 *            InputStream.
+	 * @return Byte array.
+	 * @throws IOException
+	 *             If the stream could not be read.
+	 */
+	public static byte[] readBytes(InputStream stream) throws IOException {
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+		int nRead;
+		byte[] data = new byte[1024];
+
+		while ((nRead = stream.read(data, 0, data.length)) != -1) {
+			buffer.write(data, 0, nRead);
+		}
+
+		buffer.flush();
+
+		return buffer.toByteArray();
 	}
 }

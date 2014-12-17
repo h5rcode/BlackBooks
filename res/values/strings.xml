@@ -9,6 +9,7 @@
     <string name="action_delete_category">Delete category</string>
     <string name="action_enter_isbn">Enter ISBN</string>
     <string name="action_lookup_isbn">Lookup ISBN</string>
+    <string name="action_pick_image">Pick an image</string>
     <string name="action_remove_thumbnail">Remove thumbnail</string>
     <string name="action_rename_category">Rename category</string>
     <string name="action_save_book">Save</string>
@@ -77,6 +78,7 @@
     <string name="message_book_added">\"%s\" was successfully added.</string>
     <string name="message_book_deleted">\"%s\" was successfully deleted.</string>
     <string name="message_book_modifed">\"%s\" was successfully modified.</string>
+    <string name="message_cant_read_selected_image">Could not read selected image.</string>
     <string name="message_category_added">\"%s\" was added to the list of categories.</string>
     <string name="message_category_already_exists">There is already a category with this name.</string>
     <string name="message_category_already_present">\"%s\" is already in the list of categories.</string>

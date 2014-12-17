@@ -5,5 +5,8 @@
         android:id="@+id/thumbnailEdit_actionRemove"
         android:icon="@drawable/ic_delete"
         android:title="@string/action_remove_thumbnail"/>
+    <item
+        android:id="@+id/thumbnailEdit_actionPickImage"
+        android:title="@string/action_pick_image"/>
 
 </menu>
