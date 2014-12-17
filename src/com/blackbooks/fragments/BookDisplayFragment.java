@@ -39,7 +39,7 @@ import com.blackbooks.utils.VariableUtils;
 public class BookDisplayFragment extends Fragment {
 
 	private static final String ARG_BOOK_ID = "ARG_BOOK_ID";
-	private static final String IMAGE_DISPLAYS_FRAGMENT_TAG = "IMAGE_DISPLAYS_FRAGMENT_TAG";
+	private static final String IMAGE_DISPLAY_FRAGMENT_TAG = "IMAGE_DISPLAY_FRAGMENT_TAG";
 
 	private static final int REQUEST_CODE_EDIT_BOOK = 1;
 
@@ -125,7 +125,7 @@ public class BookDisplayFragment extends Fragment {
 				if (image != null && image.length > 0) {
 					FragmentManager fm = BookDisplayFragment.this.getFragmentManager();
 					ImageDisplayFragment fragment = ImageDisplayFragment.newInstance(image);
-					fragment.show(fm, IMAGE_DISPLAYS_FRAGMENT_TAG);
+					fragment.show(fm, IMAGE_DISPLAY_FRAGMENT_TAG);
 				}
 			}
 		};

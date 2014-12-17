@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -52,6 +53,7 @@ import com.blackbooks.utils.StringUtils;
 public class BookEditGeneralFragment extends Fragment {
 
 	private static final String ARG_BOOK = "ARG_BOOK";
+	private static final String IMAGE_DISPLAY_FRAGMENT_TAG = "IMAGE_DISPLAY_FRAGMENT_TAG";
 
 	private static final int REQUEST_EDIT_AUTHORS = 1;
 	private static final int REQUEST_EDIT_CATEGORIES = 2;
@@ -156,6 +158,21 @@ public class BookEditGeneralFragment extends Fragment {
 		mDbHelper = new SQLiteHelper(this.getActivity());
 
 		registerForContextMenu(mImageThumbnail);
+
+		android.view.View.OnClickListener listener = new android.view.View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				byte[] image = mBookInfo.thumbnail;
+				if (image != null && image.length > 0) {
+					FragmentManager fm = BookEditGeneralFragment.this.getFragmentManager();
+					ImageDisplayFragment fragment = ImageDisplayFragment.newInstance(image);
+					fragment.show(fm, IMAGE_DISPLAY_FRAGMENT_TAG);
+				}
+			}
+		};
+		mImageThumbnail.setOnClickListener(listener);
+
 		mButtonEditAuthors.setOnClickListener(new OnClickListener() {
 
 			@Override
