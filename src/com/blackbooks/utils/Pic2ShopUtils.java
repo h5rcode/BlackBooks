@@ -1,10 +1,10 @@
-package com.blackbooks.helpers;
+package com.blackbooks.utils;
 
 /**
- * Helper class that contains the info to call the Pic2Shop app.
+ * Pic2Shop app utility class.
  * 
  */
-public class Pic2ShopHelper {
+public class Pic2ShopUtils {
 
 	/**
 	 * Scan request code.
@@ -29,6 +29,6 @@ public class Pic2ShopHelper {
 	/**
 	 * Private constructor.
 	 */
-	private Pic2ShopHelper() {
+	private Pic2ShopUtils() {
 	}
 }

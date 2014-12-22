@@ -1,4 +1,4 @@
-package com.blackbooks.helpers;
+package com.blackbooks.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -11,10 +11,10 @@ import java.io.OutputStream;
 import android.os.Environment;
 
 /**
- * Helper class for file handling.
+ * File handling utility class.
  * 
  */
-public final class FileHelper {
+public final class FileUtils {
 
 	/**
 	 * UTF-8 Byte Order Mark (BOM).
@@ -24,7 +24,7 @@ public final class FileHelper {
 	/**
 	 * Private constructor.
 	 */
-	private FileHelper() {
+	private FileUtils() {
 	}
 
 	/**

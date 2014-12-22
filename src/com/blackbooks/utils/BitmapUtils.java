@@ -12,7 +12,6 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.util.DisplayMetrics;
 
-import com.blackbooks.helpers.FileHelper;
 
 /**
  * Bitmap utility class.
@@ -52,7 +51,7 @@ public final class BitmapUtils {
 			resizedBitmap.compress(CompressFormat.PNG, 100, outputStream);
 
 			InputStream in = activity.openFileInput(TEMP_PNG);
-			bytes = FileHelper.readBytes(in);
+			bytes = FileUtils.readBytes(in);
 
 			activity.deleteFile(TEMP_PNG);
 		} catch (IOException e) {

@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
 import com.blackbooks.R;
-import com.blackbooks.helpers.Pic2ShopHelper;
+import com.blackbooks.utils.Pic2ShopUtils;
 
 /**
  * A DialogFragment used to redirect the user to a code scanner application if
@@ -29,7 +29,7 @@ public class ScannerInstallFragment extends DialogFragment {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Pic2ShopHelper.URI_MARKET));
+				Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Pic2ShopUtils.URI_MARKET));
 				startActivity(marketIntent);
 			}
 		});

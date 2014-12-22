@@ -1,14 +1,14 @@
-package com.blackbooks.helpers;
+package com.blackbooks.utils;
 
 /**
- * Helper class for checking ISBN numbers.
+ * ISBN numbers utility class.
  */
-public final class IsbnHelper {
+public final class IsbnUtils {
 
 	/**
 	 * Private constructor.
 	 */
-	private IsbnHelper() {
+	private IsbnUtils() {
 	}
 
 	/**

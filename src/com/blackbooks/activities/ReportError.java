@@ -22,7 +22,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.blackbooks.R;
-import com.blackbooks.helpers.FileHelper;
+import com.blackbooks.utils.FileUtils;
 import com.blackbooks.utils.LogUtils;
 
 /**
@@ -87,7 +87,7 @@ public class ReportError extends Activity {
 		File dwnldFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
 		String fullName = null;
-		if (FileHelper.isExternalStorageWritable() && dwnldFolder.canWrite()) {
+		if (FileUtils.isExternalStorageWritable() && dwnldFolder.canWrite()) {
 			File file = new File(dwnldFolder, "Error.log");
 			fullName = file.getAbsolutePath();
 			InputStreamReader reader = null;

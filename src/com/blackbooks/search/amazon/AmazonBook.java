@@ -1,10 +1,10 @@
 package com.blackbooks.search.amazon;
 
-import com.blackbooks.helpers.IsbnHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.search.BookSearchResult;
 import com.blackbooks.search.BookSearchResultSource;
+import com.blackbooks.utils.IsbnUtils;
 
 /**
  * A class used to store the info of a book returned by the Amazon Product
@@ -40,9 +40,9 @@ public class AmazonBook implements BookSearchResult {
 			bookInfo.authors.add(a);
 		}
 		if (this.isbn != null) {
-			if (IsbnHelper.isValidIsbn10(this.isbn)) {
+			if (IsbnUtils.isValidIsbn10(this.isbn)) {
 				bookInfo.isbn10 = this.isbn;
-			} else if (IsbnHelper.isValidIsbn13(this.isbn)) {
+			} else if (IsbnUtils.isValidIsbn13(this.isbn)) {
 				bookInfo.isbn13 = this.isbn;
 			}
 		}

@@ -34,11 +34,11 @@ import com.blackbooks.fragments.BookListByCategoryFragment;
 import com.blackbooks.fragments.BookListByFirstLetterFragment;
 import com.blackbooks.fragments.BookListByLanguageFragment;
 import com.blackbooks.fragments.ScannerInstallFragment;
-import com.blackbooks.helpers.FileHelper;
-import com.blackbooks.helpers.IsbnHelper;
-import com.blackbooks.helpers.Pic2ShopHelper;
 import com.blackbooks.services.ExportServices;
+import com.blackbooks.utils.FileUtils;
+import com.blackbooks.utils.IsbnUtils;
 import com.blackbooks.utils.LogUtils;
+import com.blackbooks.utils.Pic2ShopUtils;
 
 /**
  * The book list activity. It hosts an AbstractBookListFragment used to display
@@ -157,10 +157,10 @@ public class BookList extends FragmentActivity implements BookListListener {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == Pic2ShopHelper.REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
-			String barCode = data.getStringExtra(Pic2ShopHelper.BARCODE);
+		if (requestCode == Pic2ShopUtils.REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
+			String barCode = data.getStringExtra(Pic2ShopUtils.BARCODE);
 
-			if (IsbnHelper.isValidIsbn(barCode)) {
+			if (IsbnUtils.isValidIsbn(barCode)) {
 				Intent i = new Intent(this, BookEdit.class);
 				i.putExtra(BookEdit.EXTRA_MODE, BookEdit.MODE_ADD);
 				i.putExtra(BookEdit.EXTRA_ISBN, barCode);
@@ -181,11 +181,11 @@ public class BookList extends FragmentActivity implements BookListListener {
 		try {
 			File dwnldFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
-			if (FileHelper.isExternalStorageWritable() && dwnldFolder.canWrite()) {
+			if (FileUtils.isExternalStorageWritable() && dwnldFolder.canWrite()) {
 				File currentDB = this.getDatabasePath(Database.NAME);
 				File backupDB = new File(dwnldFolder, Database.NAME + ".sqlite");
 
-				FileHelper.copy(currentDB, backupDB);
+				FileUtils.copy(currentDB, backupDB);
 
 				MediaScannerConnection.scanFile(this, new String[] { backupDB.getAbsolutePath() }, null, null);
 
@@ -203,7 +203,7 @@ public class BookList extends FragmentActivity implements BookListListener {
 	private void exportBooks() {
 		File dwnldFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
-		if (FileHelper.isExternalStorageWritable() && dwnldFolder.canWrite()) {
+		if (FileUtils.isExternalStorageWritable() && dwnldFolder.canWrite()) {
 			File exportFile = new File(dwnldFolder, "Export.csv");
 			SQLiteHelper dbHelper = new SQLiteHelper(this);
 			SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -277,7 +277,7 @@ public class BookList extends FragmentActivity implements BookListListener {
 	 * Launches Pic2Shop to start scanning an ISBN code.
 	 */
 	private void startIsbnScan() {
-		Intent intent = new Intent(Pic2ShopHelper.ACTION);
+		Intent intent = new Intent(Pic2ShopUtils.ACTION);
 
 		PackageManager pm = this.getPackageManager();
 		List<ResolveInfo> resolveInfo = pm.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);

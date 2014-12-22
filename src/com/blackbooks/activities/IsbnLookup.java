@@ -16,9 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blackbooks.R;
-import com.blackbooks.helpers.IsbnHelper;
-import com.blackbooks.helpers.Pic2ShopHelper;
 import com.blackbooks.utils.Commons;
+import com.blackbooks.utils.IsbnUtils;
+import com.blackbooks.utils.Pic2ShopUtils;
 
 /**
  * Activity to start an ISBN lookup operation on the Internet. The activity can
@@ -58,8 +58,8 @@ public class IsbnLookup extends Activity {
 		if (intent != null && savedInstanceState == null) {
 			Bundle extras = intent.getExtras();
 			if (extras != null && extras.getBoolean(EXTRA_SCAN)) {
-				Intent scanIntent = new Intent(Pic2ShopHelper.ACTION);
-				startActivityForResult(scanIntent, Pic2ShopHelper.REQUEST_CODE_SCAN);
+				Intent scanIntent = new Intent(Pic2ShopUtils.ACTION);
+				startActivityForResult(scanIntent, Pic2ShopUtils.REQUEST_CODE_SCAN);
 			}
 		}
 	}
@@ -67,10 +67,10 @@ public class IsbnLookup extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == Pic2ShopHelper.REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
-			String barCode = data.getStringExtra(Pic2ShopHelper.BARCODE);
+		if (requestCode == Pic2ShopUtils.REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
+			String barCode = data.getStringExtra(Pic2ShopUtils.BARCODE);
 
-			if (IsbnHelper.isValidIsbn(barCode)) {
+			if (IsbnUtils.isValidIsbn(barCode)) {
 				Intent i = new Intent(this, BookEdit.class);
 				i.putExtra(BookEdit.EXTRA_MODE, BookEdit.MODE_ADD);
 				i.putExtra(BookEdit.EXTRA_ISBN, barCode);
@@ -174,7 +174,7 @@ public class IsbnLookup extends Activity {
 					if (length == 0) {
 						mTextStatus.setText(null);
 					} else if (length == 10) {
-						if (IsbnHelper.isValidIsbn10(isbn)) {
+						if (IsbnUtils.isValidIsbn10(isbn)) {
 							mTextStatus.setText(null);
 							mEnableLookup = true;
 						} else {
@@ -185,7 +185,7 @@ public class IsbnLookup extends Activity {
 						mTextStatus.setText(getString(R.string.message_isbn_search_too_short));
 					}
 				} else if (length == 13) {
-					if (IsbnHelper.isValidIsbn13(isbn)) {
+					if (IsbnUtils.isValidIsbn13(isbn)) {
 						mTextStatus.setText(null);
 						mEnableLookup = true;
 					} else {

@@ -10,7 +10,6 @@ import java.util.List;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.blackbooks.helpers.FileHelper;
 import com.blackbooks.model.nonpersistent.BookExport;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Book;
@@ -19,6 +18,7 @@ import com.blackbooks.model.persistent.BookCategory;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Publisher;
 import com.blackbooks.model.persistent.Series;
+import com.blackbooks.utils.FileUtils;
 
 /**
  * Export services.
@@ -186,7 +186,7 @@ public class ExportServices {
 		output = new FileOutputStream(file);
 		OutputStreamWriter writer = new OutputStreamWriter(output, "UTF-8");
 
-		writer.append(FileHelper.UTF8_BOM);
+		writer.append(FileUtils.UTF8_BOM);
 		writer.append(BookExport.getCsvHeader(qualifier, separator));
 		writer.append('\n');
 

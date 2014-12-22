@@ -39,7 +39,6 @@ import com.blackbooks.adapters.AutoCompleteAdapter;
 import com.blackbooks.adapters.AutoCompleteAdapter.AutoCompleteSearcher;
 import com.blackbooks.adapters.LanguagesAdapter;
 import com.blackbooks.database.SQLiteHelper;
-import com.blackbooks.helpers.FileHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.nonpersistent.Language;
 import com.blackbooks.model.persistent.Author;
@@ -52,6 +51,7 @@ import com.blackbooks.services.PublisherServices;
 import com.blackbooks.services.SeriesServices;
 import com.blackbooks.utils.BitmapUtils;
 import com.blackbooks.utils.Commons;
+import com.blackbooks.utils.FileUtils;
 import com.blackbooks.utils.LogUtils;
 import com.blackbooks.utils.StringUtils;
 
@@ -174,7 +174,7 @@ public class BookEditGeneralFragment extends Fragment {
 
 				try {
 					InputStream stream = getActivity().getContentResolver().openInputStream(data.getData());
-					byte[] image = FileHelper.readBytes(stream);
+					byte[] image = FileUtils.readBytes(stream);
 					mBookInfo.smallThumbnail = BitmapUtils.compress(getActivity(), image, 160);
 					mBookInfo.thumbnail = BitmapUtils.compress(getActivity(), image, 500);
 					setImageThumbnail();
