@@ -18,6 +18,7 @@
     <string name="action_sort_by_category">By category</string>
     <string name="action_sort_by_first_letter">By first letter</string>
     <string name="action_sort_by_language">By language</string>
+    <string name="action_take_picture">Take a picture</string>
     <string name="button_add_author">Add</string>
     <string name="button_add_category">Add</string>
     <string name="button_cancel_edit_author">Cancel</string>

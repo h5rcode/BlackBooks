@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -50,6 +51,7 @@ import com.blackbooks.services.CategoryServices;
 import com.blackbooks.services.PublisherServices;
 import com.blackbooks.services.SeriesServices;
 import com.blackbooks.utils.BitmapUtils;
+import com.blackbooks.utils.Commons;
 import com.blackbooks.utils.LogUtils;
 import com.blackbooks.utils.StringUtils;
 
@@ -64,6 +66,7 @@ public class BookEditGeneralFragment extends Fragment {
 	private static final int REQUEST_EDIT_AUTHORS = 1;
 	private static final int REQUEST_EDIT_CATEGORIES = 2;
 	private static final int REQUEST_PICK_IMAGE = 3;
+	private static final int REQUEST_TAKE_PICTURE = 4;
 
 	private SQLiteHelper mDbHelper;
 
@@ -119,6 +122,7 @@ public class BookEditGeneralFragment extends Fragment {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		boolean result;
+		Intent intent;
 
 		switch (item.getItemId()) {
 		case R.id.thumbnailEdit_actionRemove:
@@ -128,8 +132,18 @@ public class BookEditGeneralFragment extends Fragment {
 			result = true;
 			break;
 
+		case R.id.thumbnailEdit_actionTakePicture:
+			intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+			Activity activity = getActivity();
+			if (intent.resolveActivity(activity.getPackageManager()) != null) {
+				startActivityForResult(intent, REQUEST_TAKE_PICTURE);
+			}
+
+			result = true;
+			break;
+
 		case R.id.thumbnailEdit_actionPickImage:
-			Intent intent = new Intent();
+			intent = new Intent();
 			intent.setType("image/*");
 			intent.setAction(Intent.ACTION_GET_CONTENT);
 			intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -168,6 +182,13 @@ public class BookEditGeneralFragment extends Fragment {
 					Log.e(LogUtils.TAG, "Could not read selected image.", e);
 					Toast.makeText(getActivity(), getString(R.string.message_cant_read_selected_image), Toast.LENGTH_LONG).show();
 				}
+			} else if (requestCode == REQUEST_TAKE_PICTURE) {
+				Bundle extras = data.getExtras();
+				Bitmap bitmap = (Bitmap) extras.get(Commons.EXTRA_CAMERA_DATA);
+				byte[] image = BitmapUtils.getBytes(bitmap);
+				mBookInfo.smallThumbnail = BitmapUtils.compress(getActivity(), image, 160);
+				mBookInfo.thumbnail = BitmapUtils.compress(getActivity(), image, 500);
+				setImageThumbnail();
 			}
 		}
 	}

@@ -16,6 +16,11 @@ public final class Commons {
 	public static final int ALPHA_DISABLED = 75;
 
 	/**
+	 * Key of the photo returned by an Intent used to start a camera activity.
+	 */
+	public static final String EXTRA_CAMERA_DATA = "data";
+
+	/**
 	 * Empty constructor.
 	 */
 	public Commons() {

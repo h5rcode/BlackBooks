@@ -1,5 +1,6 @@
 package com.blackbooks.utils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -22,7 +23,7 @@ public final class BitmapUtils {
 	 * The max height of the thumbnail in pixels.
 	 */
 	public static final int MAX_THUMBNAIL_HEIGHT = 256;
-	
+
 	private static final String TEMP_PNG = "tmp.png";
 
 	/**
@@ -58,6 +59,19 @@ public final class BitmapUtils {
 			throw new RuntimeException(e);
 		}
 		return bytes;
+	}
+
+	/**
+	 * Get the byte array representing a Bitmap.
+	 * 
+	 * @param bitmap
+	 *            Bitmap.
+	 * @return Byte array.
+	 */
+	public static byte[] getBytes(Bitmap bitmap) {
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+		return stream.toByteArray();
 	}
 
 	/**
