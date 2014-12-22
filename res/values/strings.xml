@@ -93,6 +93,8 @@
     <string name="message_confirm_delete_category">Do you really want to remove the category \"%s\"? The related books will NOT be deleted.</string>
     <string name="message_confirm_delete_category_cancel">No</string>
     <string name="message_confirm_delete_category_confirm">Yes</string>
+    <string name="message_file_not_saved">File could not be written.</string>
+    <string name="message_file_saved">File \"%1$s\" saved in folder \"%2$s\".</string>
     <string name="message_invalid_isbn">%s is not a valid ISBN number.</string>
     <string name="message_isbn_search_info_format">Only digits and the letter \'X\' are allowed.</string>
     <string name="message_isbn_search_invalid_format">Invalid format</string>

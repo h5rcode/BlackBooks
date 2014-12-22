@@ -9,12 +9,18 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.os.Environment;
+import android.util.Log;
 
 /**
  * File handling utility class.
  * 
  */
 public final class FileUtils {
+
+	/**
+	 * Application file directory.
+	 */
+	public static final String BLACK_BOOKS_DIR = "com.blackbooks";
 
 	/**
 	 * UTF-8 Byte Order Mark (BOM).
@@ -34,34 +40,51 @@ public final class FileUtils {
 	 *            File to copy.
 	 * @param dst
 	 *            Destination of the copy.
-	 * @throws IOException
-	 *             IOException.
+	 * @return True if the copy succeeded, false otherwise.
 	 */
-	public static void copy(File src, File dst) throws IOException {
-		InputStream in = new FileInputStream(src);
-		OutputStream out = new FileOutputStream(dst);
+	public static boolean copy(File src, File dst) {
+		boolean success = false;
+		try {
+			InputStream in = new FileInputStream(src);
+			OutputStream out = new FileOutputStream(dst);
 
-		byte[] buf = new byte[1024];
-		int len;
-		while ((len = in.read(buf)) > 0) {
-			out.write(buf, 0, len);
+			byte[] buf = new byte[1024];
+			int len;
+			while ((len = in.read(buf)) > 0) {
+				out.write(buf, 0, len);
+			}
+			in.close();
+			out.close();
+			success = true;
+		} catch (IOException e) {
+			Log.e(LogUtils.TAG, "Could not copy file.", e);
 		}
-		in.close();
-		out.close();
+		return success;
 	}
 
 	/**
-	 * Indicates whether the external storage is writable or not.
+	 * Create a new file in the application directory on the external storage
+	 * drive.
 	 * 
-	 * @return True if the external storage is writable, false otherwise.
+	 * @param fileName
+	 *            Name of the file to create.
+	 * @return File or null if the file could not be created.
 	 */
-	public static boolean isExternalStorageWritable() {
-		String state = Environment.getExternalStorageState();
-		boolean result = false;
-		if (Environment.MEDIA_MOUNTED.equals(state)) {
-			result = true;
+	public static File createFileInAppDir(String fileName) {
+		File file = null;
+		if (isExternalStorageWritable()) {
+			File externalStorageDir = Environment.getExternalStorageDirectory();
+			File appDir = new File(externalStorageDir, BLACK_BOOKS_DIR);
+			file = new File(appDir, fileName);
+
+			file.getParentFile().mkdirs();
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				Log.e(LogUtils.TAG, "Could not create file.", e);
+			}
 		}
-		return result;
+		return file;
 	}
 
 	/**
@@ -86,5 +109,19 @@ public final class FileUtils {
 		buffer.flush();
 
 		return buffer.toByteArray();
+	}
+
+	/**
+	 * Indicates whether the external storage is writable or not.
+	 * 
+	 * @return True if the external storage is writable, false otherwise.
+	 */
+	private static boolean isExternalStorageWritable() {
+		String state = Environment.getExternalStorageState();
+		boolean result = false;
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+			result = true;
+		}
+		return result;
 	}
 }

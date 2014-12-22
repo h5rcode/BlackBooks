@@ -14,7 +14,6 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -84,11 +83,9 @@ public class ReportError extends Activity {
 			model = Build.MANUFACTURER + " " + model;
 		}
 
-		File dwnldFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-
+		File file = FileUtils.createFileInAppDir("Error.log");
 		String fullName = null;
-		if (FileUtils.isExternalStorageWritable() && dwnldFolder.canWrite()) {
-			File file = new File(dwnldFolder, "Error.log");
+		if (file != null) {
 			fullName = file.getAbsolutePath();
 			InputStreamReader reader = null;
 			FileWriter writer = null;

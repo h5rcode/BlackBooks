@@ -15,7 +15,6 @@ import android.content.pm.ResolveInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaScannerConnection;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -177,47 +176,44 @@ public class BookList extends FragmentActivity implements BookListListener {
 	 * Save a copy of the database file in the "Download" folder.
 	 */
 	private void saveDbOnDisk() {
+		File backupDB = FileUtils.createFileInAppDir(Database.NAME + ".sqlite");
 
-		try {
-			File dwnldFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+		boolean success = false;
+		if (backupDB != null) {
+			File currentDB = this.getDatabasePath(Database.NAME);
+			success = FileUtils.copy(currentDB, backupDB);
+		}
 
-			if (FileUtils.isExternalStorageWritable() && dwnldFolder.canWrite()) {
-				File currentDB = this.getDatabasePath(Database.NAME);
-				File backupDB = new File(dwnldFolder, Database.NAME + ".sqlite");
-
-				FileUtils.copy(currentDB, backupDB);
-
-				MediaScannerConnection.scanFile(this, new String[] { backupDB.getAbsolutePath() }, null, null);
-
-				Toast.makeText(this, "File " + backupDB.getName() + " saved in " + dwnldFolder.getName() + ".", Toast.LENGTH_LONG)
-						.show();
-			} else {
-				Toast.makeText(this, "Cannot write", Toast.LENGTH_LONG).show();
-			}
-		} catch (IOException e) {
-			Log.e(LogUtils.TAG, e.getMessage(), e);
-			Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+		if (success) {
+			MediaScannerConnection.scanFile(this, new String[] { backupDB.getAbsolutePath() }, null, null);
+			String message = String.format(getString(R.string.message_file_saved), backupDB.getName(), backupDB.getParentFile()
+					.getName());
+			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+		} else {
+			Toast.makeText(this, R.string.message_file_not_saved, Toast.LENGTH_LONG).show();
 		}
 	}
 
 	private void exportBooks() {
-		File dwnldFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+		File exportFile = FileUtils.createFileInAppDir("Export.csv");
 
-		if (FileUtils.isExternalStorageWritable() && dwnldFolder.canWrite()) {
-			File exportFile = new File(dwnldFolder, "Export.csv");
+		if (exportFile != null) {
 			SQLiteHelper dbHelper = new SQLiteHelper(this);
 			SQLiteDatabase db = dbHelper.getReadableDatabase();
 			try {
 				ExportServices.exportBookList(db, exportFile);
-				Toast.makeText(this, "File " + exportFile.getName() + " saved in " + dwnldFolder.getName() + ".",
-						Toast.LENGTH_LONG).show();
+				MediaScannerConnection.scanFile(this, new String[] { exportFile.getAbsolutePath() }, null, null);
+				String message = String.format(getString(R.string.message_file_saved), exportFile.getName(), exportFile
+						.getParentFile().getName());
+				Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 			} catch (IOException e) {
 				Log.e(LogUtils.TAG, e.getMessage(), e);
 				Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
 			} finally {
 				db.close();
 			}
-			MediaScannerConnection.scanFile(this, new String[] { exportFile.getAbsolutePath() }, null, null);
+		} else {
+			Toast.makeText(this, R.string.message_file_not_saved, Toast.LENGTH_LONG).show();
 		}
 	}
 
