@@ -36,6 +36,18 @@ public class ExportServices {
 	 *             If the file could not be written.
 	 */
 	public static void exportBookList(SQLiteDatabase db, File file) throws IOException {
+		List<BookExport> bookExportList = getBookExportList(db);
+		saveBookExportListToCsv(bookExportList, file, '"', ';');
+	}
+
+	/**
+	 * Get the list of objects
+	 * 
+	 * @param db
+	 *            SQLiteDatabase.
+	 * @return List of BookExport.
+	 */
+	public static List<BookExport> getBookExportList(SQLiteDatabase db) {
 		StringBuilder sb = new StringBuilder();
 
 		String id = "Id";
@@ -136,8 +148,7 @@ public class ExportServices {
 
 			bookExportList.add(bookExport);
 		}
-
-		saveBookExportListToCsv(bookExportList, file, '"', ';');
+		return bookExportList;
 	}
 
 	/**
@@ -182,8 +193,7 @@ public class ExportServices {
 	 */
 	private static void saveBookExportListToCsv(List<BookExport> bookExportList, File file, char qualifier, char separator)
 			throws IOException {
-		FileOutputStream output;
-		output = new FileOutputStream(file);
+		FileOutputStream output = new FileOutputStream(file);
 		OutputStreamWriter writer = new OutputStreamWriter(output, "UTF-8");
 
 		writer.append(FileUtils.UTF8_BOM);
@@ -191,27 +201,9 @@ public class ExportServices {
 		writer.append('\n');
 
 		for (BookExport bookExport : bookExportList) {
-			writeBookExport(bookExport, writer, qualifier, separator);
+			writer.append(bookExport.toCsv(qualifier, separator));
+			writer.append('\n');
 		}
 		writer.close();
-	}
-
-	/**
-	 * Write a {@link BookExport} to a StreamWriter.
-	 * 
-	 * @param bookExport
-	 *            BookExport.
-	 * @param writer
-	 *            OutputStreamWriter.
-	 * @param qualifier
-	 *            The text qualifier.
-	 * @param separator
-	 *            The column separator
-	 * @throws IOException
-	 */
-	private static void writeBookExport(BookExport bookExport, OutputStreamWriter writer, char qualifier, char separator)
-			throws IOException {
-		writer.append(bookExport.toCsv(qualifier, separator));
-		writer.append('\n');
 	}
 }
