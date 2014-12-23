@@ -15,6 +15,7 @@
     <string name="action_save_book">Save</string>
     <string name="action_scan_isbn">Scan ISBN</string>
     <string name="action_sort_by_author">By author</string>
+    <string name="action_sort_by_bookshelf">By bookshelf</string>
     <string name="action_sort_by_category">By category</string>
     <string name="action_sort_by_first_letter">By first letter</string>
     <string name="action_sort_by_language">By language</string>
@@ -64,6 +65,7 @@
     <string name="label_total">(%d)</string>
     <string name="label_unexpected_error">Unexpected error</string>
     <string name="label_unspecified_author">(Unspecified author)</string>
+    <string name="label_unspecified_bookshelf">(Unspecified bookshelf)</string>
     <string name="label_unspecified_category">(Unspecified category)</string>
     <string name="label_unspecified_language">(Unspecified language)</string>
     <string name="menu_add_book">Add book</string>

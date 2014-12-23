@@ -163,7 +163,7 @@ public class BookServices {
 	 */
 	public static List<BookInfo> getBookInfoList(SQLiteDatabase db) {
 		String[] selectedColumns = new String[] { Book.Cols.BOO_ID, Book.Cols.BOO_TITLE, Book.Cols.BOO_IS_READ,
-				Book.Cols.BOO_IS_FAVOURITE };
+				Book.Cols.BOO_IS_FAVOURITE, Book.Cols.BSH_ID };
 		String[] sortingColumns = new String[] { Book.Cols.BOO_TITLE };
 		List<Book> bookList = BrokerManager.getBroker(Book.class).getAll(db, selectedColumns, sortingColumns);
 		return getBookInfoListFromBookList(db, bookList);

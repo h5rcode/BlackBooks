@@ -1,9 +1,13 @@
 package com.blackbooks.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.util.LongSparseArray;
 
+import com.blackbooks.model.nonpersistent.BookInfo;
+import com.blackbooks.model.nonpersistent.BookShelfInfo;
 import com.blackbooks.model.persistent.BookShelf;
 import com.blackbooks.sql.BrokerManager;
 
@@ -37,6 +41,40 @@ public class BookShelfServices {
 	 */
 	public static BookShelf getBookShelfByCriteria(SQLiteDatabase db, BookShelf criteria) {
 		return BrokerManager.getBroker(BookShelf.class).getByCriteria(db, criteria);
+	}
+
+	/**
+	 * Get the info of all the bookshelves in the database.
+	 * 
+	 * @param db
+	 *            SQLiteDatabase.
+	 * @return List of BookShelfInfo.
+	 */
+	public static List<BookShelfInfo> getBookShelfInfoList(SQLiteDatabase db) {
+		List<BookShelf> bookShelfList = BrokerManager.getBroker(BookShelf.class).getAll(db);
+		List<BookInfo> bookInfoList = BookServices.getBookInfoList(db);
+		LongSparseArray<BookShelfInfo> bookShelfMap = new LongSparseArray<BookShelfInfo>();
+
+		List<BookShelfInfo> bookShelfInfoList = new ArrayList<BookShelfInfo>();
+		for (BookShelf bookShelf : bookShelfList) {
+			BookShelfInfo bookShelfInfo = new BookShelfInfo(bookShelf);
+			bookShelfMap.put(bookShelf.id, bookShelfInfo);
+			bookShelfInfoList.add(bookShelfInfo);
+		}
+
+		BookShelfInfo unspecifiedBookShelf = new BookShelfInfo();
+		for (BookInfo bookInfo : bookInfoList) {
+			if (bookInfo.bookShelfId == null) {
+				if (!bookShelfInfoList.contains(unspecifiedBookShelf)) {
+					bookShelfInfoList.add(0, unspecifiedBookShelf);
+				}
+				unspecifiedBookShelf.books.add(bookInfo);
+			} else {
+				BookShelfInfo bookShelfInfo = bookShelfMap.get(bookInfo.bookShelfId);
+				bookShelfInfo.books.add(bookInfo);
+			}
+		}
+		return bookShelfInfoList;
 	}
 
 	/**

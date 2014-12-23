@@ -29,6 +29,7 @@ import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.AbstractBookListFragment;
 import com.blackbooks.fragments.AbstractBookListFragment.BookListListener;
 import com.blackbooks.fragments.BookListByAuthorFragment;
+import com.blackbooks.fragments.BookListByBookShelfFragment;
 import com.blackbooks.fragments.BookListByCategoryFragment;
 import com.blackbooks.fragments.BookListByFirstLetterFragment;
 import com.blackbooks.fragments.BookListByLanguageFragment;
@@ -75,6 +76,8 @@ public class BookList extends FragmentActivity implements BookListListener {
 				mCurrentFragment = new BookListByLanguageFragment();
 			} else if (defaultList.equals(BookListByCategoryFragment.class.getName())) {
 				mCurrentFragment = new BookListByCategoryFragment();
+			} else if (defaultList.equals(BookListByBookShelfFragment.class.getName())) {
+				mCurrentFragment = new BookListByBookShelfFragment();
 			} else {
 				mCurrentFragment = new BookListByAuthorFragment();
 			}
@@ -132,6 +135,10 @@ public class BookList extends FragmentActivity implements BookListListener {
 
 		case R.id.bookList_actionSortByLanguage:
 			sortByLanguage();
+			break;
+			
+		case R.id.bookList_actionSortByBookshelf:
+			sortByBookshelf();
 			break;
 
 		case R.id.bookList_actionSearch:
@@ -263,6 +270,19 @@ public class BookList extends FragmentActivity implements BookListListener {
 			editor.putString(BookList.PREF_DEFAULT_LIST, BookListByLanguageFragment.class.getName());
 			editor.commit();
 			mCurrentFragment = new BookListByLanguageFragment();
+			getSupportFragmentManager().beginTransaction() //
+					.replace(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
+					.commit();
+		}
+	}
+
+	private void sortByBookshelf() {
+		if (!(mCurrentFragment instanceof BookListByBookShelfFragment)) {
+			SharedPreferences sharedPref = getSharedPreferences(BookList.PREFERENCES, MODE_PRIVATE);
+			SharedPreferences.Editor editor = sharedPref.edit();
+			editor.putString(BookList.PREF_DEFAULT_LIST, BookListByBookShelfFragment.class.getName());
+			editor.commit();
+			mCurrentFragment = new BookListByBookShelfFragment();
 			getSupportFragmentManager().beginTransaction() //
 					.replace(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 					.commit();
