@@ -70,6 +70,13 @@ public class CategoryServices {
 		return BrokerManager.getBroker(Category.class).getByCriteria(db, criteria);
 	}
 
+	/**
+	 * Get the info of all the categories in the database.
+	 * 
+	 * @param db
+	 *            SQLiteDatabase.
+	 * @return List of CategoryInfo.
+	 */
 	public static List<CategoryInfo> getCategoryInfoList(SQLiteDatabase db) {
 
 		List<BookInfo> bookInfoList = BookServices.getBookInfoList(db);
