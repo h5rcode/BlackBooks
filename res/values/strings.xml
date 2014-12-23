@@ -45,6 +45,10 @@
     <string name="label_category">Category</string>
     <string name="label_categories">Categories</string>
     <string name="label_description">Description</string>
+    <string name="label_drawer_item">Drawer item</string>
+    <string name="label_drawer_item_group">Drawer item group</string>
+    <string name="label_drawer_open">Open drawer</string>
+    <string name="label_drawer_close">Close drawer</string>
     <string name="label_favourite">This is a favourite book</string>
     <string name="label_image">Image</string>
     <string name="label_isbn">ISBN</string>
@@ -69,9 +73,12 @@
     <string name="label_unspecified_category">(Unspecified category)</string>
     <string name="label_unspecified_language">(Unspecified language)</string>
     <string name="menu_add_book">Add book</string>
+    <string name="menu_book_list">Book list</string>
     <string name="menu_delete_book">Delete</string>
     <string name="menu_edit_book">Edit</string>
     <string name="menu_export">Export to CSV</string>
+    <string name="menu_import">Import</string>
+    <string name="menu_import_export">Import/Export</string>
     <string name="menu_options">Options</string>
     <string name="menu_search">Search books</string>
     <string name="menu_sort">Sort</string>

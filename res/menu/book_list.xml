@@ -1,25 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:icon="@drawable/ic_action_new"
-        android:showAsAction="ifRoom"
-        android:title="@string/menu_add_book">
-        <menu>
-            <item
-                android:id="@+id/bookList_actionScanIsbn"
-                android:icon="@drawable/ic_action_camera"
-                android:title="@string/action_scan_isbn"/>
-            <item
-                android:id="@+id/bookList_actionTypeIsbn"
-                android:icon="@drawable/ic_action_dial_pad"
-                android:title="@string/action_enter_isbn"/>
-            <item
-                android:id="@+id/bookList_actionAddManually"
-                android:icon="@drawable/ic_action_keyboard"
-                android:title="@string/action_add_manually"/>
-        </menu>
-    </item>
-    <item
         android:id="@+id/bookList_menuSort"
         android:icon="@drawable/ic_action_sort_by_size"
         android:showAsAction="ifRoom"

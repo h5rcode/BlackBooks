@@ -2,20 +2,15 @@ package com.blackbooks.activities;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaScannerConnection;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Menu;
@@ -33,20 +28,16 @@ import com.blackbooks.fragments.BookListByBookShelfFragment;
 import com.blackbooks.fragments.BookListByCategoryFragment;
 import com.blackbooks.fragments.BookListByFirstLetterFragment;
 import com.blackbooks.fragments.BookListByLanguageFragment;
-import com.blackbooks.fragments.ScannerInstallFragment;
 import com.blackbooks.services.ExportServices;
 import com.blackbooks.utils.FileUtils;
-import com.blackbooks.utils.IsbnUtils;
 import com.blackbooks.utils.LogUtils;
-import com.blackbooks.utils.Pic2ShopUtils;
 
 /**
  * The book list activity. It hosts an AbstractBookListFragment used to display
  * list in various orders.
  */
-public class BookList extends FragmentActivity implements BookListListener {
+public class BookList extends AbstractDrawerActivity implements BookListListener {
 
-	private static final String SCANNER_INSTALL_FRAGMENT = "SCANNER_INSTALL_FRAGMENT";
 	private static final String PREFERENCES = "PREFERENCES";
 	private static final String PREF_DEFAULT_LIST = "PREF_DEFAULT_LIST";
 	private static final String BOOK_LIST_FRAGMENT_TAG = "BOOK_LIST_FRAGMENT_TAG";
@@ -56,7 +47,6 @@ public class BookList extends FragmentActivity implements BookListListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_book_list);
 
 		SharedPreferences preferences = getSharedPreferences(PREFERENCES, MODE_PRIVATE);
 
@@ -83,7 +73,7 @@ public class BookList extends FragmentActivity implements BookListListener {
 			}
 
 			fm.beginTransaction() //
-					.add(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
+					.add(R.id.abstractDrawerActivity_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 					.commit();
 		}
 	}
@@ -103,24 +93,8 @@ public class BookList extends FragmentActivity implements BookListListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		boolean result = true;
-		Intent i;
 
 		switch (item.getItemId()) {
-		case R.id.bookList_actionScanIsbn:
-			startIsbnScan();
-			break;
-
-		case R.id.bookList_actionTypeIsbn:
-			i = new Intent(this, IsbnLookup.class);
-			this.startActivity(i);
-			break;
-
-		case R.id.bookList_actionAddManually:
-			i = new Intent(this, BookEdit.class);
-			i.putExtra(BookEdit.EXTRA_MODE, BookEdit.MODE_ADD);
-			this.startActivity(i);
-			break;
-
 		case R.id.bookList_actionSortByAuthor:
 			sortByAuthor();
 			break;
@@ -136,13 +110,12 @@ public class BookList extends FragmentActivity implements BookListListener {
 		case R.id.bookList_actionSortByLanguage:
 			sortByLanguage();
 			break;
-			
+
 		case R.id.bookList_actionSortByBookshelf:
 			sortByBookshelf();
 			break;
 
 		case R.id.bookList_actionSearch:
-			i = new Intent(this, BookSearch.class);
 			break;
 
 		case R.id.bookList_actionExport:
@@ -158,25 +131,6 @@ public class BookList extends FragmentActivity implements BookListListener {
 			break;
 		}
 		return result;
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == Pic2ShopUtils.REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
-			String barCode = data.getStringExtra(Pic2ShopUtils.BARCODE);
-
-			if (IsbnUtils.isValidIsbn(barCode)) {
-				Intent i = new Intent(this, BookEdit.class);
-				i.putExtra(BookEdit.EXTRA_MODE, BookEdit.MODE_ADD);
-				i.putExtra(BookEdit.EXTRA_ISBN, barCode);
-				this.startActivity(i);
-			} else {
-				String message = getString(R.string.message_invalid_isbn);
-				message = String.format(message, barCode);
-				Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-			}
-		}
 	}
 
 	/**
@@ -286,27 +240,6 @@ public class BookList extends FragmentActivity implements BookListListener {
 			getSupportFragmentManager().beginTransaction() //
 					.replace(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 					.commit();
-		}
-	}
-
-	/**
-	 * Launches Pic2Shop to start scanning an ISBN code.
-	 */
-	private void startIsbnScan() {
-		Intent intent = new Intent(Pic2ShopUtils.ACTION);
-
-		PackageManager pm = this.getPackageManager();
-		List<ResolveInfo> resolveInfo = pm.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-
-		if (resolveInfo.isEmpty()) {
-			FragmentManager fm = getSupportFragmentManager();
-			ScannerInstallFragment fragment = new ScannerInstallFragment();
-			fragment.show(fm, SCANNER_INSTALL_FRAGMENT);
-		} else {
-
-			intent = new Intent(this, IsbnLookup.class);
-			intent.putExtra(IsbnLookup.EXTRA_SCAN, true);
-			this.startActivity(intent);
 		}
 	}
 
