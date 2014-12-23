@@ -186,7 +186,7 @@ public class BookList extends AbstractDrawerActivity implements BookListListener
 			editor.commit();
 			mCurrentFragment = new BookListByAuthorFragment();
 			getSupportFragmentManager().beginTransaction() //
-					.replace(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
+					.replace(R.id.abstractDrawerActivity_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 					.commit();
 		}
 	}
@@ -199,7 +199,7 @@ public class BookList extends AbstractDrawerActivity implements BookListListener
 			editor.commit();
 			mCurrentFragment = new BookListByFirstLetterFragment();
 			getSupportFragmentManager().beginTransaction() //
-					.replace(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
+					.replace(R.id.abstractDrawerActivity_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 					.commit();
 		}
 	}
@@ -212,7 +212,7 @@ public class BookList extends AbstractDrawerActivity implements BookListListener
 			editor.commit();
 			mCurrentFragment = new BookListByCategoryFragment();
 			getSupportFragmentManager().beginTransaction() //
-					.replace(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
+					.replace(R.id.abstractDrawerActivity_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 					.commit();
 		}
 	}
@@ -225,7 +225,7 @@ public class BookList extends AbstractDrawerActivity implements BookListListener
 			editor.commit();
 			mCurrentFragment = new BookListByLanguageFragment();
 			getSupportFragmentManager().beginTransaction() //
-					.replace(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
+					.replace(R.id.abstractDrawerActivity_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 					.commit();
 		}
 	}
@@ -238,7 +238,7 @@ public class BookList extends AbstractDrawerActivity implements BookListListener
 			editor.commit();
 			mCurrentFragment = new BookListByBookShelfFragment();
 			getSupportFragmentManager().beginTransaction() //
-					.replace(R.id.bookList_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
+					.replace(R.id.abstractDrawerActivity_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 					.commit();
 		}
 	}
