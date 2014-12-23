@@ -71,39 +71,6 @@ public class BookServices {
 	}
 
 	/**
-	 * Get the books of an author.
-	 * 
-	 * @param db
-	 *            SQLiteDatabase.
-	 * @param authorId
-	 *            Id of an author.
-	 * @return List of books.
-	 */
-	public static List<Book> getBookListByAuthor(SQLiteDatabase db, long authorId) {
-		String sql = "SELECT boo.* FROM " + BookAuthor.NAME + " bka JOIN " + Book.NAME + " boo ON boo." + Book.Cols.BOO_ID
-				+ " = bka." + BookAuthor.Cols.BOO_ID + " WHERE bka." + BookAuthor.Cols.AUT_ID + " = ? ORDER BY "
-				+ Book.Cols.BOO_TITLE;
-		String[] selectionArgs = { String.valueOf(authorId) };
-		return BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
-	}
-
-	/**
-	 * Get all the books of a given publisher.
-	 * 
-	 * @param db
-	 *            SQLiteDatabase.
-	 * @param publisherId
-	 *            Id of the publisher.
-	 * @return List of Book.
-	 */
-	public static List<Book> getBookListByPublisher(SQLiteDatabase db, long publisherId) {
-		Book book = new Book();
-		book.publisherId = publisherId;
-
-		return BrokerManager.getBroker(Book.class).getAllByCriteria(db, book);
-	}
-
-	/**
 	 * Get a book.
 	 * 
 	 * @param db

@@ -64,22 +64,6 @@ public class AuthorServices {
 	}
 
 	/**
-	 * Get the info of an author.
-	 * 
-	 * @param db
-	 *            SQLiteDatabase.
-	 * @param authorId
-	 *            Id of the author.
-	 * @return AuthorInfo.
-	 */
-	public static AuthorInfo getAuthorInfo(SQLiteDatabase db, long authorId) {
-		Author author = BrokerManager.getBroker(Author.class).get(db, authorId);
-		AuthorInfo authorInfo = new AuthorInfo(author);
-		authorInfo.books = BookServices.getBookListByAuthor(db, authorId);
-		return authorInfo;
-	}
-
-	/**
 	 * Get the info of all the authors in the database.
 	 * 
 	 * @param db
