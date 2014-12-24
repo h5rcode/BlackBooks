@@ -28,7 +28,7 @@ import com.blackbooks.utils.LogUtils;
  * The activity that allows the user to report errors by sending the log file to
  * the developer by mail.
  */
-public class ReportError extends Activity {
+public class ReportErrorActivity extends Activity {
 
 	private static final String EMAIL = "report.blackbooks@gmail.com";
 
@@ -52,7 +52,7 @@ public class ReportError extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				ReportError.this.finish();
+				ReportErrorActivity.this.finish();
 			}
 		});
 	}

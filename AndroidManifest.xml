@@ -24,7 +24,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.blackbooks.activities.BookList"
+            android:name="com.blackbooks.activities.BookListActivity"
             android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,14 +37,14 @@
                 android:value="com.blackbooks.activities.BookSearch" />
         </activity>
         <activity
-            android:name="com.blackbooks.activities.IsbnLookup"
+            android:name="com.blackbooks.activities.IsbnLookupActivity"
             android:label="@string/title_activity_isbn_lookup" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blackbooks.activities.BookList" />
         </activity>
         <activity
-            android:name="com.blackbooks.activities.BookEdit"
+            android:name="com.blackbooks.activities.BookEditActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden" >
             <meta-data
@@ -52,14 +52,14 @@
                 android:value="com.blackbooks.activities.BookList" />
         </activity>
         <activity
-            android:name="com.blackbooks.activities.BookDisplay"
+            android:name="com.blackbooks.activities.BookDisplayActivity"
             android:label="@string/title_activity_book_display" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blackbooks.activities.BookList" />
         </activity>
         <activity
-            android:name="com.blackbooks.activities.BookAuthorsEdit"
+            android:name="com.blackbooks.activities.BookAuthorsEditActivity"
             android:label="@string/title_activity_book_authors_edit"
             android:windowSoftInputMode="stateHidden" >
             <meta-data
@@ -67,7 +67,7 @@
                 android:value="com.blackbooks.activities.BookAdd" />
         </activity>
         <activity
-            android:name="com.blackbooks.activities.BookCategoriesEdit"
+            android:name="com.blackbooks.activities.BookCategoriesEditActivity"
             android:label="@string/title_activity_book_categories_edit"
             android:windowSoftInputMode="stateHidden" >
             <meta-data
@@ -75,7 +75,7 @@
                 android:value="com.blackbooks.activities.BookAdd" />
         </activity>
         <activity
-            android:name="com.blackbooks.activities.BookSearch"
+            android:name="com.blackbooks.activities.BookSearchActivity"
             android:label="@string/title_activity_book_search_default" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -91,10 +91,10 @@
                 android:value="com.blackbooks.activities.BookList" />
         </activity>
         <activity
-            android:name="com.blackbooks.activities.BookExport"
+            android:name="com.blackbooks.activities.BookExportActivity"
             android:label="@string/title_activity_book_export" >
         </activity>
-        <activity android:name="com.blackbooks.activities.ReportError" >
+        <activity android:name="com.blackbooks.activities.ReportErrorActivity" >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

@@ -35,7 +35,7 @@ import com.blackbooks.utils.VariableUtils;
 /**
  * Activity used to add a new book or edit an existing one.
  */
-public final class BookEdit extends FragmentActivity implements BookLoadListener, BookSearchListener, OnPageChangeListener, TabListener {
+public final class BookEditActivity extends FragmentActivity implements BookLoadListener, BookSearchListener, OnPageChangeListener, TabListener {
 
 	public static final String EXTRA_BOOK_ID = "EXTRA_BOOK_ID";
 	public static final String EXTRA_MODE = "EXTRA_MODE";

@@ -30,7 +30,7 @@ import com.blackbooks.services.AuthorServices;
 /**
  * Activity to edit the authors of a book.
  */
-public class BookAuthorsEdit extends Activity {
+public class BookAuthorsEditActivity extends Activity {
 
 	public static final String EXTRA_BOOK_TITLE = "EXTRA_BOOK_TITLE";
 	public static final String EXTRA_AUTHOR_LIST = "EXTRA_AUTHOR_LIST";
@@ -232,7 +232,7 @@ public class BookAuthorsEdit extends Activity {
 
 			@Override
 			public List<Author> search(CharSequence constraint) {
-				SQLiteHelper mDbHelper = new SQLiteHelper(BookAuthorsEdit.this);
+				SQLiteHelper mDbHelper = new SQLiteHelper(BookAuthorsEditActivity.this);
 				SQLiteDatabase db = mDbHelper.getReadableDatabase();
 				List<Author> authorList = AuthorServices.getAuthorListByText(db, constraint.toString());
 				db.close();

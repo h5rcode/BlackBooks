@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 import android.util.Log;
 
-import com.blackbooks.activities.ReportError;
+import com.blackbooks.activities.ReportErrorActivity;
 import com.blackbooks.utils.LogUtils;
 
 /**
@@ -35,7 +35,7 @@ public final class BlackBooksApplication extends Application {
 	public void handleUncaughtException(Thread thread, Throwable e) {
 		Log.e(LogUtils.TAG, "Uncaught exception.", e);
 
-		Intent intent = new Intent(getApplicationContext(), ReportError.class);
+		Intent intent = new Intent(getApplicationContext(), ReportErrorActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		getApplicationContext().startActivity(intent);
 

@@ -14,7 +14,7 @@ import com.blackbooks.model.nonpersistent.BookInfo;
 /**
  * Activity to display the info of a book saved in the database.
  */
-public final class BookDisplay extends FragmentActivity implements BookDisplayListener {
+public final class BookDisplayActivity extends FragmentActivity implements BookDisplayListener {
 
 	/**
 	 * Key of the book id when passed as an extra of the activity.

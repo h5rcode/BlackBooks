@@ -30,7 +30,7 @@ import com.blackbooks.utils.FileUtils;
  * The book list activity. It hosts an AbstractBookListFragment used to display
  * list in various orders.
  */
-public class BookList extends AbstractDrawerActivity implements BookListListener {
+public class BookListActivity extends AbstractDrawerActivity implements BookListListener {
 
 	private static final String PREFERENCES = "PREFERENCES";
 	private static final String PREF_DEFAULT_LIST = "PREF_DEFAULT_LIST";
@@ -154,9 +154,9 @@ public class BookList extends AbstractDrawerActivity implements BookListListener
 
 	private void sortByAuthor() {
 		if (!(mCurrentFragment instanceof BookListByAuthorFragment)) {
-			SharedPreferences sharedPref = getSharedPreferences(BookList.PREFERENCES, MODE_PRIVATE);
+			SharedPreferences sharedPref = getSharedPreferences(BookListActivity.PREFERENCES, MODE_PRIVATE);
 			SharedPreferences.Editor editor = sharedPref.edit();
-			editor.putString(BookList.PREF_DEFAULT_LIST, BookListByAuthorFragment.class.getName());
+			editor.putString(BookListActivity.PREF_DEFAULT_LIST, BookListByAuthorFragment.class.getName());
 			editor.commit();
 			mCurrentFragment = new BookListByAuthorFragment();
 			getSupportFragmentManager().beginTransaction() //
@@ -167,9 +167,9 @@ public class BookList extends AbstractDrawerActivity implements BookListListener
 
 	private void sortByFirstLetter() {
 		if (!(mCurrentFragment instanceof BookListByFirstLetterFragment)) {
-			SharedPreferences sharedPref = getSharedPreferences(BookList.PREFERENCES, MODE_PRIVATE);
+			SharedPreferences sharedPref = getSharedPreferences(BookListActivity.PREFERENCES, MODE_PRIVATE);
 			SharedPreferences.Editor editor = sharedPref.edit();
-			editor.putString(BookList.PREF_DEFAULT_LIST, BookListByFirstLetterFragment.class.getName());
+			editor.putString(BookListActivity.PREF_DEFAULT_LIST, BookListByFirstLetterFragment.class.getName());
 			editor.commit();
 			mCurrentFragment = new BookListByFirstLetterFragment();
 			getSupportFragmentManager().beginTransaction() //
@@ -180,9 +180,9 @@ public class BookList extends AbstractDrawerActivity implements BookListListener
 
 	private void sortByFirstCategory() {
 		if (!(mCurrentFragment instanceof BookListByCategoryFragment)) {
-			SharedPreferences sharedPref = getSharedPreferences(BookList.PREFERENCES, MODE_PRIVATE);
+			SharedPreferences sharedPref = getSharedPreferences(BookListActivity.PREFERENCES, MODE_PRIVATE);
 			SharedPreferences.Editor editor = sharedPref.edit();
-			editor.putString(BookList.PREF_DEFAULT_LIST, BookListByCategoryFragment.class.getName());
+			editor.putString(BookListActivity.PREF_DEFAULT_LIST, BookListByCategoryFragment.class.getName());
 			editor.commit();
 			mCurrentFragment = new BookListByCategoryFragment();
 			getSupportFragmentManager().beginTransaction() //
@@ -193,9 +193,9 @@ public class BookList extends AbstractDrawerActivity implements BookListListener
 
 	private void sortByLanguage() {
 		if (!(mCurrentFragment instanceof BookListByLanguageFragment)) {
-			SharedPreferences sharedPref = getSharedPreferences(BookList.PREFERENCES, MODE_PRIVATE);
+			SharedPreferences sharedPref = getSharedPreferences(BookListActivity.PREFERENCES, MODE_PRIVATE);
 			SharedPreferences.Editor editor = sharedPref.edit();
-			editor.putString(BookList.PREF_DEFAULT_LIST, BookListByLanguageFragment.class.getName());
+			editor.putString(BookListActivity.PREF_DEFAULT_LIST, BookListByLanguageFragment.class.getName());
 			editor.commit();
 			mCurrentFragment = new BookListByLanguageFragment();
 			getSupportFragmentManager().beginTransaction() //
@@ -206,9 +206,9 @@ public class BookList extends AbstractDrawerActivity implements BookListListener
 
 	private void sortByBookshelf() {
 		if (!(mCurrentFragment instanceof BookListByBookShelfFragment)) {
-			SharedPreferences sharedPref = getSharedPreferences(BookList.PREFERENCES, MODE_PRIVATE);
+			SharedPreferences sharedPref = getSharedPreferences(BookListActivity.PREFERENCES, MODE_PRIVATE);
 			SharedPreferences.Editor editor = sharedPref.edit();
-			editor.putString(BookList.PREF_DEFAULT_LIST, BookListByBookShelfFragment.class.getName());
+			editor.putString(BookListActivity.PREF_DEFAULT_LIST, BookListByBookShelfFragment.class.getName());
 			editor.commit();
 			mCurrentFragment = new BookListByBookShelfFragment();
 			getSupportFragmentManager().beginTransaction() //

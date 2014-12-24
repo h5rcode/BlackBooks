@@ -9,7 +9,7 @@ import com.blackbooks.fragments.BookExportFragment;
 /**
  * An activity to export books.
  */
-public class BookExport extends AbstractDrawerActivity {
+public class BookExportActivity extends AbstractDrawerActivity {
 
 	private static final String BOOK_EXPORT_FRAGMENT_TAG = "BOOK_EXPORT_FRAGMENT_TAG";
 

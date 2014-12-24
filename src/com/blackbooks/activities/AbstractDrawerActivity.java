@@ -110,9 +110,9 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 			String barCode = data.getStringExtra(Pic2ShopUtils.BARCODE);
 
 			if (IsbnUtils.isValidIsbn(barCode)) {
-				Intent i = new Intent(this, BookEdit.class);
-				i.putExtra(BookEdit.EXTRA_MODE, BookEdit.MODE_ADD);
-				i.putExtra(BookEdit.EXTRA_ISBN, barCode);
+				Intent i = new Intent(this, BookEditActivity.class);
+				i.putExtra(BookEditActivity.EXTRA_MODE, BookEditActivity.MODE_ADD);
+				i.putExtra(BookEditActivity.EXTRA_ISBN, barCode);
 				this.startActivity(i);
 			} else {
 				String message = getString(R.string.message_invalid_isbn);
@@ -136,8 +136,8 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 			ScannerInstallFragment fragment = new ScannerInstallFragment();
 			fragment.show(fm, SCANNER_INSTALL_FRAGMENT);
 		} else {
-			intent = new Intent(this, IsbnLookup.class);
-			intent.putExtra(IsbnLookup.EXTRA_SCAN, true);
+			intent = new Intent(this, IsbnLookupActivity.class);
+			intent.putExtra(IsbnLookupActivity.EXTRA_SCAN, true);
 			this.startActivity(intent);
 		}
 	}
@@ -184,40 +184,40 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 		}
 
 		/**
-		 * Start {@link BookEdit}.
+		 * Start {@link BookEditActivity}.
 		 */
 		private void startBookEditActivity() {
 			closeDrawer();
-			Intent i = new Intent(AbstractDrawerActivity.this, BookEdit.class);
-			i.putExtra(BookEdit.EXTRA_MODE, BookEdit.MODE_ADD);
+			Intent i = new Intent(AbstractDrawerActivity.this, BookEditActivity.class);
+			i.putExtra(BookEditActivity.EXTRA_MODE, BookEditActivity.MODE_ADD);
 			startActivity(i);
 		}
 
 		/**
-		 * Start {@link IsbnLookup}.
+		 * Start {@link IsbnLookupActivity}.
 		 */
 		private void startIsbnLookupActivity() {
 			closeDrawer();
-			Intent i = new Intent(AbstractDrawerActivity.this, IsbnLookup.class);
+			Intent i = new Intent(AbstractDrawerActivity.this, IsbnLookupActivity.class);
 			startActivity(i);
 		}
 
 		/**
-		 * Start {@link BookList}.
+		 * Start {@link BookListActivity}.
 		 */
 		private void startBookListActivity() {
 			closeDrawer();
-			Intent i = new Intent(AbstractDrawerActivity.this, BookList.class);
+			Intent i = new Intent(AbstractDrawerActivity.this, BookListActivity.class);
 			startActivity(i);
 			finish();
 		}
 
 		/**
-		 * Start {@link BookExport}.
+		 * Start {@link BookExportActivity}.
 		 */
 		private void startBookExportActivity() {
 			closeDrawer();
-			Intent i = new Intent(AbstractDrawerActivity.this, BookExport.class);
+			Intent i = new Intent(AbstractDrawerActivity.this, BookExportActivity.class);
 			startActivity(i);
 			finish();
 		}

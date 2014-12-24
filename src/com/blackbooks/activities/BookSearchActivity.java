@@ -24,7 +24,7 @@ import com.blackbooks.utils.VariableUtils;
  * 
  * TODO: Use a Fragment.
  */
-public class BookSearch extends ListActivity {
+public class BookSearchActivity extends ListActivity {
 
 	private BookSearchResultsAdapter mAdapter;
 	private String mQuery;
@@ -85,8 +85,8 @@ public class BookSearch extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		BookInfo bookInfo = (BookInfo) getListAdapter().getItem(position);
-		Intent i = new Intent(this, BookDisplay.class);
-		i.putExtra(BookDisplay.EXTRA_BOOK_ID, bookInfo.id);
+		Intent i = new Intent(this, BookDisplayActivity.class);
+		i.putExtra(BookDisplayActivity.EXTRA_BOOK_ID, bookInfo.id);
 		this.startActivity(i);
 	}
 

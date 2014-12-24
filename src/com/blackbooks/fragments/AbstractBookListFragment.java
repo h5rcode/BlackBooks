@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.blackbooks.activities.BookDisplay;
+import com.blackbooks.activities.BookDisplayActivity;
 import com.blackbooks.adapters.BookItem;
 import com.blackbooks.adapters.ListItem;
 import com.blackbooks.adapters.ListItemType;
@@ -85,8 +85,8 @@ public abstract class AbstractBookListFragment extends ListFragment {
 		if (itemType == ListItemType.Entry) {
 			BookItem bookItem = (BookItem) item;
 			BookInfo book = bookItem.getBook();
-			Intent i = new Intent(this.getActivity(), BookDisplay.class);
-			i.putExtra(BookDisplay.EXTRA_BOOK_ID, book.id);
+			Intent i = new Intent(this.getActivity(), BookDisplayActivity.class);
+			i.putExtra(BookDisplayActivity.EXTRA_BOOK_ID, book.id);
 			this.startActivity(i);
 		}
 	}

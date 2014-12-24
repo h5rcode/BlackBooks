@@ -26,7 +26,7 @@ import com.blackbooks.utils.Pic2ShopUtils;
  * a bar code scan. Start the activity with an intent having the extra
  * {@link #EXTRA_SCAN} set to <code>true</code>.
  */
-public class IsbnLookup extends Activity {
+public class IsbnLookupActivity extends Activity {
 
 	/**
 	 * A boolean extra used to initiate a bar code scan if set to
@@ -71,9 +71,9 @@ public class IsbnLookup extends Activity {
 			String barCode = data.getStringExtra(Pic2ShopUtils.BARCODE);
 
 			if (IsbnUtils.isValidIsbn(barCode)) {
-				Intent i = new Intent(this, BookEdit.class);
-				i.putExtra(BookEdit.EXTRA_MODE, BookEdit.MODE_ADD);
-				i.putExtra(BookEdit.EXTRA_ISBN, barCode);
+				Intent i = new Intent(this, BookEditActivity.class);
+				i.putExtra(BookEditActivity.EXTRA_MODE, BookEditActivity.MODE_ADD);
+				i.putExtra(BookEditActivity.EXTRA_ISBN, barCode);
 				this.startActivity(i);
 			} else {
 				String message = getString(R.string.message_invalid_isbn);
@@ -137,10 +137,10 @@ public class IsbnLookup extends Activity {
 	 *            ISBN.
 	 */
 	private void startIsbnSearch(String isbn) {
-		Intent i = new Intent(IsbnLookup.this, BookEdit.class);
-		i.putExtra(BookEdit.EXTRA_MODE, BookEdit.MODE_ADD);
-		i.putExtra(BookEdit.EXTRA_ISBN, isbn);
-		IsbnLookup.this.startActivity(i);
+		Intent i = new Intent(IsbnLookupActivity.this, BookEditActivity.class);
+		i.putExtra(BookEditActivity.EXTRA_MODE, BookEditActivity.MODE_ADD);
+		i.putExtra(BookEditActivity.EXTRA_ISBN, isbn);
+		IsbnLookupActivity.this.startActivity(i);
 	}
 
 	/**

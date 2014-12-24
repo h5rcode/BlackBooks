@@ -30,7 +30,7 @@ import com.blackbooks.services.CategoryServices;
 /**
  * Activity to edit the categories of a book.
  */
-public class BookCategoriesEdit extends Activity {
+public class BookCategoriesEditActivity extends Activity {
 
 	public static final String EXTRA_CATEGORY_LIST = "EXTRA_CATEGORY_LIST";
 
@@ -229,7 +229,7 @@ public class BookCategoriesEdit extends Activity {
 
 			@Override
 			public List<Category> search(CharSequence constraint) {
-				SQLiteHelper mDbHelper = new SQLiteHelper(BookCategoriesEdit.this);
+				SQLiteHelper mDbHelper = new SQLiteHelper(BookCategoriesEditActivity.this);
 				SQLiteDatabase db = mDbHelper.getReadableDatabase();
 				List<Category> categoryList = CategoryServices.getCategoryListByText(db, constraint.toString());
 				db.close();

@@ -33,8 +33,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.blackbooks.R;
-import com.blackbooks.activities.BookAuthorsEdit;
-import com.blackbooks.activities.BookCategoriesEdit;
+import com.blackbooks.activities.BookAuthorsEditActivity;
+import com.blackbooks.activities.BookCategoriesEditActivity;
 import com.blackbooks.adapters.AutoCompleteAdapter;
 import com.blackbooks.adapters.AutoCompleteAdapter.AutoCompleteSearcher;
 import com.blackbooks.adapters.LanguagesAdapter;
@@ -165,10 +165,10 @@ public class BookEditGeneralFragment extends Fragment {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == Activity.RESULT_OK) {
 			if (requestCode == REQUEST_EDIT_AUTHORS) {
-				mBookInfo.authors = (ArrayList<Author>) data.getSerializableExtra(BookAuthorsEdit.EXTRA_AUTHOR_LIST);
+				mBookInfo.authors = (ArrayList<Author>) data.getSerializableExtra(BookAuthorsEditActivity.EXTRA_AUTHOR_LIST);
 				setButtonEditAuthorsText();
 			} else if (requestCode == REQUEST_EDIT_CATEGORIES) {
-				mBookInfo.categories = (ArrayList<Category>) data.getSerializableExtra(BookCategoriesEdit.EXTRA_CATEGORY_LIST);
+				mBookInfo.categories = (ArrayList<Category>) data.getSerializableExtra(BookCategoriesEditActivity.EXTRA_CATEGORY_LIST);
 				setButtonEditCategoriesText();
 			} else if (requestCode == REQUEST_PICK_IMAGE) {
 
@@ -388,9 +388,9 @@ public class BookEditGeneralFragment extends Fragment {
 	 *            View.
 	 */
 	private void editAuthors(View view) {
-		Intent intent = new Intent(this.getActivity(), BookAuthorsEdit.class);
-		intent.putExtra(BookAuthorsEdit.EXTRA_BOOK_TITLE, mTextTitle.getText().toString());
-		intent.putExtra(BookAuthorsEdit.EXTRA_AUTHOR_LIST, (ArrayList<Author>) mBookInfo.authors);
+		Intent intent = new Intent(this.getActivity(), BookAuthorsEditActivity.class);
+		intent.putExtra(BookAuthorsEditActivity.EXTRA_BOOK_TITLE, mTextTitle.getText().toString());
+		intent.putExtra(BookAuthorsEditActivity.EXTRA_AUTHOR_LIST, (ArrayList<Author>) mBookInfo.authors);
 		startActivityForResult(intent, REQUEST_EDIT_AUTHORS);
 	}
 
@@ -401,9 +401,9 @@ public class BookEditGeneralFragment extends Fragment {
 	 *            View.
 	 */
 	private void editCategories(View view) {
-		Intent intent = new Intent(this.getActivity(), BookCategoriesEdit.class);
-		intent.putExtra(BookCategoriesEdit.EXTRA_BOOK_TITLE, mTextTitle.getText().toString());
-		intent.putExtra(BookCategoriesEdit.EXTRA_CATEGORY_LIST, (ArrayList<Category>) mBookInfo.categories);
+		Intent intent = new Intent(this.getActivity(), BookCategoriesEditActivity.class);
+		intent.putExtra(BookCategoriesEditActivity.EXTRA_BOOK_TITLE, mTextTitle.getText().toString());
+		intent.putExtra(BookCategoriesEditActivity.EXTRA_CATEGORY_LIST, (ArrayList<Category>) mBookInfo.categories);
 		startActivityForResult(intent, REQUEST_EDIT_CATEGORIES);
 	}
 
