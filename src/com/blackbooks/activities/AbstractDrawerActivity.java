@@ -159,11 +159,9 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			DrawerItem drawerItem = (DrawerItem) mListDrawer.getAdapter().getItem(position);
 
-			Intent i;
-
 			switch (drawerItem.getId()) {
 			case ITEM_BOOK_LIST:
-				closeDrawer();
+				startBookListActivity();
 				break;
 
 			case ITEM_SCAN_ISBN:
@@ -172,22 +170,56 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 				break;
 
 			case ITEM_ENTER_ISBN:
-				closeDrawer();
-				i = new Intent(AbstractDrawerActivity.this, IsbnLookup.class);
-				startActivity(i);
+				startIsbnLookupActivity();
 				break;
 
 			case ITEM_ADD_MANUALLY:
-				closeDrawer();
-				i = new Intent(AbstractDrawerActivity.this, BookEdit.class);
-				i.putExtra(BookEdit.EXTRA_MODE, BookEdit.MODE_ADD);
-				startActivity(i);
+				startBookEditActivity();
 				break;
 
 			case ITEM_EXPORT_BOOKS:
-				closeDrawer();
+				startBookExportActivity();
 				break;
 			}
+		}
+
+		/**
+		 * Start {@link BookEdit}.
+		 */
+		private void startBookEditActivity() {
+			closeDrawer();
+			Intent i = new Intent(AbstractDrawerActivity.this, BookEdit.class);
+			i.putExtra(BookEdit.EXTRA_MODE, BookEdit.MODE_ADD);
+			startActivity(i);
+		}
+
+		/**
+		 * Start {@link IsbnLookup}.
+		 */
+		private void startIsbnLookupActivity() {
+			closeDrawer();
+			Intent i = new Intent(AbstractDrawerActivity.this, IsbnLookup.class);
+			startActivity(i);
+		}
+
+		/**
+		 * Start {@link BookList}.
+		 */
+		private void startBookListActivity() {
+			closeDrawer();
+			Intent i = new Intent(AbstractDrawerActivity.this, BookList.class);
+			startActivity(i);
+			finish();
+		}
+
+		/**
+		 * Start {@link BookExport}.
+		 */
+		private void startBookExportActivity() {
+			closeDrawer();
+			Intent i = new Intent(AbstractDrawerActivity.this, BookExport.class);
+			startActivity(i);
+			finish();
 		}
 	}
 }

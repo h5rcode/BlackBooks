@@ -8,6 +8,7 @@
     <string name="action_backup_db">Backup DB on disk</string>
     <string name="action_delete_category">Delete category</string>
     <string name="action_enter_isbn">Enter ISBN</string>
+    <string name="action_export_books">Export books</string>
     <string name="action_lookup_isbn">Lookup ISBN</string>
     <string name="action_pick_image">Pick an image</string>
     <string name="action_remove_thumbnail">Remove thumbnail</string>
@@ -44,12 +45,18 @@
     <string name="label_book_shelf">Book shelf</string>
     <string name="label_category">Category</string>
     <string name="label_categories">Categories</string>
+    <string name="label_column_separator">Column separator</string>
     <string name="label_description">Description</string>
     <string name="label_drawer_item">Drawer item</string>
     <string name="label_drawer_item_group">Drawer item group</string>
     <string name="label_drawer_open">Open drawer</string>
     <string name="label_drawer_close">Close drawer</string>
+    <string name="label_export_parameters">Export parameters</string>
+    <string name="label_export_preview">Export preview (5 first books)</string>
     <string name="label_favourite">This is a favourite book</string>
+    <string name="label_first_row_contains_header">First row contains headers</string>
+    <string name="label_first_row_contains_header_yes">Yes</string>
+    <string name="label_first_row_contains_header_no">No</string>
     <string name="label_image">Image</string>
     <string name="label_isbn">ISBN</string>
     <string name="label_isbn10">ISBN-10</string>
@@ -65,6 +72,7 @@
     <string name="label_series_number_format">(%d)</string>
     <string name="label_series_number">#</string>
     <string name="label_subtitle">Subtitle</string>
+    <string name="label_text_qualifier">Text qualifier</string>
     <string name="label_title">Title</string>
     <string name="label_total">(%d)</string>
     <string name="label_unexpected_error">Unexpected error</string>
@@ -128,6 +136,7 @@
     <string name="title_activity_book_display">Book info</string>
     <string name="title_activity_book_edit_mode_add">Add a book</string>
     <string name="title_activity_book_edit_mode_edit">Edit \"%s\"</string>
+    <string name="title_activity_book_export">Book export</string>
     <string name="title_activity_book_list">Black Books</string>
     <string name="title_activity_isbn_lookup">ISBN lookup</string>
     <string name="title_activity_book_search">Search results for \"%s\"</string>

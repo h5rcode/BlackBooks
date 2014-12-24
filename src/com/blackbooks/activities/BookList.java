@@ -1,18 +1,15 @@
 package com.blackbooks.activities;
 
 import java.io.File;
-import java.io.IOException;
 
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
@@ -20,7 +17,6 @@ import android.widget.Toast;
 
 import com.blackbooks.R;
 import com.blackbooks.database.Database;
-import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.AbstractBookListFragment;
 import com.blackbooks.fragments.AbstractBookListFragment.BookListListener;
 import com.blackbooks.fragments.BookListByAuthorFragment;
@@ -28,9 +24,7 @@ import com.blackbooks.fragments.BookListByBookShelfFragment;
 import com.blackbooks.fragments.BookListByCategoryFragment;
 import com.blackbooks.fragments.BookListByFirstLetterFragment;
 import com.blackbooks.fragments.BookListByLanguageFragment;
-import com.blackbooks.services.ExportServices;
 import com.blackbooks.utils.FileUtils;
-import com.blackbooks.utils.LogUtils;
 
 /**
  * The book list activity. It hosts an AbstractBookListFragment used to display
@@ -118,10 +112,6 @@ public class BookList extends AbstractDrawerActivity implements BookListListener
 		case R.id.bookList_actionSearch:
 			break;
 
-		case R.id.bookList_actionExport:
-			exportBooks();
-			break;
-
 		case R.id.bookList_actionBackupDb:
 			saveDbOnDisk();
 			break;
@@ -150,29 +140,6 @@ public class BookList extends AbstractDrawerActivity implements BookListListener
 			String message = String.format(getString(R.string.message_file_saved), backupDB.getName(), backupDB.getParentFile()
 					.getName());
 			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-		} else {
-			Toast.makeText(this, R.string.message_file_not_saved, Toast.LENGTH_LONG).show();
-		}
-	}
-
-	private void exportBooks() {
-		File exportFile = FileUtils.createFileInAppDir("Export.csv");
-
-		if (exportFile != null) {
-			SQLiteHelper dbHelper = new SQLiteHelper(this);
-			SQLiteDatabase db = dbHelper.getReadableDatabase();
-			try {
-				ExportServices.exportBookList(db, exportFile);
-				MediaScannerConnection.scanFile(this, new String[] { exportFile.getAbsolutePath() }, null, null);
-				String message = String.format(getString(R.string.message_file_saved), exportFile.getName(), exportFile
-						.getParentFile().getName());
-				Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-			} catch (IOException e) {
-				Log.e(LogUtils.TAG, e.getMessage(), e);
-				Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-			} finally {
-				db.close();
-			}
 		} else {
 			Toast.makeText(this, R.string.message_file_not_saved, Toast.LENGTH_LONG).show();
 		}

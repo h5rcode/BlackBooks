@@ -32,12 +32,40 @@ public class ExportServices {
 	 *            SQLiteDatabase.
 	 * @param file
 	 *            The target CSV file.
+	 * @param textQualifier
+	 *            Text qualifier.
+	 * @param columnSeparator
+	 *            Column separator.
+	 * @param firstRowContainsHeader
+	 *            True if the first row should contain the column headers.
 	 * @throws IOException
 	 *             If the file could not be written.
 	 */
-	public static void exportBookList(SQLiteDatabase db, File file) throws IOException {
-		List<BookExport> bookExportList = getBookExportList(db);
-		saveBookExportListToCsv(bookExportList, file, '"', ';');
+	public static void exportBookList(SQLiteDatabase db, File file, char textQualifier, char columnSeparator,
+			boolean firstRowContainsHeaders) throws IOException {
+		List<BookExport> bookExportList = getBookExportList(db, null);
+		saveBookExportListToCsv(bookExportList, file, textQualifier, columnSeparator, firstRowContainsHeaders);
+	}
+
+	/**
+	 * Return a preview of the book export as a CSV file. The preview contains
+	 * the five first books.
+	 * 
+	 * @param db
+	 *            SQLiteDatabase.
+	 * @param textQualifier
+	 *            Text qualifier.
+	 * @param columnSeparator
+	 *            Column separator.
+	 * @param firstRowContainsHeaders
+	 *            True if the first row should contain the column headers.
+	 * @return Export preview.
+	 */
+	public static String previewBookExport(SQLiteDatabase db, char textQualifier, char columnSeparator,
+			boolean firstRowContainsHeaders) {
+
+		List<BookExport> bookExportList = getBookExportList(db, 5);
+		return preview(bookExportList, textQualifier, columnSeparator, firstRowContainsHeaders);
 	}
 
 	/**
@@ -45,9 +73,11 @@ public class ExportServices {
 	 * 
 	 * @param db
 	 *            SQLiteDatabase.
+	 * @param limit
+	 *            The number of books to export. Null to export all books.
 	 * @return List of BookExport.
 	 */
-	public static List<BookExport> getBookExportList(SQLiteDatabase db) {
+	public static List<BookExport> getBookExportList(SQLiteDatabase db, Integer limit) {
 		StringBuilder sb = new StringBuilder();
 
 		String id = "Id";
@@ -108,6 +138,11 @@ public class ExportServices {
 		sb.append("boo." + Book.Cols.BOO_ID + ",\n");
 		sb.append("boo." + Book.Cols.BOO_TITLE + ",\n");
 		sb.append("boo." + Book.Cols.BOO_DESCRIPTION + "\n");
+
+		if (limit != null) {
+			sb.append("LIMIT " + limit);
+		}
+		sb.append(";");
 
 		String sql = sb.toString();
 
@@ -188,22 +223,55 @@ public class ExportServices {
 	 *            The text qualifier.
 	 * @param separator
 	 *            The column separator.
+	 * @param firstRowContainsHeader
+	 *            True if the first row should contain the column headers.
 	 * @throws IOException
 	 *             If the file could not be written.
 	 */
-	private static void saveBookExportListToCsv(List<BookExport> bookExportList, File file, char qualifier, char separator)
-			throws IOException {
+	private static void saveBookExportListToCsv(List<BookExport> bookExportList, File file, char qualifier, char separator,
+			boolean firstRowContainsHeader) throws IOException {
 		FileOutputStream output = new FileOutputStream(file);
 		OutputStreamWriter writer = new OutputStreamWriter(output, "UTF-8");
 
 		writer.append(FileUtils.UTF8_BOM);
-		writer.append(BookExport.getCsvHeader(qualifier, separator));
-		writer.append('\n');
+		if (firstRowContainsHeader) {
+			writer.append(BookExport.getCsvHeader(qualifier, separator));
+			writer.append('\n');
+		}
 
 		for (BookExport bookExport : bookExportList) {
 			writer.append(bookExport.toCsv(qualifier, separator));
 			writer.append('\n');
 		}
 		writer.close();
+	}
+
+	/**
+	 * Build the preview string of the CSV export.
+	 * 
+	 * @param bookExportList
+	 *            List of BookExport.
+	 * @param qualifier
+	 *            The text qualifier.
+	 * @param separator
+	 *            The column separator.
+	 * @param firstRowContainsHeader
+	 *            True if the first row should contain the column headers.
+	 * @return Preview of the CSV export.
+	 */
+	private static String preview(List<BookExport> bookExportList, char qualifier, char separator, boolean firstRowContainsHeader) {
+		StringBuilder sb = new StringBuilder();
+
+		if (firstRowContainsHeader) {
+			sb.append(BookExport.getCsvHeader(qualifier, separator));
+			sb.append('\n');
+		}
+
+		for (BookExport bookExport : bookExportList) {
+			sb.append(bookExport.toCsv(qualifier, separator));
+			sb.append('\n');
+		}
+
+		return sb.toString();
 	}
 }

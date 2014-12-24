@@ -90,6 +90,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blackbooks.activities.BookList" />
         </activity>
+        <activity
+            android:name="com.blackbooks.activities.BookExport"
+            android:label="@string/title_activity_book_export" >
+        </activity>
         <activity android:name="com.blackbooks.activities.ReportError" >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
