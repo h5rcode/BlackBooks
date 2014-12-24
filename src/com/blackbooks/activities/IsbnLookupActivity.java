@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -110,7 +109,7 @@ public class IsbnLookupActivity extends Activity {
 
 		case android.R.id.home:
 			result = true;
-			NavUtils.navigateUpFromSameTask(this);
+			finish();
 			break;
 
 		default:
