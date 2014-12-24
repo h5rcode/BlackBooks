@@ -45,6 +45,13 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 	private ListView mListDrawer;
 	private ActionBarDrawerToggle mDrawerToggle;
 
+	/**
+	 * Return a value identifying the activity.
+	 * 
+	 * @return DrawerActivity.
+	 */
+	protected abstract DrawerActivity getDrawerActivity();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -206,20 +213,24 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 		 * Start {@link BookListActivity}.
 		 */
 		private void startBookListActivity() {
-			closeDrawer();
-			Intent i = new Intent(AbstractDrawerActivity.this, BookListActivity.class);
-			startActivity(i);
-			finish();
+			if (getDrawerActivity() != DrawerActivity.BOOK_LIST) {
+				closeDrawer();
+				Intent i = new Intent(AbstractDrawerActivity.this, BookListActivity.class);
+				startActivity(i);
+				finish();
+			}
 		}
 
 		/**
 		 * Start {@link BookExportActivity}.
 		 */
 		private void startBookExportActivity() {
-			closeDrawer();
-			Intent i = new Intent(AbstractDrawerActivity.this, BookExportActivity.class);
-			startActivity(i);
-			finish();
+			if (getDrawerActivity() != DrawerActivity.BOOK_EXPORT) {
+				closeDrawer();
+				Intent i = new Intent(AbstractDrawerActivity.this, BookExportActivity.class);
+				startActivity(i);
+				finish();
+			}
 		}
 	}
 }

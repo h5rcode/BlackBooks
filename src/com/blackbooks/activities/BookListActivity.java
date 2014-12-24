@@ -39,6 +39,11 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 	private AbstractBookListFragment mCurrentFragment;
 
 	@Override
+	protected DrawerActivity getDrawerActivity() {
+		return DrawerActivity.BOOK_LIST;
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);

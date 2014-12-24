@@ -14,6 +14,11 @@ public class BookExportActivity extends AbstractDrawerActivity {
 	private static final String BOOK_EXPORT_FRAGMENT_TAG = "BOOK_EXPORT_FRAGMENT_TAG";
 
 	@Override
+	protected DrawerActivity getDrawerActivity() {
+		return DrawerActivity.BOOK_EXPORT;
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
