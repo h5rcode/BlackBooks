@@ -71,6 +71,12 @@
     <string name="label_series_number_format">(%d)</string>
     <string name="label_series_number">#</string>
     <string name="label_subtitle">Subtitle</string>
+    <string name="label_summary_authors">authors</string>
+    <string name="label_summary_books">books</string>
+    <string name="label_summary_categories">categories</string>
+    <string name="label_summary_languages">languages</string>
+    <string name="label_summary_series">series</string>
+    <string name="label_summary_shelves">shelves</string>
     <string name="label_text_qualifier">Text qualifier</string>
     <string name="label_title">Title</string>
     <string name="label_total">(%d)</string>
@@ -145,6 +151,7 @@
     <string name="title_activity_isbn_lookup">ISBN lookup</string>
     <string name="title_activity_book_search">Search results for \"%s\"</string>
     <string name="title_activity_book_search_default">Search results</string>
+    <string name="title_activity_summary">Summary</string>
     <string name="title_dialog_edit_author">Edit author</string>
     <string name="title_dialog_edit_category">Edit category</string>
     <string name="title_dialog_install_scanner">Install a bar code scanner</string>

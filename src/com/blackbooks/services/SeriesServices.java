@@ -8,6 +8,9 @@ import com.blackbooks.model.persistent.Book;
 import com.blackbooks.model.persistent.Series;
 import com.blackbooks.sql.BrokerManager;
 
+/**
+ * Series services.
+ */
 public class SeriesServices {
 
 	/**

@@ -189,6 +189,10 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 				startBookListActivity();
 				break;
 
+			case ITEM_SUMMARY:
+				startSummaryActivity();
+				break;
+
 			case ITEM_SCAN_ISBN:
 				mDrawerLayout.closeDrawer(mListDrawer);
 				startIsbnScan();
@@ -268,6 +272,18 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 		}
 
 		/**
+		 * Start {@link SummaryActivity}.
+		 */
+		private void startSummaryActivity() {
+			closeDrawer();
+			if (getDrawerActivity() != DrawerActivity.SUMMARY) {
+				Intent i = new Intent(AbstractDrawerActivity.this, SummaryActivity.class);
+				startActivity(i);
+				finish();
+			}
+		}
+
+		/**
 		 * Start {@link BookImportActivity}.
 		 */
 		private void startBookImportActivity() {
@@ -313,6 +329,5 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 				Toast.makeText(AbstractDrawerActivity.this, R.string.message_file_not_saved, Toast.LENGTH_LONG).show();
 			}
 		}
-
 	}
 }
