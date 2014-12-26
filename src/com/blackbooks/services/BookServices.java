@@ -61,6 +61,7 @@ public class BookServices {
 
 			PublisherServices.deletePublishersWithoutBooks(db);
 			SeriesServices.deleteSeriesWithoutBooks(db);
+			BookShelfServices.deleteBookShelvesWithoutBooks(db);
 
 			ThumbnailManager.getInstance().removeThumbnails(bookId);
 
@@ -243,6 +244,7 @@ public class BookServices {
 
 				PublisherServices.deletePublishersWithoutBooks(db);
 				SeriesServices.deleteSeriesWithoutBooks(db);
+				BookShelfServices.deleteBookShelvesWithoutBooks(db);
 
 				ThumbnailManager.getInstance().removeThumbnails(bookInfo.id);
 			}

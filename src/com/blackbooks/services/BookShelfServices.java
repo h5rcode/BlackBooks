@@ -8,6 +8,7 @@ import android.support.v4.util.LongSparseArray;
 
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.nonpersistent.BookShelfInfo;
+import com.blackbooks.model.persistent.Book;
 import com.blackbooks.model.persistent.BookShelf;
 import com.blackbooks.sql.BrokerManager;
 
@@ -15,6 +16,19 @@ import com.blackbooks.sql.BrokerManager;
  * Book shelf services.
  */
 public class BookShelfServices {
+
+	/**
+	 * Delete the categories that are not referred by any books in the database.
+	 * 
+	 * @param db
+	 *            SQLiteDatabase.
+	 */
+	public static void deleteBookShelvesWithoutBooks(SQLiteDatabase db) {
+		String sql = "DELETE FROM " + BookShelf.NAME + " WHERE " + BookShelf.Cols.BSH_ID + " IN (SELECT bsh."
+				+ BookShelf.Cols.BSH_ID + " FROM " + BookShelf.NAME + " bsh LEFT JOIN " + Book.NAME + " boo ON boo."
+				+ Book.Cols.BSH_ID + " = bsh." + BookShelf.Cols.BSH_ID + " WHERE boo." + Book.Cols.BOO_ID + " IS NULL)";
+		BrokerManager.getBroker(BookShelf.class).executeSql(db, sql);
+	}
 
 	/**
 	 * Get a book shelf.
