@@ -64,7 +64,6 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
 		setContentView(R.layout.abstract_drawer_activity);
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.abstractDrawerActivity_drawerLayout);
@@ -120,12 +119,6 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 
 		mListDrawer.setAdapter(new DrawerAdapter(this, list));
 		mListDrawer.setOnItemClickListener(new DrawerItemClickListener());
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
 	}
 
 	@Override
@@ -236,6 +229,7 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 		private void startIsbnLookupActivity() {
 			closeDrawer();
 			Intent i = new Intent(AbstractDrawerActivity.this, IsbnLookupActivity.class);
+			i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 			startActivity(i);
 		}
 
@@ -266,8 +260,8 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 			closeDrawer();
 			if (getDrawerActivity() != DrawerActivity.BOOK_LIST) {
 				Intent i = new Intent(AbstractDrawerActivity.this, BookListActivity.class);
+				i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(i);
-				finish();
 			}
 		}
 
@@ -278,8 +272,8 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 			closeDrawer();
 			if (getDrawerActivity() != DrawerActivity.SUMMARY) {
 				Intent i = new Intent(AbstractDrawerActivity.this, SummaryActivity.class);
+				i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(i);
-				finish();
 			}
 		}
 
@@ -290,8 +284,8 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 			closeDrawer();
 			if (getDrawerActivity() != DrawerActivity.BOOK_IMPORT) {
 				Intent i = new Intent(AbstractDrawerActivity.this, BookImportActivity.class);
+				i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(i);
-				finish();
 			}
 		}
 
@@ -302,8 +296,8 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 			closeDrawer();
 			if (getDrawerActivity() != DrawerActivity.BOOK_EXPORT) {
 				Intent i = new Intent(AbstractDrawerActivity.this, BookExportActivity.class);
+				i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(i);
-				finish();
 			}
 		}
 
