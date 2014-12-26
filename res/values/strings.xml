@@ -5,7 +5,6 @@
     <string name="action_add_authors">Add authors</string>
     <string name="action_add_categories">Add categories</string>
     <string name="action_add_manually">Add manually</string>
-    <string name="action_backup_db">Backup DB on disk</string>
     <string name="action_delete_category">Delete category</string>
     <string name="action_enter_isbn">Enter ISBN</string>
     <string name="action_export_books">Export books</string>
@@ -80,8 +79,12 @@
     <string name="label_unspecified_bookshelf">(Unspecified bookshelf)</string>
     <string name="label_unspecified_category">(Unspecified category)</string>
     <string name="label_unspecified_language">(Unspecified language)</string>
-    <string name="menu_add_book">Add book</string>
+    <string name="menu_add_books">Add books</string>
+    <string name="menu_administration">Administration</string>
+    <string name="menu_backup_db">Backup DB</string>
+    <string name="menu_books">Books</string>
     <string name="menu_book_list">Book list</string>
+    <string name="menu_book_list_summary">Summary</string>
     <string name="menu_delete_book">Delete</string>
     <string name="menu_edit_book">Edit</string>
     <string name="menu_export">Export to CSV</string>

@@ -35,16 +35,5 @@
         android:showAsAction="ifRoom|collapseActionView"
         android:title="@string/menu_search">
     </item>
-    <item
-        android:icon="@drawable/ic_action_overflow"
-        android:showAsAction="ifRoom"
-        android:title="@string/menu_options">
-        <menu>
-            <item
-                android:id="@+id/bookList_actionBackupDb"
-                android:icon="@drawable/ic_action_save"
-                android:title="@string/action_backup_db"/>
-        </menu>
-    </item>
 
 </menu>

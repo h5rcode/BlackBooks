@@ -1,22 +1,17 @@
 package com.blackbooks.activities;
 
-import java.io.File;
-
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.blackbooks.R;
-import com.blackbooks.database.Database;
 import com.blackbooks.fragments.AbstractBookListFragment;
 import com.blackbooks.fragments.AbstractBookListFragment.BookListListener;
 import com.blackbooks.fragments.BookListByAuthorFragment;
@@ -24,7 +19,6 @@ import com.blackbooks.fragments.BookListByBookShelfFragment;
 import com.blackbooks.fragments.BookListByCategoryFragment;
 import com.blackbooks.fragments.BookListByFirstLetterFragment;
 import com.blackbooks.fragments.BookListByLanguageFragment;
-import com.blackbooks.utils.FileUtils;
 
 /**
  * The book list activity. It hosts an AbstractBookListFragment used to display
@@ -118,10 +112,6 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 		case R.id.bookList_actionSearch:
 			break;
 
-		case R.id.bookList_actionBackupDb:
-			saveDbOnDisk();
-			break;
-
 		default:
 			result = super.onOptionsItemSelected(item);
 			break;
@@ -133,28 +123,6 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 	protected void onPause() {
 		super.onPause();
 		overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
-	}
-
-	/**
-	 * Save a copy of the database file in the "Download" folder.
-	 */
-	private void saveDbOnDisk() {
-		File backupDB = FileUtils.createFileInAppDir(Database.NAME + ".sqlite");
-
-		boolean success = false;
-		if (backupDB != null) {
-			File currentDB = this.getDatabasePath(Database.NAME);
-			success = FileUtils.copy(currentDB, backupDB);
-		}
-
-		if (success) {
-			MediaScannerConnection.scanFile(this, new String[] { backupDB.getAbsolutePath() }, null, null);
-			String message = String.format(getString(R.string.message_file_saved), backupDB.getName(), backupDB.getParentFile()
-					.getName());
-			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-		} else {
-			Toast.makeText(this, R.string.message_file_not_saved, Toast.LENGTH_LONG).show();
-		}
 	}
 
 	private void sortByAuthor() {
