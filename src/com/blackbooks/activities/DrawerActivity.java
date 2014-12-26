@@ -13,6 +13,10 @@ public enum DrawerActivity {
 	/**
 	 * {@link BookExportActivity}.
 	 */
-	BOOK_EXPORT
+	BOOK_EXPORT,
 
+	/**
+	 * {@link BookImportActivity}.
+	 */
+	BOOK_IMPORT
 }

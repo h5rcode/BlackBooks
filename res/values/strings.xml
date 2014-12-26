@@ -85,7 +85,7 @@
     <string name="menu_delete_book">Delete</string>
     <string name="menu_edit_book">Edit</string>
     <string name="menu_export">Export to CSV</string>
-    <string name="menu_import">Import</string>
+    <string name="menu_import">Import from CSV</string>
     <string name="menu_import_export">Import/Export</string>
     <string name="menu_options">Options</string>
     <string name="menu_search">Search books</string>
@@ -137,6 +137,7 @@
     <string name="title_activity_book_edit_mode_add">Add a book</string>
     <string name="title_activity_book_edit_mode_edit">Edit \"%s\"</string>
     <string name="title_activity_book_export">Book export</string>
+    <string name="title_activity_book_import">Book import</string>
     <string name="title_activity_book_list">Black Books</string>
     <string name="title_activity_isbn_lookup">ISBN lookup</string>
     <string name="title_activity_book_search">Search results for \"%s\"</string>

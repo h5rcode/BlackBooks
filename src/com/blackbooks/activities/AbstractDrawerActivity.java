@@ -55,6 +55,7 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
 		setContentView(R.layout.abstract_drawer_activity);
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.abstractDrawerActivity_drawerLayout);
@@ -74,8 +75,10 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 				R.drawable.ic_action_keyboard, DrawerItemType.ITEM);
 		DrawerItem itemImportExportBooks = new DrawerItem(ITEM_IMPORT_EXPORT_BOOKS, getString(R.string.menu_import_export), null,
 				DrawerItemType.GROUP);
-		DrawerItem itemImportBooks = new DrawerItem(ITEM_IMPORT_BOOKS, getString(R.string.menu_import), null, DrawerItemType.ITEM);
-		DrawerItem itemExportBooks = new DrawerItem(ITEM_EXPORT_BOOKS, getString(R.string.menu_export), null, DrawerItemType.ITEM);
+		DrawerItem itemImportBooks = new DrawerItem(ITEM_IMPORT_BOOKS, getString(R.string.menu_import),
+				R.drawable.ic_action_import, DrawerItemType.ITEM);
+		DrawerItem itemExportBooks = new DrawerItem(ITEM_EXPORT_BOOKS, getString(R.string.menu_export),
+				R.drawable.ic_action_export, DrawerItemType.ITEM);
 
 		list.add(itemBookList);
 		list.add(itemAddBook);
@@ -88,6 +91,12 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 
 		mListDrawer.setAdapter(new DrawerAdapter(this, list));
 		mListDrawer.setOnItemClickListener(new DrawerItemClickListener());
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
 	}
 
 	@Override
@@ -184,6 +193,10 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 				startBookEditActivity();
 				break;
 
+			case ITEM_IMPORT_BOOKS:
+				startBookImportActivity();
+				break;
+
 			case ITEM_EXPORT_BOOKS:
 				startBookExportActivity();
 				break;
@@ -216,6 +229,18 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 			if (getDrawerActivity() != DrawerActivity.BOOK_LIST) {
 				closeDrawer();
 				Intent i = new Intent(AbstractDrawerActivity.this, BookListActivity.class);
+				startActivity(i);
+				finish();
+			}
+		}
+
+		/**
+		 * Start {@link BookImportActivity}.
+		 */
+		private void startBookImportActivity() {
+			if (getDrawerActivity() != DrawerActivity.BOOK_IMPORT) {
+				closeDrawer();
+				Intent i = new Intent(AbstractDrawerActivity.this, BookImportActivity.class);
 				startActivity(i);
 				finish();
 			}

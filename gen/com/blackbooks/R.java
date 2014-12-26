@@ -40,22 +40,23 @@ public final class R {
         public static final int ic_action_edit=0x7f020006;
         public static final int ic_action_export=0x7f020007;
         public static final int ic_action_forward=0x7f020008;
-        public static final int ic_action_keyboard=0x7f020009;
-        public static final int ic_action_labels=0x7f02000a;
-        public static final int ic_action_map=0x7f02000b;
-        public static final int ic_action_new=0x7f02000c;
-        public static final int ic_action_overflow=0x7f02000d;
-        public static final int ic_action_person=0x7f02000e;
-        public static final int ic_action_save=0x7f02000f;
-        public static final int ic_action_search=0x7f020010;
-        public static final int ic_action_sort_by_size=0x7f020011;
-        public static final int ic_delete=0x7f020012;
-        public static final int ic_drawer=0x7f020013;
-        public static final int ic_favourite=0x7f020014;
-        public static final int ic_launcher=0x7f020015;
-        public static final int ic_read=0x7f020016;
-        public static final int ic_uncaught_exception=0x7f020017;
-        public static final int ic_undefined_thumbnail=0x7f020018;
+        public static final int ic_action_import=0x7f020009;
+        public static final int ic_action_keyboard=0x7f02000a;
+        public static final int ic_action_labels=0x7f02000b;
+        public static final int ic_action_map=0x7f02000c;
+        public static final int ic_action_new=0x7f02000d;
+        public static final int ic_action_overflow=0x7f02000e;
+        public static final int ic_action_person=0x7f02000f;
+        public static final int ic_action_save=0x7f020010;
+        public static final int ic_action_search=0x7f020011;
+        public static final int ic_action_sort_by_size=0x7f020012;
+        public static final int ic_delete=0x7f020013;
+        public static final int ic_drawer=0x7f020014;
+        public static final int ic_favourite=0x7f020015;
+        public static final int ic_launcher=0x7f020016;
+        public static final int ic_read=0x7f020017;
+        public static final int ic_uncaught_exception=0x7f020018;
+        public static final int ic_undefined_thumbnail=0x7f020019;
     }
     public static final class id {
         public static final int abstractDrawerActivity_drawerLayout=0x7f0b0000;
@@ -391,15 +392,16 @@ public final class R {
         public static final int title_activity_book_edit_mode_add=0x7f080085;
         public static final int title_activity_book_edit_mode_edit=0x7f080086;
         public static final int title_activity_book_export=0x7f080087;
-        public static final int title_activity_book_list=0x7f080088;
-        public static final int title_activity_book_search=0x7f08008a;
-        public static final int title_activity_book_search_default=0x7f08008b;
-        public static final int title_activity_isbn_lookup=0x7f080089;
-        public static final int title_dialog_edit_author=0x7f08008c;
-        public static final int title_dialog_edit_category=0x7f08008d;
-        public static final int title_dialog_install_scanner=0x7f08008e;
-        public static final int title_tab_book_edit_general=0x7f08008f;
-        public static final int title_tab_book_edit_personal=0x7f080090;
+        public static final int title_activity_book_import=0x7f080088;
+        public static final int title_activity_book_list=0x7f080089;
+        public static final int title_activity_book_search=0x7f08008b;
+        public static final int title_activity_book_search_default=0x7f08008c;
+        public static final int title_activity_isbn_lookup=0x7f08008a;
+        public static final int title_dialog_edit_author=0x7f08008d;
+        public static final int title_dialog_edit_category=0x7f08008e;
+        public static final int title_dialog_install_scanner=0x7f08008f;
+        public static final int title_tab_book_edit_general=0x7f080090;
+        public static final int title_tab_book_edit_personal=0x7f080091;
     }
     public static final class style {
         /** 

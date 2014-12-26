@@ -21,8 +21,6 @@ public class BookExportActivity extends AbstractDrawerActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
-
 		FragmentManager fm = getSupportFragmentManager();
 
 		BookExportFragment bookExportFragment = (BookExportFragment) fm.findFragmentByTag(BOOK_EXPORT_FRAGMENT_TAG);
@@ -34,11 +32,5 @@ public class BookExportActivity extends AbstractDrawerActivity {
 					.add(R.id.abstractDrawerActivity_frameLayout, bookExportFragment, BOOK_EXPORT_FRAGMENT_TAG) //
 					.commit();
 		}
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
 	}
 }

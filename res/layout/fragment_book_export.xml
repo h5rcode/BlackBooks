@@ -99,8 +99,8 @@
 
         <View
             style="@style/HorizontalDivider"
-            android:layout_marginBottom="5sp"
-            android:layout_marginTop="5sp" />
+            android:layout_marginBottom="15sp"
+            android:layout_marginTop="15sp" />
 
         <LinearLayout
             android:layout_width="match_parent"

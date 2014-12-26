@@ -23,9 +23,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity
-            android:name="com.blackbooks.activities.BookListActivity"
-            android:launchMode="singleTop" >
+        <activity android:name="com.blackbooks.activities.BookListActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -77,6 +75,10 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blackbooks.activities.BookListActivity" />
+        </activity>
+        <activity
+            android:name="com.blackbooks.activities.BookImportActivity"
+            android:label="@string/title_activity_book_import" >
         </activity>
         <activity
             android:name="com.blackbooks.activities.BookExportActivity"
