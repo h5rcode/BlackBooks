@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
+import android.widget.EditText;
 
 import com.blackbooks.R;
 import com.blackbooks.adapters.AutoCompleteAdapter;
@@ -31,6 +32,7 @@ public class BookEditPersonalFragment extends Fragment {
 
 	private CheckBox mCheckBoxRead;
 	private CheckBox mCheckBoxFavourite;
+	private EditText mTextComment;
 	private AutoCompleteTextView mTextBookShelf;
 
 	private BookInfo mBookInfo;
@@ -74,8 +76,8 @@ public class BookEditPersonalFragment extends Fragment {
 		findViews();
 		renderBookInfo();
 
-		mBookShelfAutoCompleteAdapter = new AutoCompleteAdapter<BookShelf>(this.getActivity(), android.R.layout.simple_list_item_1,
-				new AutoCompleteSearcher<BookShelf>() {
+		mBookShelfAutoCompleteAdapter = new AutoCompleteAdapter<BookShelf>(this.getActivity(),
+				android.R.layout.simple_list_item_1, new AutoCompleteSearcher<BookShelf>() {
 
 					@Override
 					public List<BookShelf> search(CharSequence constraint) {
@@ -104,6 +106,7 @@ public class BookEditPersonalFragment extends Fragment {
 		bookInfo.isRead = mCheckBoxRead.isChecked() ? 1L : 0L;
 		bookInfo.isFavourite = mCheckBoxFavourite.isChecked() ? 1L : 0L;
 		String bookShelfName = mTextBookShelf.getText().toString();
+		bookInfo.comment = mTextComment.getText().toString();
 
 		BookShelf bookShelf = new BookShelf();
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -129,6 +132,7 @@ public class BookEditPersonalFragment extends Fragment {
 		View view = getView();
 		mCheckBoxRead = (CheckBox) view.findViewById(R.id.bookEditPersonal_checkRead);
 		mCheckBoxFavourite = (CheckBox) view.findViewById(R.id.bookEditPersonal_checkFavourite);
+		mTextComment = (EditText) view.findViewById(R.id.bookEditPersonal_textComment);
 		mTextBookShelf = (AutoCompleteTextView) view.findViewById(R.id.bookEditPersonal_textBookShelf);
 	}
 
@@ -138,6 +142,7 @@ public class BookEditPersonalFragment extends Fragment {
 	private void renderBookInfo() {
 		mCheckBoxRead.setChecked(mBookInfo.isRead != 0);
 		mCheckBoxFavourite.setChecked(mBookInfo.isFavourite != 0);
+		mTextComment.setText(mBookInfo.comment);
 		mTextBookShelf.setText(mBookInfo.bookShelf.name);
 	}
 }

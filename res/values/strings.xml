@@ -45,6 +45,7 @@
     <string name="label_category">Category</string>
     <string name="label_categories">Categories</string>
     <string name="label_column_separator">Column separator</string>
+    <string name="label_comment">Comment</string>
     <string name="label_description">Description</string>
     <string name="label_drawer_item">Drawer item</string>
     <string name="label_drawer_item_group">Drawer item group</string>
