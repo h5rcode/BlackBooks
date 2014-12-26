@@ -22,7 +22,7 @@ public class BookInfo extends Book implements Serializable {
 	public List<Author> authors;
 
 	public Publisher publisher;
-	
+
 	public List<Category> categories;
 
 	public BookShelf bookShelf;
@@ -56,11 +56,6 @@ public class BookInfo extends Book implements Serializable {
 		this.publishedDate = book.publishedDate;
 		this.description = book.description;
 		this.pageCount = book.pageCount;
-		this.height = book.height;
-		this.width = book.width;
-		this.thickness = book.thickness;
-		this.printType = book.printType;
-		this.mainCategory = book.mainCategory;
 		this.smallThumbnail = book.smallThumbnail;
 		this.thumbnail = book.thumbnail;
 		this.isRead = book.isRead;
@@ -97,21 +92,6 @@ public class BookInfo extends Book implements Serializable {
 			}
 			if (bookInfo.pageCount != null) {
 				this.pageCount = bookInfo.pageCount;
-			}
-			if (bookInfo.height != null) {
-				this.height = bookInfo.height;
-			}
-			if (bookInfo.width != null) {
-				this.width = bookInfo.width;
-			}
-			if (bookInfo.thickness != null) {
-				this.thickness = bookInfo.thickness;
-			}
-			if (bookInfo.printType != null) {
-				this.printType = bookInfo.printType;
-			}
-			if (bookInfo.mainCategory != null) {
-				this.mainCategory = bookInfo.mainCategory;
 			}
 			if (bookInfo.smallThumbnail != null) {
 				this.smallThumbnail = bookInfo.smallThumbnail;

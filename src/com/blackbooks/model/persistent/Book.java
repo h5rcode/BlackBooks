@@ -37,21 +37,6 @@ public class Book implements Serializable {
 	@Column(name = Cols.BOO_PAGE_COUNT, type = SQLiteDataType.INTEGER, version = 1)
 	public Long pageCount;
 
-	@Column(name = Cols.BOO_HEIGHT, type = SQLiteDataType.TEXT, version = 1)
-	public String height;
-
-	@Column(name = Cols.BOO_WIDTH, type = SQLiteDataType.TEXT, version = 1)
-	public String width;
-
-	@Column(name = Cols.BOO_THICKNESS, type = SQLiteDataType.TEXT, version = 1)
-	public String thickness;
-
-	@Column(name = Cols.BOO_PRINT_TYPE, type = SQLiteDataType.TEXT, version = 1)
-	public String printType;
-
-	@Column(name = Cols.BOO_MAIN_CATEGORY, type = SQLiteDataType.TEXT, version = 1)
-	public String mainCategory;
-
 	@Column(name = Cols.BOO_SMALL_THUMBNAIL, type = SQLiteDataType.BLOB, version = 1)
 	public byte[] smallThumbnail;
 
@@ -93,11 +78,6 @@ public class Book implements Serializable {
 		public static final String BOO_PUBLISHED_DATE = "BOO_PUBLISHED_DATE";
 		public static final String BOO_DESCRIPTION = "BOO_DESCRIPTION";
 		public static final String BOO_PAGE_COUNT = "BOO_PAGE_COUNT";
-		public static final String BOO_HEIGHT = "BOO_HEIGHT";
-		public static final String BOO_WIDTH = "BOO_WIDTH";
-		public static final String BOO_THICKNESS = "BOO_THICKNESS";
-		public static final String BOO_PRINT_TYPE = "BOO_PRINT_TYPE";
-		public static final String BOO_MAIN_CATEGORY = "BOO_MAIN_CATEGORY";
 		public static final String BOO_SMALL_THUMBNAIL = "BOO_SMALL_THUMBNAIL";
 		public static final String BOO_THUMBNAIL = "BOO_THUMBNAIL";
 		public static final String BOO_IS_READ = "BOO_IS_READ";
