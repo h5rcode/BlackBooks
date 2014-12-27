@@ -1,4 +1,4 @@
-package com.blackbooks.fragments;
+package com.blackbooks.fragments.dialogs;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

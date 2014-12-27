@@ -39,6 +39,7 @@ import com.blackbooks.adapters.AutoCompleteAdapter;
 import com.blackbooks.adapters.AutoCompleteAdapter.AutoCompleteSearcher;
 import com.blackbooks.adapters.LanguagesAdapter;
 import com.blackbooks.database.SQLiteHelper;
+import com.blackbooks.fragments.dialogs.ImageDisplayFragment;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.nonpersistent.Language;
 import com.blackbooks.model.persistent.Author;

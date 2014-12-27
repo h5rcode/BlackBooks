@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.blackbooks.R;
 import com.blackbooks.activities.BookEditActivity;
 import com.blackbooks.database.SQLiteHelper;
+import com.blackbooks.fragments.dialogs.ImageDisplayFragment;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.services.BookServices;
 import com.blackbooks.utils.BitmapUtils;
