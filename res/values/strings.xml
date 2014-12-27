@@ -45,13 +45,17 @@
     <string name="label_category">Category</string>
     <string name="label_categories">Categories</string>
     <string name="label_column_separator">Column separator</string>
+    <string name="label_column_separator_comma">Comma (,)</string>
+    <string name="label_column_separator_pipe">Pipe (|)</string>
+    <string name="label_column_separator_semicolon">Semicolon (;)</string>
+    <string name="label_column_separator_space">Space</string>
+    <string name="label_column_separator_tab">Tab</string>
     <string name="label_comment">Comment</string>
     <string name="label_description">Description</string>
     <string name="label_drawer_item">Drawer item</string>
     <string name="label_drawer_item_group">Drawer item group</string>
     <string name="label_drawer_open">Open drawer</string>
     <string name="label_drawer_close">Close drawer</string>
-    <string name="label_export_parameters">Export parameters</string>
     <string name="label_export_preview">Export preview (5 first books)</string>
     <string name="label_favourite">This is a favourite book</string>
     <string name="label_first_row_contains_header">First row contains headers</string>
@@ -79,6 +83,8 @@
     <string name="label_summary_series">series</string>
     <string name="label_summary_shelves">shelves</string>
     <string name="label_text_qualifier">Text qualifier</string>
+    <string name="label_text_qualifier_double_quote">Double quote (\")</string>
+    <string name="label_text_qualifier_single_quote">Single quote (\')</string>
     <string name="label_title">Title</string>
     <string name="label_total">(%d)</string>
     <string name="label_unexpected_error">Unexpected error</string>
@@ -153,9 +159,11 @@
     <string name="title_activity_book_search">Search results for \"%s\"</string>
     <string name="title_activity_book_search_default">Search results</string>
     <string name="title_activity_summary">Summary</string>
+    <string name="title_dialog_column_separator_picker">Choose a column separator</string>
     <string name="title_dialog_edit_author">Edit author</string>
     <string name="title_dialog_edit_category">Edit category</string>
     <string name="title_dialog_install_scanner">Install a bar code scanner</string>
+    <string name="title_dialog_text_qualifier_picker">Choose a text qualifier</string>
     <string name="title_tab_book_edit_general">General</string>
     <string name="title_tab_book_edit_personal">Personal</string>
 
