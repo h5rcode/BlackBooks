@@ -431,12 +431,14 @@ public final class R {
         public static final int title_activity_isbn_lookup=0x7f08009a;
         public static final int title_activity_summary=0x7f08009d;
         public static final int title_dialog_column_separator_picker=0x7f08009e;
-        public static final int title_dialog_edit_author=0x7f08009f;
-        public static final int title_dialog_edit_category=0x7f0800a0;
-        public static final int title_dialog_install_scanner=0x7f0800a1;
-        public static final int title_dialog_text_qualifier_picker=0x7f0800a2;
-        public static final int title_tab_book_edit_general=0x7f0800a3;
-        public static final int title_tab_book_edit_personal=0x7f0800a4;
+        public static final int title_dialog_delete_book=0x7f08009f;
+        public static final int title_dialog_delete_category=0x7f0800a0;
+        public static final int title_dialog_edit_author=0x7f0800a1;
+        public static final int title_dialog_edit_category=0x7f0800a2;
+        public static final int title_dialog_install_scanner=0x7f0800a3;
+        public static final int title_dialog_text_qualifier_picker=0x7f0800a4;
+        public static final int title_tab_book_edit_general=0x7f0800a5;
+        public static final int title_tab_book_edit_personal=0x7f0800a6;
     }
     public static final class style {
         /** 

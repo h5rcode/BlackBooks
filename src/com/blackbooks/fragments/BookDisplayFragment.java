@@ -408,19 +408,22 @@ public class BookDisplayFragment extends Fragment {
 		String cancelText = getString(R.string.message_confirm_delete_book_cancel);
 		String confirmText = getString(R.string.message_confirm_delete_book_confirm);
 
-		new AlertDialog.Builder(this.getActivity()).setMessage(message).setPositiveButton(confirmText, new OnClickListener() {
+		new AlertDialog.Builder(this.getActivity()) //
+				.setTitle(R.string.title_dialog_delete_book) //
+				.setMessage(message) //
+				.setPositiveButton(confirmText, new OnClickListener() {
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				BookDisplayFragment.this.deleteBook();
-			}
-		}).setNegativeButton(cancelText, new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						BookDisplayFragment.this.deleteBook();
+					}
+				}).setNegativeButton(cancelText, new OnClickListener() {
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// Do nothing.
-			}
-		}).show();
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// Do nothing.
+					}
+				}).show();
 	}
 
 	/**

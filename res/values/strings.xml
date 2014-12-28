@@ -160,6 +160,8 @@
     <string name="title_activity_book_search_default">Search results</string>
     <string name="title_activity_summary">Summary</string>
     <string name="title_dialog_column_separator_picker">Choose a column separator</string>
+    <string name="title_dialog_delete_book">Delete book</string>
+    <string name="title_dialog_delete_category">Delete category</string>
     <string name="title_dialog_edit_author">Edit author</string>
     <string name="title_dialog_edit_category">Edit category</string>
     <string name="title_dialog_install_scanner">Install a bar code scanner</string>

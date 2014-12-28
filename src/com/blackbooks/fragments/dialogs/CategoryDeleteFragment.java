@@ -49,7 +49,8 @@ public class CategoryDeleteFragment extends DialogFragment {
 		String message = getString(R.string.message_confirm_delete_category);
 		message = String.format(message, mCategory.name);
 
-		builder.setMessage(message)
+		builder.setTitle(R.string.title_dialog_delete_category) //
+				.setMessage(message) //
 				.setPositiveButton(R.string.message_confirm_delete_category_confirm, new DialogInterface.OnClickListener() {
 
 					@Override
