@@ -1,6 +1,7 @@
 package com.blackbooks.model.persistent;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.blackbooks.model.metadata.Column;
 import com.blackbooks.model.metadata.Column.SQLiteDataType;
@@ -67,6 +68,12 @@ public class Book implements Serializable {
 	@Column(name = Cols.BOO_NUMBER, type = SQLiteDataType.INTEGER, version = 1)
 	public Long number;
 
+	@Column(name = Cols.BOO_LOANED_TO, type = SQLiteDataType.TEXT, version = 1)
+	public String loanedTo;
+
+	@Column(name = Cols.BOO_LOAN_DATE, type = SQLiteDataType.INTEGER, version = 1)
+	public Date loanDate;
+
 	public Book() {
 		this.isRead = 0L;
 		this.isFavourite = 0L;
@@ -91,5 +98,7 @@ public class Book implements Serializable {
 		public static final String BSH_ID = "BSH_ID";
 		public static final String SER_ID = "SER_ID";
 		public static final String BOO_NUMBER = "BOO_NUMBER";
+		public static final String BOO_LOANED_TO = "BOO_LOANED_TO";
+		public static final String BOO_LOAN_DATE = "BOO_LOAN_DATE";
 	}
 }

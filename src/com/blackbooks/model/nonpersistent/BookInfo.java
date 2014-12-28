@@ -66,6 +66,8 @@ public class BookInfo extends Book implements Serializable {
 		this.bookShelfId = book.bookShelfId;
 		this.seriesId = book.seriesId;
 		this.number = book.number;
+		this.loanedTo = book.loanedTo;
+		this.loanDate = book.loanDate;
 	}
 
 	/**

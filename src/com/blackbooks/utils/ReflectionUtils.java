@@ -1,6 +1,7 @@
 package com.blackbooks.utils;
 
 import java.lang.reflect.Field;
+import java.util.Date;
 
 /**
  * Reflection utility class.
@@ -26,6 +27,9 @@ public final class ReflectionUtils {
 		Object value = null;
 		try {
 			value = field.get(bean);
+			if (value instanceof Date) {
+				value = ((Date) value).getTime();
+			}
 		} catch (IllegalArgumentException e) {
 			throw new RuntimeException(e);
 		} catch (IllegalAccessException e) {
@@ -66,7 +70,12 @@ public final class ReflectionUtils {
 	 */
 	public static <T> void setFieldValue(Field field, T bean, Object value) {
 		try {
-			field.set(bean, value);
+			if (field.getType() == Date.class) {
+				Date date = new Date((Long) value);
+				field.set(bean, date);
+			} else {
+				field.set(bean, value);
+			}
 		} catch (IllegalArgumentException e) {
 			throw new RuntimeException(e);
 		} catch (IllegalAccessException e) {
