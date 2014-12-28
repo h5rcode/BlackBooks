@@ -5,7 +5,6 @@ import android.app.SearchableInfo;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,17 +37,16 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	protected void onResume() {
+		super.onResume();
 
 		SharedPreferences preferences = getSharedPreferences(PREFERENCES, MODE_PRIVATE);
-
 		String defaultList = preferences.getString(PREF_DEFAULT_LIST, null);
 
 		FragmentManager fm = getSupportFragmentManager();
 		mCurrentFragment = (AbstractBookListFragment) fm.findFragmentByTag(BOOK_LIST_FRAGMENT_TAG);
 
-		if (mCurrentFragment == null) {
+		if (mCurrentFragment == null || !mCurrentFragment.getClass().getName().equals(defaultList)) {
 			if (defaultList == null) {
 				mCurrentFragment = new BookListByAuthorFragment();
 			} else if (defaultList.equals(BookListByAuthorFragment.class.getName())) {
@@ -66,7 +64,7 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 			}
 
 			fm.beginTransaction() //
-					.add(R.id.abstractDrawerActivity_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
+					.replace(R.id.abstractDrawerActivity_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 					.commit();
 		}
 	}
