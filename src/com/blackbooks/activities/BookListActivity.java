@@ -26,8 +26,8 @@ import com.blackbooks.fragments.BookListByLanguageFragment;
  */
 public class BookListActivity extends AbstractDrawerActivity implements BookListListener {
 
-	private static final String PREFERENCES = "PREFERENCES";
-	private static final String PREF_DEFAULT_LIST = "PREF_DEFAULT_LIST";
+	public static final String PREFERENCES = "PREFERENCES";
+	public static final String PREF_DEFAULT_LIST = "PREF_DEFAULT_LIST";
 	private static final String BOOK_LIST_FRAGMENT_TAG = "BOOK_LIST_FRAGMENT_TAG";
 
 	private AbstractBookListFragment mCurrentFragment;
