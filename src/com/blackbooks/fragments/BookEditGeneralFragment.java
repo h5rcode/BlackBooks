@@ -53,6 +53,7 @@ import com.blackbooks.services.SeriesServices;
 import com.blackbooks.utils.BitmapUtils;
 import com.blackbooks.utils.Commons;
 import com.blackbooks.utils.FileUtils;
+import com.blackbooks.utils.IsbnUtils;
 import com.blackbooks.utils.LogUtils;
 import com.blackbooks.utils.StringUtils;
 
@@ -169,7 +170,8 @@ public class BookEditGeneralFragment extends Fragment {
 				mBookInfo.authors = (ArrayList<Author>) data.getSerializableExtra(BookAuthorsEditActivity.EXTRA_AUTHOR_LIST);
 				setButtonEditAuthorsText();
 			} else if (requestCode == REQUEST_EDIT_CATEGORIES) {
-				mBookInfo.categories = (ArrayList<Category>) data.getSerializableExtra(BookCategoriesEditActivity.EXTRA_CATEGORY_LIST);
+				mBookInfo.categories = (ArrayList<Category>) data
+						.getSerializableExtra(BookCategoriesEditActivity.EXTRA_CATEGORY_LIST);
 				setButtonEditCategoriesText();
 			} else if (requestCode == REQUEST_PICK_IMAGE) {
 
@@ -305,7 +307,21 @@ public class BookEditGeneralFragment extends Fragment {
 		String title = getEditTextValue(mTextTitle, true);
 		String subtitle = getEditTextValue(mTextSubtitle, false);
 		String isbn10 = getEditTextValue(mTextIsbn10, false);
+		if (isbn10 != null && !IsbnUtils.isValidIsbn10(isbn10)) {
+			mTextIsbn10.setError(getString(R.string.message_isbn_search_invalid_isbn10));
+			if (mValidBookInfo) {
+				mValidBookInfo = false;
+				mTextIsbn10.requestFocus();
+			}
+		}
 		String isbn13 = getEditTextValue(mTextIsbn13, false);
+		if (isbn13 != null && !IsbnUtils.isValidIsbn13(isbn13)) {
+			mTextIsbn13.setError(getString(R.string.message_isbn_search_invalid_isbn13));
+			if (mValidBookInfo) {
+				mValidBookInfo = false;
+				mTextIsbn13.requestFocus();
+			}
+		}
 		String pageCountString = getEditTextValue(mTextPageCount, false);
 		String publisherName = getEditTextValue(mTextPublisher, false);
 		String publishedDate = getEditTextValue(mTextPublishedDate, false);
@@ -447,6 +463,7 @@ public class BookEditGeneralFragment extends Fragment {
 				editText.setError(getString(R.string.field_mandatory));
 				if (mValidBookInfo) {
 					mValidBookInfo = false;
+					editText.requestFocus();
 				}
 			}
 		} else if (editText.getError() != null) {

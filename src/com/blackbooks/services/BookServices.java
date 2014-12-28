@@ -1,5 +1,6 @@
 package com.blackbooks.services;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import com.blackbooks.model.persistent.fts.BookFTS;
 import com.blackbooks.sql.BrokerManager;
 import com.blackbooks.sql.FTSBroker;
 import com.blackbooks.sql.FTSBrokerManager;
+import com.blackbooks.utils.IsbnUtils;
 
 /**
  * Book services.
@@ -231,6 +233,14 @@ public class BookServices {
 				bookInfo.seriesId = bookInfo.series.id;
 			} else {
 				bookInfo.series.id = null;
+			}
+
+			if (bookInfo.isbn10 != null && !IsbnUtils.isValidIsbn10(bookInfo.isbn10)) {
+				throw new InvalidParameterException("Invalid ISBN-10.");
+			}
+
+			if (bookInfo.isbn13 != null && !IsbnUtils.isValidIsbn13(bookInfo.isbn13)) {
+				throw new InvalidParameterException("Invalid ISBN-13.");
 			}
 
 			BrokerManager.getBroker(Book.class).save(db, bookInfo);

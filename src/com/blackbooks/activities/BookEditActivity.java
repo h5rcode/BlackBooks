@@ -1,5 +1,7 @@
 package com.blackbooks.activities;
 
+import java.security.InvalidParameterException;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
@@ -35,7 +37,8 @@ import com.blackbooks.utils.VariableUtils;
 /**
  * Activity used to add a new book or edit an existing one.
  */
-public final class BookEditActivity extends FragmentActivity implements BookLoadListener, BookSearchListener, OnPageChangeListener, TabListener {
+public final class BookEditActivity extends FragmentActivity implements BookLoadListener, BookSearchListener,
+		OnPageChangeListener, TabListener {
 
 	public static final String EXTRA_BOOK_ID = "EXTRA_BOOK_ID";
 	public static final String EXTRA_MODE = "EXTRA_MODE";
@@ -83,7 +86,7 @@ public final class BookEditActivity extends FragmentActivity implements BookLoad
 			initState();
 		}
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -221,7 +224,7 @@ public final class BookEditActivity extends FragmentActivity implements BookLoad
 			break;
 
 		default:
-			throw new IllegalStateException("Extra " + EXTRA_MODE + " not set.");
+			throw new InvalidParameterException("Extra " + EXTRA_MODE + " not set.");
 		}
 	}
 
@@ -278,7 +281,7 @@ public final class BookEditActivity extends FragmentActivity implements BookLoad
 			}
 
 		} else {
-			throw new IllegalStateException("Extra " + EXTRA_BOOK_ID + " not set.");
+			throw new InvalidParameterException("Extra " + EXTRA_BOOK_ID + " not set.");
 		}
 	}
 
@@ -295,8 +298,10 @@ public final class BookEditActivity extends FragmentActivity implements BookLoad
 		mIsLoading = savedInstanceState.getBoolean(STATE_IS_LOADING);
 		mIsSearching = savedInstanceState.getBoolean(STATE_IS_SEARCHING);
 		mBookInfo = (BookInfo) savedInstanceState.getSerializable(STATE_BOOK_INFO);
-		mBookEditGeneralFragment = (BookEditGeneralFragment) fm.getFragment(savedInstanceState, BookEditGeneralFragment.class.getName());
-		mBookEditPersonalFragment = (BookEditPersonalFragment) fm.getFragment(savedInstanceState, BookEditPersonalFragment.class.getName());
+		mBookEditGeneralFragment = (BookEditGeneralFragment) fm.getFragment(savedInstanceState,
+				BookEditGeneralFragment.class.getName());
+		mBookEditPersonalFragment = (BookEditPersonalFragment) fm.getFragment(savedInstanceState,
+				BookEditPersonalFragment.class.getName());
 
 		switch (mMode) {
 		case MODE_ADD:
@@ -308,7 +313,7 @@ public final class BookEditActivity extends FragmentActivity implements BookLoad
 			break;
 
 		default:
-			throw new IllegalStateException("Invalid STATE_MODE.");
+			throw new InvalidParameterException("Invalid STATE_MODE.");
 		}
 
 		if (mIsLoading || mIsSearching) {
@@ -327,6 +332,12 @@ public final class BookEditActivity extends FragmentActivity implements BookLoad
 	private void save() {
 		if (mBookEditGeneralFragment != null && mBookEditPersonalFragment != null) {
 			boolean isValid = mBookEditGeneralFragment.readBookInfo(mBookInfo);
+
+			if (!isValid) {
+				getActionBar().setSelectedNavigationItem(0);
+				return;
+			}
+
 			isValid = isValid && mBookEditPersonalFragment.readBookInfo(mBookInfo);
 
 			if (isValid) {
@@ -354,7 +365,7 @@ public final class BookEditActivity extends FragmentActivity implements BookLoad
 					break;
 
 				default:
-					throw new IllegalStateException();
+					throw new InvalidParameterException("Invalid mode.");
 				}
 			}
 		}
@@ -403,7 +414,7 @@ public final class BookEditActivity extends FragmentActivity implements BookLoad
 				break;
 
 			default:
-				throw new IllegalStateException();
+				throw new InvalidParameterException("Invalid tab position.");
 			}
 			return fragment;
 		}
