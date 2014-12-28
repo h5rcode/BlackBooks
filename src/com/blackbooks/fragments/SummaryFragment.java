@@ -31,8 +31,8 @@ public class SummaryFragment extends Fragment {
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
+	public void onResume() {
+		super.onResume();
 
 		View view = getView();
 		mTextBooksCount = (TextView) view.findViewById(R.id.summary_booksNumber);
