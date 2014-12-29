@@ -22,6 +22,13 @@ import com.blackbooks.services.BookShelfServices;
  */
 public class BookListByBookShelfFragment extends AbstractBookListFragment {
 
+	private String mActionBarSubtitle;
+
+	@Override
+	public String getActionBarSubtitle() {
+		return mActionBarSubtitle;
+	}
+
 	@Override
 	protected ArrayAdapter<ListItem> getBookListAdapter() {
 		return new BooksByBookShelfAdapter(getActivity());
@@ -41,11 +48,14 @@ public class BookListByBookShelfFragment extends AbstractBookListFragment {
 			}
 		}
 
-		List<ListItem> listItems = new ArrayList<ListItem>();
+		int bookShelvesCount = 0;
 
+		List<ListItem> listItems = new ArrayList<ListItem>();
 		for (BookShelfInfo bookShelfInfo : bookShelfInfoList) {
 			if (bookShelfInfo.id == null) {
 				bookShelfInfo.name = getString(R.string.label_unspecified_bookshelf);
+			} else {
+				bookShelvesCount++;
 			}
 
 			BookShelfItem bookShelfItem = new BookShelfItem(bookShelfInfo);
@@ -56,6 +66,7 @@ public class BookListByBookShelfFragment extends AbstractBookListFragment {
 				listItems.add(bookItem);
 			}
 		}
+		mActionBarSubtitle = String.format(getString(R.string.subtitle_fragment_books_by_bookshelf), bookShelvesCount);
 
 		return listItems;
 	}

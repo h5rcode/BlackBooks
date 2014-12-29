@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.blackbooks.R;
 import com.blackbooks.cache.ThumbnailManager;
+import com.blackbooks.model.nonpersistent.AuthorInfo;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Series;
 
@@ -56,11 +57,11 @@ public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> implements Sect
 		ListItem item = this.getItem(position);
 		if (item != null) {
 			ListItemType itemType = item.getListItemType();
-			if (itemType == ListItemType.Entry) {
+			if (itemType == ListItemType.ENTRY) {
 				view = getViewBook(parent, item);
-			} else if (itemType == ListItemType.Header2) {
+			} else if (itemType == ListItemType.HEADER_2) {
 				view = getViewSeries(parent, item);
-			} else if (itemType == ListItemType.Header) {
+			} else if (itemType == ListItemType.HEADER) {
 				view = getViewAuthor(parent, item);
 			}
 		}
@@ -76,9 +77,10 @@ public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> implements Sect
 		int position = 0;
 		String currentSection = null;
 		for (ListItem listItem : collection) {
-			if (listItem.getListItemType() == ListItemType.Header) {
+			if (listItem.getListItemType() == ListItemType.HEADER) {
 				AuthorItem authorItem = (AuthorItem) listItem;
-				String authorName = authorItem.getName();
+				AuthorInfo author = authorItem.getAuthor();
+				String authorName = author.name;
 				currentSection = authorName.substring(0, 1);
 				if (!mSectionPositionMap.containsKey(currentSection)) {
 					mSectionPositionMap.put(currentSection, position);
@@ -123,15 +125,16 @@ public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> implements Sect
 	private View getViewAuthor(ViewGroup parent, ListItem item) {
 		View view;
 		AuthorItem header = (AuthorItem) item;
+		AuthorInfo author = header.getAuthor();
 
 		view = mInflater.inflate(R.layout.list_books_by_author_item_author, parent, false);
 
 		TextView textViewName = (TextView) view.findViewById(R.id.books_by_author_name);
-		textViewName.setText(header.getName());
+		textViewName.setText(author.name);
 
 		TextView textViewTotalBooks = (TextView) view.findViewById(R.id.books_by_author_item_total);
 		String total = this.getContext().getString(R.string.label_total);
-		total = String.format(total, header.getTotalBooks());
+		total = String.format(total, author.books.size());
 		textViewTotalBooks.setText(total);
 		return view;
 	}

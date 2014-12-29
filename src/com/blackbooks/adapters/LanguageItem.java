@@ -1,25 +1,21 @@
 package com.blackbooks.adapters;
 
+import com.blackbooks.model.nonpersistent.LanguageInfo;
+
 public class LanguageItem implements ListItem {
 
-	private final String mDisplayName;
-	private final int mTotal;
+	private final LanguageInfo mLanguage;
 
-	public LanguageItem(String displayName, int total) {
-		mDisplayName = displayName;
-		mTotal = total;
+	public LanguageItem(LanguageInfo language) {
+		mLanguage = language;
 	}
 
 	@Override
 	public ListItemType getListItemType() {
-		return ListItemType.Header;
+		return ListItemType.HEADER;
 	}
 
-	public String getDisplayName() {
-		return mDisplayName;
-	}
-
-	public int getTotal() {
-		return mTotal;
+	public LanguageInfo getLanguage() {
+		return mLanguage;
 	}
 }

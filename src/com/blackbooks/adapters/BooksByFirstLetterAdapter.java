@@ -54,7 +54,7 @@ public class BooksByFirstLetterAdapter extends ArrayAdapter<ListItem> implements
 		ListItem item = this.getItem(position);
 		if (item != null) {
 			ListItemType itemType = item.getListItemType();
-			if (itemType == ListItemType.Entry) {
+			if (itemType == ListItemType.ENTRY) {
 				BookItem entry = (BookItem) item;
 				BookInfo book = entry.getBook();
 
@@ -89,7 +89,7 @@ public class BooksByFirstLetterAdapter extends ArrayAdapter<ListItem> implements
 					imageFavourite.setVisibility(View.GONE);
 				}
 
-			} else if (itemType == ListItemType.Header) {
+			} else if (itemType == ListItemType.HEADER) {
 				FirstLetterItem header = (FirstLetterItem) item;
 
 				view = mInflater.inflate(R.layout.list_books_by_first_letter_item_letter, parent, false);
@@ -115,7 +115,7 @@ public class BooksByFirstLetterAdapter extends ArrayAdapter<ListItem> implements
 		int position = 0;
 		String currentSection = null;
 		for (ListItem listItem : collection) {
-			if (listItem.getListItemType() == ListItemType.Header) {
+			if (listItem.getListItemType() == ListItemType.HEADER) {
 				FirstLetterItem authorItem = (FirstLetterItem) listItem;
 				currentSection = authorItem.getValue();
 				mSectionPositionMap.put(currentSection, position);

@@ -56,7 +56,7 @@ public class BooksByBookShelfAdapter extends ArrayAdapter<ListItem> implements S
 		ListItem item = this.getItem(position);
 		if (item != null) {
 			ListItemType itemType = item.getListItemType();
-			if (itemType == ListItemType.Entry) {
+			if (itemType == ListItemType.ENTRY) {
 				BookItem entry = (BookItem) item;
 				BookInfo book = entry.getBook();
 
@@ -90,7 +90,7 @@ public class BooksByBookShelfAdapter extends ArrayAdapter<ListItem> implements S
 				} else {
 					imageFavourite.setVisibility(View.GONE);
 				}
-			} else if (itemType == ListItemType.Header) {
+			} else if (itemType == ListItemType.HEADER) {
 				BookShelfItem header = (BookShelfItem) item;
 				BookShelfInfo bookshelf = header.getBookShelf();
 
@@ -118,7 +118,7 @@ public class BooksByBookShelfAdapter extends ArrayAdapter<ListItem> implements S
 		int position = 0;
 		String currentSection = null;
 		for (ListItem listItem : collection) {
-			if (listItem.getListItemType() == ListItemType.Header) {
+			if (listItem.getListItemType() == ListItemType.HEADER) {
 				BookShelfItem bookShelfItem = (BookShelfItem) listItem;
 				BookShelf bookShelf = bookShelfItem.getBookShelf();
 				String bookShelfName = bookShelf.name;

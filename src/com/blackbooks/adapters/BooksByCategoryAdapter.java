@@ -56,7 +56,7 @@ public class BooksByCategoryAdapter extends ArrayAdapter<ListItem> implements Se
 		ListItem item = this.getItem(position);
 		if (item != null) {
 			ListItemType itemType = item.getListItemType();
-			if (itemType == ListItemType.Entry) {
+			if (itemType == ListItemType.ENTRY) {
 				BookItem entry = (BookItem) item;
 				BookInfo book = entry.getBook();
 
@@ -90,7 +90,7 @@ public class BooksByCategoryAdapter extends ArrayAdapter<ListItem> implements Se
 				} else {
 					imageFavourite.setVisibility(View.GONE);
 				}
-			} else if (itemType == ListItemType.Header) {
+			} else if (itemType == ListItemType.HEADER) {
 				CategoryItem header = (CategoryItem) item;
 				CategoryInfo category = header.getCategory();
 
@@ -118,7 +118,7 @@ public class BooksByCategoryAdapter extends ArrayAdapter<ListItem> implements Se
 		int position = 0;
 		String currentSection = null;
 		for (ListItem listItem : collection) {
-			if (listItem.getListItemType() == ListItemType.Header) {
+			if (listItem.getListItemType() == ListItemType.HEADER) {
 				CategoryItem categoryItem = (CategoryItem) listItem;
 				Category category = categoryItem.getCategory();
 				String categoryName = category.name;

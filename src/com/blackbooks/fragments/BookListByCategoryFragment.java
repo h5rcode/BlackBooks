@@ -23,8 +23,8 @@ import com.blackbooks.adapters.ListItem;
 import com.blackbooks.adapters.ListItemType;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.dialogs.CategoryDeleteFragment;
-import com.blackbooks.fragments.dialogs.CategoryEditFragment;
 import com.blackbooks.fragments.dialogs.CategoryDeleteFragment.CategoryDeleteListener;
+import com.blackbooks.fragments.dialogs.CategoryEditFragment;
 import com.blackbooks.fragments.dialogs.CategoryEditFragment.CategoryEditListener;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.nonpersistent.CategoryInfo;
@@ -40,6 +40,13 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
 	private static final String CATEGORY_DELETE_FRAGMENT_TAG = "CATEGORY_DELETE_FRAGMENT_TAG";
 	private static final String CATEGORY_EDIT_FRAGMENT_TAG = "CATEGORY_EDIT_FRAGMENT_TAG";
 
+	private String mActionBarSubtitle;
+
+	@Override
+	public String getActionBarSubtitle() {
+		return mActionBarSubtitle;
+	}
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -52,7 +59,7 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
 		super.onCreateContextMenu(menu, v, menuInfo);
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
 		ListItem listItem = (ListItem) getListView().getAdapter().getItem(info.position);
-		if (listItem.getListItemType() == ListItemType.Header) {
+		if (listItem.getListItemType() == ListItemType.HEADER) {
 			CategoryItem categoryItem = (CategoryItem) listItem;
 			Category category = categoryItem.getCategory();
 			if (category.id != null) {
@@ -175,10 +182,13 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
 			}
 		}
 
+		int categoriesCount = 0;
 		List<ListItem> listItems = new ArrayList<ListItem>();
 		for (CategoryInfo categoryInfo : categoryList) {
 			if (categoryInfo.id == null) {
 				categoryInfo.name = getString(R.string.label_unspecified_category);
+			} else {
+				categoriesCount++;
 			}
 			CategoryItem categoryItem = new CategoryItem(categoryInfo);
 			listItems.add(categoryItem);
@@ -187,6 +197,7 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
 				listItems.add(bookItem);
 			}
 		}
+		mActionBarSubtitle = String.format(getString(R.string.subtitle_fragment_books_by_category), categoriesCount);
 
 		return listItems;
 	}

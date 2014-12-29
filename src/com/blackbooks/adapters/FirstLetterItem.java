@@ -12,7 +12,7 @@ public class FirstLetterItem implements ListItem {
 
 	@Override
 	public ListItemType getListItemType() {
-		return ListItemType.Header;
+		return ListItemType.HEADER;
 	}
 	
 	public String getValue() {

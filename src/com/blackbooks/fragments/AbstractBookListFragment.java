@@ -77,12 +77,14 @@ public abstract class AbstractBookListFragment extends ListFragment {
 		}
 	}
 
+	public abstract String getActionBarSubtitle();
+
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		ListItem item = (ListItem) getListAdapter().getItem(position);
 		ListItemType itemType = item.getListItemType();
 
-		if (itemType == ListItemType.Entry) {
+		if (itemType == ListItemType.ENTRY) {
 			BookItem bookItem = (BookItem) item;
 			BookInfo book = bookItem.getBook();
 			Intent i = new Intent(this.getActivity(), BookDisplayActivity.class);
@@ -175,6 +177,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
 			mBookListAdapter.clear();
 			mBookListAdapter.addAll(result);
 			mBookListAdapter.notifyDataSetChanged();
+
 			if (AbstractBookListFragment.this.getView() != null) {
 				AbstractBookListFragment.this.setListShown(true);
 			}

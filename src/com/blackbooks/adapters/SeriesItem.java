@@ -12,7 +12,7 @@ public class SeriesItem implements ListItem {
 
 	@Override
 	public ListItemType getListItemType() {
-		return ListItemType.Header2;
+		return ListItemType.HEADER_2;
 	}
 	
 	public Series getSeries() {

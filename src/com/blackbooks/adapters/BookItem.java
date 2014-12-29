@@ -12,7 +12,7 @@ public class BookItem implements ListItem {
 
 	@Override
 	public ListItemType getListItemType() {
-		return ListItemType.Entry;
+		return ListItemType.ENTRY;
 	}
 
 	public BookInfo getBook() {

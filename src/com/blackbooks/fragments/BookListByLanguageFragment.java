@@ -18,6 +18,13 @@ import com.blackbooks.services.LanguageServices;
 
 public class BookListByLanguageFragment extends AbstractBookListFragment {
 
+	private String mActionBarSubtitle;
+
+	@Override
+	public String getActionBarSubtitle() {
+		return mActionBarSubtitle;
+	}
+
 	@Override
 	protected ArrayAdapter<ListItem> getBookListAdapter() {
 		return new BooksByLanguageAdapter(this.getActivity());
@@ -37,14 +44,16 @@ public class BookListByLanguageFragment extends AbstractBookListFragment {
 			}
 		}
 
+		int languagesCount = 0;
 		List<ListItem> listItems = new ArrayList<ListItem>();
-
 		for (LanguageInfo language : languageList) {
-			if (language.displayName == null) {
+			if (language.languageCode == null) {
 				language.displayName = getString(R.string.label_unspecified_language);
+			} else {
+				languagesCount++;
 			}
 
-			LanguageItem languageItem = new LanguageItem(language.displayName, language.books.size());
+			LanguageItem languageItem = new LanguageItem(language);
 			listItems.add(languageItem);
 
 			for (BookInfo book : language.books) {
@@ -52,6 +61,8 @@ public class BookListByLanguageFragment extends AbstractBookListFragment {
 				listItems.add(bookItem);
 			}
 		}
+
+		mActionBarSubtitle = String.format(getString(R.string.subtitle_fragment_books_by_language), languagesCount);
 
 		return listItems;
 	}

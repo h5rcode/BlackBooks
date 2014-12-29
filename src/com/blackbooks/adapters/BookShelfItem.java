@@ -12,7 +12,7 @@ public class BookShelfItem implements ListItem {
 
 	@Override
 	public ListItemType getListItemType() {
-		return ListItemType.Header;
+		return ListItemType.HEADER;
 	}
 	
 	public BookShelfInfo getBookShelf() {

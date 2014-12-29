@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.blackbooks.R;
 import com.blackbooks.cache.ThumbnailManager;
 import com.blackbooks.model.nonpersistent.BookInfo;
+import com.blackbooks.model.nonpersistent.LanguageInfo;
 import com.blackbooks.utils.StringUtils;
 
 /**
@@ -54,7 +55,7 @@ public class BooksByLanguageAdapter extends ArrayAdapter<ListItem> implements Se
 		ListItem item = this.getItem(position);
 		if (item != null) {
 			ListItemType itemType = item.getListItemType();
-			if (itemType == ListItemType.Entry) {
+			if (itemType == ListItemType.ENTRY) {
 				BookItem entry = (BookItem) item;
 				BookInfo book = entry.getBook();
 
@@ -89,17 +90,18 @@ public class BooksByLanguageAdapter extends ArrayAdapter<ListItem> implements Se
 				} else {
 					imageFavourite.setVisibility(View.GONE);
 				}
-			} else if (itemType == ListItemType.Header) {
+			} else if (itemType == ListItemType.HEADER) {
 				LanguageItem header = (LanguageItem) item;
+				LanguageInfo language = header.getLanguage();
 
 				view = mInflater.inflate(R.layout.list_books_by_language_item_language, parent, false);
 
 				TextView textLanguage = (TextView) view.findViewById(R.id.books_by_language_item_language);
 				TextView textViewTotal = (TextView) view.findViewById(R.id.books_by_language_item_total);
 
-				textLanguage.setText(header.getDisplayName());
+				textLanguage.setText(language.displayName);
 				String total = this.getContext().getString(R.string.label_total);
-				total = String.format(total, header.getTotal());
+				total = String.format(total, language.books.size());
 				textViewTotal.setText(total);
 			}
 		}
@@ -115,9 +117,9 @@ public class BooksByLanguageAdapter extends ArrayAdapter<ListItem> implements Se
 		int position = 0;
 		String currentSection = null;
 		for (ListItem listItem : collection) {
-			if (listItem.getListItemType() == ListItemType.Header) {
+			if (listItem.getListItemType() == ListItemType.HEADER) {
 				LanguageItem languageItem = (LanguageItem) listItem;
-				String displayName = languageItem.getDisplayName();
+				String displayName = languageItem.getLanguage().displayName;
 				currentSection = displayName.substring(0, 1);
 				if (!mSectionPositionMap.containsKey(currentSection)) {
 					mSectionPositionMap.put(currentSection, position);

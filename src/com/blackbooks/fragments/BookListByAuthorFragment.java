@@ -25,6 +25,13 @@ import com.blackbooks.services.AuthorServices;
  */
 public class BookListByAuthorFragment extends AbstractBookListFragment {
 
+	private String mActionBarSubtitle;
+
+	@Override
+	public String getActionBarSubtitle() {
+		return mActionBarSubtitle;
+	}
+
 	@Override
 	protected ArrayAdapter<ListItem> getBookListAdapter() {
 		return new BooksByAuthorAdapter(this.getActivity());
@@ -46,11 +53,14 @@ public class BookListByAuthorFragment extends AbstractBookListFragment {
 
 		List<ListItem> listItems = new ArrayList<ListItem>();
 
+		int authorsCount = 0;
 		for (AuthorInfo authorInfo : authorInfoList) {
 			if (authorInfo.id == null) {
 				authorInfo.name = getString(R.string.label_unspecified_author);
+			} else {
+				authorsCount++;
 			}
-			AuthorItem authorItem = new AuthorItem(authorInfo.id, authorInfo.name, authorInfo.books.size());
+			AuthorItem authorItem = new AuthorItem(authorInfo);
 			listItems.add(authorItem);
 
 			for (SeriesInfo series : authorInfo.series) {
@@ -64,6 +74,7 @@ public class BookListByAuthorFragment extends AbstractBookListFragment {
 				}
 			}
 		}
+		mActionBarSubtitle = String.format(getString(R.string.subtitle_fragment_books_by_author), authorsCount);
 		return listItems;
 	}
 }

@@ -1,31 +1,21 @@
 package com.blackbooks.adapters;
 
-public class AuthorItem implements ListItem {
-	
-	private Long id;
-	private String name;
-	private int totalBooks;
+import com.blackbooks.model.nonpersistent.AuthorInfo;
 
-	public AuthorItem(Long id, String name, int totalBooks) {
-		this.id = id;
-		this.name = name;
-		this.totalBooks = totalBooks;
+public class AuthorItem implements ListItem {
+
+	private final AuthorInfo mAuthor;
+
+	public AuthorItem(AuthorInfo author) {
+		this.mAuthor = author;
 	}
 
 	@Override
 	public ListItemType getListItemType() {
-		return ListItemType.Header;
-	}
-	
-	public Long getId() {
-		return id;
+		return ListItemType.HEADER;
 	}
 
-	public String getName() {
-		return name;
-	}
-	
-	public int getTotalBooks() {
-		return totalBooks;
+	public AuthorInfo getAuthor() {
+		return mAuthor;
 	}
 }

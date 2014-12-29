@@ -8,15 +8,15 @@ public enum ListItemType {
 	/**
 	 * Header.
 	 */
-	Header,
+	HEADER,
 	
 	/**
 	 * Header 2.
 	 */
-	Header2,
+	HEADER_2,
 
 	/**
 	 * Entry.
 	 */
-	Entry
+	ENTRY
 }

@@ -8,6 +8,7 @@ public class LanguageInfo implements Serializable {
 
 	private static final long serialVersionUID = 8807563807190599027L;
 
+	public String languageCode;
 	public String displayName;
 	public List<BookInfo> books;
 

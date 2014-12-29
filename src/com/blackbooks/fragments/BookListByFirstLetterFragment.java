@@ -7,6 +7,7 @@ import java.util.List;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.ArrayAdapter;
 
+import com.blackbooks.R;
 import com.blackbooks.adapters.BookItem;
 import com.blackbooks.adapters.BooksByFirstLetterAdapter;
 import com.blackbooks.adapters.FirstLetterItem;
@@ -20,6 +21,13 @@ import com.blackbooks.services.BookServices;
  * the first letter of their title.
  */
 public class BookListByFirstLetterFragment extends AbstractBookListFragment {
+
+	private String mActionBarSubtitle;
+
+	@Override
+	public String getActionBarSubtitle() {
+		return mActionBarSubtitle;
+	}
 
 	@Override
 	protected ArrayAdapter<ListItem> getBookListAdapter() {
@@ -56,6 +64,7 @@ public class BookListByFirstLetterFragment extends AbstractBookListFragment {
 			bookMap.get(firstLetter).add(book);
 		}
 
+		int booksCount = 0;
 		List<ListItem> listItems = new ArrayList<ListItem>();
 		for (String firstLetter : bookMap.keySet()) {
 			List<BookInfo> letterBookList = bookMap.get(firstLetter);
@@ -64,10 +73,13 @@ public class BookListByFirstLetterFragment extends AbstractBookListFragment {
 			listItems.add(firstLetterItem);
 
 			for (BookInfo book : letterBookList) {
+				booksCount++;
 				BookItem bookItem = new BookItem(book);
 				listItems.add(bookItem);
 			}
 		}
+
+		mActionBarSubtitle = String.format(getString(R.string.subtitle_fragment_books_by_first_letter), booksCount);
 		return listItems;
 	}
 }

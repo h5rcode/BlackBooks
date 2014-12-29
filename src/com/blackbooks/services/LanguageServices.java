@@ -53,6 +53,7 @@ public class LanguageServices {
 					String displayName = LanguageUtils.getDisplayLanguage(languageCode);
 
 					language = new LanguageInfo();
+					language.languageCode = languageCode;
 					language.displayName = displayName;
 
 					languageMap.put(languageCode, language);
