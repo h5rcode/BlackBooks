@@ -119,14 +119,6 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 		return result;
 	}
 
-	/**
-	 * Set the action bar subtitle.
-	 */
-	private void setActionBarSubtitle() {
-		ActionBar actionBar = getActionBar();
-		actionBar.setSubtitle(mCurrentFragment.getActionBarSubtitle());
-	}
-
 	private void sortByAuthor() {
 		if (!(mCurrentFragment instanceof BookListByAuthorFragment)) {
 			SharedPreferences sharedPref = getSharedPreferences(BookListActivity.PREFERENCES, MODE_PRIVATE);
@@ -190,6 +182,14 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 					.replace(R.id.abstractDrawerActivity_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 					.commit();
 		}
+	}
+
+	/**
+	 * Set the action bar subtitle.
+	 */
+	private void setActionBarSubtitle() {
+		ActionBar actionBar = getActionBar();
+		actionBar.setSubtitle(mCurrentFragment.getActionBarSubtitle());
 	}
 
 	@Override

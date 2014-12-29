@@ -37,7 +37,7 @@ import com.blackbooks.utils.VariableUtils;
 /**
  * Fragment to display the information of a book.
  */
-public class BookDisplayFragment extends Fragment {
+public class BookDisplayDetailFragment extends Fragment {
 
 	private static final String ARG_BOOK_ID = "ARG_BOOK_ID";
 	private static final String IMAGE_DISPLAY_FRAGMENT_TAG = "IMAGE_DISPLAY_FRAGMENT_TAG";
@@ -86,8 +86,8 @@ public class BookDisplayFragment extends Fragment {
 	 *            Id of the book.
 	 * @return BookDisplayFragment.
 	 */
-	public static BookDisplayFragment newInstance(long bookId) {
-		BookDisplayFragment instance = new BookDisplayFragment();
+	public static BookDisplayDetailFragment newInstance(long bookId) {
+		BookDisplayDetailFragment instance = new BookDisplayDetailFragment();
 		Bundle args = new Bundle();
 		args.putLong(ARG_BOOK_ID, bookId);
 		instance.setArguments(args);
@@ -115,7 +115,7 @@ public class BookDisplayFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_book_display, container, false);
+		View view = inflater.inflate(R.layout.fragment_book_display_detail, container, false);
 		findViews(view);
 
 		android.view.View.OnClickListener listener = new android.view.View.OnClickListener() {
@@ -124,7 +124,7 @@ public class BookDisplayFragment extends Fragment {
 			public void onClick(View v) {
 				byte[] image = mBookInfo.thumbnail;
 				if (image != null && image.length > 0) {
-					FragmentManager fm = BookDisplayFragment.this.getFragmentManager();
+					FragmentManager fm = BookDisplayDetailFragment.this.getFragmentManager();
 					ImageDisplayFragment fragment = ImageDisplayFragment.newInstance(image);
 					fragment.show(fm, IMAGE_DISPLAY_FRAGMENT_TAG);
 				}
@@ -201,34 +201,34 @@ public class BookDisplayFragment extends Fragment {
 	 *            View.
 	 */
 	private void findViews(View view) {
-		mImageCover = (ImageView) view.findViewById(R.id.bookDisplay_imageCover);
-		mImageRead = (ImageView) view.findViewById(R.id.bookDisplay_imageRead);
-		mImageFavourite = (ImageView) view.findViewById(R.id.bookDisplay_imageFavourite);
-		mTextTitle = (TextView) view.findViewById(R.id.bookDisplay_textTitle);
-		mTextSeries = (TextView) view.findViewById(R.id.bookDisplay_textSeries);
-		mTextSubtitle = (TextView) view.findViewById(R.id.bookDisplay_textSubtitle);
-		mTextAuthor = (TextView) view.findViewById(R.id.bookDisplay_textAuthor);
-		mTextIsbn10 = (TextView) view.findViewById(R.id.bookDisplay_textIsbn10);
-		mTextIsbn13 = (TextView) view.findViewById(R.id.bookDisplay_textIsbn13);
-		mTextPageCount = (TextView) view.findViewById(R.id.bookDisplay_textPageCount);
-		mTextPublisher = (TextView) view.findViewById(R.id.bookDisplay_textPublisher);
-		mTextPublishedDate = (TextView) view.findViewById(R.id.bookDisplay_textPublishedDate);
-		mTextCategory = (TextView) view.findViewById(R.id.bookDisplay_textCategory);
-		mTextLanguage = (TextView) view.findViewById(R.id.bookDisplay_textLanguage);
-		mTextLanguage = (TextView) view.findViewById(R.id.bookDisplay_textLanguage);
-		mTextDescription = (TextView) view.findViewById(R.id.bookDisplay_textDescription);
+		mImageCover = (ImageView) view.findViewById(R.id.bookDisplayDetail_imageCover);
+		mImageRead = (ImageView) view.findViewById(R.id.bookDisplayDetail_imageRead);
+		mImageFavourite = (ImageView) view.findViewById(R.id.bookDisplayDetail_imageFavourite);
+		mTextTitle = (TextView) view.findViewById(R.id.bookDisplayDetail_textTitle);
+		mTextSeries = (TextView) view.findViewById(R.id.bookDisplayDetail_textSeries);
+		mTextSubtitle = (TextView) view.findViewById(R.id.bookDisplayDetail_textSubtitle);
+		mTextAuthor = (TextView) view.findViewById(R.id.bookDisplayDetail_textAuthor);
+		mTextIsbn10 = (TextView) view.findViewById(R.id.bookDisplayDetail_textIsbn10);
+		mTextIsbn13 = (TextView) view.findViewById(R.id.bookDisplayDetail_textIsbn13);
+		mTextPageCount = (TextView) view.findViewById(R.id.bookDisplayDetail_textPageCount);
+		mTextPublisher = (TextView) view.findViewById(R.id.bookDisplayDetail_textPublisher);
+		mTextPublishedDate = (TextView) view.findViewById(R.id.bookDisplayDetail_textPublishedDate);
+		mTextCategory = (TextView) view.findViewById(R.id.bookDisplayDetail_textCategory);
+		mTextLanguage = (TextView) view.findViewById(R.id.bookDisplayDetail_textLanguage);
+		mTextLanguage = (TextView) view.findViewById(R.id.bookDisplayDetail_textLanguage);
+		mTextDescription = (TextView) view.findViewById(R.id.bookDisplayDetail_textDescription);
 
-		mGroupInfo = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfo);
-		mGroupCategories = (LinearLayout) view.findViewById(R.id.bookDisplay_groupCategories);
-		mGroupDescription = (LinearLayout) view.findViewById(R.id.bookDisplay_groupDescription);
-		mGroupIsbn = (LinearLayout) view.findViewById(R.id.bookDisplay_groupIsbn);
+		mGroupInfo = (LinearLayout) view.findViewById(R.id.bookDisplayDetail_groupInfo);
+		mGroupCategories = (LinearLayout) view.findViewById(R.id.bookDisplayDetail_groupCategories);
+		mGroupDescription = (LinearLayout) view.findViewById(R.id.bookDisplayDetail_groupDescription);
+		mGroupIsbn = (LinearLayout) view.findViewById(R.id.bookDisplayDetail_groupIsbn);
 
-		mGroup1PageCount = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfo_pageCount);
-		mGroup1Language = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfo_language);
-		mGroupPublisherPublisher = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfo_publisher);
-		mGroupPublisherPublishedDate = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfo_publishedDate);
-		mGroupIsbnIsbn10 = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfoIsbn_isbn10);
-		mGroupIsbnIsbn13 = (LinearLayout) view.findViewById(R.id.bookDisplay_groupInfoIsbn_isbn13);
+		mGroup1PageCount = (LinearLayout) view.findViewById(R.id.bookDisplayDetail_groupInfo_pageCount);
+		mGroup1Language = (LinearLayout) view.findViewById(R.id.bookDisplayDetail_groupInfo_language);
+		mGroupPublisherPublisher = (LinearLayout) view.findViewById(R.id.bookDisplayDetail_groupInfo_publisher);
+		mGroupPublisherPublishedDate = (LinearLayout) view.findViewById(R.id.bookDisplayDetail_groupInfo_publishedDate);
+		mGroupIsbnIsbn10 = (LinearLayout) view.findViewById(R.id.bookDisplayDetail_groupInfoIsbn_isbn10);
+		mGroupIsbnIsbn13 = (LinearLayout) view.findViewById(R.id.bookDisplayDetail_groupInfoIsbn_isbn13);
 	}
 
 	/**
@@ -415,7 +415,7 @@ public class BookDisplayFragment extends Fragment {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						BookDisplayFragment.this.deleteBook();
+						BookDisplayDetailFragment.this.deleteBook();
 					}
 				}).setNegativeButton(cancelText, new OnClickListener() {
 
@@ -427,7 +427,7 @@ public class BookDisplayFragment extends Fragment {
 	}
 
 	/**
-	 * An activity hosting a {@link BookDisplayFragment} should implement this
+	 * An activity hosting a {@link BookDisplayDetailFragment} should implement this
 	 * interface to be notified when the book is loaded, deleted.
 	 */
 	public interface BookDisplayListener {

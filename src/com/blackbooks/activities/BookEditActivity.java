@@ -383,7 +383,7 @@ public final class BookEditActivity extends FragmentActivity implements BookLoad
 	/**
 	 * FragmentPagerAdapter used to define the different tabs of the activity.
 	 */
-	public class BookEditPagerAdapter extends FragmentPagerAdapter {
+	private final class BookEditPagerAdapter extends FragmentPagerAdapter {
 
 		/**
 		 * Constructor.

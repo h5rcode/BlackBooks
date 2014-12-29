@@ -66,6 +66,10 @@
     <string name="label_isbn10">ISBN-10</string>
     <string name="label_isbn13">ISBN-13</string>
     <string name="label_language">Language</string>
+    <string name="label_loan_book_pick_contact">Pick a contact</string>
+    <string name="label_loan_book_to">Loan the book to</string>
+    <string name="label_loan_book_to_hint">Enter a name</string>
+    <string name="label_loaned_to">This book has been loaned to</string>
     <string name="label_no_language">(No language set)</string>
     <string name="label_page_count">Page count</string>
     <string name="label_page_count_format">%d pages</string>
@@ -171,6 +175,8 @@
     <string name="title_dialog_edit_category">Edit category</string>
     <string name="title_dialog_install_scanner">Install a bar code scanner</string>
     <string name="title_dialog_text_qualifier_picker">Choose a text qualifier</string>
+    <string name="title_tab_book_display_detail">Book detail</string>
+    <string name="title_tab_book_display_loan">Loan</string>
     <string name="title_tab_book_edit_general">General</string>
     <string name="title_tab_book_edit_personal">Personal</string>
 

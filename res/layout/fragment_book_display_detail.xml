@@ -25,7 +25,7 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/bookDisplay_textTitle"
+                android:id="@+id/bookDisplayDetail_textTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
@@ -41,7 +41,7 @@
                 android:orientation="vertical" >
 
                 <ImageView
-                    android:id="@+id/bookDisplay_imageRead"
+                    android:id="@+id/bookDisplayDetail_imageRead"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/label_read"
@@ -51,7 +51,7 @@
                     android:src="@drawable/ic_read" />
 
                 <ImageView
-                    android:id="@+id/bookDisplay_imageFavourite"
+                    android:id="@+id/bookDisplayDetail_imageFavourite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/label_read"
@@ -63,13 +63,13 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/bookDisplay_textSubtitle"
+            android:id="@+id/bookDisplayDetail_textSubtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal" />
 
         <ImageView
-            android:id="@+id/bookDisplay_imageCover"
+            android:id="@+id/bookDisplayDetail_imageCover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -78,20 +78,20 @@
             android:src="@drawable/ic_undefined_thumbnail" />
 
         <TextView
-            android:id="@+id/bookDisplay_textSeries"
+            android:id="@+id/bookDisplayDetail_textSeries"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal" />
 
         <TextView
-            android:id="@+id/bookDisplay_textAuthor"
+            android:id="@+id/bookDisplayDetail_textAuthor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:textSize="15sp" />
 
         <LinearLayout
-            android:id="@+id/bookDisplay_groupCategories"
+            android:id="@+id/bookDisplayDetail_groupCategories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
@@ -109,14 +109,14 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/bookDisplay_textCategory"
+                android:id="@+id/bookDisplayDetail_textCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/bookDisplay_groupInfo"
+            android:id="@+id/bookDisplayDetail_groupInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
@@ -133,7 +133,7 @@
                 android:orientation="horizontal" >
 
                 <LinearLayout
-                    android:id="@+id/bookDisplay_groupInfo_publisher"
+                    android:id="@+id/bookDisplayDetail_groupInfo_publisher"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -141,14 +141,14 @@
                     android:paddingRight="7sp" >
 
                     <TextView
-                        android:id="@+id/bookDisplay_textPublisher"
+                        android:id="@+id/bookDisplayDetail_textPublisher"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/bookDisplay_groupInfo_publishedDate"
+                    android:id="@+id/bookDisplayDetail_groupInfo_publishedDate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -156,7 +156,7 @@
                     android:paddingLeft="7sp" >
 
                     <TextView
-                        android:id="@+id/bookDisplay_textPublishedDate"
+                        android:id="@+id/bookDisplayDetail_textPublishedDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -169,7 +169,7 @@
                 android:orientation="horizontal" >
 
                 <LinearLayout
-                    android:id="@+id/bookDisplay_groupInfo_language"
+                    android:id="@+id/bookDisplayDetail_groupInfo_language"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -177,14 +177,14 @@
                     android:paddingRight="7sp" >
 
                     <TextView
-                        android:id="@+id/bookDisplay_textLanguage"
+                        android:id="@+id/bookDisplayDetail_textLanguage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/bookDisplay_groupInfo_pageCount"
+                    android:id="@+id/bookDisplayDetail_groupInfo_pageCount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -192,7 +192,7 @@
                     android:paddingLeft="7sp" >
 
                     <TextView
-                        android:id="@+id/bookDisplay_textPageCount"
+                        android:id="@+id/bookDisplayDetail_textPageCount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -200,7 +200,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/bookDisplay_groupDescription"
+            android:id="@+id/bookDisplayDetail_groupDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
@@ -218,13 +218,13 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/bookDisplay_textDescription"
+                android:id="@+id/bookDisplayDetail_textDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/bookDisplay_groupIsbn"
+            android:id="@+id/bookDisplayDetail_groupIsbn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
@@ -241,7 +241,7 @@
                 android:orientation="horizontal" >
 
                 <LinearLayout
-                    android:id="@+id/bookDisplay_groupInfoIsbn_isbn10"
+                    android:id="@+id/bookDisplayDetail_groupInfoIsbn_isbn10"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -256,14 +256,14 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/bookDisplay_textIsbn10"
+                        android:id="@+id/bookDisplayDetail_textIsbn10"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/bookDisplay_groupInfoIsbn_isbn13"
+                    android:id="@+id/bookDisplayDetail_groupInfoIsbn_isbn13"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -277,7 +277,7 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/bookDisplay_textIsbn13"
+                        android:id="@+id/bookDisplayDetail_textIsbn13"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
