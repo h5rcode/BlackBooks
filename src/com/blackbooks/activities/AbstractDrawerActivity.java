@@ -90,16 +90,24 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 				R.drawable.ic_action_keyboard, DrawerItemType.ITEM);
 
 		// Import/Export.
-		DrawerItem groupImportExportBooks = new DrawerItem(ITEM_IMPORT_EXPORT_BOOKS, getString(R.string.menu_import_export),
-				null, DrawerItemType.GROUP);
-		DrawerItem itemImportBooks = new DrawerItem(ITEM_IMPORT_BOOKS, getString(R.string.menu_import),
-				R.drawable.ic_action_import, DrawerItemType.ITEM);
-		DrawerItem itemExportBooks = new DrawerItem(ITEM_EXPORT_BOOKS, getString(R.string.menu_export),
-				R.drawable.ic_action_export, DrawerItemType.ITEM);
+		// DrawerItem groupImportExportBooks = new
+		// DrawerItem(ITEM_IMPORT_EXPORT_BOOKS,
+		// getString(R.string.menu_import_export),
+		// null, DrawerItemType.GROUP);
+		// DrawerItem itemImportBooks = new DrawerItem(ITEM_IMPORT_BOOKS,
+		// getString(R.string.menu_import),
+		// R.drawable.ic_action_import, DrawerItemType.ITEM);
+		// DrawerItem itemExportBooks = new DrawerItem(ITEM_EXPORT_BOOKS,
+		// getString(R.string.menu_export),
+		// R.drawable.ic_action_export, DrawerItemType.ITEM);
 
 		// Administration.
 		DrawerItem groupAdministration = new DrawerItem(ITEM_ADMINISTRATION, getString(R.string.menu_administration), null,
 				DrawerItemType.GROUP);
+
+		DrawerItem itemExportBooks = new DrawerItem(ITEM_EXPORT_BOOKS, getString(R.string.menu_export),
+				R.drawable.ic_action_export, DrawerItemType.ITEM);
+
 		DrawerItem itemBackupDb = new DrawerItem(ITEM_BACKUP_DB, getString(R.string.menu_backup_db), R.drawable.ic_action_save,
 				DrawerItemType.ITEM);
 
@@ -111,10 +119,11 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 		list.add(itemScanIsbn);
 		list.add(itemEnterIsbn);
 		list.add(itemAddManually);
-		list.add(groupImportExportBooks);
-		list.add(itemImportBooks);
-		list.add(itemExportBooks);
+		// list.add(groupImportExportBooks);
+		// list.add(itemImportBooks);
+		// list.add(itemExportBooks);
 		list.add(groupAdministration);
+		list.add(itemExportBooks);
 		list.add(itemBackupDb);
 
 		mListDrawer.setAdapter(new DrawerAdapter(this, list));
