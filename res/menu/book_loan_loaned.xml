@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/bookLoan_actionReturn"
+        android:icon="@drawable/ic_action_return_book"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_return_book"/>
+
+</menu>

@@ -1,5 +1,11 @@
 package com.blackbooks.fragments;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,27 +16,48 @@ import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.Contacts;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blackbooks.R;
 import com.blackbooks.database.SQLiteHelper;
+import com.blackbooks.fragments.dialogs.DatePickerFragment;
+import com.blackbooks.fragments.dialogs.DatePickerFragment.DatePickerListener;
 import com.blackbooks.model.nonpersistent.BookInfo;
+import com.blackbooks.model.persistent.Book;
 import com.blackbooks.services.BookServices;
 
-public class BookLoanFragment extends Fragment {
+/**
+ * A fragment to loan a book.
+ */
+public class BookLoanFragment extends Fragment implements DatePickerListener {
 
+	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 	private static final String ARG_BOOK_ID = "ARG_BOOK_ID";
+	private static final String TAG_DATE_PICKER_FRAGMENT = "TAG_DATE_PICKER_FRAGMENT";
 	private static final int REQUEST_PICK_CONTACT = 0;
+
+	private BookLoanListener mBookLoanListener;
 
 	private LinearLayout mLayoutNotLoaned;
 	private LinearLayout mLayoutLoaned;
-	private EditText mTextLoanee;
 
+	private EditText mTextLoanTo;
+	private EditText mTextLoanDate;
+
+	private TextView mTextLoanedTo;
+	private TextView mTextLoanedOn;
+
+	private SQLiteHelper mDbHelper;
 	private BookInfo mBookInfo;
 
 	/**
@@ -51,17 +78,21 @@ public class BookLoanFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
+
 		Bundle args = getArguments();
 		long bookId = args.getLong(ARG_BOOK_ID);
-		SQLiteHelper dbHelper = new SQLiteHelper(activity);
-		SQLiteDatabase db = dbHelper.getReadableDatabase();
+		mDbHelper = new SQLiteHelper(activity);
+		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 		mBookInfo = BookServices.getBookInfo(db, bookId);
 		db.close();
+
+		mBookLoanListener = (BookLoanListener) activity;
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
 	}
 
 	@Override
@@ -72,7 +103,13 @@ public class BookLoanFragment extends Fragment {
 		mLayoutLoaned = (LinearLayout) view.findViewById(R.id.bookLoan_layoutLoaned);
 
 		ImageButton buttonPickContact = (ImageButton) view.findViewById(R.id.bookLoan_buttonPickContact);
-		mTextLoanee = (EditText) view.findViewById(R.id.bookLoan_textLoanee);
+		ImageButton buttonPickDate = (ImageButton) view.findViewById(R.id.bookLoan_buttonPickDate);
+
+		mTextLoanTo = (EditText) view.findViewById(R.id.bookLoan_textLoanee);
+		mTextLoanDate = (EditText) view.findViewById(R.id.bookLoan_textLoanDate);
+
+		mTextLoanedTo = (TextView) view.findViewById(R.id.bookLoan_textLoanedTo);
+		mTextLoanedOn = (TextView) view.findViewById(R.id.bookLoan_textLoanedOn);
 
 		buttonPickContact.setOnClickListener(new OnClickListener() {
 
@@ -84,15 +121,67 @@ public class BookLoanFragment extends Fragment {
 			}
 		});
 
+		buttonPickDate.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				DatePickerFragment datePicker = new DatePickerFragment();
+				datePicker.setTargetFragment(BookLoanFragment.this, 0);
+				datePicker.show(getFragmentManager(), TAG_DATE_PICKER_FRAGMENT);
+			}
+		});
+
 		if (mBookInfo.loanedTo != null) {
 			mLayoutNotLoaned.setVisibility(View.GONE);
 			mLayoutLoaned.setVisibility(View.VISIBLE);
+
+			mTextLoanedTo.setText(mBookInfo.loanedTo);
+			mTextLoanedOn.setText(DATE_FORMAT.format(mBookInfo.loanDate));
+
 		} else {
 			mLayoutNotLoaned.setVisibility(View.VISIBLE);
 			mLayoutLoaned.setVisibility(View.GONE);
 		}
 
 		return view;
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		if (mBookInfo.loanedTo == null) {
+			inflater.inflate(R.menu.book_loan_not_loaned, menu);
+		} else {
+			inflater.inflate(R.menu.book_loan_loaned, menu);
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		boolean result;
+
+		switch (item.getItemId()) {
+		case R.id.bookLoan_actionLoan:
+			loanBook();
+			result = true;
+			break;
+
+		case R.id.bookLoan_actionReturn:
+			returnBook();
+			result = true;
+			break;
+
+		default:
+			result = super.onOptionsItemSelected(item);
+			break;
+		}
+
+		return result;
 	}
 
 	@Override
@@ -114,9 +203,102 @@ public class BookLoanFragment extends Fragment {
 				cursor.moveToFirst();
 
 				int column = cursor.getColumnIndex(Phone.DISPLAY_NAME);
-				mTextLoanee.setText(cursor.getString(column));
+				mTextLoanTo.setText(cursor.getString(column));
 				break;
 			}
 		}
+	}
+
+	@Override
+	public void onDateSet(Date date) {
+		mTextLoanDate.setText(DATE_FORMAT.format(date));
+	}
+
+	/**
+	 * Return the book (sets {@link Book#loanedTo} and {@link Book#loanDate} and
+	 * save it).
+	 */
+	private void loanBook() {
+		boolean isValid = true;
+
+		String loanTo = mTextLoanTo.getText().toString();
+		String loanDateString = mTextLoanDate.getText().toString();
+
+		Date loanDate = null;
+		try {
+			loanDate = DATE_FORMAT.parse(loanDateString);
+		} catch (ParseException e) {
+		}
+
+		if (loanTo == null || loanTo.equals("")) {
+			mTextLoanTo.setError(getString(R.string.field_mandatory));
+			if (isValid) {
+				mTextLoanTo.requestFocus();
+				isValid = false;
+			}
+		} else {
+			mBookInfo.loanedTo = loanTo;
+		}
+		if (loanDate == null) {
+			mTextLoanDate.setError(getString(R.string.field_invalid_date));
+			if (isValid) {
+				mTextLoanDate.requestFocus();
+				isValid = false;
+			}
+		} else {
+			mBookInfo.loanDate = loanDate;
+		}
+
+		if (isValid) {
+			SQLiteDatabase db = mDbHelper.getWritableDatabase();
+			BookServices.saveBookInfo(db, mBookInfo);
+			db.close();
+
+			mTextLoanTo.setText("");
+			mTextLoanDate.setText("");
+
+			String message = getString(R.string.message_book_loaned);
+			message = String.format(message, mBookInfo.title, mBookInfo.loanedTo);
+			Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+
+			mBookLoanListener.onBookLoaned();
+		}
+	}
+
+	/**
+	 * Return the book (sets {@link Book#loanedTo} and {@link Book#loanDate} to
+	 * null and save it).
+	 */
+	private void returnBook() {
+		mBookInfo.loanedTo = null;
+		mBookInfo.loanDate = null;
+
+		SQLiteDatabase db = mDbHelper.getWritableDatabase();
+		BookServices.saveBookInfo(db, mBookInfo);
+		db.close();
+
+		String message = getString(R.string.message_book_returned);
+		message = String.format(message, mBookInfo.title);
+		Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+
+		mBookLoanListener.onBookReturned();
+	}
+
+	/**
+	 * Activities hosting a {@link BookLoanFragment} should implement this
+	 * interface to be notified when a book is loaned or returned.
+	 * 
+	 */
+	public interface BookLoanListener {
+
+		/**
+		 * Called when a book has been loaned.
+		 */
+		void onBookLoaned();
+
+		/**
+		 * Called when a book has been returned.
+		 */
+		void onBookReturned();
 	}
 }

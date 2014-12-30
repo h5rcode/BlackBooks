@@ -18,12 +18,14 @@ import com.blackbooks.R;
 import com.blackbooks.fragments.BookDisplayDetailFragment;
 import com.blackbooks.fragments.BookDisplayDetailFragment.BookDisplayListener;
 import com.blackbooks.fragments.BookLoanFragment;
+import com.blackbooks.fragments.BookLoanFragment.BookLoanListener;
 import com.blackbooks.model.nonpersistent.BookInfo;
 
 /**
  * Activity to display the info of a book saved in the database.
  */
-public final class BookDisplayActivity extends FragmentActivity implements BookDisplayListener, OnPageChangeListener, TabListener {
+public final class BookDisplayActivity extends FragmentActivity implements BookDisplayListener, BookLoanListener,
+		OnPageChangeListener, TabListener {
 
 	/**
 	 * Key of the book id when passed as an extra of the activity.
@@ -35,6 +37,8 @@ public final class BookDisplayActivity extends FragmentActivity implements BookD
 
 	private BookDisplayPagerAdapter mPagerAdapter;
 	private ViewPager mViewPager;
+
+	private boolean mReloadBookLoanFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -156,5 +160,28 @@ public final class BookDisplayActivity extends FragmentActivity implements BookD
 		public int getCount() {
 			return 2;
 		}
+
+		@Override
+		public int getItemPosition(Object object) {
+			int itemPosition = super.getItemPosition(object);
+			if (object instanceof BookLoanFragment && mReloadBookLoanFragment) {
+				mReloadBookLoanFragment = false;
+				itemPosition = POSITION_NONE;
+			}
+
+			return itemPosition;
+		}
+	}
+
+	@Override
+	public void onBookLoaned() {
+		mReloadBookLoanFragment = true;
+		mPagerAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onBookReturned() {
+		mReloadBookLoanFragment = true;
+		mPagerAdapter.notifyDataSetChanged();
 	}
 }

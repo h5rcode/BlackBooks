@@ -42,6 +42,32 @@
                     android:contentDescription="@string/label_loan_book_pick_contact"
                     android:src="@drawable/ic_action_search_contact" />
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_loan_book_date" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/bookLoan_textLoanDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/label_loan_book_date_format"
+                    android:inputType="date" />
+
+                <ImageButton
+                    android:id="@+id/bookLoan_buttonPickDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/label_loan_book_pick_date"
+                    android:src="@drawable/ic_action_pick_date" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -59,7 +85,19 @@
             <TextView
                 android:id="@+id/bookLoan_textLoanedTo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_loan_book_date" />
+
+            <TextView
+                android:id="@+id/bookLoan_textLoanedOn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
 

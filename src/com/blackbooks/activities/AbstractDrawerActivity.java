@@ -42,7 +42,7 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 	private static final int ITEM_SCAN_ISBN = 5;
 	private static final int ITEM_ENTER_ISBN = 6;
 	private static final int ITEM_ADD_MANUALLY = 7;
-	private static final int ITEM_IMPORT_EXPORT_BOOKS = 8;
+	// private static final int ITEM_IMPORT_EXPORT_BOOKS = 8;
 	private static final int ITEM_IMPORT_BOOKS = 9;
 	private static final int ITEM_EXPORT_BOOKS = 10;
 	private static final int ITEM_ADMINISTRATION = 11;
@@ -328,6 +328,7 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 				String message = String.format(getString(R.string.message_file_saved), backupDB.getName(), backupDB
 						.getParentFile().getName());
 				Toast.makeText(AbstractDrawerActivity.this, message, Toast.LENGTH_LONG).show();
+				closeDrawer();
 			} else {
 				Toast.makeText(AbstractDrawerActivity.this, R.string.message_file_not_saved, Toast.LENGTH_LONG).show();
 			}

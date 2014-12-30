@@ -8,10 +8,12 @@
     <string name="action_delete_category">Delete category</string>
     <string name="action_enter_isbn">Enter ISBN</string>
     <string name="action_export_books">Export books</string>
+    <string name="action_loan_book">Loan book</string>
     <string name="action_lookup_isbn">Lookup ISBN</string>
     <string name="action_pick_image">Pick an image</string>
     <string name="action_remove_thumbnail">Remove thumbnail</string>
     <string name="action_rename_category">Rename category</string>
+    <string name="action_return_book">Return book</string>
     <string name="action_save_book">Save</string>
     <string name="action_scan_isbn">Scan ISBN</string>
     <string name="action_sort_by_author">By author</string>
@@ -35,6 +37,7 @@
     <string name="button_save_category">Save</string>
     <string name="button_send_log">Send error report</string>
     <string name="error_connection_problem">Connection problem. Make sure the device has access to the Internet.</string>
+    <string name="field_invalid_date">Invalid date.</string>
     <string name="field_mandatory">This field is mandatory.</string>
     <string name="hint_search">Search books</string>
     <string name="image_thumbnail">Thumbnail</string>
@@ -66,7 +69,10 @@
     <string name="label_isbn10">ISBN-10</string>
     <string name="label_isbn13">ISBN-13</string>
     <string name="label_language">Language</string>
+    <string name="label_loan_book_date">Loan date</string>
+    <string name="label_loan_book_date_format">dd/mm/yyyy</string>
     <string name="label_loan_book_pick_contact">Pick a contact</string>
+    <string name="label_loan_book_pick_date">Pick a date</string>
     <string name="label_loan_book_to">Loan the book to</string>
     <string name="label_loan_book_to_hint">Enter a name</string>
     <string name="label_loaned_to">This book has been loaned to</string>
@@ -115,7 +121,9 @@
     <string name="message_author_missing">Please enter a name.</string>
     <string name="message_book_added">\"%s\" was successfully added.</string>
     <string name="message_book_deleted">\"%s\" was successfully deleted.</string>
+    <string name="message_book_loaned">\"%1$s\" is now loaned to %2$s.</string>
     <string name="message_book_modifed">\"%s\" was successfully modified.</string>
+    <string name="message_book_returned">\"%s\" has been returned.</string>
     <string name="message_cant_read_selected_image">Could not read selected image.</string>
     <string name="message_category_added">\"%s\" was added to the list of categories.</string>
     <string name="message_category_already_exists">There is already a category with this name.</string>
