@@ -237,6 +237,7 @@ public class BookLoanFragment extends Fragment implements DatePickerListener {
 				isValid = false;
 			}
 		} else {
+			mTextLoanTo.setError(null);
 			mBookInfo.loanedTo = loanTo;
 		}
 		if (loanDate == null) {
@@ -246,6 +247,7 @@ public class BookLoanFragment extends Fragment implements DatePickerListener {
 				isValid = false;
 			}
 		} else {
+			mTextLoanDate.setError(null);
 			mBookInfo.loanDate = loanDate;
 		}
 
