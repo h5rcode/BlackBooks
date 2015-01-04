@@ -3,21 +3,36 @@ package com.blackbooks.fragments;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.blackbooks.R;
 import com.blackbooks.activities.BookDisplayActivity;
+import com.blackbooks.activities.BookEditActivity;
 import com.blackbooks.adapters.BookItem;
 import com.blackbooks.adapters.ListItem;
 import com.blackbooks.adapters.ListItemType;
+import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
+import com.blackbooks.model.persistent.Book;
+import com.blackbooks.services.BookServices;
 import com.blackbooks.utils.VariableUtils;
 
 /**
@@ -49,10 +64,30 @@ public abstract class AbstractBookListFragment extends ListFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = super.onCreateView(inflater, container, savedInstanceState);
+		View view = inflater.inflate(R.layout.abstract_book_list_fragment, container, false);
 		ListView listView = (ListView) view.findViewById(android.R.id.list);
+		// View emptyView = view.findViewById(android.R.id.empty);
 		listView.setFastScrollEnabled(true);
+		// listView.setEmptyView(emptyView);
 		return view;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		ListView listView = getListView();
+		registerForContextMenu(listView);
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+		ListItem listItem = (ListItem) getListView().getAdapter().getItem(info.position);
+		if (listItem.getListItemType() == ListItemType.ENTRY) {
+			MenuInflater inflater = getActivity().getMenuInflater();
+			inflater.inflate(R.menu.book_list_book_edit, menu);
+		}
 	}
 
 	@Override
@@ -61,6 +96,36 @@ public abstract class AbstractBookListFragment extends ListFragment {
 		if (getReloadBookList()) {
 			loadData();
 		}
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		boolean result = true;
+
+		BookItem bookItem;
+		Book book;
+
+		switch (item.getItemId()) {
+		case R.id.bookListBookEdit_actionEdit:
+			bookItem = (BookItem) getListAdapter().getItem(info.position);
+			book = bookItem.getBook();
+			Intent i = new Intent(this.getActivity(), BookEditActivity.class);
+			i.putExtra(BookEditActivity.EXTRA_MODE, BookEditActivity.MODE_EDIT);
+			i.putExtra(BookEditActivity.EXTRA_BOOK_ID, book.id);
+			startActivity(i);
+			break;
+
+		case R.id.bookListBookEdit_actionDelete:
+			bookItem = (BookItem) getListAdapter().getItem(info.position);
+			book = bookItem.getBook();
+			showDeleteConfirmDialog(book);
+			break;
+
+		default:
+			result = super.onContextItemSelected(item);
+		}
+		return result;
 	}
 
 	@Override
@@ -117,6 +182,25 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	}
 
 	/**
+	 * Delete a book.
+	 * 
+	 * @param book
+	 *            Book.
+	 */
+	private void deleteBook(Book book) {
+		String title = book.title;
+		String message = String.format(getString(R.string.message_book_deleted), title);
+
+		SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		BookServices.deleteBook(db, book.id);
+		db.close();
+		VariableUtils.getInstance().setReloadBookList(true);
+		Toast.makeText(this.getActivity(), message, Toast.LENGTH_SHORT).show();
+		loadData();
+	}
+
+	/**
 	 * Return a value indicating if the book list should be reloaded.
 	 * 
 	 * @return True to refresh the book list, false otherwise.
@@ -140,6 +224,37 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	}
 
 	/**
+	 * Show the delete confirm dialog.
+	 * 
+	 * @param book
+	 *            Book.
+	 */
+	private void showDeleteConfirmDialog(final Book book) {
+		String message = getString(R.string.message_confirm_delete_book);
+		message = String.format(message, book.title);
+
+		String cancelText = getString(R.string.message_confirm_delete_book_cancel);
+		String confirmText = getString(R.string.message_confirm_delete_book_confirm);
+
+		new AlertDialog.Builder(this.getActivity()) //
+				.setTitle(R.string.title_dialog_delete_book) //
+				.setMessage(message) //
+				.setPositiveButton(confirmText, new OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						AbstractBookListFragment.this.deleteBook(book);
+					}
+				}).setNegativeButton(cancelText, new OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// Do nothing.
+					}
+				}).show();
+	}
+
+	/**
 	 * Activities hosting {@link AbstractBookListFragment} or any fragment that
 	 * inherits from it should implement this interface to be notified when the
 	 * loading of the book list is complete.
@@ -158,10 +273,10 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	 */
 	private class BookListLoadTask extends AsyncTask<Void, Void, List<ListItem>> {
 
-		@Override
-		protected void onPreExecute() {
-			AbstractBookListFragment.this.setListShown(false);
-		}
+		// @Override
+		// protected void onPreExecute() {
+		// AbstractBookListFragment.this.setListShown(false);
+		// }
 
 		@Override
 		protected List<ListItem> doInBackground(Void... params) {
@@ -178,9 +293,9 @@ public abstract class AbstractBookListFragment extends ListFragment {
 			mBookListAdapter.addAll(result);
 			mBookListAdapter.notifyDataSetChanged();
 
-			if (AbstractBookListFragment.this.getView() != null) {
-				AbstractBookListFragment.this.setListShown(true);
-			}
+			// if (AbstractBookListFragment.this.getView() != null) {
+			// AbstractBookListFragment.this.setListShown(true);
+			// }
 
 			if (mBookListListener != null) {
 				mBookListListener.onBookListLoaded();

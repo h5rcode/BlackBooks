@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
@@ -12,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.blackbooks.R;
@@ -45,13 +43,6 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
 	@Override
 	public String getActionBarSubtitle() {
 		return mActionBarSubtitle;
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		ListView listView = getListView();
-		registerForContextMenu(listView);
 	}
 
 	@Override
