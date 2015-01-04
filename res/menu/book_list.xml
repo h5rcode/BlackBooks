@@ -19,9 +19,9 @@
                 android:icon="@drawable/ic_action_labels"
                 android:title="@string/action_sort_by_category"/>
             <item
-                android:id="@+id/bookList_actionSortByBookshelf"
+                android:id="@+id/bookList_actionSortByBookLocation"
                 android:icon="@drawable/ic_action_bookshelf"
-                android:title="@string/action_sort_by_bookshelf"/>
+                android:title="@string/action_sort_by_book_location"/>
             <item
                 android:id="@+id/bookList_actionSortByLanguage"
                 android:icon="@drawable/ic_action_map"

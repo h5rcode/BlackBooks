@@ -138,7 +138,7 @@ public final class R {
         public static final int bookEditGeneral_textTitle=0x7f0b0036;
         public static final int bookEditPersonal_checkFavourite=0x7f0b0044;
         public static final int bookEditPersonal_checkRead=0x7f0b0043;
-        public static final int bookEditPersonal_textBookShelf=0x7f0b0045;
+        public static final int bookEditPersonal_textBookLocation=0x7f0b0045;
         public static final int bookEditPersonal_textComment=0x7f0b0046;
         public static final int bookEdit_actionSave=0x7f0b009c;
         public static final int bookEdit_progressBar=0x7f0b000c;
@@ -152,7 +152,7 @@ public final class R {
         public static final int bookExport_textSeparator=0x7f0b004a;
         public static final int bookList_actionSearch=0x7f0b00a4;
         public static final int bookList_actionSortByAuthor=0x7f0b009f;
-        public static final int bookList_actionSortByBookshelf=0x7f0b00a2;
+        public static final int bookList_actionSortByBookLocation=0x7f0b00a2;
         public static final int bookList_actionSortByCategory=0x7f0b00a1;
         public static final int bookList_actionSortByFirstLetter=0x7f0b00a0;
         public static final int bookList_actionSortByLanguage=0x7f0b00a3;
@@ -177,14 +177,14 @@ public final class R {
         public static final int books_by_author_item_series_name=0x7f0b006d;
         public static final int books_by_author_item_total=0x7f0b0065;
         public static final int books_by_author_name=0x7f0b0064;
-        public static final int books_by_bookshelf_item_book_author=0x7f0b0071;
-        public static final int books_by_bookshelf_item_book_imageFavourite=0x7f0b0073;
-        public static final int books_by_bookshelf_item_book_imageRead=0x7f0b0072;
-        public static final int books_by_bookshelf_item_book_progressBar=0x7f0b006e;
-        public static final int books_by_bookshelf_item_book_small_thumbnail=0x7f0b006f;
-        public static final int books_by_bookshelf_item_book_title=0x7f0b0070;
-        public static final int books_by_bookshelf_item_total=0x7f0b0075;
-        public static final int books_by_bookshelf_name=0x7f0b0074;
+        public static final int books_by_booklocation_item_book_author=0x7f0b0071;
+        public static final int books_by_booklocation_item_book_imageFavourite=0x7f0b0073;
+        public static final int books_by_booklocation_item_book_imageRead=0x7f0b0072;
+        public static final int books_by_booklocation_item_book_progressBar=0x7f0b006e;
+        public static final int books_by_booklocation_item_book_small_thumbnail=0x7f0b006f;
+        public static final int books_by_booklocation_item_book_title=0x7f0b0070;
+        public static final int books_by_booklocation_item_total=0x7f0b0075;
+        public static final int books_by_booklocation_name=0x7f0b0074;
         public static final int books_by_category_item_book_author=0x7f0b0079;
         public static final int books_by_category_item_book_progressBar=0x7f0b0076;
         public static final int books_by_category_item_book_small_thumbnail=0x7f0b0077;
@@ -238,6 +238,7 @@ public final class R {
         public static final int search_results_item_book_small_thumbnail=0x7f0b0091;
         public static final int search_results_item_book_subtitle=0x7f0b0093;
         public static final int search_results_item_book_title=0x7f0b0092;
+        public static final int summary_LocationsCount=0x7f0b0061;
         public static final int summary_authorsCount=0x7f0b0059;
         public static final int summary_booksCount=0x7f0b0057;
         public static final int summary_categoriesCount=0x7f0b005b;
@@ -246,10 +247,9 @@ public final class R {
         public static final int summary_layoutBooks=0x7f0b0056;
         public static final int summary_layoutCategories=0x7f0b005a;
         public static final int summary_layoutLanguages=0x7f0b005c;
+        public static final int summary_layoutLocations=0x7f0b0060;
         public static final int summary_layoutSeries=0x7f0b005e;
-        public static final int summary_layoutShelves=0x7f0b0060;
         public static final int summary_seriesCount=0x7f0b005f;
-        public static final int summary_shelvesCount=0x7f0b0061;
         public static final int thumbnailEdit_actionPickImage=0x7f0b00ac;
         public static final int thumbnailEdit_actionRemove=0x7f0b00aa;
         public static final int thumbnailEdit_actionTakePicture=0x7f0b00ab;
@@ -278,8 +278,8 @@ public final class R {
         public static final int list_books_by_author_item_author=0x7f030014;
         public static final int list_books_by_author_item_book=0x7f030015;
         public static final int list_books_by_author_item_series=0x7f030016;
-        public static final int list_books_by_bookshelf_item_book=0x7f030017;
-        public static final int list_books_by_bookshelf_item_bookshelf=0x7f030018;
+        public static final int list_books_by_booklocation_item_book=0x7f030017;
+        public static final int list_books_by_booklocation_item_booklocation=0x7f030018;
         public static final int list_books_by_category_item_book=0x7f030019;
         public static final int list_books_by_category_item_category=0x7f03001a;
         public static final int list_books_by_first_letter_item_book=0x7f03001b;
@@ -318,7 +318,7 @@ public final class R {
         public static final int action_save_book=0x7f08000d;
         public static final int action_scan_isbn=0x7f08000e;
         public static final int action_sort_by_author=0x7f08000f;
-        public static final int action_sort_by_bookshelf=0x7f080010;
+        public static final int action_sort_by_book_location=0x7f080010;
         public static final int action_sort_by_category=0x7f080011;
         public static final int action_sort_by_first_letter=0x7f080012;
         public static final int action_sort_by_language=0x7f080013;
@@ -346,7 +346,7 @@ public final class R {
         public static final int label_author=0x7f080028;
         public static final int label_authors=0x7f08002a;
         public static final int label_authors_format=0x7f080029;
-        public static final int label_book_shelf=0x7f08002b;
+        public static final int label_book_location=0x7f08002b;
         public static final int label_categories=0x7f08002d;
         public static final int label_category=0x7f08002c;
         public static final int label_column_separator=0x7f08002e;
@@ -392,8 +392,8 @@ public final class R {
         public static final int label_summary_books=0x7f080056;
         public static final int label_summary_categories=0x7f080057;
         public static final int label_summary_languages=0x7f080058;
+        public static final int label_summary_locations=0x7f08005a;
         public static final int label_summary_series=0x7f080059;
-        public static final int label_summary_shelves=0x7f08005a;
         public static final int label_text_qualifier=0x7f08005b;
         public static final int label_text_qualifier_double_quote=0x7f08005c;
         public static final int label_text_qualifier_single_quote=0x7f08005d;
@@ -401,7 +401,7 @@ public final class R {
         public static final int label_total=0x7f08005f;
         public static final int label_unexpected_error=0x7f080060;
         public static final int label_unspecified_author=0x7f080061;
-        public static final int label_unspecified_bookshelf=0x7f080062;
+        public static final int label_unspecified_book_location=0x7f080062;
         public static final int label_unspecified_category=0x7f080063;
         public static final int label_unspecified_language=0x7f080064;
         public static final int menu_add_books=0x7f080065;
@@ -455,7 +455,7 @@ public final class R {
         public static final int report_error_mail_content=0x7f080094;
         public static final int report_error_mail_subject=0x7f080095;
         public static final int subtitle_fragment_books_by_author=0x7f080097;
-        public static final int subtitle_fragment_books_by_bookshelf=0x7f080098;
+        public static final int subtitle_fragment_books_by_book_location=0x7f080098;
         public static final int subtitle_fragment_books_by_category=0x7f080099;
         public static final int subtitle_fragment_books_by_first_letter=0x7f08009a;
         public static final int subtitle_fragment_books_by_language=0x7f08009b;

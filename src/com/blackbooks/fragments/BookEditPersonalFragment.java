@@ -17,8 +17,8 @@ import com.blackbooks.adapters.AutoCompleteAdapter;
 import com.blackbooks.adapters.AutoCompleteAdapter.AutoCompleteSearcher;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
-import com.blackbooks.model.persistent.BookShelf;
-import com.blackbooks.services.BookShelfServices;
+import com.blackbooks.model.persistent.BookLocation;
+import com.blackbooks.services.BookLocationServices;
 
 /**
  * Fragment to edit the information concerning the owner of the book.
@@ -33,11 +33,11 @@ public class BookEditPersonalFragment extends Fragment {
 	private CheckBox mCheckBoxRead;
 	private CheckBox mCheckBoxFavourite;
 	private EditText mTextComment;
-	private AutoCompleteTextView mTextBookShelf;
+	private AutoCompleteTextView mTextBookLocation;
 
 	private BookInfo mBookInfo;
 
-	private AutoCompleteAdapter<BookShelf> mBookShelfAutoCompleteAdapter;
+	private AutoCompleteAdapter<BookLocation> mBookLocationAutoCompleteAdapter;
 
 	/**
 	 * Create a new instance of BookEditPersonalFragment.
@@ -76,23 +76,23 @@ public class BookEditPersonalFragment extends Fragment {
 		findViews();
 		renderBookInfo();
 
-		mBookShelfAutoCompleteAdapter = new AutoCompleteAdapter<BookShelf>(this.getActivity(),
-				android.R.layout.simple_list_item_1, new AutoCompleteSearcher<BookShelf>() {
+		mBookLocationAutoCompleteAdapter = new AutoCompleteAdapter<BookLocation>(this.getActivity(),
+				android.R.layout.simple_list_item_1, new AutoCompleteSearcher<BookLocation>() {
 
 					@Override
-					public List<BookShelf> search(CharSequence constraint) {
+					public List<BookLocation> search(CharSequence constraint) {
 						SQLiteDatabase db = mDbHelper.getReadableDatabase();
-						List<BookShelf> bookShelfList = BookShelfServices.getBookShelfListByText(db, constraint.toString());
+						List<BookLocation> bookLocationList = BookLocationServices.getBookLocationListByText(db, constraint.toString());
 						db.close();
-						return bookShelfList;
+						return bookLocationList;
 					}
 
 					@Override
-					public String getDisplayLabel(BookShelf item) {
+					public String getDisplayLabel(BookLocation item) {
 						return item.name;
 					}
 				});
-		mTextBookShelf.setAdapter(mBookShelfAutoCompleteAdapter);
+		mTextBookLocation.setAdapter(mBookLocationAutoCompleteAdapter);
 	}
 
 	/**
@@ -105,23 +105,23 @@ public class BookEditPersonalFragment extends Fragment {
 	public boolean readBookInfo(BookInfo bookInfo) {
 		bookInfo.isRead = mCheckBoxRead.isChecked() ? 1L : 0L;
 		bookInfo.isFavourite = mCheckBoxFavourite.isChecked() ? 1L : 0L;
-		String bookShelfName = mTextBookShelf.getText().toString();
+		String bookLocationName = mTextBookLocation.getText().toString();
 		bookInfo.comment = mTextComment.getText().toString();
 
-		BookShelf bookShelf = new BookShelf();
+		BookLocation bookLocation = new BookLocation();
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-		if (bookShelfName != null && !bookShelfName.isEmpty()) {
-			bookShelf.name = bookShelfName;
+		if (bookLocationName != null && !bookLocationName.isEmpty()) {
+			bookLocation.name = bookLocationName;
 
-			BookShelf bookShelfDb = BookShelfServices.getBookShelfByCriteria(db, bookShelf);
-			if (bookShelfDb != null) {
-				bookShelf = bookShelfDb;
+			BookLocation bookLocationDb = BookLocationServices.getBookLocationByCriteria(db, bookLocation);
+			if (bookLocationDb != null) {
+				bookLocation = bookLocationDb;
 			}
 		}
 		db.close();
 
-		bookInfo.bookShelf = bookShelf;
+		bookInfo.bookLocation = bookLocation;
 		return true;
 	}
 
@@ -133,7 +133,7 @@ public class BookEditPersonalFragment extends Fragment {
 		mCheckBoxRead = (CheckBox) view.findViewById(R.id.bookEditPersonal_checkRead);
 		mCheckBoxFavourite = (CheckBox) view.findViewById(R.id.bookEditPersonal_checkFavourite);
 		mTextComment = (EditText) view.findViewById(R.id.bookEditPersonal_textComment);
-		mTextBookShelf = (AutoCompleteTextView) view.findViewById(R.id.bookEditPersonal_textBookShelf);
+		mTextBookLocation = (AutoCompleteTextView) view.findViewById(R.id.bookEditPersonal_textBookLocation);
 	}
 
 	/**
@@ -143,6 +143,6 @@ public class BookEditPersonalFragment extends Fragment {
 		mCheckBoxRead.setChecked(mBookInfo.isRead != 0);
 		mCheckBoxFavourite.setChecked(mBookInfo.isFavourite != 0);
 		mTextComment.setText(mBookInfo.comment);
-		mTextBookShelf.setText(mBookInfo.bookShelf.name);
+		mTextBookLocation.setText(mBookInfo.bookLocation.name);
 	}
 }

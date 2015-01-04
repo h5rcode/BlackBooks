@@ -10,7 +10,7 @@ public class Summary implements Serializable {
 	public int authors;
 	public int categories;
 	public int series;
-	public int bookShelves;
+	public int bookLocations;
 	public int read;
 	public int favourites;
 	public int languages;

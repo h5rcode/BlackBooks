@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Book;
-import com.blackbooks.model.persistent.BookShelf;
+import com.blackbooks.model.persistent.BookLocation;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Publisher;
 import com.blackbooks.model.persistent.Series;
@@ -25,7 +25,7 @@ public class BookInfo extends Book implements Serializable {
 
 	public List<Category> categories;
 
-	public BookShelf bookShelf;
+	public BookLocation bookLocation;
 
 	public Series series;
 
@@ -36,7 +36,7 @@ public class BookInfo extends Book implements Serializable {
 		this.authors = new ArrayList<Author>();
 		this.publisher = new Publisher();
 		this.categories = new ArrayList<Category>();
-		this.bookShelf = new BookShelf();
+		this.bookLocation = new BookLocation();
 		this.series = new Series();
 	}
 
@@ -63,7 +63,7 @@ public class BookInfo extends Book implements Serializable {
 		this.isbn10 = book.isbn10;
 		this.isbn13 = book.isbn13;
 		this.comment = book.comment;
-		this.bookShelfId = book.bookShelfId;
+		this.bookLocationId = book.bookLocationId;
 		this.seriesId = book.seriesId;
 		this.number = book.number;
 		this.loanedTo = book.loanedTo;

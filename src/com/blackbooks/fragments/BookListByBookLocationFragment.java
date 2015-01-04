@@ -8,19 +8,19 @@ import android.widget.ArrayAdapter;
 
 import com.blackbooks.R;
 import com.blackbooks.adapters.BookItem;
-import com.blackbooks.adapters.BookShelfItem;
-import com.blackbooks.adapters.BooksByBookShelfAdapter;
+import com.blackbooks.adapters.BookLocationItem;
+import com.blackbooks.adapters.BooksByBookLocationAdapter;
 import com.blackbooks.adapters.ListItem;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
-import com.blackbooks.model.nonpersistent.BookShelfInfo;
-import com.blackbooks.services.BookShelfServices;
+import com.blackbooks.model.nonpersistent.BookLocationInfo;
+import com.blackbooks.services.BookLocationServices;
 
 /**
  * Implements {@link AbstractBookListFragment}. A fragment that lists books by
- * shelves.
+ * locations.
  */
-public class BookListByBookShelfFragment extends AbstractBookListFragment {
+public class BookListByBookLocationFragment extends AbstractBookListFragment {
 
 	private String mActionBarSubtitle;
 
@@ -31,42 +31,42 @@ public class BookListByBookShelfFragment extends AbstractBookListFragment {
 
 	@Override
 	protected ArrayAdapter<ListItem> getBookListAdapter() {
-		return new BooksByBookShelfAdapter(getActivity());
+		return new BooksByBookLocationAdapter(getActivity());
 	}
 
 	@Override
 	protected List<ListItem> loadBookList() {
 		SQLiteHelper dbHelper = new SQLiteHelper(this.getActivity());
 		SQLiteDatabase db = null;
-		List<BookShelfInfo> bookShelfInfoList;
+		List<BookLocationInfo> bookLocationInfoList;
 		try {
 			db = dbHelper.getReadableDatabase();
-			bookShelfInfoList = BookShelfServices.getBookShelfInfoList(db);
+			bookLocationInfoList = BookLocationServices.getBookLocationInfoList(db);
 		} finally {
 			if (db != null) {
 				db.close();
 			}
 		}
 
-		int bookShelvesCount = 0;
+		int bookLocationsCount = 0;
 
 		List<ListItem> listItems = new ArrayList<ListItem>();
-		for (BookShelfInfo bookShelfInfo : bookShelfInfoList) {
-			if (bookShelfInfo.id == null) {
-				bookShelfInfo.name = getString(R.string.label_unspecified_bookshelf);
+		for (BookLocationInfo bookLocationInfo : bookLocationInfoList) {
+			if (bookLocationInfo.id == null) {
+				bookLocationInfo.name = getString(R.string.label_unspecified_book_location);
 			} else {
-				bookShelvesCount++;
+				bookLocationsCount++;
 			}
 
-			BookShelfItem bookShelfItem = new BookShelfItem(bookShelfInfo);
-			listItems.add(bookShelfItem);
+			BookLocationItem bookLocationItem = new BookLocationItem(bookLocationInfo);
+			listItems.add(bookLocationItem);
 
-			for (BookInfo book : bookShelfInfo.books) {
+			for (BookInfo book : bookLocationInfo.books) {
 				BookItem bookItem = new BookItem(book);
 				listItems.add(bookItem);
 			}
 		}
-		mActionBarSubtitle = String.format(getString(R.string.subtitle_fragment_books_by_bookshelf), bookShelvesCount);
+		mActionBarSubtitle = String.format(getString(R.string.subtitle_fragment_books_by_book_location), bookLocationsCount);
 
 		return listItems;
 	}

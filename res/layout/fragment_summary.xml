@@ -149,7 +149,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/summary_layoutShelves"
+                android:id="@+id/summary_layoutLocations"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -159,7 +159,7 @@
                 android:padding="5sp" >
 
                 <TextView
-                    android:id="@+id/summary_shelvesCount"
+                    android:id="@+id/summary_LocationsCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/white"
@@ -170,7 +170,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/label_summary_shelves"
+                    android:text="@string/label_summary_locations"
                     android:textColor="@android:color/white"
                     android:textSize="18sp" />
             </LinearLayout>

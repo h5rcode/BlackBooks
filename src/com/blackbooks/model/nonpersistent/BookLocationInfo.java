@@ -3,21 +3,21 @@ package com.blackbooks.model.nonpersistent;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.blackbooks.model.persistent.BookShelf;
+import com.blackbooks.model.persistent.BookLocation;
 
-public class BookShelfInfo extends BookShelf {
+public class BookLocationInfo extends BookLocation {
 
 	public List<BookInfo> books;
 
 	private static final long serialVersionUID = 2060138705569284648L;
 
-	public BookShelfInfo() {
+	public BookLocationInfo() {
 		this.books = new ArrayList<BookInfo>();
 	}
 
-	public BookShelfInfo(BookShelf bookShelf) {
+	public BookLocationInfo(BookLocation bookLocation) {
 		this();
-		this.id = bookShelf.id;
-		this.name = bookShelf.name;
+		this.id = bookLocation.id;
+		this.name = bookLocation.name;
 	}
 }

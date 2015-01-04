@@ -7,7 +7,7 @@ import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.model.persistent.BookAuthor;
 import com.blackbooks.model.persistent.BookCategory;
-import com.blackbooks.model.persistent.BookShelf;
+import com.blackbooks.model.persistent.BookLocation;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Publisher;
 import com.blackbooks.model.persistent.Series;
@@ -40,7 +40,7 @@ public final class Database {
 		mTables = new ArrayList<Class<?>>();
 
 		mTables.add(Series.class);
-		mTables.add(BookShelf.class);
+		mTables.add(BookLocation.class);
 		mTables.add(Publisher.class);
 		mTables.add(Book.class);
 		mTables.add(Author.class);

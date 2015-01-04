@@ -28,14 +28,14 @@ public class SummaryFragment extends Fragment {
 	private LinearLayout mLayoutAuthors;
 	private LinearLayout mLayoutCategories;
 	private LinearLayout mLayoutLanguages;
-	private LinearLayout mLayoutShelves;
+	private LinearLayout mLayoutLocations;
 
 	private TextView mTextBooksCount;
 	private TextView mTextAuthorsCount;
 	private TextView mTextCategoriesCount;
 	private TextView mTextLanguagesCount;
 	private TextView mTextSeriesCount;
-	private TextView mTextShelvesCount;
+	private TextView mTextLocationsCount;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class SummaryFragment extends Fragment {
 		mLayoutAuthors = (LinearLayout) view.findViewById(R.id.summary_layoutAuthors);
 		mLayoutCategories = (LinearLayout) view.findViewById(R.id.summary_layoutCategories);
 		mLayoutLanguages = (LinearLayout) view.findViewById(R.id.summary_layoutLanguages);
-		mLayoutShelves = (LinearLayout) view.findViewById(R.id.summary_layoutShelves);
+		mLayoutLocations = (LinearLayout) view.findViewById(R.id.summary_layoutLocations);
 
 		mLayoutBooks.setOnClickListener(new OnClickListener() {
 
@@ -81,11 +81,11 @@ public class SummaryFragment extends Fragment {
 				startBookListActivity(BookListByLanguageFragment.class);
 			}
 		});
-		mLayoutShelves.setOnClickListener(new OnClickListener() {
+		mLayoutLocations.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				startBookListActivity(BookListByBookShelfFragment.class);
+				startBookListActivity(BookListByBookLocationFragment.class);
 			}
 		});
 
@@ -94,7 +94,7 @@ public class SummaryFragment extends Fragment {
 		mTextCategoriesCount = (TextView) view.findViewById(R.id.summary_categoriesCount);
 		mTextLanguagesCount = (TextView) view.findViewById(R.id.summary_languagesCount);
 		mTextSeriesCount = (TextView) view.findViewById(R.id.summary_seriesCount);
-		mTextShelvesCount = (TextView) view.findViewById(R.id.summary_shelvesCount);
+		mTextLocationsCount = (TextView) view.findViewById(R.id.summary_LocationsCount);
 
 		SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
 		SQLiteDatabase db = null;
@@ -107,7 +107,7 @@ public class SummaryFragment extends Fragment {
 			mTextCategoriesCount.setText(String.valueOf(summary.categories));
 			mTextLanguagesCount.setText(String.valueOf(summary.languages));
 			mTextSeriesCount.setText(String.valueOf(summary.series));
-			mTextShelvesCount.setText(String.valueOf(summary.bookShelves));
+			mTextLocationsCount.setText(String.valueOf(summary.bookLocations));
 		} finally {
 			if (db != null) {
 				db.close();
@@ -119,13 +119,14 @@ public class SummaryFragment extends Fragment {
 	 * Start the {@link BookListActivity}.
 	 * 
 	 * @param fragmentClass
-	 *            Name of the fragmnt's class to be displayed.
+	 *            Name of the fragment's class to be displayed.
 	 */
 	private void startBookListActivity(Class<?> fragmentClass) {
 		String className = fragmentClass.getName();
 
 		SharedPreferences sharedPref = getActivity().getSharedPreferences(BookListActivity.PREFERENCES, Context.MODE_PRIVATE);
-		if (!sharedPref.getString(BookListActivity.PREF_DEFAULT_LIST, null).equals(className)) {
+		String defaultList = sharedPref.getString(BookListActivity.PREF_DEFAULT_LIST, null);
+		if (!className.equals(defaultList)) {
 			SharedPreferences.Editor editor = sharedPref.edit();
 			editor.putString(BookListActivity.PREF_DEFAULT_LIST, className);
 			editor.commit();

@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.blackbooks.model.nonpersistent.Summary;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Book;
-import com.blackbooks.model.persistent.BookShelf;
+import com.blackbooks.model.persistent.BookLocation;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Series;
 
@@ -23,7 +23,7 @@ public class SummaryServices {
 		summary.categories = getCategories(db);
 		summary.languages = getLanguages(db);
 		summary.series = getSeries(db);
-		summary.bookShelves = getBookShelves(db);
+		summary.bookLocations = getBookLocations(db);
 
 		return summary;
 	}
@@ -53,8 +53,8 @@ public class SummaryServices {
 		return queryInt(db, sql);
 	}
 
-	private static int getBookShelves(SQLiteDatabase db) {
-		String sql = "SELECT COUNT(*) FROM " + BookShelf.NAME;
+	private static int getBookLocations(SQLiteDatabase db) {
+		String sql = "SELECT COUNT(*) FROM " + BookLocation.NAME;
 		return queryInt(db, sql);
 	}
 

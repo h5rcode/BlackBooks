@@ -63,7 +63,7 @@ public class BookServices {
 
 			PublisherServices.deletePublishersWithoutBooks(db);
 			SeriesServices.deleteSeriesWithoutBooks(db);
-			BookShelfServices.deleteBookShelvesWithoutBooks(db);
+			BookLocationServices.deleteBookLocationsWithoutBooks(db);
 
 			ThumbnailManager.getInstance().removeThumbnails(bookId);
 
@@ -108,8 +108,8 @@ public class BookServices {
 		if (book.publisherId != null) {
 			bookInfo.publisher = PublisherServices.getPublisher(db, book.publisherId);
 		}
-		if (book.bookShelfId != null) {
-			bookInfo.bookShelf = BookShelfServices.getBookShelf(db, book.bookShelfId);
+		if (book.bookLocationId != null) {
+			bookInfo.bookLocation = BookLocationServices.getBookLocation(db, book.bookLocationId);
 		}
 		if (book.seriesId != null) {
 			bookInfo.series = SeriesServices.getSeries(db, book.seriesId);
@@ -133,7 +133,7 @@ public class BookServices {
 	 */
 	public static List<BookInfo> getBookInfoList(SQLiteDatabase db) {
 		String[] selectedColumns = new String[] { Book.Cols.BOO_ID, Book.Cols.BOO_TITLE, Book.Cols.BOO_IS_READ,
-				Book.Cols.BOO_IS_FAVOURITE, Book.Cols.BSH_ID };
+				Book.Cols.BOO_IS_FAVOURITE, Book.Cols.BKL_ID };
 		String[] sortingColumns = new String[] { Book.Cols.BOO_TITLE };
 		List<Book> bookList = BrokerManager.getBroker(Book.class).getAll(db, selectedColumns, sortingColumns);
 		return getBookInfoListFromBookList(db, bookList);
@@ -221,11 +221,11 @@ public class BookServices {
 				bookInfo.publisherId = null;
 			}
 
-			if (bookInfo.bookShelf.name != null) {
-				BookShelfServices.saveBookShelf(db, bookInfo.bookShelf);
-				bookInfo.bookShelfId = bookInfo.bookShelf.id;
+			if (bookInfo.bookLocation.name != null) {
+				BookLocationServices.saveBookLocation(db, bookInfo.bookLocation);
+				bookInfo.bookLocationId = bookInfo.bookLocation.id;
 			} else {
-				bookInfo.bookShelfId = null;
+				bookInfo.bookLocationId = null;
 			}
 
 			if (bookInfo.series.name != null) {
@@ -254,7 +254,7 @@ public class BookServices {
 
 				PublisherServices.deletePublishersWithoutBooks(db);
 				SeriesServices.deleteSeriesWithoutBooks(db);
-				BookShelfServices.deleteBookShelvesWithoutBooks(db);
+				BookLocationServices.deleteBookLocationsWithoutBooks(db);
 
 				ThumbnailManager.getInstance().removeThumbnails(bookInfo.id);
 			}
