@@ -121,7 +121,7 @@ public class BookInfo extends Book implements Serializable {
 				String authorName = author.name;
 				boolean found = false;
 				for (Author thisAuthor : this.authors) {
-					if (thisAuthor.name.equals(authorName)) {
+					if (thisAuthor.name.equalsIgnoreCase(authorName)) {
 						found = true;
 						continue;
 					}
@@ -140,7 +140,7 @@ public class BookInfo extends Book implements Serializable {
 				String categoryName = category.name;
 				boolean found = false;
 				for (Category thisAuthor : this.categories) {
-					if (thisAuthor.name.equals(categoryName)) {
+					if (thisAuthor.name.equalsIgnoreCase(categoryName)) {
 						found = true;
 						continue;
 					}
