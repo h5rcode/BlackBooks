@@ -35,6 +35,7 @@ import com.blackbooks.fragments.dialogs.DatePickerFragment.DatePickerListener;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.services.BookServices;
+import com.blackbooks.utils.VariableUtils;
 
 /**
  * A fragment to loan a book.
@@ -263,6 +264,7 @@ public class BookLoanFragment extends Fragment implements DatePickerListener {
 			message = String.format(message, mBookInfo.title, mBookInfo.loanedTo);
 			Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
 
+			VariableUtils.getInstance().setReloadBookList(true);
 			mBookLoanListener.onBookLoaned();
 		}
 	}
@@ -283,6 +285,7 @@ public class BookLoanFragment extends Fragment implements DatePickerListener {
 		message = String.format(message, mBookInfo.title);
 		Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
 
+		VariableUtils.getInstance().setReloadBookList(true);
 		mBookLoanListener.onBookReturned();
 	}
 

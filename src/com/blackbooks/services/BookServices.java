@@ -133,7 +133,7 @@ public class BookServices {
 	 */
 	public static List<BookInfo> getBookInfoList(SQLiteDatabase db) {
 		String[] selectedColumns = new String[] { Book.Cols.BOO_ID, Book.Cols.BOO_TITLE, Book.Cols.BOO_IS_READ,
-				Book.Cols.BOO_IS_FAVOURITE, Book.Cols.BKL_ID };
+				Book.Cols.BOO_IS_FAVOURITE, Book.Cols.BOO_LOANED_TO, Book.Cols.BKL_ID };
 		String[] sortingColumns = new String[] { Book.Cols.BOO_TITLE };
 		List<Book> bookList = BrokerManager.getBroker(Book.class).getAll(db, selectedColumns, sortingColumns);
 		return getBookInfoListFromBookList(db, bookList);
@@ -199,6 +199,46 @@ public class BookServices {
 			}
 		}
 		return bookInfoList;
+	}
+
+	/**
+	 * Mark or unmark a book as favourite.
+	 * 
+	 * @param db
+	 *            SQLiteDatabase.
+	 * @param bookId
+	 *            Id of book.
+	 */
+	public static void markBookAsFavourite(SQLiteDatabase db, long bookId) {
+		db.beginTransaction();
+		try {
+			String sql = "UPDATE " + Book.NAME + " SET " + Book.Cols.BOO_IS_FAVOURITE + " = 1 - " + Book.Cols.BOO_IS_FAVOURITE
+					+ " Where " + Book.Cols.BOO_ID + " = " + bookId + ";";
+			db.execSQL(sql);
+			db.setTransactionSuccessful();
+		} finally {
+			db.endTransaction();
+		}
+	}
+
+	/**
+	 * Mark or unmark a book as read.
+	 * 
+	 * @param db
+	 *            SQLiteDatabase.
+	 * @param bookId
+	 *            Id of book.
+	 */
+	public static void markBookAsRead(SQLiteDatabase db, long bookId) {
+		db.beginTransaction();
+		try {
+			String sql = "UPDATE " + Book.NAME + " SET " + Book.Cols.BOO_IS_READ + " = 1 - " + Book.Cols.BOO_IS_READ + " Where "
+					+ Book.Cols.BOO_ID + " = " + bookId + ";";
+			db.execSQL(sql);
+			db.setTransactionSuccessful();
+		} finally {
+			db.endTransaction();
+		}
 	}
 
 	/**

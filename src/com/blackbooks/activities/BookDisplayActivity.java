@@ -30,7 +30,10 @@ public final class BookDisplayActivity extends FragmentActivity implements BookD
 	/**
 	 * Key of the book id when passed as an extra of the activity.
 	 */
-	public final static String EXTRA_BOOK_ID = "EXTRA_BOOK_ID";
+	public static final String EXTRA_BOOK_ID = "EXTRA_BOOK_ID";
+	public static final String EXTRA_MODE = "EXTRA_MODE";
+
+	public static final String MODE_LOAN = "MODE_LOAN";
 
 	private static final int TAB_DISPLAY = 0;
 	private static final int TAB_LOAN = 1;
@@ -61,6 +64,13 @@ public final class BookDisplayActivity extends FragmentActivity implements BookD
 			actionBar.addTab(actionBar.newTab().setText(getString(R.string.title_tab_book_display_detail)).setTabListener(this));
 			actionBar.addTab(actionBar.newTab().setText(getString(R.string.title_tab_book_display_loan)).setTabListener(this));
 
+			if (intent.hasExtra(EXTRA_MODE)) {
+				String mode = intent.getStringExtra(EXTRA_MODE);
+
+				if (MODE_LOAN.equals(mode)) {
+					getActionBar().setSelectedNavigationItem(TAB_LOAN);
+				}
+			}
 		} else {
 			this.finish();
 		}

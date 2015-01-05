@@ -14,7 +14,7 @@ import android.support.v4.app.ListFragment;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +39,12 @@ import com.blackbooks.utils.VariableUtils;
  * Abstract book list fragment.
  */
 public abstract class AbstractBookListFragment extends ListFragment {
+
+	private static final int ITEM_BOOK_EDIT = 0;
+	private static final int ITEM_BOOK_LOAN = 1;
+	private static final int ITEM_BOOK_MARK_AS_READ = 2;
+	private static final int ITEM_BOOK_MARK_AS_FAVOURITE = 3;
+	private static final int ITEM_BOOK_DELETE = 4;
 
 	private ArrayAdapter<ListItem> mBookListAdapter;
 
@@ -85,8 +91,32 @@ public abstract class AbstractBookListFragment extends ListFragment {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
 		ListItem listItem = (ListItem) getListView().getAdapter().getItem(info.position);
 		if (listItem.getListItemType() == ListItemType.ENTRY) {
-			MenuInflater inflater = getActivity().getMenuInflater();
-			inflater.inflate(R.menu.book_list_book_edit, menu);
+			BookItem bookItem = (BookItem) listItem;
+			Book book = bookItem.getBook();
+			menu.setHeaderTitle(book.title);
+			menu.add(Menu.NONE, ITEM_BOOK_EDIT, Menu.NONE, R.string.action_edit_book);
+			int resIdLoanBook;
+			if (book.loanedTo != null) {
+				resIdLoanBook = R.string.action_return_book;
+			} else {
+				resIdLoanBook = R.string.action_loan_book;
+			}
+			int resIdMarkAsRead;
+			if (book.isRead == 1L) {
+				resIdMarkAsRead = R.string.action_unmark_book_as_read;
+			} else {
+				resIdMarkAsRead = R.string.action_mark_book_as_read;
+			}
+			int resIdMarkAsFavourite;
+			if (book.isFavourite == 1L) {
+				resIdMarkAsFavourite = R.string.action_unmark_book_as_favourite;
+			} else {
+				resIdMarkAsFavourite = R.string.action_mark_book_as_favourite;
+			}
+			menu.add(Menu.NONE, ITEM_BOOK_LOAN, Menu.NONE, resIdLoanBook);
+			menu.add(Menu.NONE, ITEM_BOOK_MARK_AS_READ, Menu.NONE, resIdMarkAsRead);
+			menu.add(Menu.NONE, ITEM_BOOK_MARK_AS_FAVOURITE, Menu.NONE, resIdMarkAsFavourite);
+			menu.add(Menu.NONE, ITEM_BOOK_DELETE, Menu.NONE, R.string.action_delete_book);
 		}
 	}
 
@@ -105,18 +135,40 @@ public abstract class AbstractBookListFragment extends ListFragment {
 
 		BookItem bookItem;
 		Book book;
+		Intent i;
 
 		switch (item.getItemId()) {
-		case R.id.bookListBookEdit_actionEdit:
+		case ITEM_BOOK_EDIT:
 			bookItem = (BookItem) getListAdapter().getItem(info.position);
 			book = bookItem.getBook();
-			Intent i = new Intent(this.getActivity(), BookEditActivity.class);
+			i = new Intent(this.getActivity(), BookEditActivity.class);
 			i.putExtra(BookEditActivity.EXTRA_MODE, BookEditActivity.MODE_EDIT);
 			i.putExtra(BookEditActivity.EXTRA_BOOK_ID, book.id);
 			startActivity(i);
 			break;
 
-		case R.id.bookListBookEdit_actionDelete:
+		case ITEM_BOOK_LOAN:
+			bookItem = (BookItem) getListAdapter().getItem(info.position);
+			book = bookItem.getBook();
+			i = new Intent(this.getActivity(), BookDisplayActivity.class);
+			i.putExtra(BookDisplayActivity.EXTRA_MODE, BookDisplayActivity.MODE_LOAN);
+			i.putExtra(BookDisplayActivity.EXTRA_BOOK_ID, book.id);
+			startActivity(i);
+			break;
+
+		case ITEM_BOOK_MARK_AS_READ:
+			bookItem = (BookItem) getListAdapter().getItem(info.position);
+			book = bookItem.getBook();
+			markBookAsRead(book);
+			break;
+
+		case ITEM_BOOK_MARK_AS_FAVOURITE:
+			bookItem = (BookItem) getListAdapter().getItem(info.position);
+			book = bookItem.getBook();
+			markBookAsFavourite(book);
+			break;
+
+		case ITEM_BOOK_DELETE:
 			bookItem = (BookItem) getListAdapter().getItem(info.position);
 			book = bookItem.getBook();
 			showDeleteConfirmDialog(book);
@@ -207,6 +259,38 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	 */
 	private boolean getReloadBookList() {
 		return VariableUtils.getInstance().getReloadBookList();
+	}
+
+	/**
+	 * Mark or unmark a book as favourite.
+	 * 
+	 * @param book
+	 *            Book.
+	 */
+	private void markBookAsFavourite(Book book) {
+		SQLiteHelper dbHelper;
+		SQLiteDatabase db;
+		dbHelper = new SQLiteHelper(getActivity());
+		db = dbHelper.getWritableDatabase();
+		BookServices.markBookAsFavourite(db, book.id);
+		db.close();
+		loadData();
+	}
+
+	/**
+	 * Mark or unmark a book as read.
+	 * 
+	 * @param book
+	 *            Book.
+	 */
+	private void markBookAsRead(Book book) {
+		SQLiteHelper dbHelper;
+		SQLiteDatabase db;
+		dbHelper = new SQLiteHelper(getActivity());
+		db = dbHelper.getWritableDatabase();
+		BookServices.markBookAsRead(db, book.id);
+		db.close();
+		loadData();
 	}
 
 	/**

@@ -29,7 +29,7 @@ public class LanguageServices {
 	 */
 	public static List<LanguageInfo> getLanguageInfoList(SQLiteDatabase db) {
 		String[] selectedColumns = new String[] { Book.Cols.BOO_ID, Book.Cols.BOO_TITLE, Book.Cols.BOO_LANGUAGE_CODE,
-				Book.Cols.BOO_IS_READ, Book.Cols.BOO_IS_FAVOURITE };
+				Book.Cols.BOO_IS_READ, Book.Cols.BOO_IS_FAVOURITE, Book.Cols.BOO_LOANED_TO };
 		String[] sortingColumns = new String[] { Book.Cols.BOO_LANGUAGE_CODE, Book.Cols.BOO_TITLE };
 		List<Book> bookList = BrokerManager.getBroker(Book.class).getAll(db, selectedColumns, sortingColumns);
 		List<BookInfo> bookInfoList = BookServices.getBookInfoListFromBookList(db, bookList);

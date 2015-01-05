@@ -204,7 +204,8 @@ public class AuthorServices {
 		}
 
 		String[] selectedColumns = new String[] { Book.Cols.BOO_ID, Book.Cols.BOO_TITLE, Book.Cols.BOO_DESCRIPTION,
-				Book.Cols.BOO_IS_READ, Book.Cols.BOO_IS_FAVOURITE, Book.Cols.SER_ID, Book.Cols.BOO_NUMBER };
+				Book.Cols.BOO_IS_READ, Book.Cols.BOO_IS_FAVOURITE, Book.Cols.SER_ID, Book.Cols.BOO_NUMBER,
+				Book.Cols.BOO_LOANED_TO, };
 		List<Book> bookList = BrokerManager.getBroker(Book.class).getAll(db, selectedColumns, null);
 		for (Book book : bookList) {
 			bookMap.put(book.id, book);

@@ -12,6 +12,8 @@
     <string name="action_export_books">Export books</string>
     <string name="action_loan_book">Loan book</string>
     <string name="action_lookup_isbn">Lookup ISBN</string>
+    <string name="action_mark_book_as_favourite">Mark as favourite</string>
+    <string name="action_mark_book_as_read">Mark as read</string>
     <string name="action_pick_image">Pick an image</string>
     <string name="action_remove_thumbnail">Remove thumbnail</string>
     <string name="action_rename_category">Rename category</string>
@@ -24,6 +26,8 @@
     <string name="action_sort_by_first_letter">By first letter</string>
     <string name="action_sort_by_language">By language</string>
     <string name="action_take_picture">Take a picture</string>
+    <string name="action_unmark_book_as_favourite">Unmark as favourite</string>
+    <string name="action_unmark_book_as_read">Unmark as read</string>
     <string name="button_add_author">Add</string>
     <string name="button_add_category">Add</string>
     <string name="button_cancel_edit_author">Cancel</string>

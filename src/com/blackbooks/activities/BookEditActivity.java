@@ -334,7 +334,7 @@ public final class BookEditActivity extends FragmentActivity implements BookLoad
 			boolean isValid = mBookEditGeneralFragment.readBookInfo(mBookInfo);
 
 			if (!isValid) {
-				getActionBar().setSelectedNavigationItem(0);
+				getActionBar().setSelectedNavigationItem(TAB_GENERAL);
 				return;
 			}
 
