@@ -68,8 +68,6 @@
     <string name="label_export_preview">Export preview (5 first books)</string>
     <string name="label_favourite">This is a favourite book</string>
     <string name="label_first_row_contains_header">First row contains headers</string>
-    <string name="label_first_row_contains_header_yes">Yes</string>
-    <string name="label_first_row_contains_header_no">No</string>
     <string name="label_image">Image</string>
     <string name="label_isbn">ISBN</string>
     <string name="label_isbn10">ISBN-10</string>
