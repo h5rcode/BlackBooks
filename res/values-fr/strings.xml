@@ -17,7 +17,7 @@
     <string name="action_mark_book_as_read">Marquer comme lu</string>
     <string name="action_pick_image">Sélectionner une image</string>
     <string name="action_remove_thumbnail">Supprimer la couverture</string>
-    <string name="action_return_book">Retourner le livre</string>
+    <string name="action_return_book">Rendre le livre</string>
     <string name="action_save_book">Enregistrer</string>
     <string name="action_scan_isbn">Scanner un ISBN</string>
     <string name="action_sort_by_author">Par auteur</string>
@@ -45,7 +45,7 @@
     <string name="error_connection_problem">Problème de connexion. Vérifiez que l\'appareil est connecté à Internet.</string>
     <string name="field_invalid_date">Date invalide.</string>
     <string name="field_mandatory">Ce champ est obligatoire.</string>
-    <string name="hint_search">Chercher des livres</string>
+    <string name="hint_search">Rechercher des livres</string>
     <string name="image_thumbnail">Couverture</string>
     <string name="label_author">Auteur</string>
     <string name="label_authors_format">de %s</string>
@@ -118,7 +118,7 @@
     <string name="menu_import">Importer depuis un fichier CSV</string>
     <string name="menu_import_export">Import/Export</string>
     <string name="menu_options">Options</string>
-    <string name="menu_search">Chercher des livres</string>
+    <string name="menu_search">Rechercher des livres</string>
     <string name="menu_sort">Trier</string>
     <string name="message_author_added">\"%s\" a été ajouté à la liste des auteurs.</string>
     <string name="message_author_already_present">\"%s\" est déjà dans la liste des auteurs.</string>
@@ -127,7 +127,7 @@
     <string name="message_book_deleted">\"%s\" a été supprimé avec succès.</string>
     <string name="message_book_loaned">\"%1$s\" est à présent prêté à %2$s.</string>
     <string name="message_book_modifed">\"%s\" a été modifié avec succès.</string>
-    <string name="message_book_returned">\"%s\" a été retourné.</string>
+    <string name="message_book_returned">\"%s\" a été rendu.</string>
     <string name="message_cant_read_selected_image">Impossible de lire l\'image sélectionnée.</string>
     <string name="message_category_added">\"%s\" a été ajouté à la liste des catégories.</string>
     <string name="message_category_already_exists">Cette catégorie existe déjà.</string>
@@ -150,7 +150,7 @@
     <string name="message_isbn_search_invalid_isbn10">ISBN-10 invalide</string>
     <string name="message_isbn_search_invalid_isbn13">ISBN-13 invalide</string>
     <string name="message_isbn_search_too_short">Trop court</string>
-    <string name="message_no_result">La recherche n\'a retourné aucun résultat</string>
+    <string name="message_no_result">La recherche n\'a retourné aucun résultat.</string>
     <string name="message_scanner_install">Black Books utilise l\'application Pic2shop pour scanner les codes ISBN. Cliquez sur OK pour être redirigé vers sa page Google Play.</string>
     <string name="message_send_log">Black Books a rencontré une erreur inattendue.\n\nPour nous aider à corriger le problème, cliquez sur \"Envoyer le rapport d\'erreur\" pour nous transférer un journal d\'erreur. N\'hésitez pas à détailler ce que vous êtiez en train de faire lorsque l\'erreur est survenue.\n\nMerci.</string>
     <string name="report_error_mail_content">Voir le fichier d\'erreur en pièce jointe.</string>

@@ -206,7 +206,6 @@ public class BookAuthorsEditActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
 		setContentView(R.layout.activity_book_authors_edit);
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -277,12 +276,6 @@ public class BookAuthorsEditActivity extends Activity {
 		super.onSaveInstanceState(outState);
 		outState.putString(BOOK_TITLE, mBookTitle);
 		outState.putSerializable(AUTHOR_LIST, mAuthorList);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
 	}
 
 	/**
