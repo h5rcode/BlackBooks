@@ -6,7 +6,7 @@ import java.util.List;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.MenuInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -38,6 +38,9 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
 	private static final String CATEGORY_DELETE_FRAGMENT_TAG = "CATEGORY_DELETE_FRAGMENT_TAG";
 	private static final String CATEGORY_EDIT_FRAGMENT_TAG = "CATEGORY_EDIT_FRAGMENT_TAG";
 
+	private static final int ITEM_CATEGORY_EDIT = 0x11;
+	private static final int ITEM_CATEGORY_DELETE = 0x12;
+
 	private String mActionBarSubtitle;
 
 	@Override
@@ -54,8 +57,9 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
 			CategoryItem categoryItem = (CategoryItem) listItem;
 			Category category = categoryItem.getCategory();
 			if (category.id != null) {
-				MenuInflater inflater = getActivity().getMenuInflater();
-				inflater.inflate(R.menu.category_edit, menu);
+				menu.setHeaderTitle(category.name);
+				menu.add(Menu.NONE, ITEM_CATEGORY_EDIT, Menu.NONE, R.string.action_edit_category);
+				menu.add(Menu.NONE, ITEM_CATEGORY_DELETE, Menu.NONE, R.string.action_delete_category);
 			}
 		}
 	}
@@ -69,7 +73,7 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
 		Category category;
 
 		switch (item.getItemId()) {
-		case R.id.categoryEdit_actionEdit:
+		case ITEM_CATEGORY_EDIT:
 			categoryItem = (CategoryItem) getListAdapter().getItem(info.position);
 			category = categoryItem.getCategory();
 			CategoryEditFragment editfragment = CategoryEditFragment.newInstance(category, false);
@@ -77,7 +81,7 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
 			editfragment.show(getFragmentManager(), CATEGORY_EDIT_FRAGMENT_TAG);
 			break;
 
-		case R.id.categoryEdit_actionDelete:
+		case ITEM_CATEGORY_DELETE:
 			categoryItem = (CategoryItem) getListAdapter().getItem(info.position);
 			category = categoryItem.getCategory();
 			CategoryDeleteFragment deleteFragment = CategoryDeleteFragment.newInstance(category);

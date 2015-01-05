@@ -18,7 +18,7 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -64,6 +64,10 @@ public class BookEditGeneralFragment extends Fragment {
 
 	private static final String ARG_BOOK = "ARG_BOOK";
 	private static final String IMAGE_DISPLAY_FRAGMENT_TAG = "IMAGE_DISPLAY_FRAGMENT_TAG";
+
+	private static final int ITEM_THUMBNAIL_REMOVE = 1;
+	private static final int ITEM_TAKE_PICTURE = 2;
+	private static final int ITEM_PICK_IMAGE = 3;
 
 	private static final int REQUEST_EDIT_AUTHORS = 1;
 	private static final int REQUEST_EDIT_CATEGORIES = 2;
@@ -117,8 +121,13 @@ public class BookEditGeneralFragment extends Fragment {
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-		MenuInflater inflater = getActivity().getMenuInflater();
-		inflater.inflate(R.menu.thumbnail_edit, menu);
+
+		menu.setHeaderTitle(R.string.title_menu_edit_thumbnail);
+		if (mBookInfo.thumbnail != null) {
+			menu.add(Menu.NONE, ITEM_THUMBNAIL_REMOVE, Menu.NONE, R.string.action_remove_thumbnail);
+		}
+		menu.add(Menu.NONE, ITEM_TAKE_PICTURE, Menu.NONE, R.string.action_take_picture);
+		menu.add(Menu.NONE, ITEM_PICK_IMAGE, Menu.NONE, R.string.action_pick_image);
 	}
 
 	@Override
@@ -127,14 +136,14 @@ public class BookEditGeneralFragment extends Fragment {
 		Intent intent;
 
 		switch (item.getItemId()) {
-		case R.id.thumbnailEdit_actionRemove:
+		case ITEM_THUMBNAIL_REMOVE:
 			mBookInfo.thumbnail = null;
 			mBookInfo.smallThumbnail = null;
 			setImageThumbnail();
 			result = true;
 			break;
 
-		case R.id.thumbnailEdit_actionTakePicture:
+		case ITEM_TAKE_PICTURE:
 			intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 			Activity activity = getActivity();
 			if (intent.resolveActivity(activity.getPackageManager()) != null) {
@@ -144,7 +153,7 @@ public class BookEditGeneralFragment extends Fragment {
 			result = true;
 			break;
 
-		case R.id.thumbnailEdit_actionPickImage:
+		case ITEM_PICK_IMAGE:
 			intent = new Intent();
 			intent.setType("image/*");
 			intent.setAction(Intent.ACTION_GET_CONTENT);

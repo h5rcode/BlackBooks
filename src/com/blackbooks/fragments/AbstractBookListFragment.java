@@ -40,11 +40,11 @@ import com.blackbooks.utils.VariableUtils;
  */
 public abstract class AbstractBookListFragment extends ListFragment {
 
-	private static final int ITEM_BOOK_EDIT = 0;
-	private static final int ITEM_BOOK_LOAN = 1;
-	private static final int ITEM_BOOK_MARK_AS_READ = 2;
-	private static final int ITEM_BOOK_MARK_AS_FAVOURITE = 3;
-	private static final int ITEM_BOOK_DELETE = 4;
+	private static final int ITEM_BOOK_EDIT = 0x1;
+	private static final int ITEM_BOOK_LOAN = 0x2;
+	private static final int ITEM_BOOK_MARK_AS_READ = 0x3;
+	private static final int ITEM_BOOK_MARK_AS_FAVOURITE = 0x4;
+	private static final int ITEM_BOOK_DELETE = 0x5;
 
 	private ArrayAdapter<ListItem> mBookListAdapter;
 

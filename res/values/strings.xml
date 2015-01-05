@@ -8,6 +8,7 @@
     <string name="action_delete_book">Delete book</string>
     <string name="action_delete_category">Delete category</string>
     <string name="action_edit_book">Edit book</string>
+    <string name="action_edit_category">Edit category</string>
     <string name="action_enter_isbn">Enter ISBN</string>
     <string name="action_export_books">Export books</string>
     <string name="action_loan_book">Loan book</string>
@@ -16,7 +17,6 @@
     <string name="action_mark_book_as_read">Mark as read</string>
     <string name="action_pick_image">Pick an image</string>
     <string name="action_remove_thumbnail">Remove thumbnail</string>
-    <string name="action_rename_category">Rename category</string>
     <string name="action_return_book">Return book</string>
     <string name="action_save_book">Save</string>
     <string name="action_scan_isbn">Scan ISBN</string>
@@ -141,7 +141,7 @@
     <string name="message_confirm_delete_book">Do you really want to delete \"%s\"?</string>
     <string name="message_confirm_delete_book_cancel">No</string>
     <string name="message_confirm_delete_book_confirm">Yes</string>
-    <string name="message_confirm_delete_category">Do you really want to remove the category \"%s\"? The related books will NOT be deleted.</string>
+    <string name="message_confirm_delete_category">Do you really want to remove the category \"%s\"?\n\nThe related books will not be deleted.</string>
     <string name="message_confirm_delete_category_cancel">No</string>
     <string name="message_confirm_delete_category_confirm">Yes</string>
     <string name="message_file_not_saved">File could not be written.</string>
@@ -191,6 +191,7 @@
     <string name="title_dialog_edit_category">Edit category</string>
     <string name="title_dialog_install_scanner">Install a bar code scanner</string>
     <string name="title_dialog_text_qualifier_picker">Choose a text qualifier</string>
+    <string name="title_menu_edit_thumbnail">Edit thumbnail</string>
     <string name="title_tab_book_display_detail">Book detail</string>
     <string name="title_tab_book_display_loan">Loan</string>
     <string name="title_tab_book_edit_general">General</string>

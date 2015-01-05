@@ -209,8 +209,6 @@ public final class R {
         public static final int books_by_language_item_book_title=0x7f0b0088;
         public static final int books_by_language_item_language=0x7f0b008c;
         public static final int books_by_language_item_total=0x7f0b008d;
-        public static final int categoryEdit_actionDelete=0x7f0b00a8;
-        public static final int categoryEdit_actionEdit=0x7f0b00a7;
         public static final int drawerGroup_title=0x7f0b0018;
         public static final int drawerItem_icon=0x7f0b0019;
         public static final int drawerItem_title=0x7f0b001a;
@@ -221,7 +219,7 @@ public final class R {
         public static final int editCategory_confirm=0x7f0b0017;
         public static final int editCategory_textCategory=0x7f0b0015;
         public static final int imageDisplay_image=0x7f0b0055;
-        public static final int isbnEnter_actionLookup=0x7f0b00a9;
+        public static final int isbnEnter_actionLookup=0x7f0b00a7;
         public static final int isbnEnter_textIsbn=0x7f0b000e;
         public static final int isbnEnter_textStatus=0x7f0b000f;
         public static final int item_author_button_remove=0x7f0b0063;
@@ -250,9 +248,6 @@ public final class R {
         public static final int summary_layoutLocations=0x7f0b0060;
         public static final int summary_layoutSeries=0x7f0b005e;
         public static final int summary_seriesCount=0x7f0b005f;
-        public static final int thumbnailEdit_actionPickImage=0x7f0b00ac;
-        public static final int thumbnailEdit_actionRemove=0x7f0b00aa;
-        public static final int thumbnailEdit_actionTakePicture=0x7f0b00ab;
     }
     public static final class layout {
         public static final int abstract_book_list_fragment=0x7f030000;
@@ -299,9 +294,7 @@ public final class R {
         public static final int book_list=0x7f0a0005;
         public static final int book_loan_loaned=0x7f0a0006;
         public static final int book_loan_not_loaned=0x7f0a0007;
-        public static final int category_edit=0x7f0a0008;
-        public static final int isbn_enter=0x7f0a0009;
-        public static final int thumbnail_edit=0x7f0a000a;
+        public static final int isbn_enter=0x7f0a0008;
     }
     public static final class string {
         public static final int action_add_authors=0x7f080001;
@@ -310,15 +303,15 @@ public final class R {
         public static final int action_delete_book=0x7f080004;
         public static final int action_delete_category=0x7f080005;
         public static final int action_edit_book=0x7f080006;
-        public static final int action_enter_isbn=0x7f080007;
-        public static final int action_export_books=0x7f080008;
-        public static final int action_loan_book=0x7f080009;
-        public static final int action_lookup_isbn=0x7f08000a;
-        public static final int action_mark_book_as_favourite=0x7f08000b;
-        public static final int action_mark_book_as_read=0x7f08000c;
-        public static final int action_pick_image=0x7f08000d;
-        public static final int action_remove_thumbnail=0x7f08000e;
-        public static final int action_rename_category=0x7f08000f;
+        public static final int action_edit_category=0x7f080007;
+        public static final int action_enter_isbn=0x7f080008;
+        public static final int action_export_books=0x7f080009;
+        public static final int action_loan_book=0x7f08000a;
+        public static final int action_lookup_isbn=0x7f08000b;
+        public static final int action_mark_book_as_favourite=0x7f08000c;
+        public static final int action_mark_book_as_read=0x7f08000d;
+        public static final int action_pick_image=0x7f08000e;
+        public static final int action_remove_thumbnail=0x7f08000f;
         public static final int action_return_book=0x7f080010;
         public static final int action_save_book=0x7f080011;
         public static final int action_scan_isbn=0x7f080012;
@@ -494,10 +487,11 @@ public final class R {
         public static final int title_dialog_edit_category=0x7f0800bb;
         public static final int title_dialog_install_scanner=0x7f0800bc;
         public static final int title_dialog_text_qualifier_picker=0x7f0800bd;
-        public static final int title_tab_book_display_detail=0x7f0800be;
-        public static final int title_tab_book_display_loan=0x7f0800bf;
-        public static final int title_tab_book_edit_general=0x7f0800c0;
-        public static final int title_tab_book_edit_personal=0x7f0800c1;
+        public static final int title_menu_edit_thumbnail=0x7f0800be;
+        public static final int title_tab_book_display_detail=0x7f0800bf;
+        public static final int title_tab_book_display_loan=0x7f0800c0;
+        public static final int title_tab_book_edit_general=0x7f0800c1;
+        public static final int title_tab_book_edit_personal=0x7f0800c2;
     }
     public static final class style {
         /** 
