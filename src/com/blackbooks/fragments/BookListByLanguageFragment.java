@@ -16,6 +16,10 @@ import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.nonpersistent.LanguageInfo;
 import com.blackbooks.services.LanguageServices;
 
+/**
+ * Implements {@link AbstractBookListFragment}. A fragment that lists books by
+ * language.
+ */
 public class BookListByLanguageFragment extends AbstractBookListFragment {
 
 	private String mActionBarSubtitle;

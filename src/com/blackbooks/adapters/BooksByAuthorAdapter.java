@@ -172,7 +172,7 @@ public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> implements Sect
 
 		mThumbnailManager.drawSmallThumbnail(book.id, getContext(), imageView, progressBar);
 
-		if (book.series != null && book.number != null) {
+		if (book.number != null) {
 			textNumber.setText(book.number.toString());
 		} else {
 			textNumber.setVisibility(View.GONE);

@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.blackbooks.comparators.BookComparatorNumber;
 import com.blackbooks.model.nonpersistent.AuthorInfo;
+import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.nonpersistent.SeriesInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Book;
@@ -237,6 +238,6 @@ public class AuthorServices {
 			seriesInfo = new SeriesInfo(series);
 			seriesInfoMap.put(series.id, seriesInfo);
 		}
-		seriesInfoMap.get(book.seriesId).books.add(book);
+		seriesInfoMap.get(book.seriesId).books.add(new BookInfo(book));
 	}
 }

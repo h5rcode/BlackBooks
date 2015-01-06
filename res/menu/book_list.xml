@@ -23,6 +23,10 @@
                 android:icon="@drawable/ic_action_bookshelf"
                 android:title="@string/action_sort_by_book_location"/>
             <item
+                android:id="@+id/bookList_actionSortBySeries"
+                android:icon="@drawable/ic_action_sort_by_series"
+                android:title="@string/action_sort_by_series"/>
+            <item
                 android:id="@+id/bookList_actionSortByLanguage"
                 android:icon="@drawable/ic_action_map"
                 android:title="@string/action_sort_by_language"/>

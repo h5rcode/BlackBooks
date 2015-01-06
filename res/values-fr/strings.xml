@@ -25,6 +25,7 @@
     <string name="action_sort_by_category">Par catégorie</string>
     <string name="action_sort_by_first_letter">Par première lettre du titre</string>
     <string name="action_sort_by_language">Par langue</string>
+    <string name="action_sort_by_series">Par série</string>
     <string name="action_take_picture">Prendre une photo</string>
     <string name="action_unmark_book_as_favourite">Retirer des favoris</string>
     <string name="action_unmark_book_as_read">Marquer comme non lu</string>
@@ -106,6 +107,7 @@
     <string name="label_unspecified_book_location">(Emplacement inconnu)</string>
     <string name="label_unspecified_category">(Sans catégorie)</string>
     <string name="label_unspecified_language">(Langue inconnue)</string>
+    <string name="label_unspecified_series">(Sans série)</string>
     <string name="menu_add_books">Ajouter des livres</string>
     <string name="menu_administration">Administration</string>
     <string name="menu_backup_db">Sauvegarder la base</string>
@@ -161,6 +163,7 @@
     <string name="subtitle_fragment_books_by_category">%d catégories</string>
     <string name="subtitle_fragment_books_by_first_letter">%d livres</string>
     <string name="subtitle_fragment_books_by_language">%d langues</string>
+    <string name="subtitle_fragment_books_by_series">%d séries</string>
     <string name="text_info_edit_authors">Modification des auteurs de \"%s\".</string>
     <string name="text_info_edit_authors_untitled_book">Modification des auteurs d\'un livre sans titre.</string>
     <string name="text_info_edit_categories">Modification des catégories de \"%s\".</string>

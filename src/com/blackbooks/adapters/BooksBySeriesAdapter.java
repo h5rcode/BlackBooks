@@ -18,15 +18,14 @@ import android.widget.TextView;
 import com.blackbooks.R;
 import com.blackbooks.cache.ThumbnailManager;
 import com.blackbooks.model.nonpersistent.BookInfo;
-import com.blackbooks.model.nonpersistent.BookLocationInfo;
-import com.blackbooks.model.persistent.BookLocation;
+import com.blackbooks.model.nonpersistent.SeriesInfo;
 import com.blackbooks.utils.StringUtils;
 
 /**
- * An adapter handling instances of ListItem representing either a book location
- * or a book.
+ * An adapter handling instances of ListItem representing either a series or a
+ * book.
  */
-public class BooksByBookLocationAdapter extends ArrayAdapter<ListItem> implements SectionIndexer {
+public class BooksBySeriesAdapter extends ArrayAdapter<ListItem> implements SectionIndexer {
 
 	private final LayoutInflater mInflater;
 	private final ThumbnailManager mThumbnailManager;
@@ -40,7 +39,7 @@ public class BooksByBookLocationAdapter extends ArrayAdapter<ListItem> implement
 	 * @param context
 	 *            Context.
 	 */
-	public BooksByBookLocationAdapter(Context context) {
+	public BooksBySeriesAdapter(Context context) {
 		super(context, 0);
 		this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.mThumbnailManager = ThumbnailManager.getInstance();
@@ -60,18 +59,27 @@ public class BooksByBookLocationAdapter extends ArrayAdapter<ListItem> implement
 				BookItem entry = (BookItem) item;
 				BookInfo book = entry.getBook();
 
-				view = mInflater.inflate(R.layout.list_books_by_booklocation_item_book, parent, false);
+				view = mInflater.inflate(R.layout.list_books_by_series_item_book, parent, false);
 
-				ImageView imageView = (ImageView) view.findViewById(R.id.books_by_booklocation_item_book_small_thumbnail);
-				ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.books_by_booklocation_item_book_progressBar);
-				ImageView imageRead = (ImageView) view.findViewById(R.id.books_by_booklocation_item_book_imageRead);
-				ImageView imageFavourite = (ImageView) view.findViewById(R.id.books_by_booklocation_item_book_imageFavourite);
+				ImageView imageView = (ImageView) view.findViewById(R.id.books_by_series_item_book_small_thumbnail);
+				ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.books_by_series_item_book_progressBar);
+				ImageView imageRead = (ImageView) view.findViewById(R.id.books_by_series_item_book_imageRead);
+				ImageView imageFavourite = (ImageView) view.findViewById(R.id.books_by_series_item_book_imageFavourite);
 
 				mThumbnailManager.drawSmallThumbnail(book.id, getContext(), imageView, progressBar);
-				TextView textTitle = (TextView) view.findViewById(R.id.books_by_booklocation_item_book_title);
+
+				TextView textNumber = (TextView) view.findViewById(R.id.books_by_series_item_book_number);
+				TextView textTitle = (TextView) view.findViewById(R.id.books_by_series_item_book_title);
+
+				if (book.number != null) {
+					textNumber.setText(book.number.toString());
+				} else {
+					textNumber.setVisibility(View.GONE);
+				}
+
 				textTitle.setText(book.title);
 
-				TextView textAuthor = (TextView) view.findViewById(R.id.books_by_booklocation_item_book_author);
+				TextView textAuthor = (TextView) view.findViewById(R.id.books_by_series_item_book_author);
 				String authors;
 				if (book.authors.size() > 0) {
 					authors = StringUtils.joinAuthorNameList(book.authors, ", ");
@@ -91,13 +99,13 @@ public class BooksByBookLocationAdapter extends ArrayAdapter<ListItem> implement
 					imageFavourite.setVisibility(View.GONE);
 				}
 			} else if (itemType == ListItemType.HEADER) {
-				BookLocationItem header = (BookLocationItem) item;
-				BookLocationInfo bookLocation = header.getBookLocation();
+				SeriesItem header = (SeriesItem) item;
+				SeriesInfo bookLocation = header.getSeries();
 
-				view = mInflater.inflate(R.layout.list_books_by_booklocation_item_booklocation, parent, false);
+				view = mInflater.inflate(R.layout.list_books_by_series_item_series, parent, false);
 
-				TextView textViewName = (TextView) view.findViewById(R.id.books_by_booklocation_name);
-				TextView textViewTotal = (TextView) view.findViewById(R.id.books_by_booklocation_item_total);
+				TextView textViewName = (TextView) view.findViewById(R.id.books_by_series_name);
+				TextView textViewTotal = (TextView) view.findViewById(R.id.books_by_series_item_total);
 
 				textViewName.setText(bookLocation.name);
 				String total = this.getContext().getString(R.string.label_total);
@@ -119,8 +127,8 @@ public class BooksByBookLocationAdapter extends ArrayAdapter<ListItem> implement
 		String currentSection = null;
 		for (ListItem listItem : collection) {
 			if (listItem.getListItemType() == ListItemType.HEADER) {
-				BookLocationItem bookLocationItem = (BookLocationItem) listItem;
-				BookLocation bookLocation = bookLocationItem.getBookLocation();
+				SeriesItem bookLocationItem = (SeriesItem) listItem;
+				SeriesInfo bookLocation = bookLocationItem.getSeries();
 				String bookLocationName = bookLocation.name;
 				currentSection = bookLocationName.substring(0, 1);
 				if (!mSectionPositionMap.containsKey(currentSection)) {
@@ -162,12 +170,12 @@ public class BooksByBookLocationAdapter extends ArrayAdapter<ListItem> implement
 		return sectionIndex;
 	}
 
-	public static final class BookLocationItem implements ListItem {
+	public static final class SeriesItem implements ListItem {
 
-		private final BookLocationInfo mBookLocationInfo;
+		private final SeriesInfo mSeriesInfo;
 
-		public BookLocationItem(BookLocationInfo bookLocationInfo) {
-			mBookLocationInfo = bookLocationInfo;
+		public SeriesItem(SeriesInfo seriesInfo) {
+			mSeriesInfo = seriesInfo;
 		}
 
 		@Override
@@ -175,8 +183,8 @@ public class BooksByBookLocationAdapter extends ArrayAdapter<ListItem> implement
 			return ListItemType.HEADER;
 		}
 
-		public BookLocationInfo getBookLocation() {
-			return mBookLocationInfo;
+		public SeriesInfo getSeries() {
+			return mSeriesInfo;
 		}
 	}
 }

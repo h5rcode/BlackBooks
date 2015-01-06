@@ -19,6 +19,7 @@ import com.blackbooks.fragments.BookListByBookLocationFragment;
 import com.blackbooks.fragments.BookListByCategoryFragment;
 import com.blackbooks.fragments.BookListByFirstLetterFragment;
 import com.blackbooks.fragments.BookListByLanguageFragment;
+import com.blackbooks.fragments.BookListBySeriesFragment;
 
 /**
  * The book list activity. It hosts an AbstractBookListFragment used to display
@@ -60,6 +61,8 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 				mCurrentFragment = new BookListByCategoryFragment();
 			} else if (defaultList.equals(BookListByBookLocationFragment.class.getName())) {
 				mCurrentFragment = new BookListByBookLocationFragment();
+			} else if (defaultList.equals(BookListBySeriesFragment.class.getName())) {
+				mCurrentFragment = new BookListBySeriesFragment();
 			} else {
 				mCurrentFragment = new BookListByAuthorFragment();
 			}
@@ -103,6 +106,10 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 
 		case R.id.bookList_actionSortByLanguage:
 			sortByLanguage();
+			break;
+
+		case R.id.bookList_actionSortBySeries:
+			sortBySeries();
 			break;
 
 		case R.id.bookList_actionSortByBookLocation:
@@ -165,6 +172,19 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 			editor.putString(BookListActivity.PREF_DEFAULT_LIST, BookListByLanguageFragment.class.getName());
 			editor.commit();
 			mCurrentFragment = new BookListByLanguageFragment();
+			getSupportFragmentManager().beginTransaction() //
+					.replace(R.id.abstractDrawerActivity_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
+					.commit();
+		}
+	}
+
+	private void sortBySeries() {
+		if (!(mCurrentFragment instanceof BookListBySeriesFragment)) {
+			SharedPreferences sharedPref = getSharedPreferences(BookListActivity.PREFERENCES, MODE_PRIVATE);
+			SharedPreferences.Editor editor = sharedPref.edit();
+			editor.putString(BookListActivity.PREF_DEFAULT_LIST, BookListBySeriesFragment.class.getName());
+			editor.commit();
+			mCurrentFragment = new BookListBySeriesFragment();
 			getSupportFragmentManager().beginTransaction() //
 					.replace(R.id.abstractDrawerActivity_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 					.commit();

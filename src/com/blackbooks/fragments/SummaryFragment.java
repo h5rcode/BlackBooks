@@ -28,6 +28,7 @@ public class SummaryFragment extends Fragment {
 	private LinearLayout mLayoutAuthors;
 	private LinearLayout mLayoutCategories;
 	private LinearLayout mLayoutLanguages;
+	private LinearLayout mLayoutSeries;
 	private LinearLayout mLayoutLocations;
 
 	private TextView mTextBooksCount;
@@ -51,6 +52,7 @@ public class SummaryFragment extends Fragment {
 		mLayoutAuthors = (LinearLayout) view.findViewById(R.id.summary_layoutAuthors);
 		mLayoutCategories = (LinearLayout) view.findViewById(R.id.summary_layoutCategories);
 		mLayoutLanguages = (LinearLayout) view.findViewById(R.id.summary_layoutLanguages);
+		mLayoutSeries = (LinearLayout) view.findViewById(R.id.summary_layoutSeries);
 		mLayoutLocations = (LinearLayout) view.findViewById(R.id.summary_layoutLocations);
 
 		mLayoutBooks.setOnClickListener(new OnClickListener() {
@@ -79,6 +81,13 @@ public class SummaryFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				startBookListActivity(BookListByLanguageFragment.class);
+			}
+		});
+		mLayoutSeries.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				startBookListActivity(BookListBySeriesFragment.class);
 			}
 		});
 		mLayoutLocations.setOnClickListener(new OnClickListener() {
