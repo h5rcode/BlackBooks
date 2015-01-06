@@ -80,15 +80,17 @@ public class BookLocationServices {
 		BookLocationInfo unspecifiedBookLocation = new BookLocationInfo();
 		for (BookInfo bookInfo : bookInfoList) {
 			if (bookInfo.bookLocationId == null) {
-				if (!bookLocationInfoList.contains(unspecifiedBookLocation)) {
-					bookLocationInfoList.add(0, unspecifiedBookLocation);
-				}
 				unspecifiedBookLocation.books.add(bookInfo);
 			} else {
 				BookLocationInfo bookLocationInfo = bookLocationMap.get(bookInfo.bookLocationId);
 				bookLocationInfo.books.add(bookInfo);
 			}
 		}
+
+		if (!unspecifiedBookLocation.books.isEmpty()) {
+			bookLocationInfoList.add(unspecifiedBookLocation);
+		}
+
 		return bookLocationInfoList;
 	}
 

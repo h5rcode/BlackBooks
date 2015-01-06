@@ -67,15 +67,17 @@ public class SeriesServices {
 		SeriesInfo unspecifiedSeries = new SeriesInfo();
 		for (BookInfo bookInfo : bookInfoList) {
 			if (bookInfo.seriesId == null) {
-				if (!seriesInfoList.contains(unspecifiedSeries)) {
-					seriesInfoList.add(0, unspecifiedSeries);
-				}
 				unspecifiedSeries.books.add(bookInfo);
 			} else {
 				SeriesInfo seriesInfo = seriesMap.get(bookInfo.seriesId);
 				seriesInfo.books.add(bookInfo);
 			}
 		}
+
+		if (!unspecifiedSeries.books.isEmpty()) {
+			seriesInfoList.add(unspecifiedSeries);
+		}
+
 		return seriesInfoList;
 	}
 
