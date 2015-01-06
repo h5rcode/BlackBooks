@@ -51,7 +51,7 @@ public abstract class EditableArrayAdapter<T> extends ArrayAdapter<T> {
 	}
 
 	/**
-	 * Return the label of the object that will be displyed in the list.
+	 * Return the label of the object that will be displayed in the list.
 	 * 
 	 * @param object
 	 *            Object.
