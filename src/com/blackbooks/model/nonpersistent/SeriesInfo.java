@@ -7,20 +7,31 @@ import java.util.List;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.model.persistent.Series;
 
+/**
+ * All the info about a series.
+ */
 public class SeriesInfo extends Series implements Serializable {
 
 	private static final long serialVersionUID = 3177599050568320257L;
 
 	public List<Book> books;
 
+	/**
+	 * Default constructor.
+	 */
 	public SeriesInfo() {
 		this.books = new ArrayList<Book>();
 	}
 
+	/**
+	 * Constructor that creates a copy of an instance of Series.
+	 * 
+	 * @param series
+	 *            Series.
+	 */
 	public SeriesInfo(Series series) {
 		this();
 		this.id = series.id;
 		this.name = series.name;
 	}
-
 }

@@ -8,7 +8,6 @@ import com.blackbooks.model.persistent.Book;
 
 /**
  * All the info about an author.
- * 
  */
 public class AuthorInfo extends Author {
 
