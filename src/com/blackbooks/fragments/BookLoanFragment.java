@@ -204,6 +204,7 @@ public class BookLoanFragment extends Fragment implements DatePickerListener {
 				cursor.moveToFirst();
 
 				int column = cursor.getColumnIndex(Phone.DISPLAY_NAME);
+				mTextLoanTo.setError(null);
 				mTextLoanTo.setText(cursor.getString(column));
 				break;
 			}
@@ -212,6 +213,7 @@ public class BookLoanFragment extends Fragment implements DatePickerListener {
 
 	@Override
 	public void onDateSet(Date date) {
+		mTextLoanDate.setError(null);
 		mTextLoanDate.setText(DATE_FORMAT.format(date));
 	}
 
@@ -229,6 +231,7 @@ public class BookLoanFragment extends Fragment implements DatePickerListener {
 		try {
 			loanDate = DATE_FORMAT.parse(loanDateString);
 		} catch (ParseException e) {
+			// Do nothing, the null value of loanDate will be handled.
 		}
 
 		if (loanTo == null || loanTo.equals("")) {

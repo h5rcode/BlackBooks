@@ -177,7 +177,7 @@
     <string name="title_activity_book_edit_mode_edit">Edit \"%s\"</string>
     <string name="title_activity_book_export">Export to CSV</string>
     <string name="title_activity_book_import">Import from CSV</string>
-    <string name="title_activity_book_list">Book list</string>
+    <string name="title_activity_book_list">Black Books</string>
     <string name="title_activity_isbn_lookup">ISBN lookup</string>
     <string name="title_activity_book_search">Search results for \"%s\"</string>
     <string name="title_activity_book_search_default">Search results</string>
