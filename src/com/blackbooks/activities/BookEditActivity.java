@@ -26,8 +26,6 @@ import com.blackbooks.R;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.BookEditGeneralFragment;
 import com.blackbooks.fragments.BookEditPersonalFragment;
-import com.blackbooks.fragments.BookLoadFragment;
-import com.blackbooks.fragments.BookLoadFragment.BookLoadListener;
 import com.blackbooks.fragments.BookSearchFragment;
 import com.blackbooks.fragments.BookSearchFragment.BookSearchListener;
 import com.blackbooks.model.nonpersistent.BookInfo;
@@ -37,8 +35,7 @@ import com.blackbooks.utils.VariableUtils;
 /**
  * Activity used to add a new book or edit an existing one.
  */
-public final class BookEditActivity extends FragmentActivity implements BookLoadListener, BookSearchListener,
-		OnPageChangeListener, TabListener {
+public final class BookEditActivity extends FragmentActivity implements BookSearchListener, OnPageChangeListener, TabListener {
 
 	public static final String EXTRA_BOOK_ID = "EXTRA_BOOK_ID";
 	public static final String EXTRA_MODE = "EXTRA_MODE";
@@ -48,14 +45,12 @@ public final class BookEditActivity extends FragmentActivity implements BookLoad
 	public static final int MODE_EDIT = 2;
 
 	private static final String STATE_MODE = "STATE_MODE";
-	private static final String STATE_IS_LOADING = "STATE_IS_LOADING";
 	private static final String STATE_IS_SEARCHING = "STATE_IS_SEARCHING";
 	private static final String STATE_BOOK_INFO = "STATE_BOOK_INFO";
 
 	private static final int TAB_GENERAL = 0;
 	private static final int TAB_PERSONAL = 1;
 
-	private static final String TAG_BOOK_LOAD_FRAGMENT = "TAG_BOOK_LOAD_FRAGMENT";
 	private static final String TAG_BOOK_SEARCH_FRAGMENT = "TAG_BOOK_SEARCH_FRAGMENT";
 
 	private ProgressBar mProgressBar;
@@ -66,7 +61,6 @@ public final class BookEditActivity extends FragmentActivity implements BookLoad
 	private BookEditPersonalFragment mBookEditPersonalFragment;
 
 	private int mMode;
-	private boolean mIsLoading;
 	private boolean mIsSearching;
 	private BookInfo mBookInfo;
 
@@ -90,7 +84,6 @@ public final class BookEditActivity extends FragmentActivity implements BookLoad
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putInt(STATE_MODE, mMode);
-		outState.putBoolean(STATE_IS_LOADING, mIsLoading);
 		outState.putBoolean(STATE_IS_SEARCHING, mIsSearching);
 		outState.putSerializable(STATE_BOOK_INFO, mBookInfo);
 
@@ -129,17 +122,6 @@ public final class BookEditActivity extends FragmentActivity implements BookLoad
 			break;
 		}
 		return result;
-	}
-
-	@Override
-	public void onBookLoaded(BookInfo bookInfo) {
-		mBookInfo = bookInfo;
-		setTitleEditMode();
-		createTabs();
-
-		mProgressBar.setVisibility(View.GONE);
-		mViewPager.setVisibility(View.VISIBLE);
-		mIsLoading = false;
 	}
 
 	@Override
@@ -245,8 +227,6 @@ public final class BookEditActivity extends FragmentActivity implements BookLoad
 			}
 		} else {
 			mBookInfo = new BookInfo();
-			mProgressBar.setVisibility(View.GONE);
-			mViewPager.setVisibility(View.VISIBLE);
 			createTabs();
 		}
 	}
@@ -259,19 +239,13 @@ public final class BookEditActivity extends FragmentActivity implements BookLoad
 	 */
 	private void initStateEditMode(Intent intent) {
 		if (intent.hasExtra(EXTRA_BOOK_ID)) {
-			FragmentManager fm = getSupportFragmentManager();
-			BookLoadFragment bookLoadFragment = (BookLoadFragment) fm.findFragmentByTag(TAG_BOOK_LOAD_FRAGMENT);
-
-			if (bookLoadFragment == null && !mIsLoading) {
-				mIsLoading = true;
-				mProgressBar.setVisibility(View.VISIBLE);
-				mViewPager.setVisibility(View.GONE);
-				long bookId = intent.getLongExtra(EXTRA_BOOK_ID, 0);
-				bookLoadFragment = BookLoadFragment.newInstance(bookId);
-				fm.beginTransaction() //
-						.add(bookLoadFragment, TAG_BOOK_LOAD_FRAGMENT) //
-						.commit();
-			}
+			long bookId = intent.getLongExtra(EXTRA_BOOK_ID, 0);
+			SQLiteHelper dbHelper = new SQLiteHelper(this);
+			SQLiteDatabase db = dbHelper.getReadableDatabase();
+			mBookInfo = BookServices.getBookInfo(db, bookId);
+			db.close();
+			setTitleEditMode();
+			createTabs();
 
 		} else {
 			throw new InvalidParameterException("Extra " + EXTRA_BOOK_ID + " not set.");
@@ -288,7 +262,6 @@ public final class BookEditActivity extends FragmentActivity implements BookLoad
 	private void restoreState(Bundle savedInstanceState) {
 		FragmentManager fm = getSupportFragmentManager();
 		mMode = savedInstanceState.getInt(STATE_MODE);
-		mIsLoading = savedInstanceState.getBoolean(STATE_IS_LOADING);
 		mIsSearching = savedInstanceState.getBoolean(STATE_IS_SEARCHING);
 		mBookInfo = (BookInfo) savedInstanceState.getSerializable(STATE_BOOK_INFO);
 		mBookEditGeneralFragment = (BookEditGeneralFragment) fm.getFragment(savedInstanceState,
@@ -309,12 +282,10 @@ public final class BookEditActivity extends FragmentActivity implements BookLoad
 			throw new InvalidParameterException("Invalid STATE_MODE.");
 		}
 
-		if (mIsLoading || mIsSearching) {
+		if (mIsSearching) {
 			mProgressBar.setVisibility(View.VISIBLE);
 			mViewPager.setVisibility(View.GONE);
 		} else {
-			mProgressBar.setVisibility(View.GONE);
-			mViewPager.setVisibility(View.VISIBLE);
 			createTabs();
 		}
 	}

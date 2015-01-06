@@ -12,7 +12,7 @@
     <string name="action_enter_isbn">Entrer un ISBN</string>
     <string name="action_export_books">Exporter les livres</string>
     <string name="action_loan_book">Prêter le livre</string>
-    <string name="action_lookup_isbn">Chercher un ISBN</string>
+    <string name="action_lookup_isbn">Rechercher</string>
     <string name="action_mark_book_as_favourite">Ajouter aux favoris</string>
     <string name="action_mark_book_as_read">Marquer comme lu</string>
     <string name="action_pick_image">Sélectionner une image</string>
@@ -104,7 +104,7 @@
     <string name="label_unexpected_error">Erreur inattendue</string>
     <string name="label_unspecified_author">(Auteur inconnu)</string>
     <string name="label_unspecified_book_location">(Emplacement inconnu)</string>
-    <string name="label_unspecified_category">(Catégorie inconnue)</string>
+    <string name="label_unspecified_category">(Sans catégorie)</string>
     <string name="label_unspecified_language">(Langue inconnue)</string>
     <string name="menu_add_books">Ajouter des livres</string>
     <string name="menu_administration">Administration</string>
@@ -152,7 +152,7 @@
     <string name="message_isbn_search_too_short">Trop court</string>
     <string name="message_no_result">La recherche n\'a retourné aucun résultat.</string>
     <string name="message_scanner_install">Black Books utilise l\'application Pic2shop pour scanner les codes ISBN. Cliquez sur OK pour être redirigé vers sa page Google Play.</string>
-    <string name="message_send_log">Black Books a rencontré une erreur inattendue.\n\nPour nous aider à corriger le problème, cliquez sur \"Envoyer le rapport d\'erreur\" pour nous transférer un journal d\'erreur. N\'hésitez pas à détailler ce que vous êtiez en train de faire lorsque l\'erreur est survenue.\n\nMerci.</string>
+    <string name="message_send_log">Black Books a rencontré une erreur inattendue.\n\nPour nous aider à corriger le problème, cliquez sur \"Envoyer le rapport d\'erreur\" afin de nous transférer un journal d\'erreur. N\'hésitez pas à détailler ce que vous êtiez en train de faire lorsque l\'erreur est survenue.\n\nMerci.</string>
     <string name="report_error_mail_content">Voir le fichier d\'erreur en pièce jointe.</string>
     <string name="report_error_mail_subject">Black Books : rapport d\'erreur</string>
     <string name="report_error_log_not_saved">Impossible d\'écrire le fichier d\'erreur.</string>
