@@ -95,8 +95,10 @@
     <string name="label_summary_books">livres</string>
     <string name="label_summary_categories">catégories</string>
     <string name="label_summary_languages">langues</string>
-    <string name="label_summary_series">séries</string>
+    <string name="label_summary_loaned">prêtés</string>
     <string name="label_summary_locations">emplacements</string>
+    <string name="label_summary_read">lus</string>
+    <string name="label_summary_series">séries</string>
     <string name="label_text_qualifier">Délimiteur de texte</string>
     <string name="label_text_qualifier_double_quote">Guillemets doubles (\")</string>
     <string name="label_text_qualifier_single_quote">Guillemets simples (\')</string>

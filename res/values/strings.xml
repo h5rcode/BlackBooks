@@ -95,8 +95,10 @@
     <string name="label_summary_books">books</string>
     <string name="label_summary_categories">categories</string>
     <string name="label_summary_languages">languages</string>
-    <string name="label_summary_series">series</string>
+    <string name="label_summary_loaned">loaned</string>
     <string name="label_summary_locations">locations</string>
+    <string name="label_summary_read">read</string>
+    <string name="label_summary_series">series</string>
     <string name="label_text_qualifier">Text qualifier</string>
     <string name="label_text_qualifier_double_quote">Double quote (\")</string>
     <string name="label_text_qualifier_single_quote">Single quote (\')</string>

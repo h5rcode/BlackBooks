@@ -24,6 +24,8 @@ public class SummaryServices {
 		summary.languages = getLanguages(db);
 		summary.series = getSeries(db);
 		summary.bookLocations = getBookLocations(db);
+		summary.read = getBooksRead(db);
+		summary.loaned = getBooksLoaned(db);
 
 		return summary;
 	}
@@ -55,6 +57,16 @@ public class SummaryServices {
 
 	private static int getBookLocations(SQLiteDatabase db) {
 		String sql = "SELECT COUNT(*) FROM " + BookLocation.NAME;
+		return queryInt(db, sql);
+	}
+
+	public static int getBooksRead(SQLiteDatabase db) {
+		String sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_IS_READ + " = 1;";
+		return queryInt(db, sql);
+	}
+
+	public static int getBooksLoaned(SQLiteDatabase db) {
+		String sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_LOANED_TO + " IS NOT NULL;";
 		return queryInt(db, sql);
 	}
 
