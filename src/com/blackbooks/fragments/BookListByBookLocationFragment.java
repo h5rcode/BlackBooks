@@ -8,8 +8,8 @@ import android.widget.ArrayAdapter;
 
 import com.blackbooks.R;
 import com.blackbooks.adapters.BookItem;
-import com.blackbooks.adapters.BookLocationItem;
 import com.blackbooks.adapters.BooksByBookLocationAdapter;
+import com.blackbooks.adapters.BooksByBookLocationAdapter.BookLocationItem;
 import com.blackbooks.adapters.ListItem;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;

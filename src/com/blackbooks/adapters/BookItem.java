@@ -2,7 +2,7 @@ package com.blackbooks.adapters;
 
 import com.blackbooks.model.nonpersistent.BookInfo;
 
-public class BookItem implements ListItem {
+public final class BookItem implements ListItem {
 
 	private final BookInfo mBook;
 

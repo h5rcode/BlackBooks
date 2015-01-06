@@ -161,4 +161,22 @@ public class BooksByCategoryAdapter extends ArrayAdapter<ListItem> implements Se
 		}
 		return sectionIndex;
 	}
+
+	public static final class CategoryItem implements ListItem {
+
+		private final CategoryInfo mCategory;
+
+		public CategoryItem(CategoryInfo category) {
+			mCategory = category;
+		}
+
+		@Override
+		public ListItemType getListItemType() {
+			return ListItemType.HEADER;
+		}
+
+		public CategoryInfo getCategory() {
+			return mCategory;
+		}
+	}
 }

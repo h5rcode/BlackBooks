@@ -159,4 +159,22 @@ public class BooksByLanguageAdapter extends ArrayAdapter<ListItem> implements Se
 		}
 		return sectionIndex;
 	}
+
+	public static final class LanguageItem implements ListItem {
+
+		private final LanguageInfo mLanguage;
+
+		public LanguageItem(LanguageInfo language) {
+			mLanguage = language;
+		}
+
+		@Override
+		public ListItemType getListItemType() {
+			return ListItemType.HEADER;
+		}
+
+		public LanguageInfo getLanguage() {
+			return mLanguage;
+		}
+	}
 }

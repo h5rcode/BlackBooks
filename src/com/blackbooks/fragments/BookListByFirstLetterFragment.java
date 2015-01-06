@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import com.blackbooks.R;
 import com.blackbooks.adapters.BookItem;
 import com.blackbooks.adapters.BooksByFirstLetterAdapter;
-import com.blackbooks.adapters.FirstLetterItem;
+import com.blackbooks.adapters.BooksByFirstLetterAdapter.FirstLetterItem;
 import com.blackbooks.adapters.ListItem;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;

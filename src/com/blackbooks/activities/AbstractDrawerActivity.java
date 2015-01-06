@@ -22,8 +22,8 @@ import android.widget.Toast;
 
 import com.blackbooks.R;
 import com.blackbooks.adapters.DrawerAdapter;
-import com.blackbooks.adapters.DrawerItem;
-import com.blackbooks.adapters.DrawerItemType;
+import com.blackbooks.adapters.DrawerAdapter.DrawerItem;
+import com.blackbooks.adapters.DrawerAdapter.DrawerItemType;
 import com.blackbooks.database.Database;
 import com.blackbooks.fragments.dialogs.ScannerInstallFragment;
 import com.blackbooks.utils.FileUtils;

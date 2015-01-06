@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.blackbooks.R;
 import com.blackbooks.adapters.BookItem;
 import com.blackbooks.adapters.BooksByCategoryAdapter;
-import com.blackbooks.adapters.CategoryItem;
+import com.blackbooks.adapters.BooksByCategoryAdapter.CategoryItem;
 import com.blackbooks.adapters.ListItem;
 import com.blackbooks.adapters.ListItemType;
 import com.blackbooks.database.SQLiteHelper;

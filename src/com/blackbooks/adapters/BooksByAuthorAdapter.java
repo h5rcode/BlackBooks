@@ -197,4 +197,40 @@ public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> implements Sect
 		}
 		return view;
 	}
+
+	public static final class AuthorItem implements ListItem {
+
+		private final AuthorInfo mAuthor;
+
+		public AuthorItem(AuthorInfo author) {
+			this.mAuthor = author;
+		}
+
+		@Override
+		public ListItemType getListItemType() {
+			return ListItemType.HEADER;
+		}
+
+		public AuthorInfo getAuthor() {
+			return mAuthor;
+		}
+	}
+
+	public static final class SeriesItem implements ListItem {
+
+		private final Series mSeries;
+
+		public SeriesItem(Series series) {
+			mSeries = series;
+		}
+
+		@Override
+		public ListItemType getListItemType() {
+			return ListItemType.HEADER_2;
+		}
+
+		public Series getSeries() {
+			return mSeries;
+		}
+	}
 }

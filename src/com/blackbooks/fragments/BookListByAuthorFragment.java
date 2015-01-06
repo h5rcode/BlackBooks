@@ -7,11 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.ArrayAdapter;
 
 import com.blackbooks.R;
-import com.blackbooks.adapters.AuthorItem;
 import com.blackbooks.adapters.BookItem;
 import com.blackbooks.adapters.BooksByAuthorAdapter;
+import com.blackbooks.adapters.BooksByAuthorAdapter.AuthorItem;
+import com.blackbooks.adapters.BooksByAuthorAdapter.SeriesItem;
 import com.blackbooks.adapters.ListItem;
-import com.blackbooks.adapters.SeriesItem;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.AuthorInfo;
 import com.blackbooks.model.nonpersistent.BookInfo;
