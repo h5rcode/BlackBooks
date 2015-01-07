@@ -1,6 +1,5 @@
 package com.blackbooks.activities;
 
-import android.app.ActionBar;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.ComponentName;
@@ -70,8 +69,6 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 			fm.beginTransaction() //
 					.replace(R.id.abstractDrawerActivity_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 					.commit();
-		} else {
-			setActionBarSubtitle();
 		}
 	}
 
@@ -204,16 +201,7 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 		}
 	}
 
-	/**
-	 * Set the action bar subtitle.
-	 */
-	private void setActionBarSubtitle() {
-		ActionBar actionBar = getActionBar();
-		actionBar.setSubtitle(mCurrentFragment.getActionBarSubtitle());
-	}
-
 	@Override
 	public void onBookListLoaded() {
-		setActionBarSubtitle();
 	}
 }

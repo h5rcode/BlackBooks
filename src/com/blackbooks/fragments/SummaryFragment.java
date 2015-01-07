@@ -3,6 +3,7 @@ package com.blackbooks.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -41,6 +42,15 @@ public class SummaryFragment extends Fragment {
 	private TextView mTextLocationsCount;
 	private TextView mTextReadCount;
 	private TextView mTextLoanedCount;
+
+	private TextView mTextLabelBookCount;
+	private TextView mTextLabelAuthorCount;
+	private TextView mTextLabelCategoryCount;
+	private TextView mTextLabelLanguageCount;
+	private TextView mTextLabelSeriesCount;
+	private TextView mTextLabelLocationCount;
+	private TextView mTextLabelReadCount;
+	private TextView mTextLabelLoanedCount;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -129,6 +139,15 @@ public class SummaryFragment extends Fragment {
 		mTextReadCount = (TextView) view.findViewById(R.id.summary_readCount);
 		mTextLoanedCount = (TextView) view.findViewById(R.id.summary_loanedCount);
 
+		mTextLabelBookCount = (TextView) view.findViewById(R.id.summary_textLabelBookCount);
+		mTextLabelAuthorCount = (TextView) view.findViewById(R.id.summary_textLabelAuthorCount);
+		mTextLabelCategoryCount = (TextView) view.findViewById(R.id.summary_textLabelCategoryCount);
+		mTextLabelLanguageCount = (TextView) view.findViewById(R.id.summary_textLabelLanguageCount);
+		mTextLabelSeriesCount = (TextView) view.findViewById(R.id.summary_textLabelSeriesCount);
+		mTextLabelLocationCount = (TextView) view.findViewById(R.id.summary_textLabelLocationCount);
+		mTextLabelReadCount = (TextView) view.findViewById(R.id.summary_textLabelReadCount);
+		mTextLabelLoanedCount = (TextView) view.findViewById(R.id.summary_textLabelLoanedCount);
+
 		SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
 		SQLiteDatabase db = null;
 		try {
@@ -143,6 +162,17 @@ public class SummaryFragment extends Fragment {
 			mTextLocationsCount.setText(String.valueOf(summary.bookLocations));
 			mTextReadCount.setText(String.valueOf(summary.read));
 			mTextLoanedCount.setText(String.valueOf(summary.loaned));
+
+			Resources res = getResources();
+
+			mTextLabelBookCount.setText(res.getQuantityText(R.plurals.label_summary_books, summary.books));
+			mTextLabelAuthorCount.setText(res.getQuantityText(R.plurals.label_summary_authors, summary.authors));
+			mTextLabelCategoryCount.setText(res.getQuantityText(R.plurals.label_summary_categories, summary.categories));
+			mTextLabelLanguageCount.setText(res.getQuantityText(R.plurals.label_summary_languages, summary.languages));
+			mTextLabelSeriesCount.setText(res.getQuantityText(R.plurals.label_summary_series, summary.series));
+			mTextLabelLocationCount.setText(res.getQuantityText(R.plurals.label_summary_locations, summary.bookLocations));
+			mTextLabelReadCount.setText(res.getQuantityText(R.plurals.label_summary_read, summary.read));
+			mTextLabelLoanedCount.setText(res.getQuantityText(R.plurals.label_summary_loaned, summary.loaned));
 		} finally {
 			if (db != null) {
 				db.close();

@@ -29,10 +29,10 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/summary_textLabelBookCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5sp"
-                android:text="@string/label_summary_books"
                 android:textSize="35sp" />
         </LinearLayout>
 
@@ -61,10 +61,10 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/summary_textLabelAuthorCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/label_summary_authors"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -86,10 +86,10 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/summary_textLabelCategoryCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/label_summary_categories"
                     android:textSize="20sp" />
             </LinearLayout>
         </LinearLayout>
@@ -119,10 +119,10 @@
                 </TextView>
 
                 <TextView
+                    android:id="@+id/summary_textLabelLanguageCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/label_summary_languages"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -145,10 +145,10 @@
                 </TextView>
 
                 <TextView
+                    android:id="@+id/summary_textLabelSeriesCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/label_summary_series"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -172,10 +172,10 @@
                 </TextView>
 
                 <TextView
+                    android:id="@+id/summary_textLabelLocationCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/label_summary_locations"
                     android:textColor="@android:color/white"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -192,7 +192,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/selector_linear_layout_grey_700"
+                android:background="@drawable/selector_linear_layout_grey_600"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:padding="5sp" >
@@ -206,10 +206,10 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/summary_textLabelReadCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/label_summary_read"
                     android:textColor="@android:color/white"
                     android:textSize="20sp" />
             </LinearLayout>
@@ -219,7 +219,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/selector_linear_layout_grey_600"
+                android:background="@drawable/selector_linear_layout_grey_700"
                 android:clickable="true"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
@@ -234,10 +234,10 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/summary_textLabelLoanedCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/label_summary_loaned"
                     android:textColor="@android:color/white"
                     android:textSize="20sp" />
             </LinearLayout>

@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blackbooks.R;
@@ -46,10 +47,9 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	private static final int ITEM_BOOK_MARK_AS_FAVOURITE = 0x4;
 	private static final int ITEM_BOOK_DELETE = 0x5;
 
+	private TextView mTextFooter;
 	private ArrayAdapter<ListItem> mBookListAdapter;
-
 	private BookListListener mBookListListener;
-
 	private BookListLoadTask mBookListLoadTask;
 
 	@Override
@@ -58,6 +58,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
 		if (activity instanceof BookListListener) {
 			mBookListListener = (BookListListener) activity;
 		}
+		activity.getActionBar().setSubtitle(getActionBarSubtitle());
 	}
 
 	@Override
@@ -72,6 +73,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.abstract_book_list_fragment, container, false);
 		ListView listView = (ListView) view.findViewById(android.R.id.list);
+		mTextFooter = (TextView) view.findViewById(R.id.abstractBookList_textFooter);
 		// View emptyView = view.findViewById(android.R.id.empty);
 		listView.setFastScrollEnabled(true);
 		// listView.setEmptyView(emptyView);
@@ -83,6 +85,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
 		super.onActivityCreated(savedInstanceState);
 		ListView listView = getListView();
 		registerForContextMenu(listView);
+		mTextFooter.setText(getFooterText());
 	}
 
 	@Override
@@ -194,8 +197,6 @@ public abstract class AbstractBookListFragment extends ListFragment {
 		}
 	}
 
-	public abstract String getActionBarSubtitle();
-
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		ListItem item = (ListItem) getListAdapter().getItem(position);
@@ -218,11 +219,25 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	protected abstract List<ListItem> loadBookList();
 
 	/**
+	 * Return the subtitle of the action bar.
+	 * 
+	 * @return Subtitle.
+	 */
+	protected abstract String getActionBarSubtitle();
+
+	/**
 	 * Return a new instance of the adapter used to draw the list of books.
 	 * 
 	 * @return ArrayAdapter of {@link ListItem}.
 	 */
 	protected abstract ArrayAdapter<ListItem> getBookListAdapter();
+
+	/**
+	 * Return the text to be displayed in the footer.
+	 * 
+	 * @return Text.
+	 */
+	protected abstract String getFooterText();
 
 	/**
 	 * Load the data to be displayed in the fragment.
@@ -384,6 +399,8 @@ public abstract class AbstractBookListFragment extends ListFragment {
 			if (mBookListListener != null) {
 				mBookListListener.onBookListLoaded();
 			}
+
+			mTextFooter.setText(getFooterText());
 		}
 	}
 }

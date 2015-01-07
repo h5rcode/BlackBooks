@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <!--<LinearLayout
+    <!--
+    <LinearLayout
         android:id="@android:id/empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,12 +29,28 @@
             android:layout_gravity="center_horizontal"
             android:paddingTop="10sp"
             android:text="@string/text_info_no_books_2" />
-    </LinearLayout>-->
+    </LinearLayout>    -->
 
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="0dp"
+        android:layout_weight="1" >
     </ListView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/abstractBookList_textFooter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5sp"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
 
 </LinearLayout>

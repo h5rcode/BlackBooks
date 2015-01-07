@@ -22,16 +22,21 @@ import com.blackbooks.services.LanguageServices;
  */
 public class BookListByLanguageFragment extends AbstractBookListFragment {
 
-	private String mActionBarSubtitle;
-
+	private String mFooterText;
+	
 	@Override
-	public String getActionBarSubtitle() {
-		return mActionBarSubtitle;
+	protected String getActionBarSubtitle() {
+		return getString(R.string.subtitle_fragment_books_by_language);
 	}
 
 	@Override
 	protected ArrayAdapter<ListItem> getBookListAdapter() {
 		return new BooksByLanguageAdapter(this.getActivity());
+	}
+
+	@Override
+	protected String getFooterText() {
+		return mFooterText;
 	}
 
 	@Override
@@ -48,13 +53,13 @@ public class BookListByLanguageFragment extends AbstractBookListFragment {
 			}
 		}
 
-		int languagesCount = 0;
+		int languageCount = 0;
 		List<ListItem> listItems = new ArrayList<ListItem>();
 		for (LanguageInfo language : languageList) {
 			if (language.languageCode == null) {
 				language.displayName = getString(R.string.label_unspecified_language);
 			} else {
-				languagesCount++;
+				languageCount++;
 			}
 
 			LanguageItem languageItem = new LanguageItem(language);
@@ -65,8 +70,8 @@ public class BookListByLanguageFragment extends AbstractBookListFragment {
 				listItems.add(bookItem);
 			}
 		}
-
-		mActionBarSubtitle = String.format(getString(R.string.subtitle_fragment_books_by_language), languagesCount);
+		
+		mFooterText = getResources().getQuantityString(R.plurals.footer_fragment_books_by_language, languageCount, languageCount);
 
 		return listItems;
 	}

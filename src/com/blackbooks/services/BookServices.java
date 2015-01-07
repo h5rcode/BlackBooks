@@ -272,7 +272,7 @@ public class BookServices {
 				SeriesServices.saveSeries(db, bookInfo.series);
 				bookInfo.seriesId = bookInfo.series.id;
 			} else {
-				bookInfo.series.id = null;
+				bookInfo.seriesId = null;
 			}
 
 			if (bookInfo.isbn10 != null && !IsbnUtils.isValidIsbn10(bookInfo.isbn10)) {

@@ -41,11 +41,16 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
 	private static final int ITEM_CATEGORY_EDIT = 0x11;
 	private static final int ITEM_CATEGORY_DELETE = 0x12;
 
-	private String mActionBarSubtitle;
+	private String mFooterText;
 
 	@Override
-	public String getActionBarSubtitle() {
-		return mActionBarSubtitle;
+	protected String getActionBarSubtitle() {
+		return getString(R.string.subtitle_fragment_books_by_category);
+	}
+
+	@Override
+	protected String getFooterText() {
+		return mFooterText;
 	}
 
 	@Override
@@ -177,13 +182,13 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
 			}
 		}
 
-		int categoriesCount = 0;
+		int categoryCount = 0;
 		List<ListItem> listItems = new ArrayList<ListItem>();
 		for (CategoryInfo categoryInfo : categoryList) {
 			if (categoryInfo.id == null) {
 				categoryInfo.name = getString(R.string.label_unspecified_category);
 			} else {
-				categoriesCount++;
+				categoryCount++;
 			}
 			CategoryItem categoryItem = new CategoryItem(categoryInfo);
 			listItems.add(categoryItem);
@@ -192,7 +197,8 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
 				listItems.add(bookItem);
 			}
 		}
-		mActionBarSubtitle = String.format(getString(R.string.subtitle_fragment_books_by_category), categoriesCount);
+
+		mFooterText = getResources().getQuantityString(R.plurals.footer_fragment_books_by_category, categoryCount, categoryCount);
 
 		return listItems;
 	}

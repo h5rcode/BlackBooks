@@ -22,11 +22,16 @@ import com.blackbooks.services.SeriesServices;
  */
 public class BookListBySeriesFragment extends AbstractBookListFragment {
 
-	private String mActionBarSubtitle;
+	private String mFooterText;
 
 	@Override
-	public String getActionBarSubtitle() {
-		return mActionBarSubtitle;
+	protected String getActionBarSubtitle() {
+		return getString(R.string.subtitle_fragment_books_by_series);
+	}
+
+	@Override
+	protected String getFooterText() {
+		return mFooterText;
 	}
 
 	@Override
@@ -43,14 +48,13 @@ public class BookListBySeriesFragment extends AbstractBookListFragment {
 			}
 		}
 
-		int bookLocationsCount = 0;
-
+		int seriesCount = 0;
 		List<ListItem> listItems = new ArrayList<ListItem>();
 		for (SeriesInfo seriesInfo : seriesInfoList) {
 			if (seriesInfo.id == null) {
 				seriesInfo.name = getString(R.string.label_unspecified_series);
 			} else {
-				bookLocationsCount++;
+				seriesCount++;
 			}
 			SeriesItem seriesItem = new SeriesItem(seriesInfo);
 			listItems.add(seriesItem);
@@ -60,7 +64,8 @@ public class BookListBySeriesFragment extends AbstractBookListFragment {
 				listItems.add(bookItem);
 			}
 		}
-		mActionBarSubtitle = String.format(getString(R.string.subtitle_fragment_books_by_series), bookLocationsCount);
+
+		mFooterText = getResources().getQuantityString(R.plurals.footer_fragment_books_by_series, seriesCount, seriesCount);
 
 		return listItems;
 	}

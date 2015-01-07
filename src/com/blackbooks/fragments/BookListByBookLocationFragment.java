@@ -22,16 +22,21 @@ import com.blackbooks.services.BookLocationServices;
  */
 public class BookListByBookLocationFragment extends AbstractBookListFragment {
 
-	private String mActionBarSubtitle;
+	private String mFooterText;
 
 	@Override
-	public String getActionBarSubtitle() {
-		return mActionBarSubtitle;
+	protected String getActionBarSubtitle() {
+		return getString(R.string.subtitle_fragment_books_by_book_location);
 	}
 
 	@Override
 	protected ArrayAdapter<ListItem> getBookListAdapter() {
 		return new BooksByBookLocationAdapter(getActivity());
+	}
+
+	@Override
+	protected String getFooterText() {
+		return mFooterText;
 	}
 
 	@Override
@@ -48,14 +53,14 @@ public class BookListByBookLocationFragment extends AbstractBookListFragment {
 			}
 		}
 
-		int bookLocationsCount = 0;
-
 		List<ListItem> listItems = new ArrayList<ListItem>();
+
+		int locationCount = 0;
 		for (BookLocationInfo bookLocationInfo : bookLocationInfoList) {
 			if (bookLocationInfo.id == null) {
 				bookLocationInfo.name = getString(R.string.label_unspecified_book_location);
 			} else {
-				bookLocationsCount++;
+				locationCount++;
 			}
 
 			BookLocationItem bookLocationItem = new BookLocationItem(bookLocationInfo);
@@ -66,7 +71,8 @@ public class BookListByBookLocationFragment extends AbstractBookListFragment {
 				listItems.add(bookItem);
 			}
 		}
-		mActionBarSubtitle = String.format(getString(R.string.subtitle_fragment_books_by_book_location), bookLocationsCount);
+		
+		mFooterText = getResources().getQuantityString(R.plurals.footer_fragment_books_by_book_location, locationCount, locationCount);
 
 		return listItems;
 	}

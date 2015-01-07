@@ -46,6 +46,30 @@
     <string name="error_connection_problem">Problème de connexion. Vérifiez que l\'appareil est connecté à Internet.</string>
     <string name="field_invalid_date">Date invalide.</string>
     <string name="field_mandatory">Ce champ est obligatoire.</string>
+    <plurals name="footer_fragment_books_by_author">
+        <item quantity="one">%d auteur</item>
+        <item quantity="other">%d auteurs</item>
+    </plurals>
+    <plurals name="footer_fragment_books_by_book_location">
+        <item quantity="one">%d emplacement</item>
+        <item quantity="other">%d emplacements</item>
+    </plurals>
+    <plurals name="footer_fragment_books_by_category">
+        <item quantity="one">%d catégorie</item>
+        <item quantity="other">%d catégories</item>
+    </plurals>
+    <plurals name="footer_fragment_books_by_first_letter">
+        <item quantity="one">%d livre</item>
+        <item quantity="other">%d livres</item>
+    </plurals>
+    <plurals name="footer_fragment_books_by_language">
+        <item quantity="one">%d langue</item>
+        <item quantity="other">%d langues</item>
+    </plurals>
+    <plurals name="footer_fragment_books_by_series">
+        <item quantity="one">%d série</item>
+        <item quantity="other">%d séries</item>
+    </plurals>
     <string name="hint_search">Rechercher des livres</string>
     <string name="image_thumbnail">Couverture</string>
     <string name="label_author">Auteur</string>
@@ -91,14 +115,40 @@
     <string name="label_series_number_format">(%d)</string>
     <string name="label_series_number">#</string>
     <string name="label_subtitle">Sous-titre</string>
-    <string name="label_summary_authors">auteurs</string>
-    <string name="label_summary_books">livres</string>
-    <string name="label_summary_categories">catégories</string>
-    <string name="label_summary_languages">langues</string>
-    <string name="label_summary_loaned">prêtés</string>
-    <string name="label_summary_locations">emplacements</string>
-    <string name="label_summary_read">lus</string>
-    <string name="label_summary_series">séries</string>
+
+    <plurals name="label_summary_authors">
+        <item quantity="one">auteur</item>
+        <item quantity="other">auteurs</item>
+    </plurals>
+    <plurals name="label_summary_books">
+        <item quantity="one">livre</item>
+        <item quantity="other">livres</item>
+    </plurals>
+    <plurals name="label_summary_categories">
+        <item quantity="one">catégorie</item>
+        <item quantity="other">catégories</item>
+    </plurals>
+    <plurals name="label_summary_languages">
+        <item quantity="one">langue</item>
+        <item quantity="other">langues</item>
+    </plurals>
+    <plurals name="label_summary_loaned">
+        <item quantity="one">prêté</item>
+        <item quantity="other">prêtés</item>
+    </plurals>
+    <plurals name="label_summary_locations">
+        <item quantity="one">emplacement</item>
+        <item quantity="other">emplacements</item>
+    </plurals>
+    <plurals name="label_summary_read">
+        <item quantity="one">lu</item>
+        <item quantity="other">lus</item>
+    </plurals>
+    <plurals name="label_summary_series">
+        <item quantity="one">série</item>
+        <item quantity="other">séries</item>
+    </plurals>
+
     <string name="label_text_qualifier">Délimiteur de texte</string>
     <string name="label_text_qualifier_double_quote">Guillemets doubles (\")</string>
     <string name="label_text_qualifier_single_quote">Guillemets simples (\')</string>
@@ -160,12 +210,12 @@
     <string name="report_error_mail_content">Voir le fichier d\'erreur en pièce jointe.</string>
     <string name="report_error_mail_subject">Black Books : rapport d\'erreur</string>
     <string name="report_error_log_not_saved">Impossible d\'écrire le fichier d\'erreur.</string>
-    <string name="subtitle_fragment_books_by_author">%d auteurs</string>
-    <string name="subtitle_fragment_books_by_book_location">%d emplacements</string>
-    <string name="subtitle_fragment_books_by_category">%d catégories</string>
-    <string name="subtitle_fragment_books_by_first_letter">%d livres</string>
-    <string name="subtitle_fragment_books_by_language">%d langues</string>
-    <string name="subtitle_fragment_books_by_series">%d séries</string>
+    <string name="subtitle_fragment_books_by_author">Par auteur</string>
+    <string name="subtitle_fragment_books_by_book_location">Par emplacement</string>
+    <string name="subtitle_fragment_books_by_category">Par catégorie</string>
+    <string name="subtitle_fragment_books_by_first_letter">Par première lettre du titre</string>
+    <string name="subtitle_fragment_books_by_language">Par langue</string>
+    <string name="subtitle_fragment_books_by_series">Par série</string>
     <string name="text_info_edit_authors">Modification des auteurs de \"%s\".</string>
     <string name="text_info_edit_authors_untitled_book">Modification des auteurs d\'un livre sans titre.</string>
     <string name="text_info_edit_categories">Modification des catégories de \"%s\".</string>

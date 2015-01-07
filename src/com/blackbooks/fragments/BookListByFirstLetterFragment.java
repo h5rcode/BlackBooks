@@ -22,16 +22,21 @@ import com.blackbooks.services.BookServices;
  */
 public class BookListByFirstLetterFragment extends AbstractBookListFragment {
 
-	private String mActionBarSubtitle;
+	private String mFooterText;
 
 	@Override
-	public String getActionBarSubtitle() {
-		return mActionBarSubtitle;
+	protected String getActionBarSubtitle() {
+		return getString(R.string.subtitle_fragment_books_by_first_letter);
 	}
 
 	@Override
 	protected ArrayAdapter<ListItem> getBookListAdapter() {
 		return new BooksByFirstLetterAdapter(this.getActivity());
+	}
+
+	@Override
+	protected String getFooterText() {
+		return mFooterText;
 	}
 
 	/**
@@ -64,7 +69,6 @@ public class BookListByFirstLetterFragment extends AbstractBookListFragment {
 			bookMap.get(firstLetter).add(book);
 		}
 
-		int booksCount = 0;
 		List<ListItem> listItems = new ArrayList<ListItem>();
 		for (String firstLetter : bookMap.keySet()) {
 			List<BookInfo> letterBookList = bookMap.get(firstLetter);
@@ -73,13 +77,14 @@ public class BookListByFirstLetterFragment extends AbstractBookListFragment {
 			listItems.add(firstLetterItem);
 
 			for (BookInfo book : letterBookList) {
-				booksCount++;
 				BookItem bookItem = new BookItem(book);
 				listItems.add(bookItem);
 			}
 		}
 
-		mActionBarSubtitle = String.format(getString(R.string.subtitle_fragment_books_by_first_letter), booksCount);
+		int bookCount = bookList.size();
+		mFooterText = getResources().getQuantityString(R.plurals.footer_fragment_books_by_first_letter, bookCount, bookCount);
+
 		return listItems;
 	}
 }
