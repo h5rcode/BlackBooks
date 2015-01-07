@@ -27,7 +27,7 @@ public class BookListByLanguageFragment extends AbstractBookListFragment {
 
 	@Override
 	protected String getActionBarSubtitle() {
-		return getString(R.string.subtitle_fragment_books_by_language);
+		return getString(R.string.action_sort_by_language);
 	}
 
 	@Override

@@ -218,12 +218,6 @@
     <string name="report_error_mail_content">Voir le fichier d\'erreur en pièce jointe.</string>
     <string name="report_error_mail_subject">Black Books : rapport d\'erreur</string>
     <string name="report_error_log_not_saved">Impossible d\'écrire le fichier d\'erreur.</string>
-    <string name="subtitle_fragment_books_by_author">Par auteur</string>
-    <string name="subtitle_fragment_books_by_book_location">Par emplacement</string>
-    <string name="subtitle_fragment_books_by_category">Par catégorie</string>
-    <string name="subtitle_fragment_books_by_first_letter">Par première lettre du titre</string>
-    <string name="subtitle_fragment_books_by_language">Par langue</string>
-    <string name="subtitle_fragment_books_by_series">Par série</string>
     <string name="text_info_edit_authors">Modification des auteurs de \"%s\".</string>
     <string name="text_info_edit_authors_untitled_book">Modification des auteurs d\'un livre sans titre.</string>
     <string name="text_info_edit_categories">Modification des catégories de \"%s\".</string>
@@ -240,7 +234,7 @@
     <string name="title_activity_book_edit_mode_edit">Modifier \"%s\"</string>
     <string name="title_activity_book_export">Exporter au format CSV</string>
     <string name="title_activity_book_import">Importer depuis un fichier CSV</string>
-    <string name="title_activity_book_list">Black Books</string>
+    <string name="title_activity_book_list">Liste des livres</string>
     <string name="title_activity_isbn_lookup">Recherche par ISBN</string>
     <string name="title_activity_book_search">Résultats pour \"%s\"</string>
     <string name="title_activity_book_search_default">Résultats de recherche</string>

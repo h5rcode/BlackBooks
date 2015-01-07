@@ -5,6 +5,7 @@ import android.app.SearchableInfo;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +36,12 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 	@Override
 	protected DrawerActivity getDrawerActivity() {
 		return DrawerActivity.BOOK_LIST;
+	}
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setTitle(R.string.menu_book_list);
 	}
 
 	@Override

@@ -30,7 +30,7 @@ public class BookListByAuthorFragment extends AbstractBookListFragment {
 
 	@Override
 	protected String getActionBarSubtitle() {
-		return getString(R.string.subtitle_fragment_books_by_author);
+		return getString(R.string.action_sort_by_author);
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class BookListByAuthorFragment extends AbstractBookListFragment {
 				}
 			}
 		}
-		
+
 		Resources res = getResources();
 		int bookCount = bookIdList.size();
 		String authors = res.getQuantityString(R.plurals.label_footer_authors, authorCount, authorCount);

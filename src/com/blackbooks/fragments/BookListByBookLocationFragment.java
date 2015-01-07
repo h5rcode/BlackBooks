@@ -27,7 +27,7 @@ public class BookListByBookLocationFragment extends AbstractBookListFragment {
 
 	@Override
 	protected String getActionBarSubtitle() {
-		return getString(R.string.subtitle_fragment_books_by_book_location);
+		return getString(R.string.action_sort_by_book_location);
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class BookListByBookLocationFragment extends AbstractBookListFragment {
 			for (BookInfo book : bookLocationInfo.books) {
 				BookItem bookItem = new BookItem(book);
 				listItems.add(bookItem);
-				
+
 				if (!bookIdList.contains(book.id)) {
 					bookIdList.add(book.id);
 				}

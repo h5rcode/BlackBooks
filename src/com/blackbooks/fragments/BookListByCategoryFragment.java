@@ -46,7 +46,7 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
 
 	@Override
 	protected String getActionBarSubtitle() {
-		return getString(R.string.subtitle_fragment_books_by_category);
+		return getString(R.string.action_sort_by_category);
 	}
 
 	@Override
@@ -197,7 +197,7 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
 			for (BookInfo book : categoryInfo.books) {
 				BookItem bookItem = new BookItem(book);
 				listItems.add(bookItem);
-				
+
 				if (!bookIdList.contains(book.id)) {
 					bookIdList.add(book.id);
 				}

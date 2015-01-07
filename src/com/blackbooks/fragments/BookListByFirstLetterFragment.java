@@ -26,7 +26,7 @@ public class BookListByFirstLetterFragment extends AbstractBookListFragment {
 
 	@Override
 	protected String getActionBarSubtitle() {
-		return getString(R.string.subtitle_fragment_books_by_first_letter);
+		return getString(R.string.action_sort_by_first_letter);
 	}
 
 	@Override
@@ -83,9 +83,9 @@ public class BookListByFirstLetterFragment extends AbstractBookListFragment {
 		}
 
 		int bookCount = bookList.size();
-		
+
 		String books = getResources().getQuantityString(R.plurals.label_footer_books, bookCount, bookCount);
-		
+
 		mFooterText = getString(R.string.footer_fragment_books_by_first_letter, books);
 
 		return listItems;

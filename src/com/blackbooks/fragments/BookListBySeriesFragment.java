@@ -27,7 +27,7 @@ public class BookListBySeriesFragment extends AbstractBookListFragment {
 
 	@Override
 	protected String getActionBarSubtitle() {
-		return getString(R.string.subtitle_fragment_books_by_series);
+		return getString(R.string.action_sort_by_series);
 	}
 
 	@Override
