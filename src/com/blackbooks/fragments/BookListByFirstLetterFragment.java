@@ -83,7 +83,10 @@ public class BookListByFirstLetterFragment extends AbstractBookListFragment {
 		}
 
 		int bookCount = bookList.size();
-		mFooterText = getResources().getQuantityString(R.plurals.footer_fragment_books_by_first_letter, bookCount, bookCount);
+		
+		String books = getResources().getQuantityString(R.plurals.label_footer_books, bookCount, bookCount);
+		
+		mFooterText = getString(R.string.footer_fragment_books_by_first_letter, books);
 
 		return listItems;
 	}

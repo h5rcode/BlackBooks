@@ -3,6 +3,7 @@ package com.blackbooks.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.ArrayAdapter;
 
@@ -49,6 +50,7 @@ public class BookListBySeriesFragment extends AbstractBookListFragment {
 		}
 
 		int seriesCount = 0;
+		int bookCount = 0;
 		List<ListItem> listItems = new ArrayList<ListItem>();
 		for (SeriesInfo seriesInfo : seriesInfoList) {
 			if (seriesInfo.id == null) {
@@ -62,10 +64,15 @@ public class BookListBySeriesFragment extends AbstractBookListFragment {
 			for (BookInfo book : seriesInfo.books) {
 				BookItem bookItem = new BookItem(book);
 				listItems.add(bookItem);
+				bookCount++;
 			}
 		}
 
-		mFooterText = getResources().getQuantityString(R.plurals.footer_fragment_books_by_series, seriesCount, seriesCount);
+		Resources res = getResources();
+		String series = res.getQuantityString(R.plurals.label_footer_series, seriesCount, seriesCount);
+		String books = res.getQuantityString(R.plurals.label_footer_books, bookCount, bookCount);
+
+		mFooterText = getString(R.string.footer_fragment_books_by_series, series, books);
 
 		return listItems;
 	}

@@ -3,6 +3,7 @@ package com.blackbooks.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.ArrayAdapter;
 
@@ -23,7 +24,7 @@ import com.blackbooks.services.LanguageServices;
 public class BookListByLanguageFragment extends AbstractBookListFragment {
 
 	private String mFooterText;
-	
+
 	@Override
 	protected String getActionBarSubtitle() {
 		return getString(R.string.subtitle_fragment_books_by_language);
@@ -54,6 +55,7 @@ public class BookListByLanguageFragment extends AbstractBookListFragment {
 		}
 
 		int languageCount = 0;
+		int bookCount = 0;
 		List<ListItem> listItems = new ArrayList<ListItem>();
 		for (LanguageInfo language : languageList) {
 			if (language.languageCode == null) {
@@ -68,10 +70,16 @@ public class BookListByLanguageFragment extends AbstractBookListFragment {
 			for (BookInfo book : language.books) {
 				BookItem bookItem = new BookItem(book);
 				listItems.add(bookItem);
+
+				bookCount++;
 			}
 		}
-		
-		mFooterText = getResources().getQuantityString(R.plurals.footer_fragment_books_by_language, languageCount, languageCount);
+
+		Resources res = getResources();
+		String languages = res.getQuantityString(R.plurals.label_footer_language, languageCount, languageCount);
+		String books = res.getQuantityString(R.plurals.label_footer_books, bookCount, bookCount);
+
+		mFooterText = getString(R.string.footer_fragment_books_by_language, languages, books);
 
 		return listItems;
 	}

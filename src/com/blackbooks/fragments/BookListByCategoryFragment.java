@@ -3,6 +3,7 @@ package com.blackbooks.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -183,6 +184,7 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
 		}
 
 		int categoryCount = 0;
+		List<Long> bookIdList = new ArrayList<Long>();
 		List<ListItem> listItems = new ArrayList<ListItem>();
 		for (CategoryInfo categoryInfo : categoryList) {
 			if (categoryInfo.id == null) {
@@ -195,10 +197,19 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
 			for (BookInfo book : categoryInfo.books) {
 				BookItem bookItem = new BookItem(book);
 				listItems.add(bookItem);
+				
+				if (!bookIdList.contains(book.id)) {
+					bookIdList.add(book.id);
+				}
 			}
 		}
 
-		mFooterText = getResources().getQuantityString(R.plurals.footer_fragment_books_by_category, categoryCount, categoryCount);
+		Resources res = getResources();
+		int bookCount = bookIdList.size();
+		String categories = res.getQuantityString(R.plurals.label_footer_categories, categoryCount, categoryCount);
+		String books = res.getQuantityString(R.plurals.label_footer_books, bookCount, bookCount);
+
+		mFooterText = getString(R.string.footer_fragment_books_by_category, categories, books);
 
 		return listItems;
 	}

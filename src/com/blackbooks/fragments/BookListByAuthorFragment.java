@@ -3,6 +3,7 @@ package com.blackbooks.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.ArrayAdapter;
 
@@ -24,7 +25,7 @@ import com.blackbooks.services.AuthorServices;
  * author.
  */
 public class BookListByAuthorFragment extends AbstractBookListFragment {
-	
+
 	private String mFooterText;
 
 	@Override
@@ -59,10 +60,11 @@ public class BookListByAuthorFragment extends AbstractBookListFragment {
 		List<ListItem> listItems = new ArrayList<ListItem>();
 
 		int authorCount = 0;
+		List<Long> bookIdList = new ArrayList<Long>();
 		for (AuthorInfo authorInfo : authorInfoList) {
 			if (authorInfo.id == null) {
 				authorInfo.name = getString(R.string.label_unspecified_author);
-			} else ;{
+			} else {
 				authorCount++;
 			}
 			AuthorItem authorItem = new AuthorItem(authorInfo);
@@ -76,13 +78,21 @@ public class BookListByAuthorFragment extends AbstractBookListFragment {
 					BookInfo bookInfo = new BookInfo(book);
 					BookItem bookEntry = new BookItem(bookInfo);
 					listItems.add(bookEntry);
+
+					if (!bookIdList.contains(book.id)) {
+						bookIdList.add(book.id);
+					}
 				}
 			}
 		}
 		
-		
-		mFooterText = getResources().getQuantityString(R.plurals.footer_fragment_books_by_author, authorCount, authorCount);
-		
+		Resources res = getResources();
+		int bookCount = bookIdList.size();
+		String authors = res.getQuantityString(R.plurals.label_footer_authors, authorCount, authorCount);
+		String books = res.getQuantityString(R.plurals.label_footer_books, bookCount, bookCount);
+
+		mFooterText = getString(R.string.footer_fragment_books_by_author, authors, books);
+
 		return listItems;
 	}
 }

@@ -46,30 +46,12 @@
     <string name="error_connection_problem">Problème de connexion. Vérifiez que l\'appareil est connecté à Internet.</string>
     <string name="field_invalid_date">Date invalide.</string>
     <string name="field_mandatory">Ce champ est obligatoire.</string>
-    <plurals name="footer_fragment_books_by_author">
-        <item quantity="one">%d auteur</item>
-        <item quantity="other">%d auteurs</item>
-    </plurals>
-    <plurals name="footer_fragment_books_by_book_location">
-        <item quantity="one">%d emplacement</item>
-        <item quantity="other">%d emplacements</item>
-    </plurals>
-    <plurals name="footer_fragment_books_by_category">
-        <item quantity="one">%d catégorie</item>
-        <item quantity="other">%d catégories</item>
-    </plurals>
-    <plurals name="footer_fragment_books_by_first_letter">
-        <item quantity="one">%d livre</item>
-        <item quantity="other">%d livres</item>
-    </plurals>
-    <plurals name="footer_fragment_books_by_language">
-        <item quantity="one">%d langue</item>
-        <item quantity="other">%d langues</item>
-    </plurals>
-    <plurals name="footer_fragment_books_by_series">
-        <item quantity="one">%d série</item>
-        <item quantity="other">%d séries</item>
-    </plurals>
+    <string name="footer_fragment_books_by_author">%1$s, %2$s</string>
+    <string name="footer_fragment_books_by_book_location">%1$s, %2$s</string>
+    <string name="footer_fragment_books_by_category">%1$s, %2$s</string>
+    <string name="footer_fragment_books_by_first_letter">%s</string>
+    <string name="footer_fragment_books_by_language">%1$s, %2$s</string>
+    <string name="footer_fragment_books_by_series">%1$s, %2$s</string>
     <string name="hint_search">Rechercher des livres</string>
     <string name="image_thumbnail">Couverture</string>
     <string name="label_author">Auteur</string>
@@ -93,6 +75,32 @@
     <string name="label_export_preview">Aperçu de l\'export (5 premiers livres)</string>
     <string name="label_favourite">Ce livre est un favori</string>
     <string name="label_first_row_contains_header">La première colonne contient des en-têtes</string>
+
+    <plurals name="label_footer_authors">
+        <item quantity="one">%d auteur</item>
+        <item quantity="other">%d auteurs</item>
+    </plurals>
+    <plurals name="label_footer_book_locations">
+        <item quantity="one">%d emplacement</item>
+        <item quantity="other">%d emplacements</item>
+    </plurals>
+    <plurals name="label_footer_categories">
+        <item quantity="one">%d catégorie</item>
+        <item quantity="other">%d catégories</item>
+    </plurals>
+    <plurals name="label_footer_books">
+        <item quantity="one">%d livre</item>
+        <item quantity="other">%d livres</item>
+    </plurals>
+    <plurals name="label_footer_language">
+        <item quantity="one">%d langue</item>
+        <item quantity="other">%d langues</item>
+    </plurals>
+    <plurals name="label_footer_series">
+        <item quantity="one">%d série</item>
+        <item quantity="other">%d série</item>
+    </plurals>
+
     <string name="label_image">Image</string>
     <string name="label_isbn">ISBN</string>
     <string name="label_isbn10">ISBN-10</string>

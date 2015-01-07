@@ -3,6 +3,7 @@ package com.blackbooks.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.ArrayAdapter;
 
@@ -56,6 +57,7 @@ public class BookListByBookLocationFragment extends AbstractBookListFragment {
 		List<ListItem> listItems = new ArrayList<ListItem>();
 
 		int locationCount = 0;
+		List<Long> bookIdList = new ArrayList<Long>();
 		for (BookLocationInfo bookLocationInfo : bookLocationInfoList) {
 			if (bookLocationInfo.id == null) {
 				bookLocationInfo.name = getString(R.string.label_unspecified_book_location);
@@ -69,10 +71,19 @@ public class BookListByBookLocationFragment extends AbstractBookListFragment {
 			for (BookInfo book : bookLocationInfo.books) {
 				BookItem bookItem = new BookItem(book);
 				listItems.add(bookItem);
+				
+				if (!bookIdList.contains(book.id)) {
+					bookIdList.add(book.id);
+				}
 			}
 		}
-		
-		mFooterText = getResources().getQuantityString(R.plurals.footer_fragment_books_by_book_location, locationCount, locationCount);
+
+		Resources res = getResources();
+		int bookCount = bookIdList.size();
+		String bookLocations = res.getQuantityString(R.plurals.label_footer_book_locations, locationCount, locationCount);
+		String books = res.getQuantityString(R.plurals.label_footer_books, bookCount, bookCount);
+
+		mFooterText = getString(R.string.footer_fragment_books_by_book_location, bookLocations, books);
 
 		return listItems;
 	}
