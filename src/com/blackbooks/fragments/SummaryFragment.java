@@ -117,8 +117,7 @@ public class SummaryFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-
+				startBookListActivity(BookListByReadNotReadFragment.class);
 			}
 		});
 		mLayoutLoaned.setOnClickListener(new OnClickListener() {

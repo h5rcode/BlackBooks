@@ -7,29 +7,33 @@
         android:title="@string/menu_sort">
         <menu>
             <item
-                android:id="@+id/bookList_actionSortByAuthor"
-                android:icon="@drawable/ic_action_person"
-                android:title="@string/action_sort_by_author"/>
-            <item
                 android:id="@+id/bookList_actionSortByFirstLetter"
                 android:icon="@drawable/ic_action_brightness_auto"
                 android:title="@string/action_sort_by_first_letter"/>
+            <item
+                android:id="@+id/bookList_actionSortByAuthor"
+                android:icon="@drawable/ic_action_person"
+                android:title="@string/action_sort_by_author"/>
             <item
                 android:id="@+id/bookList_actionSortByCategory"
                 android:icon="@drawable/ic_action_labels"
                 android:title="@string/action_sort_by_category"/>
             <item
-                android:id="@+id/bookList_actionSortByBookLocation"
-                android:icon="@drawable/ic_action_bookshelf"
-                android:title="@string/action_sort_by_book_location"/>
+                android:id="@+id/bookList_actionSortByLanguage"
+                android:icon="@drawable/ic_action_map"
+                android:title="@string/action_sort_by_language"/>
             <item
                 android:id="@+id/bookList_actionSortBySeries"
                 android:icon="@drawable/ic_action_sort_by_series"
                 android:title="@string/action_sort_by_series"/>
             <item
-                android:id="@+id/bookList_actionSortByLanguage"
-                android:icon="@drawable/ic_action_map"
-                android:title="@string/action_sort_by_language"/>
+                android:id="@+id/bookList_actionSortByBookLocation"
+                android:icon="@drawable/ic_action_bookshelf"
+                android:title="@string/action_sort_by_book_location"/>
+            <item
+                android:id="@+id/bookList_actionSortByReadNotRead"
+                android:icon="@drawable/ic_action_sort_by_read_not_read"
+                android:title="@string/action_sort_by_read_not_read"/>
         </menu>
     </item>
     <item

@@ -19,6 +19,7 @@ import com.blackbooks.fragments.BookListByBookLocationFragment;
 import com.blackbooks.fragments.BookListByCategoryFragment;
 import com.blackbooks.fragments.BookListByFirstLetterFragment;
 import com.blackbooks.fragments.BookListByLanguageFragment;
+import com.blackbooks.fragments.BookListByReadNotReadFragment;
 import com.blackbooks.fragments.BookListBySeriesFragment;
 
 /**
@@ -37,7 +38,7 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 	protected DrawerActivity getDrawerActivity() {
 		return DrawerActivity.BOOK_LIST;
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,8 +70,10 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 				mCurrentFragment = new BookListByBookLocationFragment();
 			} else if (defaultList.equals(BookListBySeriesFragment.class.getName())) {
 				mCurrentFragment = new BookListBySeriesFragment();
+			} else if (defaultList.equals(BookListByReadNotReadFragment.class.getName())) {
+				mCurrentFragment = new BookListByReadNotReadFragment();
 			} else {
-				mCurrentFragment = new BookListByAuthorFragment();
+				mCurrentFragment = new BookListByFirstLetterFragment();
 			}
 
 			fm.beginTransaction() //
@@ -118,6 +121,10 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 
 		case R.id.bookList_actionSortByBookLocation:
 			sortByBookLocation();
+			break;
+
+		case R.id.bookList_actionSortByReadNotRead:
+			sortByReadNotRead();
 			break;
 
 		case R.id.bookList_actionSearch:
@@ -202,6 +209,20 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 			editor.putString(BookListActivity.PREF_DEFAULT_LIST, BookListByBookLocationFragment.class.getName());
 			editor.commit();
 			mCurrentFragment = new BookListByBookLocationFragment();
+			getSupportFragmentManager().beginTransaction() //
+					.replace(R.id.abstractDrawerActivity_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
+					.commit();
+		}
+	}
+
+	private void sortByReadNotRead() {
+		// BookListByReadNotReadFragment
+		if (!(mCurrentFragment instanceof BookListByReadNotReadFragment)) {
+			SharedPreferences sharedPref = getSharedPreferences(BookListActivity.PREFERENCES, MODE_PRIVATE);
+			SharedPreferences.Editor editor = sharedPref.edit();
+			editor.putString(BookListActivity.PREF_DEFAULT_LIST, BookListByReadNotReadFragment.class.getName());
+			editor.commit();
+			mCurrentFragment = new BookListByReadNotReadFragment();
 			getSupportFragmentManager().beginTransaction() //
 					.replace(R.id.abstractDrawerActivity_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 					.commit();
