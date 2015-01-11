@@ -33,7 +33,7 @@
             <item
                 android:id="@+id/bookList_actionSortByReadNotRead"
                 android:icon="@drawable/ic_action_sort_by_read_not_read"
-                android:title="@string/action_sort_by_read_not_read"/>
+                android:title="@string/action_sort_by_to_read_read"/>
         </menu>
     </item>
     <item

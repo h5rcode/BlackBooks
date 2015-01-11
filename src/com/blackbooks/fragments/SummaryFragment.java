@@ -31,7 +31,7 @@ public class SummaryFragment extends Fragment {
 	private LinearLayout mLayoutLanguages;
 	private LinearLayout mLayoutSeries;
 	private LinearLayout mLayoutLocations;
-	private LinearLayout mLayoutRead;
+	private LinearLayout mLayoutToRead;
 	private LinearLayout mLayoutLoaned;
 
 	private TextView mTextBooksCount;
@@ -40,7 +40,7 @@ public class SummaryFragment extends Fragment {
 	private TextView mTextLanguagesCount;
 	private TextView mTextSeriesCount;
 	private TextView mTextLocationsCount;
-	private TextView mTextReadCount;
+	private TextView mTextToReadCount;
 	private TextView mTextLoanedCount;
 
 	private TextView mTextLabelBookCount;
@@ -49,7 +49,7 @@ public class SummaryFragment extends Fragment {
 	private TextView mTextLabelLanguageCount;
 	private TextView mTextLabelSeriesCount;
 	private TextView mTextLabelLocationCount;
-	private TextView mTextLabelReadCount;
+	private TextView mTextLabelToReadCount;
 	private TextView mTextLabelLoanedCount;
 
 	@Override
@@ -68,7 +68,7 @@ public class SummaryFragment extends Fragment {
 		mLayoutLanguages = (LinearLayout) view.findViewById(R.id.summary_layoutLanguages);
 		mLayoutSeries = (LinearLayout) view.findViewById(R.id.summary_layoutSeries);
 		mLayoutLocations = (LinearLayout) view.findViewById(R.id.summary_layoutLocations);
-		mLayoutRead = (LinearLayout) view.findViewById(R.id.summary_layoutRead);
+		mLayoutToRead = (LinearLayout) view.findViewById(R.id.summary_layoutToRead);
 		mLayoutLoaned = (LinearLayout) view.findViewById(R.id.summary_layoutLoaned);
 
 		mLayoutBooks.setOnClickListener(new OnClickListener() {
@@ -113,11 +113,11 @@ public class SummaryFragment extends Fragment {
 				startBookListActivity(BookListByBookLocationFragment.class);
 			}
 		});
-		mLayoutRead.setOnClickListener(new OnClickListener() {
+		mLayoutToRead.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				startBookListActivity(BookListByReadNotReadFragment.class);
+				startBookListActivity(BookListByToReadReadFragment.class);
 			}
 		});
 		mLayoutLoaned.setOnClickListener(new OnClickListener() {
@@ -135,7 +135,7 @@ public class SummaryFragment extends Fragment {
 		mTextLanguagesCount = (TextView) view.findViewById(R.id.summary_languagesCount);
 		mTextSeriesCount = (TextView) view.findViewById(R.id.summary_seriesCount);
 		mTextLocationsCount = (TextView) view.findViewById(R.id.summary_locationsCount);
-		mTextReadCount = (TextView) view.findViewById(R.id.summary_readCount);
+		mTextToReadCount = (TextView) view.findViewById(R.id.summary_toReadCount);
 		mTextLoanedCount = (TextView) view.findViewById(R.id.summary_loanedCount);
 
 		mTextLabelBookCount = (TextView) view.findViewById(R.id.summary_textLabelBookCount);
@@ -144,7 +144,7 @@ public class SummaryFragment extends Fragment {
 		mTextLabelLanguageCount = (TextView) view.findViewById(R.id.summary_textLabelLanguageCount);
 		mTextLabelSeriesCount = (TextView) view.findViewById(R.id.summary_textLabelSeriesCount);
 		mTextLabelLocationCount = (TextView) view.findViewById(R.id.summary_textLabelLocationCount);
-		mTextLabelReadCount = (TextView) view.findViewById(R.id.summary_textLabelReadCount);
+		mTextLabelToReadCount = (TextView) view.findViewById(R.id.summary_textLabelToReadCount);
 		mTextLabelLoanedCount = (TextView) view.findViewById(R.id.summary_textLabelLoanedCount);
 
 		SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
@@ -159,7 +159,7 @@ public class SummaryFragment extends Fragment {
 			mTextLanguagesCount.setText(String.valueOf(summary.languages));
 			mTextSeriesCount.setText(String.valueOf(summary.series));
 			mTextLocationsCount.setText(String.valueOf(summary.bookLocations));
-			mTextReadCount.setText(String.valueOf(summary.read));
+			mTextToReadCount.setText(String.valueOf(summary.toRead));
 			mTextLoanedCount.setText(String.valueOf(summary.loaned));
 
 			Resources res = getResources();
@@ -170,7 +170,7 @@ public class SummaryFragment extends Fragment {
 			mTextLabelLanguageCount.setText(res.getQuantityText(R.plurals.label_summary_languages, summary.languages));
 			mTextLabelSeriesCount.setText(res.getQuantityText(R.plurals.label_summary_series, summary.series));
 			mTextLabelLocationCount.setText(res.getQuantityText(R.plurals.label_summary_locations, summary.bookLocations));
-			mTextLabelReadCount.setText(res.getQuantityText(R.plurals.label_summary_read, summary.read));
+			mTextLabelToReadCount.setText(res.getQuantityText(R.plurals.label_summary_to_read, summary.toRead));
 			mTextLabelLoanedCount.setText(res.getQuantityText(R.plurals.label_summary_loaned, summary.loaned));
 		} finally {
 			if (db != null) {

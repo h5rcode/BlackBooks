@@ -188,7 +188,7 @@
             android:orientation="horizontal" >
 
             <LinearLayout
-                android:id="@+id/summary_layoutRead"
+                android:id="@+id/summary_layoutToRead"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -198,7 +198,7 @@
                 android:padding="5sp" >
 
                 <TextView
-                    android:id="@+id/summary_readCount"
+                    android:id="@+id/summary_toReadCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/white"
@@ -206,7 +206,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/summary_textLabelReadCount"
+                    android:id="@+id/summary_textLabelToReadCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"

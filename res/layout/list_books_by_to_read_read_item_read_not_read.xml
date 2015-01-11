@@ -9,14 +9,14 @@
     android:paddingTop="8sp" >
 
     <TextView
-        android:id="@+id/books_by_read_not_read_item_read_not_read"
+        android:id="@+id/books_by_to_read_read_item_to_read_read"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="4"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/books_by_read_not_read_item_total"
+        android:id="@+id/books_by_to_read_read_item_total"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"

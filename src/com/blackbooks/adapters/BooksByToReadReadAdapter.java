@@ -14,7 +14,10 @@ import com.blackbooks.cache.ThumbnailManager;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.utils.StringUtils;
 
-public class BooksByReadNotReadAdapter extends ArrayAdapter<ListItem> {
+/**
+ * An adapter to render a list of books grouped by "To read" or "Read".
+ */
+public class BooksByToReadReadAdapter extends ArrayAdapter<ListItem> {
 
 	private final LayoutInflater mInflater;
 	private final ThumbnailManager mThumbnailManager;
@@ -25,7 +28,7 @@ public class BooksByReadNotReadAdapter extends ArrayAdapter<ListItem> {
 	 * @param context
 	 *            Context.
 	 */
-	public BooksByReadNotReadAdapter(Context context) {
+	public BooksByToReadReadAdapter(Context context) {
 		super(context, 0);
 		this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.mThumbnailManager = ThumbnailManager.getInstance();
@@ -42,18 +45,18 @@ public class BooksByReadNotReadAdapter extends ArrayAdapter<ListItem> {
 				BookItem entry = (BookItem) item;
 				BookInfo book = entry.getBook();
 
-				view = mInflater.inflate(R.layout.list_books_by_read_not_read_item_book, parent, false);
+				view = mInflater.inflate(R.layout.list_books_by_to_read_read_item_book, parent, false);
 
-				ImageView imageView = (ImageView) view.findViewById(R.id.books_by_read_not_read_item_book_small_thumbnail);
-				ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.books_by_read_not_read_item_book_progressBar);
-				ImageView imageRead = (ImageView) view.findViewById(R.id.books_by_read_not_read_item_book_imageRead);
-				ImageView imageFavourite = (ImageView) view.findViewById(R.id.books_by_read_not_read_item_book_imageFavourite);
+				ImageView imageView = (ImageView) view.findViewById(R.id.books_by_to_read_read_item_book_small_thumbnail);
+				ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.books_by_to_read_read_item_book_progressBar);
+				ImageView imageRead = (ImageView) view.findViewById(R.id.books_by_to_read_read_item_book_imageRead);
+				ImageView imageFavourite = (ImageView) view.findViewById(R.id.books_by_to_read_read_item_book_imageFavourite);
 
 				mThumbnailManager.drawSmallThumbnail(book.id, getContext(), imageView, progressBar);
-				TextView textTitle = (TextView) view.findViewById(R.id.books_by_read_not_read_item_book_title);
+				TextView textTitle = (TextView) view.findViewById(R.id.books_by_to_read_read_item_book_title);
 				textTitle.setText(book.title);
 
-				TextView textAuthor = (TextView) view.findViewById(R.id.books_by_read_not_read_item_book_author);
+				TextView textAuthor = (TextView) view.findViewById(R.id.books_by_to_read_read_item_book_author);
 				String authors;
 				if (book.authors.size() > 0) {
 					authors = StringUtils.joinAuthorNameList(book.authors, ", ");
@@ -74,18 +77,18 @@ public class BooksByReadNotReadAdapter extends ArrayAdapter<ListItem> {
 				}
 
 			} else if (itemType == ListItemType.HEADER) {
-				ReadNotReadItem header = (ReadNotReadItem) item;
+				ToReadReadItem header = (ToReadReadItem) item;
 
-				view = mInflater.inflate(R.layout.list_books_by_read_not_read_item_read_not_read, parent, false);
+				view = mInflater.inflate(R.layout.list_books_by_to_read_read_item_read_not_read, parent, false);
 
-				TextView textViewName = (TextView) view.findViewById(R.id.books_by_read_not_read_item_read_not_read);
+				TextView textViewName = (TextView) view.findViewById(R.id.books_by_to_read_read_item_to_read_read);
 				if (header.isRead()) {
 					textViewName.setText(R.string.header_read);
 				} else {
-					textViewName.setText(R.string.header_not_read);
+					textViewName.setText(R.string.header_to_read);
 				}
 
-				TextView textViewTotalBooks = (TextView) view.findViewById(R.id.books_by_read_not_read_item_total);
+				TextView textViewTotalBooks = (TextView) view.findViewById(R.id.books_by_to_read_read_item_total);
 				String total = this.getContext().getString(R.string.label_total);
 				total = String.format(total, header.getTotalBooks());
 				textViewTotalBooks.setText(total);
@@ -95,12 +98,12 @@ public class BooksByReadNotReadAdapter extends ArrayAdapter<ListItem> {
 		return view;
 	}
 
-	public static final class ReadNotReadItem implements ListItem {
+	public static final class ToReadReadItem implements ListItem {
 
 		private final boolean mRead;
 		private final int mTotalBook;
 
-		public ReadNotReadItem(boolean read, int totalBooks) {
+		public ToReadReadItem(boolean read, int totalBooks) {
 			mRead = read;
 			mTotalBook = totalBooks;
 		}

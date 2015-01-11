@@ -106,7 +106,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
 			}
 			int resIdMarkAsRead;
 			if (book.isRead == 1L) {
-				resIdMarkAsRead = R.string.action_unmark_book_as_read;
+				resIdMarkAsRead = R.string.action_mark_book_as_to_read;
 			} else {
 				resIdMarkAsRead = R.string.action_mark_book_as_read;
 			}

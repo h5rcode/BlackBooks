@@ -26,10 +26,10 @@
     <string name="action_sort_by_first_letter">Par première lettre du titre</string>
     <string name="action_sort_by_language">Par langue</string>
     <string name="action_sort_by_series">Par série</string>
-    <string name="action_sort_by_read_not_read">Lus/non lus</string>
+    <string name="action_sort_by_to_read_read">À lire/lus</string>
     <string name="action_take_picture">Prendre une photo</string>
     <string name="action_unmark_book_as_favourite">Retirer des favoris</string>
-    <string name="action_unmark_book_as_read">Marquer comme non lu</string>
+    <string name="action_mark_book_as_to_read">Ajouter aux livres à lire</string>
     <string name="button_add_author">Ajouter</string>
     <string name="button_add_category">Ajouter</string>
     <string name="button_cancel_edit_author">Annuler</string>
@@ -52,10 +52,10 @@
     <string name="footer_fragment_books_by_category">%1$s, %2$s</string>
     <string name="footer_fragment_books_by_first_letter">%s</string>
     <string name="footer_fragment_books_by_language">%1$s, %2$s</string>
-    <string name="footer_fragment_books_by_read_not_read">%1$s, %2$s/%3$s</string>
+    <string name="footer_fragment_books_by_to_read_read">%1$s, %2$s/%3$s</string>
     <string name="footer_fragment_books_by_series">%1$s, %2$s</string>
     <string name="header_read">Lus</string>
-    <string name="header_not_read">Non lus</string>
+    <string name="header_to_read">À lire</string>
     <string name="hint_search">Rechercher des livres</string>
     <string name="image_thumbnail">Couverture</string>
     <string name="label_author">Auteur</string>
@@ -108,9 +108,9 @@
         <item quantity="one">%d série</item>
         <item quantity="other">%d série</item>
     </plurals>
-    <plurals name="label_footer_unread">
-        <item quantity="one">%d non lu</item>
-        <item quantity="other">%d non lus</item>
+    <plurals name="label_footer_to_read">
+        <item quantity="one">%d à lire</item>
+        <item quantity="other">%d à lire</item>
     </plurals>
 
     <string name="label_image">Image</string>
@@ -160,9 +160,9 @@
         <item quantity="one">emplacement</item>
         <item quantity="other">emplacements</item>
     </plurals>
-    <plurals name="label_summary_read">
-        <item quantity="one">lu</item>
-        <item quantity="other">lus</item>
+    <plurals name="label_summary_to_read">
+        <item quantity="one">à lire</item>
+        <item quantity="other">à lire</item>
     </plurals>
     <plurals name="label_summary_series">
         <item quantity="one">série</item>

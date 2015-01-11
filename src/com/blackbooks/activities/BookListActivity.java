@@ -19,7 +19,7 @@ import com.blackbooks.fragments.BookListByBookLocationFragment;
 import com.blackbooks.fragments.BookListByCategoryFragment;
 import com.blackbooks.fragments.BookListByFirstLetterFragment;
 import com.blackbooks.fragments.BookListByLanguageFragment;
-import com.blackbooks.fragments.BookListByReadNotReadFragment;
+import com.blackbooks.fragments.BookListByToReadReadFragment;
 import com.blackbooks.fragments.BookListBySeriesFragment;
 
 /**
@@ -70,8 +70,8 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 				mCurrentFragment = new BookListByBookLocationFragment();
 			} else if (defaultList.equals(BookListBySeriesFragment.class.getName())) {
 				mCurrentFragment = new BookListBySeriesFragment();
-			} else if (defaultList.equals(BookListByReadNotReadFragment.class.getName())) {
-				mCurrentFragment = new BookListByReadNotReadFragment();
+			} else if (defaultList.equals(BookListByToReadReadFragment.class.getName())) {
+				mCurrentFragment = new BookListByToReadReadFragment();
 			} else {
 				mCurrentFragment = new BookListByFirstLetterFragment();
 			}
@@ -217,12 +217,12 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 
 	private void sortByReadNotRead() {
 		// BookListByReadNotReadFragment
-		if (!(mCurrentFragment instanceof BookListByReadNotReadFragment)) {
+		if (!(mCurrentFragment instanceof BookListByToReadReadFragment)) {
 			SharedPreferences sharedPref = getSharedPreferences(BookListActivity.PREFERENCES, MODE_PRIVATE);
 			SharedPreferences.Editor editor = sharedPref.edit();
-			editor.putString(BookListActivity.PREF_DEFAULT_LIST, BookListByReadNotReadFragment.class.getName());
+			editor.putString(BookListActivity.PREF_DEFAULT_LIST, BookListByToReadReadFragment.class.getName());
 			editor.commit();
-			mCurrentFragment = new BookListByReadNotReadFragment();
+			mCurrentFragment = new BookListByToReadReadFragment();
 			getSupportFragmentManager().beginTransaction() //
 					.replace(R.id.abstractDrawerActivity_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 					.commit();
