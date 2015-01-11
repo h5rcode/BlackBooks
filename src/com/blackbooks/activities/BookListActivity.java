@@ -19,8 +19,9 @@ import com.blackbooks.fragments.BookListByBookLocationFragment;
 import com.blackbooks.fragments.BookListByCategoryFragment;
 import com.blackbooks.fragments.BookListByFirstLetterFragment;
 import com.blackbooks.fragments.BookListByLanguageFragment;
-import com.blackbooks.fragments.BookListByToReadReadFragment;
+import com.blackbooks.fragments.BookListByLoanedFragment;
 import com.blackbooks.fragments.BookListBySeriesFragment;
+import com.blackbooks.fragments.BookListByToReadReadFragment;
 
 /**
  * The book list activity. It hosts an AbstractBookListFragment used to display
@@ -72,6 +73,8 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 				mCurrentFragment = new BookListBySeriesFragment();
 			} else if (defaultList.equals(BookListByToReadReadFragment.class.getName())) {
 				mCurrentFragment = new BookListByToReadReadFragment();
+			} else if (defaultList.equals(BookListByLoanedFragment.class.getName())) {
+				mCurrentFragment = new BookListByLoanedFragment();
 			} else {
 				mCurrentFragment = new BookListByFirstLetterFragment();
 			}
@@ -125,6 +128,10 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 
 		case R.id.bookList_actionSortByReadNotRead:
 			sortByReadNotRead();
+			break;
+
+		case R.id.bookList_actionSortByLoaned:
+			sortByLoaned();
 			break;
 
 		case R.id.bookList_actionSearch:
@@ -216,13 +223,25 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 	}
 
 	private void sortByReadNotRead() {
-		// BookListByReadNotReadFragment
 		if (!(mCurrentFragment instanceof BookListByToReadReadFragment)) {
 			SharedPreferences sharedPref = getSharedPreferences(BookListActivity.PREFERENCES, MODE_PRIVATE);
 			SharedPreferences.Editor editor = sharedPref.edit();
 			editor.putString(BookListActivity.PREF_DEFAULT_LIST, BookListByToReadReadFragment.class.getName());
 			editor.commit();
 			mCurrentFragment = new BookListByToReadReadFragment();
+			getSupportFragmentManager().beginTransaction() //
+					.replace(R.id.abstractDrawerActivity_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
+					.commit();
+		}
+	}
+
+	private void sortByLoaned() {
+		if (!(mCurrentFragment instanceof BookListByLoanedFragment)) {
+			SharedPreferences sharedPref = getSharedPreferences(BookListActivity.PREFERENCES, MODE_PRIVATE);
+			SharedPreferences.Editor editor = sharedPref.edit();
+			editor.putString(BookListActivity.PREF_DEFAULT_LIST, BookListByLoanedFragment.class.getName());
+			editor.commit();
+			mCurrentFragment = new BookListByLoanedFragment();
 			getSupportFragmentManager().beginTransaction() //
 					.replace(R.id.abstractDrawerActivity_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 					.commit();

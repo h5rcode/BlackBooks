@@ -244,8 +244,15 @@ public class BookLoanFragment extends Fragment implements DatePickerListener {
 			mTextLoanTo.setError(null);
 			mBookInfo.loanedTo = loanTo;
 		}
+		Date now = new Date();
 		if (loanDate == null) {
 			mTextLoanDate.setError(getString(R.string.field_invalid_date));
+			if (isValid) {
+				mTextLoanDate.requestFocus();
+				isValid = false;
+			}
+		} else if (loanDate.compareTo(now) > 0) {
+			mTextLoanDate.setError(getString(R.string.field_invalid_loan_date));
 			if (isValid) {
 				mTextLoanDate.requestFocus();
 				isValid = false;

@@ -25,6 +25,7 @@
     <string name="action_sort_by_category">By category</string>
     <string name="action_sort_by_first_letter">By first letter of the title</string>
     <string name="action_sort_by_language">By language</string>
+    <string name="action_sort_by_loaned">Loaned/available</string>
     <string name="action_sort_by_to_read_read">To read/read</string>
     <string name="action_sort_by_series">By series</string>
     <string name="action_take_picture">Take a picture</string>
@@ -46,14 +47,18 @@
     <string name="button_send_log">Send error report</string>
     <string name="error_connection_problem">Connection problem. Make sure the device has access to the Internet.</string>
     <string name="field_invalid_date">Invalid date.</string>
+    <string name="field_invalid_loan_date">The date must be before today\'s date.</string>
     <string name="field_mandatory">This field is mandatory.</string>
     <string name="footer_fragment_books_by_author">%1$s, %2$s</string>
     <string name="footer_fragment_books_by_book_location">%1$s, %2$s</string>
     <string name="footer_fragment_books_by_category">%1$s, %2$s</string>
     <string name="footer_fragment_books_by_first_letter">%s</string>
     <string name="footer_fragment_books_by_language">%1$s, %2$s</string>
+    <string name="footer_fragment_books_by_loaned">%1$s, %2$s/%3$s</string>
     <string name="footer_fragment_books_by_to_read_read">%1$s, %2$s/%3$s</string>
     <string name="footer_fragment_books_by_series">%1$s, %2$s</string>
+    <string name="header_available">Available</string>
+    <string name="header_loaned">Loaned</string>
     <string name="header_read">Read</string>
     <string name="header_to_read">To read</string>
     <string name="hint_search">Search books</string>
@@ -84,6 +89,10 @@
         <item quantity="one">%d author</item>
         <item quantity="other">%d authors</item>
     </plurals>
+    <plurals name="label_footer_available">
+        <item quantity="one">%d available</item>
+        <item quantity="other">%d available</item>
+    </plurals>
     <plurals name="label_footer_book_locations">
         <item quantity="one">%d location</item>
         <item quantity="other">%d locations</item>
@@ -100,6 +109,10 @@
         <item quantity="one">%d language</item>
         <item quantity="other">%d languages</item>
     </plurals>
+    <plurals name="label_footer_loaned">
+        <item quantity="one">%d loaned</item>
+        <item quantity="other">%d loaned</item>
+    </plurals>
     <plurals name="label_footer_read">
         <item quantity="one">%d read</item>
         <item quantity="other">%d read</item>
@@ -111,6 +124,18 @@
     <plurals name="label_footer_to_read">
         <item quantity="one">%d to read</item>
         <item quantity="other">%d to read</item>
+    </plurals>
+    <plurals name="label_n_days_ago">
+        <item quantity="one">%d day ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
+    <plurals name="label_n_months_ago">
+        <item quantity="one">%d month ago</item>
+        <item quantity="other">%d months ago</item>
+    </plurals>
+    <plurals name="label_n_years_ago">
+        <item quantity="one">%d year ago</item>
+        <item quantity="other">%d years ago</item>
     </plurals>
 
     <string name="label_image">Image</string>
@@ -125,6 +150,7 @@
     <string name="label_loan_book_to">Loan the book to</string>
     <string name="label_loan_book_to_hint">Enter a name</string>
     <string name="label_loaned_to">This book has been loaned to</string>
+    <string name="label_loan_date_format">%1$s (%2$s)</string>
     <string name="label_no_language">(No language set)</string>
     <string name="label_page_count">Page count</string>
     <string name="label_page_count_format">%d pages</string>
@@ -173,6 +199,7 @@
     <string name="label_text_qualifier_double_quote">Double quote (\")</string>
     <string name="label_text_qualifier_single_quote">Single quote (\')</string>
     <string name="label_title">Title</string>
+    <string name="label_today">Today</string>
     <string name="label_total">(%d)</string>
     <string name="label_unexpected_error">Unexpected error</string>
     <string name="label_unspecified_author">(Unspecified author)</string>

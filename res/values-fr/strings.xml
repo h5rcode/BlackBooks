@@ -25,6 +25,7 @@
     <string name="action_sort_by_category">Par catégorie</string>
     <string name="action_sort_by_first_letter">Par première lettre du titre</string>
     <string name="action_sort_by_language">Par langue</string>
+    <string name="action_sort_by_loaned">Prêtés/disponibles</string>
     <string name="action_sort_by_series">Par série</string>
     <string name="action_sort_by_to_read_read">À lire/lus</string>
     <string name="action_take_picture">Prendre une photo</string>
@@ -46,6 +47,7 @@
     <string name="button_send_log">Envoyer le rapport d\'erreur</string>
     <string name="error_connection_problem">Problème de connexion. Vérifiez que l\'appareil est connecté à Internet.</string>
     <string name="field_invalid_date">Date invalide.</string>
+    <string name="field_invalid_loan_date">La date doit être antérieure à la date du jour.</string>
     <string name="field_mandatory">Ce champ est obligatoire.</string>
     <string name="footer_fragment_books_by_author">%1$s, %2$s</string>
     <string name="footer_fragment_books_by_book_location">%1$s, %2$s</string>
@@ -54,6 +56,8 @@
     <string name="footer_fragment_books_by_language">%1$s, %2$s</string>
     <string name="footer_fragment_books_by_to_read_read">%1$s, %2$s/%3$s</string>
     <string name="footer_fragment_books_by_series">%1$s, %2$s</string>
+    <string name="header_available">Disponibles</string>
+    <string name="header_loaned">Prêtés</string>
     <string name="header_read">Lus</string>
     <string name="header_to_read">À lire</string>
     <string name="hint_search">Rechercher des livres</string>
@@ -84,6 +88,10 @@
         <item quantity="one">%d auteur</item>
         <item quantity="other">%d auteurs</item>
     </plurals>
+    <plurals name="label_footer_available">
+        <item quantity="one">%d disponible</item>
+        <item quantity="other">%d disponibles</item>
+    </plurals>
     <plurals name="label_footer_book_locations">
         <item quantity="one">%d emplacement</item>
         <item quantity="other">%d emplacements</item>
@@ -100,6 +108,10 @@
         <item quantity="one">%d langue</item>
         <item quantity="other">%d langues</item>
     </plurals>
+    <plurals name="label_footer_loaned">
+        <item quantity="one">%d prêté</item>
+        <item quantity="other">%d prêtés</item>
+    </plurals>
     <plurals name="label_footer_read">
         <item quantity="one">%d lu</item>
         <item quantity="other">%d lus</item>
@@ -111,6 +123,18 @@
     <plurals name="label_footer_to_read">
         <item quantity="one">%d à lire</item>
         <item quantity="other">%d à lire</item>
+    </plurals>
+    <plurals name="label_n_days_ago">
+        <item quantity="one">Il y a %d jour</item>
+        <item quantity="other">Il y a %d jours</item>
+    </plurals>
+    <plurals name="label_n_months_ago">
+        <item quantity="one">Il y a %d mois</item>
+        <item quantity="other">Il y a %d mois</item>
+    </plurals>
+    <plurals name="label_n_years_ago">
+        <item quantity="one">Il y a %d an</item>
+        <item quantity="other">Il y a %d ans</item>
     </plurals>
 
     <string name="label_image">Image</string>
@@ -124,6 +148,7 @@
     <string name="label_loan_book_pick_date">Sélectionner une date</string>
     <string name="label_loan_book_to">Prêter le livre à</string>
     <string name="label_loan_book_to_hint">Entrez un nom</string>
+    <string name="label_loan_date_format">%1$s (%2$s)</string>
     <string name="label_loaned_to">Ce livre a été prêté à</string>
     <string name="label_no_language">(Langue inconnue)</string>
     <string name="label_page_count">Nombre de pages</string>
@@ -173,6 +198,7 @@
     <string name="label_text_qualifier_double_quote">Guillemets doubles (\")</string>
     <string name="label_text_qualifier_single_quote">Guillemets simples (\')</string>
     <string name="label_title">Titre</string>
+    <string name="label_today">Aujourd\'hui</string>
     <string name="label_total">(%d)</string>
     <string name="label_unexpected_error">Erreur inattendue</string>
     <string name="label_unspecified_author">(Auteur inconnu)</string>

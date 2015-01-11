@@ -212,13 +212,6 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	}
 
 	/**
-	 * Load the book list and notify the list adapter of the fragment. This
-	 * method is run inside an AsyncTask (i.e. in a different thread) to avoid
-	 * blocking the activity with a long running database load.
-	 */
-	protected abstract List<ListItem> loadBookList();
-
-	/**
 	 * Return the subtitle of the action bar.
 	 * 
 	 * @return Subtitle.
@@ -238,6 +231,13 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	 * @return Text.
 	 */
 	protected abstract String getFooterText();
+
+	/**
+	 * Load the book list and notify the list adapter of the fragment. This
+	 * method is run inside an AsyncTask (i.e. in a different thread) to avoid
+	 * blocking the activity with a long running database load.
+	 */
+	protected abstract List<ListItem> loadBookList();
 
 	/**
 	 * Load the data to be displayed in the fragment.

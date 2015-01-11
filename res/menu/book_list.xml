@@ -34,6 +34,10 @@
                 android:id="@+id/bookList_actionSortByReadNotRead"
                 android:icon="@drawable/ic_action_sort_by_read_not_read"
                 android:title="@string/action_sort_by_to_read_read"/>
+            <item
+                android:id="@+id/bookList_actionSortByLoaned"
+                android:icon="@drawable/ic_action_sort_by_read_not_read"
+                android:title="@string/action_sort_by_loaned"/>
         </menu>
     </item>
     <item
