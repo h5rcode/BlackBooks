@@ -173,6 +173,10 @@
         <item quantity="one">catégorie</item>
         <item quantity="other">catégories</item>
     </plurals>
+    <plurals name="label_summary_favourites">
+        <item quantity="one">favori</item>
+        <item quantity="other">favoris</item>
+    </plurals>
     <plurals name="label_summary_languages">
         <item quantity="one">langue</item>
         <item quantity="other">langues</item>

@@ -33,6 +33,7 @@ public class SummaryFragment extends Fragment {
 	private LinearLayout mLayoutLocations;
 	private LinearLayout mLayoutToRead;
 	private LinearLayout mLayoutLoaned;
+	private LinearLayout mLayoutFavourite;
 
 	private TextView mTextBooksCount;
 	private TextView mTextAuthorsCount;
@@ -42,6 +43,7 @@ public class SummaryFragment extends Fragment {
 	private TextView mTextLocationsCount;
 	private TextView mTextToReadCount;
 	private TextView mTextLoanedCount;
+	private TextView mTextFavouriteCount;
 
 	private TextView mTextLabelBookCount;
 	private TextView mTextLabelAuthorCount;
@@ -51,6 +53,7 @@ public class SummaryFragment extends Fragment {
 	private TextView mTextLabelLocationCount;
 	private TextView mTextLabelToReadCount;
 	private TextView mTextLabelLoanedCount;
+	private TextView mTextLabelFavouriteCount;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,6 +73,7 @@ public class SummaryFragment extends Fragment {
 		mLayoutLocations = (LinearLayout) view.findViewById(R.id.summary_layoutLocations);
 		mLayoutToRead = (LinearLayout) view.findViewById(R.id.summary_layoutToRead);
 		mLayoutLoaned = (LinearLayout) view.findViewById(R.id.summary_layoutLoaned);
+		mLayoutFavourite = (LinearLayout) view.findViewById(R.id.summary_layoutFavourite);
 
 		mLayoutBooks.setOnClickListener(new OnClickListener() {
 
@@ -127,6 +131,14 @@ public class SummaryFragment extends Fragment {
 				startBookListActivity(BookListByLoanedFragment.class);
 			}
 		});
+		mLayoutFavourite.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 
 		mTextBooksCount = (TextView) view.findViewById(R.id.summary_booksCount);
 		mTextAuthorsCount = (TextView) view.findViewById(R.id.summary_authorsCount);
@@ -136,6 +148,7 @@ public class SummaryFragment extends Fragment {
 		mTextLocationsCount = (TextView) view.findViewById(R.id.summary_locationsCount);
 		mTextToReadCount = (TextView) view.findViewById(R.id.summary_toReadCount);
 		mTextLoanedCount = (TextView) view.findViewById(R.id.summary_loanedCount);
+		mTextFavouriteCount = (TextView) view.findViewById(R.id.summary_favouriteCount);
 
 		mTextLabelBookCount = (TextView) view.findViewById(R.id.summary_textLabelBookCount);
 		mTextLabelAuthorCount = (TextView) view.findViewById(R.id.summary_textLabelAuthorCount);
@@ -145,6 +158,7 @@ public class SummaryFragment extends Fragment {
 		mTextLabelLocationCount = (TextView) view.findViewById(R.id.summary_textLabelLocationCount);
 		mTextLabelToReadCount = (TextView) view.findViewById(R.id.summary_textLabelToReadCount);
 		mTextLabelLoanedCount = (TextView) view.findViewById(R.id.summary_textLabelLoanedCount);
+		mTextLabelFavouriteCount = (TextView) view.findViewById(R.id.summary_textLabelFavouriteCount);
 
 		SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
 		SQLiteDatabase db = null;
@@ -160,6 +174,7 @@ public class SummaryFragment extends Fragment {
 			mTextLocationsCount.setText(String.valueOf(summary.bookLocations));
 			mTextToReadCount.setText(String.valueOf(summary.toRead));
 			mTextLoanedCount.setText(String.valueOf(summary.loaned));
+			mTextFavouriteCount.setText(String.valueOf(summary.favourites));
 
 			Resources res = getResources();
 
@@ -171,6 +186,7 @@ public class SummaryFragment extends Fragment {
 			mTextLabelLocationCount.setText(res.getQuantityText(R.plurals.label_summary_locations, summary.bookLocations));
 			mTextLabelToReadCount.setText(res.getQuantityText(R.plurals.label_summary_to_read, summary.toRead));
 			mTextLabelLoanedCount.setText(res.getQuantityText(R.plurals.label_summary_loaned, summary.loaned));
+			mTextLabelFavouriteCount.setText(res.getQuantityText(R.plurals.label_summary_favourites, summary.favourites));
 		} finally {
 			if (db != null) {
 				db.close();

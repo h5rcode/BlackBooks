@@ -6,179 +6,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin" >
+        android:orientation="vertical" >
 
         <LinearLayout
             android:id="@+id/summary_layoutBooks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector_linear_layout_grey_50"
+            android:background="@drawable/selector_linear_layout_grey_900"
             android:gravity="center_horizontal"
-            android:orientation="horizontal" >
+            android:orientation="vertical"
+            android:padding="5sp" >
 
             <TextView
                 android:id="@+id/summary_booksCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5sp"
-                android:textSize="45sp"
+                android:textColor="@android:color/white"
+                android:textSize="50sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/summary_textLabelBookCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5sp"
-                android:textSize="35sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:orientation="horizontal" >
-
-            <LinearLayout
-                android:id="@+id/summary_layoutAuthors"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_linear_layout_grey_100"
-                android:clickable="true"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:padding="5sp" >
-
-                <TextView
-                    android:id="@+id/summary_authorsCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="35sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/summary_textLabelAuthorCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="20sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/summary_layoutCategories"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_linear_layout_grey_200"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:padding="5sp" >
-
-                <TextView
-                    android:id="@+id/summary_categoriesCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="35sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/summary_textLabelCategoryCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="20sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:orientation="horizontal" >
-
-            <LinearLayout
-                android:id="@+id/summary_layoutLanguages"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_linear_layout_grey_300"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:padding="5sp" >
-
-                <TextView
-                    android:id="@+id/summary_languagesCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="30sp"
-                    android:textStyle="bold" >
-                </TextView>
-
-                <TextView
-                    android:id="@+id/summary_textLabelLanguageCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/summary_layoutSeries"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_linear_layout_grey_400"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:padding="5sp" >
-
-                <TextView
-                    android:id="@+id/summary_seriesCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="30sp"
-                    android:textStyle="bold" >
-                </TextView>
-
-                <TextView
-                    android:id="@+id/summary_textLabelSeriesCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/summary_layoutLocations"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_linear_layout_grey_500"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:padding="5sp" >
-
-                <TextView
-                    android:id="@+id/summary_locationsCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/white"
-                    android:textSize="30sp"
-                    android:textStyle="bold" >
-                </TextView>
-
-                <TextView
-                    android:id="@+id/summary_textLabelLocationCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp" />
-            </LinearLayout>
+                android:textColor="@android:color/white"
+                android:textSize="40sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -192,7 +44,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/selector_linear_layout_grey_600"
+                android:background="@drawable/selector_linear_layout_grey_800"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:padding="5sp" >
@@ -209,7 +61,6 @@
                     android:id="@+id/summary_textLabelToReadCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:textColor="@android:color/white"
                     android:textSize="20sp" />
             </LinearLayout>
@@ -237,10 +88,174 @@
                     android:id="@+id/summary_textLabelLoanedCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:textColor="@android:color/white"
                     android:textSize="20sp" />
             </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:id="@+id/summary_layoutAuthors"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_linear_layout_grey_600"
+                android:clickable="true"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="5sp" >
+
+                <TextView
+                    android:id="@+id/summary_authorsCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/summary_textLabelAuthorCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/summary_layoutCategories"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_linear_layout_grey_500"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="5sp" >
+
+                <TextView
+                    android:id="@+id/summary_categoriesCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/summary_textLabelCategoryCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/summary_layoutSeries"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_linear_layout_grey_400"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="5sp" >
+
+                <TextView
+                    android:id="@+id/summary_seriesCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:textStyle="bold" >
+                </TextView>
+
+                <TextView
+                    android:id="@+id/summary_textLabelSeriesCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:id="@+id/summary_layoutLocations"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_linear_layout_grey_300"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="5sp" >
+
+                <TextView
+                    android:id="@+id/summary_locationsCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="35sp"
+                    android:textStyle="bold" >
+                </TextView>
+
+                <TextView
+                    android:id="@+id/summary_textLabelLocationCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/summary_layoutLanguages"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_linear_layout_grey_200"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="5sp" >
+
+                <TextView
+                    android:id="@+id/summary_languagesCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="35sp"
+                    android:textStyle="bold" >
+                </TextView>
+
+                <TextView
+                    android:id="@+id/summary_textLabelLanguageCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/summary_layoutFavourite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_linear_layout_grey_100"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="5sp" >
+
+            <TextView
+                android:id="@+id/summary_favouriteCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="50sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/summary_textLabelFavouriteCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="40sp" />
         </LinearLayout>
     </LinearLayout>
 
