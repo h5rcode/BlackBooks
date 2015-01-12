@@ -12,7 +12,7 @@
                 android:title="@string/action_sort_by_first_letter"/>
             <item
                 android:id="@+id/bookList_actionSortByAuthor"
-                android:icon="@drawable/ic_action_person"
+                android:icon="@drawable/ic_action_sort_by_author"
                 android:title="@string/action_sort_by_author"/>
             <item
                 android:id="@+id/bookList_actionSortByCategory"
