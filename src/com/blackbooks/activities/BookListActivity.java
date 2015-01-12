@@ -17,6 +17,7 @@ import com.blackbooks.fragments.AbstractBookListFragment.BookListListener;
 import com.blackbooks.fragments.BookListByAuthorFragment;
 import com.blackbooks.fragments.BookListByBookLocationFragment;
 import com.blackbooks.fragments.BookListByCategoryFragment;
+import com.blackbooks.fragments.BookListByFavouriteFragment;
 import com.blackbooks.fragments.BookListByFirstLetterFragment;
 import com.blackbooks.fragments.BookListByLanguageFragment;
 import com.blackbooks.fragments.BookListByLoanedFragment;
@@ -75,6 +76,8 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 				mCurrentFragment = new BookListByToReadReadFragment();
 			} else if (defaultList.equals(BookListByLoanedFragment.class.getName())) {
 				mCurrentFragment = new BookListByLoanedFragment();
+			} else if (defaultList.equals(BookListByFavouriteFragment.class.getName())) {
+				mCurrentFragment = new BookListByFavouriteFragment();
 			} else {
 				mCurrentFragment = new BookListByFirstLetterFragment();
 			}
@@ -126,12 +129,16 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 			sortByBookLocation();
 			break;
 
-		case R.id.bookList_actionSortByReadNotRead:
+		case R.id.bookList_actionSortByToReadRead:
 			sortByReadNotRead();
 			break;
 
 		case R.id.bookList_actionSortByLoaned:
 			sortByLoaned();
+			break;
+
+		case R.id.bookList_actionSortByFavourite:
+			sortByFavourite();
 			break;
 
 		case R.id.bookList_actionSearch:
@@ -242,6 +249,19 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 			editor.putString(BookListActivity.PREF_DEFAULT_LIST, BookListByLoanedFragment.class.getName());
 			editor.commit();
 			mCurrentFragment = new BookListByLoanedFragment();
+			getSupportFragmentManager().beginTransaction() //
+					.replace(R.id.abstractDrawerActivity_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
+					.commit();
+		}
+	}
+
+	private void sortByFavourite() {
+		if (!(mCurrentFragment instanceof BookListByFavouriteFragment)) {
+			SharedPreferences sharedPref = getSharedPreferences(BookListActivity.PREFERENCES, MODE_PRIVATE);
+			SharedPreferences.Editor editor = sharedPref.edit();
+			editor.putString(BookListActivity.PREF_DEFAULT_LIST, BookListByFavouriteFragment.class.getName());
+			editor.commit();
+			mCurrentFragment = new BookListByFavouriteFragment();
 			getSupportFragmentManager().beginTransaction() //
 					.replace(R.id.abstractDrawerActivity_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
 					.commit();
