@@ -80,6 +80,16 @@
             android:scaleX="0.4"
             android:scaleY="0.4"
             android:src="@drawable/ic_favourite" />
+
+        <ImageView
+            android:id="@+id/books_by_first_letter_item_book_imageLoaned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/label_loaned_to"
+            android:scaleType="center"
+            android:scaleX="0.4"
+            android:scaleY="0.4"
+            android:src="@drawable/ic_loaned" />
     </LinearLayout>
 
 </LinearLayout>

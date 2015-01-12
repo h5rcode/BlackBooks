@@ -157,6 +157,7 @@
     <string name="label_loan_book_to">Prêter le livre à</string>
     <string name="label_loan_book_to_hint">Entrez un nom</string>
     <string name="label_loan_date_format">%1$s (%2$s)</string>
+    <string name="label_loaned">Prêté</string>
     <string name="label_loaned_to">Ce livre a été prêté à</string>
     <string name="label_no_language">(Langue inconnue)</string>
     <string name="label_page_count">Nombre de pages</string>

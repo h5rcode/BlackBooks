@@ -52,6 +52,7 @@ public class BooksByFavouriteAdapter extends ArrayAdapter<ListItem> {
 				ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.books_by_favourite_item_book_progressBar);
 				ImageView imageRead = (ImageView) view.findViewById(R.id.books_by_favourite_item_book_imageRead);
 				ImageView imageFavourite = (ImageView) view.findViewById(R.id.books_by_favourite_item_book_imageFavourite);
+				ImageView imageLoaned = (ImageView) view.findViewById(R.id.books_by_favourite_item_book_imageLoaned);
 
 				mThumbnailManager.drawSmallThumbnail(book.id, getContext(), imageView, progressBar);
 				TextView textTitle = (TextView) view.findViewById(R.id.books_by_favourite_item_book_title);
@@ -75,6 +76,11 @@ public class BooksByFavouriteAdapter extends ArrayAdapter<ListItem> {
 					imageFavourite.setVisibility(View.VISIBLE);
 				} else {
 					imageFavourite.setVisibility(View.GONE);
+				}
+				if (book.loanedTo != null) {
+					imageLoaned.setVisibility(View.VISIBLE);
+				} else {
+					imageLoaned.setVisibility(View.GONE);
 				}
 
 			} else if (itemType == ListItemType.HEADER) {

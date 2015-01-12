@@ -58,6 +58,7 @@ public class BooksByLoanedAdapter extends ArrayAdapter<ListItem> {
 				ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.books_by_loaned_item_book_progressBar);
 				ImageView imageRead = (ImageView) view.findViewById(R.id.books_by_loaned_item_book_imageRead);
 				ImageView imageFavourite = (ImageView) view.findViewById(R.id.books_by_loaned_item_book_imageFavourite);
+				ImageView imageLoaned = (ImageView) view.findViewById(R.id.books_by_loaned_item_book_imageLoaned);
 
 				mThumbnailManager.drawSmallThumbnail(book.id, getContext(), imageView, progressBar);
 				TextView textTitle = (TextView) view.findViewById(R.id.books_by_loaned_item_book_title);
@@ -81,6 +82,11 @@ public class BooksByLoanedAdapter extends ArrayAdapter<ListItem> {
 					imageFavourite.setVisibility(View.VISIBLE);
 				} else {
 					imageFavourite.setVisibility(View.GONE);
+				}
+				if (book.loanedTo != null) {
+					imageLoaned.setVisibility(View.VISIBLE);
+				} else {
+					imageLoaned.setVisibility(View.GONE);
 				}
 
 			} else if (itemType == ListItemType.HEADER_3) {
@@ -197,7 +203,7 @@ public class BooksByLoanedAdapter extends ArrayAdapter<ListItem> {
 			todayCalendar.set(Calendar.MINUTE, 0);
 			todayCalendar.set(Calendar.SECOND, 0);
 			todayCalendar.set(Calendar.MILLISECOND, 0);
-			
+
 			long todayDays = TimeUnit.DAYS.convert(todayCalendar.getTimeInMillis(), TimeUnit.MILLISECONDS);
 			long dateDays = TimeUnit.DAYS.convert(dateCalendar.getTimeInMillis(), TimeUnit.MILLISECONDS);
 

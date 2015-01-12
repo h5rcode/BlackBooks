@@ -62,7 +62,7 @@
         android:orientation="vertical" >
 
         <ImageView
-            android:id="@+id/books_by_categoy_item_book_imageRead"
+            android:id="@+id/books_by_category_item_book_imageRead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/label_read"
@@ -72,7 +72,7 @@
             android:src="@drawable/ic_read" />
 
         <ImageView
-            android:id="@+id/books_by_categoy_item_book_imageFavourite"
+            android:id="@+id/books_by_category_item_book_imageFavourite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/label_read"
@@ -80,6 +80,16 @@
             android:scaleX="0.4"
             android:scaleY="0.4"
             android:src="@drawable/ic_favourite" />
+
+        <ImageView
+            android:id="@+id/books_by_category_item_book_imageLoaned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/label_loaned_to"
+            android:scaleType="center"
+            android:scaleX="0.4"
+            android:scaleY="0.4"
+            android:src="@drawable/ic_loaned" />
     </LinearLayout>
 
 </LinearLayout>

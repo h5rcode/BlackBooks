@@ -65,6 +65,7 @@ public class BooksBySeriesAdapter extends ArrayAdapter<ListItem> implements Sect
 				ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.books_by_series_item_book_progressBar);
 				ImageView imageRead = (ImageView) view.findViewById(R.id.books_by_series_item_book_imageRead);
 				ImageView imageFavourite = (ImageView) view.findViewById(R.id.books_by_series_item_book_imageFavourite);
+				ImageView imageLoaned = (ImageView) view.findViewById(R.id.books_by_series_item_book_imageLoaned);
 
 				mThumbnailManager.drawSmallThumbnail(book.id, getContext(), imageView, progressBar);
 
@@ -97,6 +98,11 @@ public class BooksBySeriesAdapter extends ArrayAdapter<ListItem> implements Sect
 					imageFavourite.setVisibility(View.VISIBLE);
 				} else {
 					imageFavourite.setVisibility(View.GONE);
+				}
+				if (book.loanedTo != null) {
+					imageLoaned.setVisibility(View.VISIBLE);
+				} else {
+					imageLoaned.setVisibility(View.GONE);
 				}
 			} else if (itemType == ListItemType.HEADER) {
 				SeriesItem header = (SeriesItem) item;

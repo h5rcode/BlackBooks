@@ -157,6 +157,7 @@
     <string name="label_loan_book_pick_date">Pick a date</string>
     <string name="label_loan_book_to">Loan the book to</string>
     <string name="label_loan_book_to_hint">Enter a name</string>
+    <string name="label_loaned">Loaned</string>
     <string name="label_loaned_to">This book has been loaned to</string>
     <string name="label_loan_date_format">%1$s (%2$s)</string>
     <string name="label_no_language">(No language set)</string>
