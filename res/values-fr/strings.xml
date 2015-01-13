@@ -275,8 +275,8 @@
     <string name="text_info_edit_categories_untitled_book">Modification des catégories d\'un livre sans titre..</string>
     <string name="text_info_isbn">Entrez le numéro ISBN-10 ou ISBN-13 du livre que vous souhaitez ajouter.</string>
     <string name="text_info_no_authors">Ce livre n\'a pas encore d\'auteur renseigné. Entrez le nom d\'un auteur et cliquez sur \"Ajouter\".</string>
-    <string name="text_info_no_books_1">Il n\'y a aucun livre pour l\'instant !</string>
-    <string name="text_info_no_books_2">Pour commencer à remplir votre bibliothèque, touchez le bord gauche de l\'écran ou cliquez sur l\'icône de l\'application dans la barre d\'action pour afficher le menu. Sélectionnez ensuite une option du groupe \"Ajouter des livres\".</string>
+    <string name="text_info_no_books_1">Aucun livre pour l\'instant !</string>
+    <string name="text_info_no_books_2">Votre bibliothèque est plutôt vide&#8230; Pour commencer à la remplir, touchez le bord gauche de l\'écran ou cliquez sur l\'icône de l\'application dans la barre d\'action pour afficher le menu. Sélectionnez ensuite une option du groupe \"Ajouter des livres\".</string>
     <string name="text_info_no_categories">Ce livre n\'a pas encore de catégorie renseignée. Entrez le nom d\'une catégorie et cliquez sur \"Ajouter\".</string>
     <string name="title_activity_book_authors_edit">Modifier les auteurs</string>
     <string name="title_activity_book_categories_edit">Modifier les catégories</string>

@@ -47,6 +47,8 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	private static final int ITEM_BOOK_MARK_AS_FAVOURITE = 0x4;
 	private static final int ITEM_BOOK_DELETE = 0x5;
 
+	private View mEmptyView;
+	private ListView mListView;
 	private TextView mTextFooter;
 	private ArrayAdapter<ListItem> mBookListAdapter;
 	private BookListListener mBookListListener;
@@ -72,11 +74,10 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.abstract_book_list_fragment, container, false);
-		ListView listView = (ListView) view.findViewById(android.R.id.list);
+		mListView = (ListView) view.findViewById(android.R.id.list);
 		mTextFooter = (TextView) view.findViewById(R.id.abstractBookList_textFooter);
-		// View emptyView = view.findViewById(android.R.id.empty);
-		listView.setFastScrollEnabled(true);
-		// listView.setEmptyView(emptyView);
+		mEmptyView = view.findViewById(R.id.abstractBookList_emptyView);
+		mListView.setFastScrollEnabled(true);
 		return view;
 	}
 
@@ -372,11 +373,6 @@ public abstract class AbstractBookListFragment extends ListFragment {
 	 */
 	private class BookListLoadTask extends AsyncTask<Void, Void, List<ListItem>> {
 
-		// @Override
-		// protected void onPreExecute() {
-		// AbstractBookListFragment.this.setListShown(false);
-		// }
-
 		@Override
 		protected List<ListItem> doInBackground(Void... params) {
 			return loadBookList();
@@ -392,9 +388,13 @@ public abstract class AbstractBookListFragment extends ListFragment {
 			mBookListAdapter.addAll(result);
 			mBookListAdapter.notifyDataSetChanged();
 
-			// if (AbstractBookListFragment.this.getView() != null) {
-			// AbstractBookListFragment.this.setListShown(true);
-			// }
+			if (result.isEmpty()) {
+				mEmptyView.setVisibility(View.VISIBLE);
+				mListView.setVisibility(View.GONE);
+			} else {
+				mEmptyView.setVisibility(View.GONE);
+				mListView.setVisibility(View.VISIBLE);
+			}
 
 			if (mBookListListener != null) {
 				mBookListListener.onBookListLoaded();

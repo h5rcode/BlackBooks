@@ -276,8 +276,8 @@
     <string name="text_info_edit_categories_untitled_book">Editing the categories of an untitled book.</string>
     <string name="text_info_isbn">Enter the ISBN-10 or ISBN-13 number of the book you want to add.</string>
     <string name="text_info_no_authors">This book does not have any authors yet. Enter the name of the author(s) and click \"Add\".</string>
-    <string name="text_info_no_books_1">There are no books yet!</string>
-    <string name="text_info_no_books_2">To start filling your library, swipe from the left edge of the screen or touch the application icon on the action bar to open the navigation drawer. Then select one of the options in the group \"Add books\".</string>
+    <string name="text_info_no_books_1">No books yet!</string>
+    <string name="text_info_no_books_2">Your library is rather empty&#8230; To start filling it, swipe from the left edge of the screen or touch the application icon on the action bar to open the navigation drawer. Then, select one of the options in the group \"Add books\".</string>
     <string name="text_info_no_categories">This book does not have any categories yet. Enter the name of a category and click \"Add\".</string>
     <string name="title_activity_book_authors_edit">Edit authors</string>
     <string name="title_activity_book_categories_edit">Edit categories</string>
