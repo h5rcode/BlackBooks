@@ -29,8 +29,8 @@ public class Book implements Serializable {
 	@Column(name = Cols.PUB_ID, type = SQLiteDataType.INTEGER, referencedType = Publisher.class, version = 1)
 	public Long publisherId;
 
-	@Column(name = Cols.BOO_PUBLISHED_DATE, type = SQLiteDataType.TEXT, version = 1)
-	public String publishedDate;
+	@Column(name = Cols.BOO_PUBLISHED_DATE, type = SQLiteDataType.INTEGER, version = 1)
+	public Date publishedDate;
 
 	@Column(name = Cols.BOO_DESCRIPTION, type = SQLiteDataType.TEXT, version = 1)
 	public String description;

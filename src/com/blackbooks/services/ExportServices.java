@@ -107,7 +107,7 @@ public class ExportServices {
 		sb.append("boo." + Book.Cols.BOO_LANGUAGE_CODE + " AS " + languageCode + ",\n");
 		sb.append("boo." + Book.Cols.BOO_DESCRIPTION + " AS " + description + ",\n");
 		sb.append("pub." + Publisher.Cols.PUB_NAME + " AS " + publisher + ",\n");
-		sb.append("boo." + Book.Cols.BOO_PUBLISHED_DATE + " AS " + publishedDate + ",\n");
+		sb.append("strftime(\"%d/%m/%Y\", boo." + Book.Cols.BOO_PUBLISHED_DATE + " / 1000, \'unixepoch\', \'localtime\') AS " + publishedDate + ",\n");
 		sb.append("boo." + Book.Cols.BOO_ISBN_10 + " AS " + isbn10 + ",\n");
 		sb.append("boo." + Book.Cols.BOO_ISBN_13 + " AS " + isbn13 + "\n");
 		sb.append("FROM\n");

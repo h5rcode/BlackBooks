@@ -2,17 +2,23 @@ package com.blackbooks.search.openlibrary;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.search.BookSearchResult;
 import com.blackbooks.search.BookSearchResultSource;
+import com.blackbooks.utils.DateUtils;
 
 /**
  * The result of a book search using the Open Library API.
  */
 public class OpenLibraryBook implements BookSearchResult {
+
+	private static final String FORMAT_YEAR_MONTH_DAY = "MMM dd, yyyy";
+	private static final String FORMAT_YEAR_MONTH = "MMM yyyy";
+	private static final String FORMAT_YEAR = "yyyy";
 
 	public String title;
 	public String subtitle;
@@ -43,7 +49,7 @@ public class OpenLibraryBook implements BookSearchResult {
 	public BookSearchResultSource getResultSource() {
 		return BookSearchResultSource.OPEN_LIBRARY;
 	}
-	
+
 	@Override
 	public BookInfo toBookInfo() {
 		BookInfo bookInfo = new BookInfo();
@@ -75,7 +81,8 @@ public class OpenLibraryBook implements BookSearchResult {
 		if (this.publishers.size() > 0) {
 			bookInfo.publisher.name = this.publishers.get(0);
 		}
-		bookInfo.publishedDate = this.publishDate;
+		bookInfo.publishedDate = DateUtils.parse(this.publishDate, FORMAT_YEAR_MONTH_DAY, FORMAT_YEAR_MONTH, FORMAT_YEAR,
+				Locale.ENGLISH);
 		bookInfo.smallThumbnail = this.coverSmall;
 		bookInfo.thumbnail = this.coverMedium;
 		return bookInfo;

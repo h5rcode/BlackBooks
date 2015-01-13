@@ -18,7 +18,7 @@ public final class GoogleBooksJSONParser {
 	private static final String SUBTITLE = "subtitle";
 	private static final String AUTHORS = "authors";
 	private static final String PUBLISHER = "publisher";
-	private static final String PUBLISHED_DATE = "publishDate";
+	private static final String PUBLISHED_DATE = "publishedDate";
 	private static final String DESCRIPTION = "description";
 	private static final String INDUSTRY_IDENTIFIERS = "industryIdentifiers";
 	private static final String TYPE = "type";

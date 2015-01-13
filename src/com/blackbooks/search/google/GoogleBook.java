@@ -2,17 +2,24 @@ package com.blackbooks.search.google;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.search.BookSearchResult;
 import com.blackbooks.search.BookSearchResultSource;
+import com.blackbooks.utils.DateUtils;
 
 /**
  * A class used to store the info of a book returned by the Google Books API.
  */
 public class GoogleBook implements BookSearchResult {
+
+	private static final String FORMAT_YEAR_MONTH_DAY = "yyyy-MM-dd";
+	private static final String FORMAT_YEAR_MONTH = "yyyy-MM";
+	private static final String FORMAT_YEAR = "yyyy";
+
 	public String title;
 	public String subtitle;
 	public List<String> authors;
@@ -49,7 +56,7 @@ public class GoogleBook implements BookSearchResult {
 	public BookSearchResultSource getResultSource() {
 		return BookSearchResultSource.GOOGLE_BOOKS;
 	}
-	
+
 	@Override
 	public BookInfo toBookInfo() {
 		BookInfo bookInfo = new BookInfo();
@@ -82,10 +89,13 @@ public class GoogleBook implements BookSearchResult {
 
 		bookInfo.pageCount = this.pageCount;
 		bookInfo.publisher.name = this.publisher;
-		bookInfo.publishedDate = this.publishedDate;
+		bookInfo.publishedDate = DateUtils.parse(this.publishedDate, FORMAT_YEAR_MONTH_DAY, FORMAT_YEAR_MONTH, FORMAT_YEAR,
+				Locale.ENGLISH);
 		bookInfo.description = this.description;
 		bookInfo.smallThumbnail = this.smallThumbnail;
 		bookInfo.thumbnail = this.thumbnail;
+
 		return bookInfo;
 	}
+
 }

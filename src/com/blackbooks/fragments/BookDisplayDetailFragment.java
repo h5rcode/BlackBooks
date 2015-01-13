@@ -31,6 +31,7 @@ import com.blackbooks.fragments.dialogs.ImageDisplayFragment;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.services.BookServices;
 import com.blackbooks.utils.BitmapUtils;
+import com.blackbooks.utils.DateUtils;
 import com.blackbooks.utils.StringUtils;
 import com.blackbooks.utils.VariableUtils;
 
@@ -43,7 +44,7 @@ public class BookDisplayDetailFragment extends Fragment {
 	private static final String IMAGE_DISPLAY_FRAGMENT_TAG = "IMAGE_DISPLAY_FRAGMENT_TAG";
 
 	private static final int REQUEST_CODE_EDIT_BOOK = 1;
-
+	
 	private SQLiteHelper mDbHelper;
 
 	private BookInfo mBookInfo;
@@ -351,7 +352,7 @@ public class BookDisplayDetailFragment extends Fragment {
 				mGroupPublisherPublisher.setVisibility(View.INVISIBLE);
 			}
 			if (hasPublishedDate) {
-				mTextPublishedDate.setText(mBookInfo.publishedDate);
+				mTextPublishedDate.setText(DateUtils.DEFAULT_DATE_FORMAT.format(mBookInfo.publishedDate));
 				mGroupPublisherPublishedDate.setVisibility(View.VISIBLE);
 			} else {
 				mGroupPublisherPublishedDate.setVisibility(View.INVISIBLE);

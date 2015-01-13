@@ -2,7 +2,9 @@ package com.blackbooks.fragments;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
@@ -28,6 +30,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -39,6 +42,8 @@ import com.blackbooks.adapters.AutoCompleteAdapter;
 import com.blackbooks.adapters.AutoCompleteAdapter.AutoCompleteSearcher;
 import com.blackbooks.adapters.LanguagesAdapter;
 import com.blackbooks.database.SQLiteHelper;
+import com.blackbooks.fragments.dialogs.DatePickerFragment;
+import com.blackbooks.fragments.dialogs.DatePickerFragment.DatePickerListener;
 import com.blackbooks.fragments.dialogs.ImageDisplayFragment;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.nonpersistent.Language;
@@ -52,6 +57,7 @@ import com.blackbooks.services.PublisherServices;
 import com.blackbooks.services.SeriesServices;
 import com.blackbooks.utils.BitmapUtils;
 import com.blackbooks.utils.Commons;
+import com.blackbooks.utils.DateUtils;
 import com.blackbooks.utils.FileUtils;
 import com.blackbooks.utils.IsbnUtils;
 import com.blackbooks.utils.LogUtils;
@@ -60,10 +66,11 @@ import com.blackbooks.utils.StringUtils;
 /**
  * Fragment to edit the general information of a book.
  */
-public class BookEditGeneralFragment extends Fragment {
+public class BookEditGeneralFragment extends Fragment implements DatePickerListener {
 
 	private static final String ARG_BOOK = "ARG_BOOK";
-	private static final String IMAGE_DISPLAY_FRAGMENT_TAG = "IMAGE_DISPLAY_FRAGMENT_TAG";
+	private static final String TAG_IMAGE_DISPLAY_FRAGMENT = "TAG_IMAGE_DISPLAY_FRAGMENT";
+	private static final String TAG_DATE_PICKER_FRAGMENT = "TAG_DATE_PICKER_FRAGMENT";
 
 	private static final int ITEM_THUMBNAIL_REMOVE = 1;
 	private static final int ITEM_TAKE_PICTURE = 2;
@@ -88,6 +95,7 @@ public class BookEditGeneralFragment extends Fragment {
 	private AutoCompleteTextView mTextSeries;
 	private EditText mTextNumber;
 	private EditText mTextPublishedDate;
+	private ImageButton mButtonPublishedDate;
 	private Button mButtonEditCategories;
 	private EditText mTextDescription;
 
@@ -228,7 +236,7 @@ public class BookEditGeneralFragment extends Fragment {
 				if (image != null && image.length > 0) {
 					FragmentManager fm = BookEditGeneralFragment.this.getFragmentManager();
 					ImageDisplayFragment fragment = ImageDisplayFragment.newInstance(image);
-					fragment.show(fm, IMAGE_DISPLAY_FRAGMENT_TAG);
+					fragment.show(fm, TAG_IMAGE_DISPLAY_FRAGMENT);
 				}
 			}
 		};
@@ -281,6 +289,16 @@ public class BookEditGeneralFragment extends Fragment {
 				});
 		mTextPublisher.setAdapter(publisherAutoCompleteAdapter);
 
+		mButtonPublishedDate.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				DatePickerFragment datePicker = new DatePickerFragment();
+				datePicker.setTargetFragment(BookEditGeneralFragment.this, 0);
+				datePicker.show(getFragmentManager(), TAG_DATE_PICKER_FRAGMENT);
+			}
+		});
+
 		AutoCompleteAdapter<Series> seriesAutoCompleteAdapter = new AutoCompleteAdapter<Series>(this.getActivity(),
 				android.R.layout.simple_list_item_1, new AutoCompleteSearcher<Series>() {
 
@@ -301,6 +319,11 @@ public class BookEditGeneralFragment extends Fragment {
 
 		handleArguments();
 		renderBookInfo();
+	}
+
+	@Override
+	public void onDateSet(Date date) {
+		mTextPublishedDate.setText(DateUtils.DEFAULT_DATE_FORMAT.format(date));
 	}
 
 	/**
@@ -348,7 +371,13 @@ public class BookEditGeneralFragment extends Fragment {
 		} else {
 			bookInfo.pageCount = null;
 		}
-		bookInfo.publishedDate = publishedDate;
+		if (publishedDate != null) {
+			try {
+				bookInfo.publishedDate = DateUtils.DEFAULT_DATE_FORMAT.parse(publishedDate);
+			} catch (ParseException e) {
+				// Do nothing.
+			}
+		}
 		if (numberString != null && StringUtils.isInteger(numberString)) {
 			bookInfo.number = Long.valueOf(numberString);
 		} else {
@@ -448,6 +477,7 @@ public class BookEditGeneralFragment extends Fragment {
 		mTextPageCount = (EditText) view.findViewById(R.id.bookEditGeneral_textPageCount);
 		mTextPublisher = (AutoCompleteTextView) view.findViewById(R.id.bookEditGeneral_textPublisher);
 		mTextPublishedDate = (EditText) view.findViewById(R.id.bookEditGeneral_textPublishedDate);
+		mButtonPublishedDate = (ImageButton) view.findViewById(R.id.bookEditGeneral_buttonPickPublishedDate);
 		mTextSeries = (AutoCompleteTextView) view.findViewById(R.id.bookEditGeneral_textSeries);
 		mTextNumber = (EditText) view.findViewById(R.id.bookEditGeneral_textNumber);
 		mButtonEditCategories = (Button) view.findViewById(R.id.bookEditGeneral_buttonEditCategories);
@@ -509,7 +539,9 @@ public class BookEditGeneralFragment extends Fragment {
 			mTextPageCount.setText(mBookInfo.pageCount.toString());
 		}
 		mTextPublisher.setText(mBookInfo.publisher.name);
-		mTextPublishedDate.setText(mBookInfo.publishedDate);
+		if (mBookInfo.publishedDate != null) {
+			mTextPublishedDate.setText(DateUtils.DEFAULT_DATE_FORMAT.format(mBookInfo.publishedDate));
+		}
 		mTextSeries.setText(mBookInfo.series.name);
 		if (mBookInfo.number != null) {
 			mTextNumber.setText(mBookInfo.number.toString());

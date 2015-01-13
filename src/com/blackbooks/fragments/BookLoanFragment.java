@@ -1,10 +1,7 @@
 package com.blackbooks.fragments;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -35,6 +32,7 @@ import com.blackbooks.fragments.dialogs.DatePickerFragment.DatePickerListener;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.services.BookServices;
+import com.blackbooks.utils.DateUtils;
 import com.blackbooks.utils.VariableUtils;
 
 /**
@@ -42,7 +40,6 @@ import com.blackbooks.utils.VariableUtils;
  */
 public class BookLoanFragment extends Fragment implements DatePickerListener {
 
-	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 	private static final String ARG_BOOK_ID = "ARG_BOOK_ID";
 	private static final String TAG_DATE_PICKER_FRAGMENT = "TAG_DATE_PICKER_FRAGMENT";
 	private static final int REQUEST_PICK_CONTACT = 0;
@@ -137,7 +134,7 @@ public class BookLoanFragment extends Fragment implements DatePickerListener {
 			mLayoutLoaned.setVisibility(View.VISIBLE);
 
 			mTextLoanedTo.setText(mBookInfo.loanedTo);
-			mTextLoanedOn.setText(DATE_FORMAT.format(mBookInfo.loanDate));
+			mTextLoanedOn.setText(DateUtils.DEFAULT_DATE_FORMAT.format(mBookInfo.loanDate));
 
 		} else {
 			mLayoutNotLoaned.setVisibility(View.VISIBLE);
@@ -214,7 +211,7 @@ public class BookLoanFragment extends Fragment implements DatePickerListener {
 	@Override
 	public void onDateSet(Date date) {
 		mTextLoanDate.setError(null);
-		mTextLoanDate.setText(DATE_FORMAT.format(date));
+		mTextLoanDate.setText(DateUtils.DEFAULT_DATE_FORMAT.format(date));
 	}
 
 	/**
@@ -229,7 +226,7 @@ public class BookLoanFragment extends Fragment implements DatePickerListener {
 
 		Date loanDate = null;
 		try {
-			loanDate = DATE_FORMAT.parse(loanDateString);
+			loanDate = DateUtils.DEFAULT_DATE_FORMAT.parse(loanDateString);
 		} catch (ParseException e) {
 			// Do nothing, the null value of loanDate will be handled.
 		}

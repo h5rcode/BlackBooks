@@ -119,12 +119,26 @@
             android:layout_height="wrap_content"
             android:text="@string/label_published_date" />
 
-        <EditText
-            android:id="@+id/bookEditGeneral_textPublishedDate"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/label_published_date"
-            android:inputType="date" />
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/bookEditGeneral_textPublishedDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/label_published_date_hint"
+                android:inputType="date" />
+
+            <ImageButton
+                android:id="@+id/bookEditGeneral_buttonPickPublishedDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/label_pick_published_date"
+                android:src="@drawable/ic_action_pick_date" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
