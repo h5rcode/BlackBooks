@@ -323,6 +323,7 @@ public class BookEditGeneralFragment extends Fragment implements DatePickerListe
 
 	@Override
 	public void onDateSet(Date date) {
+		mTextPublishedDate.setError(null);
 		mTextPublishedDate.setText(DateUtils.DEFAULT_DATE_FORMAT.format(date));
 	}
 
@@ -375,6 +376,7 @@ public class BookEditGeneralFragment extends Fragment implements DatePickerListe
 			try {
 				bookInfo.publishedDate = DateUtils.DEFAULT_DATE_FORMAT.parse(publishedDate);
 			} catch (ParseException e) {
+				mTextPublishedDate.setError(getString(R.string.field_invalid_date));
 				// Do nothing.
 			}
 		}

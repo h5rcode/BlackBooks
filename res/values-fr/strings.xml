@@ -166,7 +166,7 @@
     <string name="label_pick_published_date">Sélectionnez une date de publication</string>
     <string name="label_publisher">Editeur</string>
     <string name="label_published_date">Date de publication</string>
-    <string name="label_published_date_hint">dd/MM/yyyy</string>
+    <string name="label_published_date_hint">jj/mm/aaaa</string>
     <string name="label_read">J\'ai lu ce livre</string>
     <string name="label_series">Série</string>
     <string name="label_series_number_format">(%d)</string>
