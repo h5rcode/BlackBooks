@@ -20,6 +20,7 @@
     <string name="action_return_book">Rendre le livre</string>
     <string name="action_save_book">Enregistrer</string>
     <string name="action_scan_isbn">Scanner un ISBN</string>
+    <string name="action_search_author_on_amazon">Livres de l\'auteur sur Amazon</string>
     <string name="action_sort_by_author">Par auteur</string>
     <string name="action_sort_by_book_location">Par emplacement</string>
     <string name="action_sort_by_category">Par catégorie</string>

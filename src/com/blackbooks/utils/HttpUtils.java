@@ -14,7 +14,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 /**
- * Http utility class.
+ * HTTP utility class.
  */
 public final class HttpUtils {
 
@@ -31,7 +31,7 @@ public final class HttpUtils {
 	 *            URL.
 	 * @return String.
 	 * @throws URISyntaxException
-	 *             If the specified url is incorrect.
+	 *             If the specified URL is incorrect.
 	 * @throws IOException
 	 *             In case of a connection problem.
 	 */
@@ -57,7 +57,7 @@ public final class HttpUtils {
 	 *            URL.
 	 * @return Byte array.
 	 * @throws URISyntaxException
-	 *             If the specified url is incorrect.
+	 *             If the specified URL is incorrect.
 	 * @throws IOException
 	 *             In case of a connection problem.
 	 */

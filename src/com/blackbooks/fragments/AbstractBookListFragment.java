@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -32,6 +33,7 @@ import com.blackbooks.adapters.ListItem;
 import com.blackbooks.adapters.ListItemType;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
+import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.services.BookServices;
 import com.blackbooks.utils.VariableUtils;
@@ -41,11 +43,14 @@ import com.blackbooks.utils.VariableUtils;
  */
 public abstract class AbstractBookListFragment extends ListFragment {
 
+	private static final String AMAZON_SEARCH_RESULT_URL = "http://www.amazon.com/gp/search?ie=UTF8&index=books&keywords=%s&tag=h5rcode-20";
+
 	private static final int ITEM_BOOK_EDIT = 0x1;
 	private static final int ITEM_BOOK_LOAN = 0x2;
 	private static final int ITEM_BOOK_MARK_AS_READ = 0x3;
 	private static final int ITEM_BOOK_MARK_AS_FAVOURITE = 0x4;
-	private static final int ITEM_BOOK_DELETE = 0x5;
+	private static final int ITEM_BOOK_SEARCH_AUTHOR_ON_AMAZON = 0x5;
+	private static final int ITEM_BOOK_DELETE = 0x6;
 
 	private View mEmptyView;
 	private ListView mListView;
@@ -96,7 +101,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
 		ListItem listItem = (ListItem) getListView().getAdapter().getItem(info.position);
 		if (listItem.getListItemType() == ListItemType.ENTRY) {
 			BookItem bookItem = (BookItem) listItem;
-			Book book = bookItem.getBook();
+			BookInfo book = bookItem.getBook();
 			menu.setHeaderTitle(book.title);
 			menu.add(Menu.NONE, ITEM_BOOK_EDIT, Menu.NONE, R.string.action_edit_book);
 			int resIdLoanBook;
@@ -120,6 +125,9 @@ public abstract class AbstractBookListFragment extends ListFragment {
 			menu.add(Menu.NONE, ITEM_BOOK_LOAN, Menu.NONE, resIdLoanBook);
 			menu.add(Menu.NONE, ITEM_BOOK_MARK_AS_READ, Menu.NONE, resIdMarkAsRead);
 			menu.add(Menu.NONE, ITEM_BOOK_MARK_AS_FAVOURITE, Menu.NONE, resIdMarkAsFavourite);
+			if (!book.authors.isEmpty()) {
+				menu.add(Menu.NONE, ITEM_BOOK_SEARCH_AUTHOR_ON_AMAZON, Menu.NONE, R.string.action_search_author_on_amazon);
+			}
 			menu.add(Menu.NONE, ITEM_BOOK_DELETE, Menu.NONE, R.string.action_delete_book);
 		}
 	}
@@ -138,7 +146,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
 		boolean result = true;
 
 		BookItem bookItem;
-		Book book;
+		BookInfo book;
 		Intent i;
 
 		switch (item.getItemId()) {
@@ -170,6 +178,19 @@ public abstract class AbstractBookListFragment extends ListFragment {
 			bookItem = (BookItem) getListAdapter().getItem(info.position);
 			book = bookItem.getBook();
 			markBookAsFavourite(book);
+			break;
+
+		case ITEM_BOOK_SEARCH_AUTHOR_ON_AMAZON:
+			bookItem = (BookItem) getListAdapter().getItem(info.position);
+			book = bookItem.getBook();
+
+			Author author = book.authors.get(0);
+			String authorName = author.name;
+			authorName = Uri.encode(authorName);
+			String url = String.format(AMAZON_SEARCH_RESULT_URL, authorName);
+			
+			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+			startActivity(intent);
 			break;
 
 		case ITEM_BOOK_DELETE:
