@@ -110,9 +110,9 @@ public final class R {
         public static final int bookDisplayDetail_groupInfo=0x7f0c0026;
         public static final int bookDisplayDetail_groupInfoIsbn_isbn10=0x7f0c0032;
         public static final int bookDisplayDetail_groupInfoIsbn_isbn13=0x7f0c0034;
-        public static final int bookDisplayDetail_groupInfo_language=0x7f0c002b;
+        public static final int bookDisplayDetail_groupInfo_language=0x7f0c0029;
         public static final int bookDisplayDetail_groupInfo_pageCount=0x7f0c002d;
-        public static final int bookDisplayDetail_groupInfo_publishedDate=0x7f0c0029;
+        public static final int bookDisplayDetail_groupInfo_publishedDate=0x7f0c002b;
         public static final int bookDisplayDetail_groupInfo_publisher=0x7f0c0027;
         public static final int bookDisplayDetail_groupIsbn=0x7f0c0031;
         public static final int bookDisplayDetail_imageCover=0x7f0c0021;
@@ -123,9 +123,9 @@ public final class R {
         public static final int bookDisplayDetail_textDescription=0x7f0c0030;
         public static final int bookDisplayDetail_textIsbn10=0x7f0c0033;
         public static final int bookDisplayDetail_textIsbn13=0x7f0c0035;
-        public static final int bookDisplayDetail_textLanguage=0x7f0c002c;
+        public static final int bookDisplayDetail_textLanguage=0x7f0c002a;
         public static final int bookDisplayDetail_textPageCount=0x7f0c002e;
-        public static final int bookDisplayDetail_textPublishedDate=0x7f0c002a;
+        public static final int bookDisplayDetail_textPublishedDate=0x7f0c002c;
         public static final int bookDisplayDetail_textPublisher=0x7f0c0028;
         public static final int bookDisplayDetail_textSeries=0x7f0c0022;
         public static final int bookDisplayDetail_textSubtitle=0x7f0c0020;

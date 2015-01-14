@@ -194,7 +194,6 @@ public class BooksByLoanedAdapter extends ArrayAdapter<ListItem> {
 
 		public String getLoanDate() {
 			String loanDate = DATE_FORMAT.format(mLoanDate);
-			loanDate = StringUtils.capitalize(loanDate);
 
 			Calendar dateCalendar = Calendar.getInstance();
 			dateCalendar.setTime(mLoanDate);
@@ -226,6 +225,5 @@ public class BooksByLoanedAdapter extends ArrayAdapter<ListItem> {
 
 			return mContext.getString(R.string.label_loan_date_format, loanDate, timeAgo);
 		}
-
 	}
 }

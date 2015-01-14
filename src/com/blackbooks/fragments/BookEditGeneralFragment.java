@@ -377,8 +377,9 @@ public class BookEditGeneralFragment extends Fragment implements DatePickerListe
 				bookInfo.publishedDate = DateUtils.DEFAULT_DATE_FORMAT.parse(publishedDate);
 			} catch (ParseException e) {
 				mTextPublishedDate.setError(getString(R.string.field_invalid_date));
-				// Do nothing.
 			}
+		} else {
+			bookInfo.publishedDate = null;
 		}
 		if (numberString != null && StringUtils.isInteger(numberString)) {
 			bookInfo.number = Long.valueOf(numberString);
