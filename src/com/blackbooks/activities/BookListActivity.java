@@ -59,7 +59,7 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
 
 		if (mCurrentFragment == null || !mCurrentFragment.getClass().getName().equals(defaultList)) {
 			if (defaultList == null) {
-				mCurrentFragment = new BookListByAuthorFragment();
+				mCurrentFragment = new BookListByFirstLetterFragment();
 			} else if (defaultList.equals(BookListByAuthorFragment.class.getName())) {
 				mCurrentFragment = new BookListByAuthorFragment();
 			} else if (defaultList.equals(BookListByFirstLetterFragment.class.getName())) {

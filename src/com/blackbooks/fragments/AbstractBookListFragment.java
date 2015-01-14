@@ -188,7 +188,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
 			String authorName = author.name;
 			authorName = Uri.encode(authorName);
 			String url = String.format(AMAZON_SEARCH_RESULT_URL, authorName);
-			
+
 			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 			startActivity(intent);
 			break;
@@ -311,6 +311,15 @@ public abstract class AbstractBookListFragment extends ListFragment {
 		db = dbHelper.getWritableDatabase();
 		BookServices.markBookAsFavourite(db, book.id);
 		db.close();
+
+		String text;
+		if (book.isFavourite == 1L) {
+			text = getString(R.string.message_book_unmarked_as_favourite, book.title);
+		} else {
+			text = getString(R.string.message_book_marked_as_favourite, book.title);
+		}
+		Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+
 		loadData();
 	}
 
@@ -327,6 +336,15 @@ public abstract class AbstractBookListFragment extends ListFragment {
 		db = dbHelper.getWritableDatabase();
 		BookServices.markBookAsRead(db, book.id);
 		db.close();
+
+		String text;
+		if (book.isRead == 1L) {
+			text = getString(R.string.message_book_marked_as_to_read, book.title);
+		} else {
+			text = getString(R.string.message_book_marked_as_read, book.title);
+		}
+		Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+
 		loadData();
 	}
 

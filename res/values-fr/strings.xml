@@ -243,8 +243,12 @@
     <string name="message_book_added">\"%s\" a été ajouté avec succès.</string>
     <string name="message_book_deleted">\"%s\" a été supprimé avec succès.</string>
     <string name="message_book_loaned">\"%1$s\" est à présent prêté à %2$s.</string>
+    <string name="message_book_marked_as_favourite">\"%s\" a été ajouté aux favoris.</string>
+    <string name="message_book_marked_as_read">\"%s\" a été marqué comme lu.</string>
+    <string name="message_book_marked_as_to_read">\"%s\" a été ajouté aux livres à lire.</string>
     <string name="message_book_modifed">\"%s\" a été modifié avec succès.</string>
     <string name="message_book_returned">\"%s\" a été rendu.</string>
+    <string name="message_book_unmarked_as_favourite">\"%s\" a été retiré des favoris.</string>
     <string name="message_cant_read_selected_image">Impossible de lire l\'image sélectionnée.</string>
     <string name="message_category_added">\"%s\" a été ajouté à la liste des catégories.</string>
     <string name="message_category_already_exists">Cette catégorie existe déjà.</string>
