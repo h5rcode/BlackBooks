@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.util.Date;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -170,7 +172,7 @@ public class BookLoanFragment extends Fragment implements DatePickerListener {
 			break;
 
 		case R.id.bookLoan_actionReturn:
-			returnBook();
+			showConfirmReturnDialog();
 			result = true;
 			break;
 
@@ -294,6 +296,33 @@ public class BookLoanFragment extends Fragment implements DatePickerListener {
 
 		VariableUtils.getInstance().setReloadBookList(true);
 		mBookLoanListener.onBookReturned();
+	}
+
+	/**
+	 * Show the return book confirm dialog.
+	 */
+	private void showConfirmReturnDialog() {
+		String message = getString(R.string.message_confirm_return_book, mBookInfo.title);
+
+		String cancelText = getString(R.string.message_confirm_return_book_cancel);
+		String confirmText = getString(R.string.message_confirm_return_book_confirm);
+
+		new AlertDialog.Builder(this.getActivity()) //
+				.setTitle(R.string.title_dialog_return_book) //
+				.setMessage(message) //
+				.setPositiveButton(confirmText, new android.content.DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						returnBook();
+					}
+				}).setNegativeButton(cancelText, new android.content.DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// Do nothing.
+					}
+				}).show();
 	}
 
 	/**
