@@ -146,7 +146,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
 		boolean result = true;
 
 		BookItem bookItem;
-		BookInfo book;
+		final BookInfo book;
 		Intent i;
 
 		switch (item.getItemId()) {
@@ -162,10 +162,14 @@ public abstract class AbstractBookListFragment extends ListFragment {
 		case ITEM_BOOK_LOAN:
 			bookItem = (BookItem) getListAdapter().getItem(info.position);
 			book = bookItem.getBook();
-			i = new Intent(this.getActivity(), BookDisplayActivity.class);
-			i.putExtra(BookDisplayActivity.EXTRA_MODE, BookDisplayActivity.MODE_LOAN);
-			i.putExtra(BookDisplayActivity.EXTRA_BOOK_ID, book.id);
-			startActivity(i);
+			if (book.loanedTo == null) {
+				i = new Intent(this.getActivity(), BookDisplayActivity.class);
+				i.putExtra(BookDisplayActivity.EXTRA_MODE, BookDisplayActivity.MODE_LOAN);
+				i.putExtra(BookDisplayActivity.EXTRA_BOOK_ID, book.id);
+				startActivity(i);
+			} else {
+				showConfirmReturnDialog(book);
+			}
 			break;
 
 		case ITEM_BOOK_MARK_AS_READ:
@@ -346,6 +350,49 @@ public abstract class AbstractBookListFragment extends ListFragment {
 		Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
 
 		loadData();
+	}
+
+	private void returnBook(Book book) {
+		SQLiteHelper dbHelper;
+		SQLiteDatabase db;
+		dbHelper = new SQLiteHelper(getActivity());
+		db = dbHelper.getWritableDatabase();
+		BookServices.returnBook(db, book.id);
+		db.close();
+
+		String message = getString(R.string.message_book_returned, book.title);
+		Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+		loadData();
+	}
+
+	/**
+	 * Show the return book confirm dialog.
+	 * 
+	 * @param book
+	 *            BookInfo.
+	 */
+	private void showConfirmReturnDialog(final BookInfo book) {
+		String message = getString(R.string.message_confirm_return_book, book.title);
+
+		String cancelText = getString(R.string.message_confirm_return_book_cancel);
+		String confirmText = getString(R.string.message_confirm_return_book_confirm);
+
+		new AlertDialog.Builder(this.getActivity()) //
+				.setTitle(R.string.title_dialog_return_book) //
+				.setMessage(message) //
+				.setPositiveButton(confirmText, new OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						returnBook(book);
+					}
+				}).setNegativeButton(cancelText, new OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// Do nothing.
+					}
+				}).show();
 	}
 
 	/**

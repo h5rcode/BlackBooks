@@ -243,6 +243,28 @@ public class BookServices {
 	}
 
 	/**
+	 * 
+	 * Return a book (sets {@link Book#loanedTo} and {@link Book#loanDate} to
+	 * null and save it).
+	 * 
+	 * @param db
+	 *            SQLiteDatabase.
+	 * @param bookId
+	 *            Id of a book.
+	 */
+	public static void returnBook(SQLiteDatabase db, long bookId) {
+		db.beginTransaction();
+		try {
+			String sql = "UPDATE " + Book.NAME + " SET " + Book.Cols.BOO_LOANED_TO + " = null, " + Book.Cols.BOO_LOAN_DATE
+					+ " = null" + " Where " + Book.Cols.BOO_ID + " = " + bookId + ";";
+			db.execSQL(sql);
+			db.setTransactionSuccessful();
+		} finally {
+			db.endTransaction();
+		}
+	}
+
+	/**
 	 * Save a BookInfo.
 	 * 
 	 * @param db

@@ -263,6 +263,9 @@
     <string name="message_confirm_delete_category">Voulez-vous vraiment supprimer la catégorie \"%s\" ?\n\nLes livres associés ne seront pas supprimés.</string>
     <string name="message_confirm_delete_category_cancel">Non</string>
     <string name="message_confirm_delete_category_confirm">Oui</string>
+    <string name="message_confirm_return_book">Rendre \"%s\" ?</string>
+    <string name="message_confirm_return_book_cancel">Non</string>
+    <string name="message_confirm_return_book_confirm">Oui</string>
     <string name="message_file_not_saved">Impossible d\'écrire le fichier.</string>
     <string name="message_file_saved">Le fichier \"%1$s\" a été enregistré dans le dossier \"%2$s\".</string>
     <string name="message_invalid_isbn">%s n\'est pas un numéro ISBN valide.</string>
@@ -304,6 +307,7 @@
     <string name="title_dialog_edit_author">Modifier un auteur</string>
     <string name="title_dialog_edit_category">Modifier une catégorie</string>
     <string name="title_dialog_install_scanner">Installer un scanner de code-barres</string>
+    <string name="title_dialog_return_book">Rendre un livre</string>
     <string name="title_dialog_text_qualifier_picker">Choisissez un délimiteur de texte</string>
     <string name="title_menu_edit_thumbnail">Modifier une couverture</string>
     <string name="title_tab_book_display_detail">Détail</string>

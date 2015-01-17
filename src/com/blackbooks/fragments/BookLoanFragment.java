@@ -285,7 +285,7 @@ public class BookLoanFragment extends Fragment implements DatePickerListener {
 		mBookInfo.loanDate = null;
 
 		SQLiteDatabase db = mDbHelper.getWritableDatabase();
-		BookServices.saveBookInfo(db, mBookInfo);
+		BookServices.returnBook(db, mBookInfo.id);
 		db.close();
 
 		String message = getString(R.string.message_book_returned);
