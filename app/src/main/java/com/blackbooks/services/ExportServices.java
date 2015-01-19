@@ -36,7 +36,7 @@ public class ExportServices {
 	 *            Text qualifier.
 	 * @param columnSeparator
 	 *            Column separator.
-	 * @param firstRowContainsHeader
+	 * @param firstRowContainsHeaders
 	 *            True if the first row should contain the column headers.
 	 * @throws IOException
 	 *             If the file could not be written.

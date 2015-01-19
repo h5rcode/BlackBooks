@@ -17,7 +17,7 @@ import com.blackbooks.test.data.Publishers;
 import com.blackbooks.test.data.Seriez;
 
 /**
- * Test class of {@link BookServices#getBookInfo()}.
+ * Test class of {@link BookServices#getBookInfo(android.database.sqlite.SQLiteDatabase, long)} ()}.
  */
 public class GetBookInfoTest extends AbstractDatabaseTest {
 

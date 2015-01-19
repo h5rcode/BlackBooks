@@ -87,7 +87,7 @@ public class FTSBroker<T> {
 	 * 
 	 * @param db
 	 *            SQLiteDatabase.
-	 * @param bean
+	 * @param bean Bean.
 	 * @return The id of the inserted row (the same value as bean's primary
 	 *         key).
 	 */
@@ -101,7 +101,7 @@ public class FTSBroker<T> {
 	 * 
 	 * @param db
 	 *            SQLiteDatabase.
-	 * @param bean
+	 * @param bean Bean.
 	 */
 	public void update(SQLiteDatabase db, T bean) {
 		ContentValues values = buildContentValues(bean);

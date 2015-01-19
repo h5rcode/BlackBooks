@@ -23,7 +23,7 @@ import com.blackbooks.test.data.Publishers;
 import com.blackbooks.test.data.Seriez;
 
 /**
- * Test class of the service {@link BookServices#deleteBook()}.
+ * Test class of the service {@link BookServices#deleteBook(android.database.sqlite.SQLiteDatabase, long)} ()}.
  * 
  */
 public class DeleteBookTest extends AbstractDatabaseTest {

@@ -38,8 +38,6 @@ public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> implements Sect
 	 * 
 	 * @param context
 	 *            context.
-	 * @param items
-	 *            Items.
 	 */
 	public BooksByAuthorAdapter(Context context) {
 		super(context, 0);

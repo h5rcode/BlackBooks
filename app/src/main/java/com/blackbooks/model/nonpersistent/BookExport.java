@@ -27,9 +27,9 @@ public class BookExport implements Serializable {
 	/**
 	 * Return the header of the CSV file where a book export may be written.
 	 * 
-	 * @param qualifier
-	 * @param separator
-	 * @return
+	 * @param qualifier Text qualifier.
+	 * @param separator Column separator.
+	 * @return CSV header.
 	 */
 	public static String getCsvHeader(char qualifier, char separator) {
 		StringBuilder sb = new StringBuilder();

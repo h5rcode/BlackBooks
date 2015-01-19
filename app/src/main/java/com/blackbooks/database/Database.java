@@ -64,7 +64,7 @@ public final class Database {
 	/**
 	 * Get the list of all the tables in the database.
 	 * 
-	 * @return List<Class<?>>.
+	 * @return List of tables.
 	 */
 	public List<Class<?>> getTables() {
 		return mTables;
@@ -73,7 +73,7 @@ public final class Database {
 	/**
 	 * Get the list of all the Full-Text-Search tables in the database.
 	 * 
-	 * @return List<Class<?>>.
+	 * @return List of Full-Text-Search tables.
 	 */
 	public List<Class<?>> getFTSTables() {
 		return mFTSTables;

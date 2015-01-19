@@ -96,7 +96,7 @@ public class BooksByLoanedAdapter extends ArrayAdapter<ListItem> {
 
 				TextView textViewLoanDate = (TextView) view.findViewById(R.id.books_by_loaned_item_loan_date);
 
-				textViewLoanDate.setText(header3.getLoanDate().toString());
+				textViewLoanDate.setText(header3.getLoanDate());
 
 			} else if (itemType == ListItemType.HEADER_2) {
 				LoanedToItem header2 = (LoanedToItem) item;

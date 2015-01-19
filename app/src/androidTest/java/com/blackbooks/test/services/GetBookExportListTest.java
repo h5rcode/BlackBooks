@@ -21,7 +21,7 @@ import com.blackbooks.test.data.Seriez;
 import com.blackbooks.utils.DateUtils;
 
 /**
- * Test class of {@link ExportServices#getBookExportList()} .
+ * Test class of {@link ExportServices#getBookExportList(android.database.sqlite.SQLiteDatabase, Integer)} ()} .
  */
 public class GetBookExportListTest extends AbstractDatabaseTest {
 

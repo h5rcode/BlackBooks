@@ -17,7 +17,7 @@ import com.blackbooks.test.data.Books;
 import com.blackbooks.test.data.Publishers;
 
 /**
- * Test class of service {@link BookServices#saveBookInfo()}.
+ * Test class of service {@link BookServices#saveBookInfo(android.database.sqlite.SQLiteDatabase, com.blackbooks.model.nonpersistent.BookInfo)} ()}.
  */
 public class SaveBookInfoTest extends AbstractDatabaseTest {
 

@@ -115,7 +115,7 @@ public class SeriesServices {
 	 * 
 	 * @param db
 	 *            SQLiteDatabase.
-	 * @param id
+	 * @param serId
 	 *            Id of the series.
 	 * @return Series.
 	 */
