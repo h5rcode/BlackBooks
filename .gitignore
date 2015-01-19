@@ -44,9 +44,11 @@ Temporary Items
 .apdisk
 
 .gradle
+/.idea/libraries
 /.idea/workspace.xml
 /.idea/tasks.xml
 .iws
+/local.properties
 
 # BlackBooks
 build/
