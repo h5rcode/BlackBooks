@@ -43,7 +43,7 @@ public final class HttpUtils {
 		InputStream content = response.getEntity().getContent();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(content));
 		StringBuilder sb = new StringBuilder();
-		String line = null;
+		String line;
 		while ((line = reader.readLine()) != null) {
 			sb.append(line);
 		}

@@ -147,11 +147,6 @@ public class BookLoanFragment extends Fragment implements DatePickerListener {
 	}
 
 	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-	}
-
-	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		if (mBookInfo.loanedTo == null) {

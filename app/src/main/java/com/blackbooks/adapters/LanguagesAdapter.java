@@ -48,8 +48,7 @@ public class LanguagesAdapter extends ArrayAdapter<Language> {
 
 	@SuppressLint("InflateParams")
 	private View getLanguageView(int position, View convertView, ViewGroup parent) {
-		View view = convertView;
-		view = mInflater.inflate(android.R.layout.simple_list_item_1, null);
+		View view = mInflater.inflate(android.R.layout.simple_list_item_1, null);
 
 		Language language = this.mLanguageList.get(position);
 		if (language != null) {

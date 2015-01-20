@@ -411,9 +411,8 @@ public class Broker<T> {
      */
     private List<T> cursorToBeanList(Cursor cursor) {
         List<T> result = new ArrayList<T>();
-        T bean = null;
         while (cursor.moveToNext()) {
-            bean = cursorToBean(cursor);
+            T bean = cursorToBean(cursor);
             result.add(bean);
         }
         return result;

@@ -11,12 +11,12 @@ public class BookComparatorNumber implements Comparator<Book> {
 
 	@Override
 	public int compare(Book lhs, Book rhs) {
-		int result = 0;
+		int result;
 		if (lhs.number == null && rhs.number == null) {
 			result = lhs.title.compareToIgnoreCase(rhs.title);
-		} else if (lhs.number == null && rhs.number != null) {
+		} else if (lhs.number == null) {
 			result = -1;
-		} else if (lhs.number != null && rhs.number == null) {
+		} else if (rhs.number == null) {
 			result = 1;
 		} else {
 			result = lhs.number.compareTo(rhs.number);

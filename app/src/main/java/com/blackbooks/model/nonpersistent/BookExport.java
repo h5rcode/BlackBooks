@@ -102,7 +102,7 @@ public class BookExport implements Serializable {
 	 * @return Qualified String value.
 	 */
 	private static String qualify(Object object, String qualifier, char separator) {
-		String result = null;
+		String result;
 		if (object == null) {
 			result = "";
 		} else {

@@ -361,7 +361,7 @@ public final class BookEditActivity extends FragmentActivity implements BookSear
 
 		@Override
 		public Fragment getItem(int position) {
-			Fragment fragment = null;
+			Fragment fragment;
 			switch (position) {
 			case TAB_GENERAL:
 				if (mBookEditGeneralFragment == null) {

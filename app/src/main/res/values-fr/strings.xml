@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Black Books</string>
     <string name="action_add_authors">Ajouter des auteurs</string>
     <string name="action_add_categories">Ajouter des catégories</string>
     <string name="action_add_manually">Ajouter manuellement</string>
@@ -51,15 +50,6 @@
     <string name="field_invalid_date">Date invalide.</string>
     <string name="field_invalid_loan_date">La date doit être antérieure à la date du jour.</string>
     <string name="field_mandatory">Ce champ est obligatoire.</string>
-    <string name="footer_fragment_books_by_author">%1$s, %2$s</string>
-    <string name="footer_fragment_books_by_book_location">%1$s, %2$s</string>
-    <string name="footer_fragment_books_by_category">%1$s, %2$s</string>
-    <string name="footer_fragment_books_by_favourite">%1$s, %2$s</string>
-    <string name="footer_fragment_books_by_first_letter">%s</string>
-    <string name="footer_fragment_books_by_language">%1$s, %2$s</string>
-    <string name="footer_fragment_books_by_loaned">%1$s, %2$s/%3$s</string>
-    <string name="footer_fragment_books_by_to_read_read">%1$s, %2$s/%3$s</string>
-    <string name="footer_fragment_books_by_series">%1$s, %2$s</string>
     <string name="header_available">Disponibles</string>
     <string name="header_favourite">Favoris</string>
     <string name="header_loaned">Prêtés</string>
@@ -83,7 +73,6 @@
     <string name="label_comment">Commentaire</string>
     <string name="label_description">Description</string>
     <string name="label_drawer_item">Elément du menu</string>
-    <string name="label_drawer_item_group">Groupe du menu</string>
     <string name="label_drawer_open">Ouvrir le menu</string>
     <string name="label_drawer_close">Fermer le menu</string>
     <string name="label_export_preview">Aperçu de l\'export (5 premiers livres)</string>
@@ -158,8 +147,6 @@
     <string name="label_loan_book_pick_date">Sélectionner une date</string>
     <string name="label_loan_book_to">Prêter le livre à</string>
     <string name="label_loan_book_to_hint">Entrez un nom</string>
-    <string name="label_loan_date_format">%1$s (%2$s)</string>
-    <string name="label_loaned">Prêté</string>
     <string name="label_loaned_to">Ce livre a été prêté à</string>
     <string name="label_no_language">(Langue inconnue)</string>
     <string name="label_page_count">Nombre de pages</string>
@@ -170,7 +157,6 @@
     <string name="label_published_date_hint">jj/mm/aaaa</string>
     <string name="label_read">J\'ai lu ce livre</string>
     <string name="label_series">Série</string>
-    <string name="label_series_number_format">(%d)</string>
     <string name="label_series_number">#</string>
     <string name="label_subtitle">Sous-titre</string>
 
@@ -216,7 +202,6 @@
     <string name="label_text_qualifier_single_quote">Guillemets simples (\')</string>
     <string name="label_title">Titre</string>
     <string name="label_today">Aujourd\'hui</string>
-    <string name="label_total">(%d)</string>
     <string name="label_unexpected_error">Erreur inattendue</string>
     <string name="label_unspecified_author">(Auteur inconnu)</string>
     <string name="label_unspecified_book_location">(Emplacement inconnu)</string>
@@ -296,7 +281,6 @@
     <string name="title_activity_book_edit_mode_edit">Modifier \"%s\"</string>
     <string name="title_activity_book_export">Exporter au format CSV</string>
     <string name="title_activity_book_import">Importer depuis un fichier CSV</string>
-    <string name="title_activity_book_list">Liste des livres</string>
     <string name="title_activity_isbn_lookup">Recherche par ISBN</string>
     <string name="title_activity_book_search">Résultats pour \"%s\"</string>
     <string name="title_activity_book_search_default">Résultats de recherche</string>

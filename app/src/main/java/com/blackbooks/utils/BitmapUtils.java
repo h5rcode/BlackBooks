@@ -45,7 +45,7 @@ public final class BitmapUtils {
 	public static byte[] compress(Activity activity, byte[] image, int maxHeight) {
 		Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
 		Bitmap resizedBitmap = resize(bitmap, maxHeight);
-		byte[] bytes = null;
+		byte[] bytes;
 		try {
 			OutputStream outputStream = activity.openFileOutput(TEMP_PNG, Context.MODE_PRIVATE);
 			resizedBitmap.compress(CompressFormat.PNG, 100, outputStream);
@@ -86,12 +86,11 @@ public final class BitmapUtils {
 	 *         dimension.
 	 */
 	public static Bitmap resizeThumbnailBitmap(Activity activity, Bitmap bitmap) {
-		Bitmap result = bitmap;
 		DisplayMetrics metrics = new DisplayMetrics();
 		activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
 		int maxHeight = Math.min(MAX_THUMBNAIL_HEIGHT, Math.max(metrics.widthPixels, metrics.heightPixels) / 3);
-		result = resize(bitmap, maxHeight);
+        Bitmap result = resize(bitmap, maxHeight);
 		return result;
 	}
 

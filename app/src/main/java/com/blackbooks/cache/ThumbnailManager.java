@@ -109,7 +109,7 @@ public final class ThumbnailManager {
 	 *            thumnbail.
 	 */
 	private void draw(long bookId, Context context, ImageView imageView, ProgressBar progressBar, boolean isSmallThumbnail) {
-		Bitmap bmp = null;
+		Bitmap bmp;
 		if (isSmallThumbnail) {
 			bmp = mSmallThumbnailCache.get(bookId);
 		} else {
@@ -195,8 +195,8 @@ public final class ThumbnailManager {
 		protected void onPostExecute(Book result) {
 			super.onPostExecute(result);
 
-			Bitmap smallThumbnailBmp = null;
-			Bitmap thumnailBmp = null;
+			Bitmap smallThumbnailBmp;
+			Bitmap thumnailBmp;
 			byte[] smallThumbnail = result.smallThumbnail;
 			byte[] thumbnail = result.thumbnail;
 
