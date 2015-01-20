@@ -24,7 +24,7 @@ public final class ReflectionUtils {
 	 * @return Value.
 	 */
 	public static <T> Object getFieldValue(Field field, T bean) {
-		Object value = null;
+		Object value;
 		try {
 			value = field.get(bean);
 			if (value instanceof Date) {
@@ -47,7 +47,7 @@ public final class ReflectionUtils {
 	 * @return New instance of T.
 	 */
 	public static <T> T getNewInstance(Class<T> type) {
-		T newInstance = null;
+		T newInstance;
 		try {
 			newInstance = type.newInstance();
 		} catch (InstantiationException e) {
