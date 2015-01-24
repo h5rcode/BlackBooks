@@ -53,7 +53,7 @@ public class SeriesServices {
 	 * @return List of SeriesInfo.
 	 */
 	public static List<SeriesInfo> getSeriesInfoList(SQLiteDatabase db) {
-		List<Series> seriesList = BrokerManager.getBroker(Series.class).getAll(db);
+		List<Series> seriesList = BrokerManager.getBroker(Series.class).getAll(db, null, new String[] { Series.Cols.SER_NAME });
 		List<BookInfo> bookInfoList = BookServices.getBookInfoList(db);
 		LongSparseArray<SeriesInfo> seriesMap = new LongSparseArray<SeriesInfo>();
 
