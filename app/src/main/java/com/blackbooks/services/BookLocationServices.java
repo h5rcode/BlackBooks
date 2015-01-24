@@ -66,7 +66,7 @@ public class BookLocationServices {
 	 * @return List of BookLocationInfo.
 	 */
 	public static List<BookLocationInfo> getBookLocationInfoList(SQLiteDatabase db) {
-		List<BookLocation> bookLocationList = BrokerManager.getBroker(BookLocation.class).getAll(db);
+		List<BookLocation> bookLocationList = BrokerManager.getBroker(BookLocation.class).getAll(db, null, new String[] { BookLocation.Cols.BKL_NAME });
 		List<BookInfo> bookInfoList = BookServices.getBookInfoList(db);
 		LongSparseArray<BookLocationInfo> bookLocationMap = new LongSparseArray<BookLocationInfo>();
 
