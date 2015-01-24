@@ -335,7 +335,7 @@ public class BookDisplayDetailFragment extends Fragment {
 				mTextPageCount.setText(pageCount);
 				mGroup1PageCount.setVisibility(View.VISIBLE);
 			} else {
-				mGroup1PageCount.setVisibility(View.GONE);
+				mGroup1PageCount.setVisibility(View.INVISIBLE);
 			}
 			if (hasLanguage) {
 				Locale locale = new Locale(mBookInfo.languageCode);
@@ -343,19 +343,19 @@ public class BookDisplayDetailFragment extends Fragment {
 				mTextLanguage.setText(StringUtils.capitalize(language));
 				mGroup1Language.setVisibility(View.VISIBLE);
 			} else {
-				mGroup1Language.setVisibility(View.GONE);
+				mGroup1Language.setVisibility(View.INVISIBLE);
 			}
 			if (hasPublisher) {
 				mTextPublisher.setText(mBookInfo.publisher.name);
 				mGroupPublisherPublisher.setVisibility(View.VISIBLE);
 			} else {
-				mGroupPublisherPublisher.setVisibility(View.GONE);
+				mGroupPublisherPublisher.setVisibility(View.INVISIBLE);
 			}
 			if (hasPublishedDate) {
 				mTextPublishedDate.setText(DateUtils.DEFAULT_DATE_FORMAT.format(mBookInfo.publishedDate));
 				mGroupPublisherPublishedDate.setVisibility(View.VISIBLE);
 			} else {
-				mGroupPublisherPublishedDate.setVisibility(View.GONE);
+				mGroupPublisherPublishedDate.setVisibility(View.INVISIBLE);
 			}
 			mGroupInfo.setVisibility(View.VISIBLE);
 		} else {
@@ -385,13 +385,13 @@ public class BookDisplayDetailFragment extends Fragment {
 				mTextIsbn10.setText(mBookInfo.isbn10);
 				mGroupIsbnIsbn10.setVisibility(View.VISIBLE);
 			} else {
-				mGroupIsbnIsbn10.setVisibility(View.GONE);
+				mGroupIsbnIsbn10.setVisibility(View.INVISIBLE);
 			}
 			if (hasIsbn13) {
 				mTextIsbn13.setText(mBookInfo.isbn13);
 				mGroupIsbnIsbn13.setVisibility(View.VISIBLE);
 			} else {
-				mGroupIsbnIsbn13.setVisibility(View.GONE);
+				mGroupIsbnIsbn13.setVisibility(View.INVISIBLE);
 			}
 			mGroupIsbn.setVisibility(View.VISIBLE);
 		} else {
