@@ -9,24 +9,24 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FTSColumn {
 
-	/**
-	 * Name of the column.
-	 * 
-	 * @return Name.
-	 */
-	String name();
+    /**
+     * Name of the column.
+     *
+     * @return Name.
+     */
+    String name();
 
-	/**
-	 * Indicates whether the column is the primary key or not.
-	 * 
-	 * @return True if the column is the primary key of the table.
-	 */
-	boolean primaryKey() default false;
+    /**
+     * Indicates whether the column is the primary key or not.
+     *
+     * @return True if the column is the primary key of the table.
+     */
+    boolean primaryKey() default false;
 
-	/**
-	 * The version of the database when this column was added to it.
-	 * 
-	 * @return Version.
-	 */
-	int version();
+    /**
+     * The version of the database when this column was added to it.
+     *
+     * @return Version.
+     */
+    int version();
 }

@@ -12,33 +12,30 @@ import com.blackbooks.utils.LogUtils;
  */
 public final class BlackBooksApplication extends Application {
 
-	@Override
-	public void onCreate() {
-		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+    @Override
+    public void onCreate() {
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 
-			@Override
-			public void uncaughtException(Thread thread, Throwable e) {
-				handleUncaughtException(thread, e);
-			}
-		});
-	}
+            @Override
+            public void uncaughtException(Thread thread, Throwable e) {
+                handleUncaughtException(thread, e);
+            }
+        });
+    }
 
-	/**
-	 * Handle uncaught exception.
-	 * 
-	 * @param thread
-	 *            The thread that has an uncaught exception.
-	 * 
-	 * @param e
-	 *            The exception that was thrown.
-	 */
-	public void handleUncaughtException(Thread thread, Throwable e) {
-		Log.e(LogUtils.TAG, "Uncaught exception.", e);
+    /**
+     * Handle uncaught exception.
+     *
+     * @param thread The thread that has an uncaught exception.
+     * @param e      The exception that was thrown.
+     */
+    public void handleUncaughtException(Thread thread, Throwable e) {
+        Log.e(LogUtils.TAG, "Uncaught exception.", e);
 
-		Intent intent = new Intent(getApplicationContext(), ReportErrorActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		getApplicationContext().startActivity(intent);
+        Intent intent = new Intent(getApplicationContext(), ReportErrorActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(intent);
 
-		System.exit(1);
-	}
+        System.exit(1);
+    }
 }

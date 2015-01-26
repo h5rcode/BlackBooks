@@ -12,17 +12,17 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Table {
 
-	/**
-	 * Name of the table.
-	 * 
-	 * @return Table name.
-	 */
-	public String name();
+    /**
+     * Name of the table.
+     *
+     * @return Table name.
+     */
+    public String name();
 
-	/**
-	 * The version of the database when this table was added to it.
-	 * 
-	 * @return Version.
-	 */
-	public int version();
+    /**
+     * The version of the database when this table was added to it.
+     *
+     * @return Version.
+     */
+    public int version();
 }

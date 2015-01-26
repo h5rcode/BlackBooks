@@ -1,8 +1,5 @@
 package com.blackbooks.fragments;
 
-import java.io.File;
-import java.io.IOException;
-
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaScannerConnection;
 import android.os.Bundle;
@@ -34,173 +31,173 @@ import com.blackbooks.services.ExportServices;
 import com.blackbooks.utils.FileUtils;
 import com.blackbooks.utils.LogUtils;
 
+import java.io.File;
+import java.io.IOException;
+
 /**
  * Fragment where the user can export the list of books as a CSV file.
  */
 public class BookExportFragment extends Fragment implements TextQualifierPickerListener, ColumnSeparatorPickerListener {
 
-	private static final String TAG_TEXT_QUALIFIER_PICKER = "TAG_TEXT_QUALIFIER_PICKER";
-	private static final String TAG_COLUMN_SEPARATOR_PICKER = "TAG_COLUMN_SEPARATOR_PICKER";
+    private static final String TAG_TEXT_QUALIFIER_PICKER = "TAG_TEXT_QUALIFIER_PICKER";
+    private static final String TAG_COLUMN_SEPARATOR_PICKER = "TAG_COLUMN_SEPARATOR_PICKER";
+    private final TextQualifierPicker mTextQualifierPicker;
+    private final ColumnSeparatorPicker mColumnSeparatorPicker;
+    private LinearLayout mLayoutQualifier;
+    private LinearLayout mLayoutSeparator;
+    private TextView mTextViewQualifier;
+    private TextView mTextViewSeparator;
+    private CheckBox mCheckBoxFirstRowContainsHeaders;
+    private TextView mTextPreview;
+    private char mTextQualifier;
+    private char mColumnSeparator;
+    private boolean mFirstRowContainsHeader = true;
 
-	private LinearLayout mLayoutQualifier;
-	private LinearLayout mLayoutSeparator;
-	private TextView mTextViewQualifier;
-	private TextView mTextViewSeparator;
-	private CheckBox mCheckBoxFirstRowContainsHeaders;
-	private TextView mTextPreview;
+    public BookExportFragment() {
+        super();
 
-	private char mTextQualifier;
-	private char mColumnSeparator;
-	private boolean mFirstRowContainsHeader = true;
+        mTextQualifierPicker = new TextQualifierPicker();
+        mTextQualifierPicker.setTargetFragment(this, 0);
 
-	private final TextQualifierPicker mTextQualifierPicker;
-	private final ColumnSeparatorPicker mColumnSeparatorPicker;
+        mColumnSeparatorPicker = new ColumnSeparatorPicker();
+        mColumnSeparatorPicker.setTargetFragment(this, 0);
 
-	public BookExportFragment() {
-		super();
+    }
 
-		mTextQualifierPicker = new TextQualifierPicker();
-		mTextQualifierPicker.setTargetFragment(this, 0);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        setHasOptionsMenu(true);
+    }
 
-		mColumnSeparatorPicker = new ColumnSeparatorPicker();
-		mColumnSeparatorPicker.setTargetFragment(this, 0);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_book_export, container, false);
 
-	}
+        mLayoutQualifier = (LinearLayout) view.findViewById(R.id.bookExport_layoutQualifier);
+        mLayoutSeparator = (LinearLayout) view.findViewById(R.id.bookExport_layoutSeparator);
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setRetainInstance(true);
-		setHasOptionsMenu(true);
-	}
+        mTextViewQualifier = (TextView) view.findViewById(R.id.bookExport_textQualifier);
+        mTextViewQualifier.setText(mTextQualifierPicker.getSelectedTextQualifier().getResourceId());
+        mTextQualifier = mTextQualifierPicker.getSelectedTextQualifier().getCharacter();
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_book_export, container, false);
+        mTextViewSeparator = (TextView) view.findViewById(R.id.bookExport_textSeparator);
+        mTextViewSeparator.setText(mColumnSeparatorPicker.getSelectedColumnSeparator().getResourceId());
+        mColumnSeparator = mColumnSeparatorPicker.getSelectedColumnSeparator().getCharacter();
 
-		mLayoutQualifier = (LinearLayout) view.findViewById(R.id.bookExport_layoutQualifier);
-		mLayoutSeparator = (LinearLayout) view.findViewById(R.id.bookExport_layoutSeparator);
+        mLayoutQualifier.setOnClickListener(new OnClickListener() {
 
-		mTextViewQualifier = (TextView) view.findViewById(R.id.bookExport_textQualifier);
-		mTextViewQualifier.setText(mTextQualifierPicker.getSelectedTextQualifier().getResourceId());
-		mTextQualifier = mTextQualifierPicker.getSelectedTextQualifier().getCharacter();
+            @Override
+            public void onClick(View v) {
+                mTextQualifierPicker.show(getFragmentManager(), TAG_TEXT_QUALIFIER_PICKER);
+            }
+        });
 
-		mTextViewSeparator = (TextView) view.findViewById(R.id.bookExport_textSeparator);
-		mTextViewSeparator.setText(mColumnSeparatorPicker.getSelectedColumnSeparator().getResourceId());
-		mColumnSeparator = mColumnSeparatorPicker.getSelectedColumnSeparator().getCharacter();
+        mLayoutSeparator.setOnClickListener(new OnClickListener() {
 
-		mLayoutQualifier.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mColumnSeparatorPicker.show(getFragmentManager(), TAG_COLUMN_SEPARATOR_PICKER);
+            }
+        });
 
-			@Override
-			public void onClick(View v) {
-				mTextQualifierPicker.show(getFragmentManager(), TAG_TEXT_QUALIFIER_PICKER);
-			}
-		});
+        mCheckBoxFirstRowContainsHeaders = (CheckBox) view.findViewById(R.id.bookExport_checkBoxFirstRowContainsHeaders);
+        mTextPreview = (TextView) view.findViewById(R.id.bookExport_preview);
 
-		mLayoutSeparator.setOnClickListener(new OnClickListener() {
+        mCheckBoxFirstRowContainsHeaders.setChecked(true);
 
-			@Override
-			public void onClick(View v) {
-				mColumnSeparatorPicker.show(getFragmentManager(), TAG_COLUMN_SEPARATOR_PICKER);
-			}
-		});
+        mCheckBoxFirstRowContainsHeaders.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-		mCheckBoxFirstRowContainsHeaders = (CheckBox) view.findViewById(R.id.bookExport_checkBoxFirstRowContainsHeaders);
-		mTextPreview = (TextView) view.findViewById(R.id.bookExport_preview);
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mFirstRowContainsHeader = isChecked;
+                renderPreview();
+            }
+        });
 
-		mCheckBoxFirstRowContainsHeaders.setChecked(true);
+        renderPreview();
 
-		mCheckBoxFirstRowContainsHeaders.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        return view;
+    }
 
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				mFirstRowContainsHeader = isChecked;
-				renderPreview();
-			}
-		});
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.book_export, menu);
+    }
 
-		renderPreview();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean result;
+        switch (item.getItemId()) {
+            case R.id.bookExport_actionExport:
+                exportBooks();
+                result = true;
+                break;
 
-		return view;
-	}
+            default:
+                result = super.onOptionsItemSelected(item);
+                break;
+        }
 
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.book_export, menu);
-	}
+        return result;
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		boolean result;
-		switch (item.getItemId()) {
-		case R.id.bookExport_actionExport:
-			exportBooks();
-			result = true;
-			break;
+    /**
+     * Export the books as a CSV file using the current parameters.
+     */
+    private void exportBooks() {
+        SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
+        SQLiteDatabase db = null;
+        try {
+            db = dbHelper.getReadableDatabase();
+            File exportFile = FileUtils.createFileInAppDir("Export.csv");
+            ExportServices.exportBookList(db, exportFile, mTextQualifier, mColumnSeparator, mFirstRowContainsHeader);
 
-		default:
-			result = super.onOptionsItemSelected(item);
-			break;
-		}
+            MediaScannerConnection.scanFile(getActivity(), new String[]{exportFile.getAbsolutePath()}, null, null);
+            String message = String.format(getString(R.string.message_file_saved), exportFile.getName(), exportFile
+                    .getParentFile().getName());
+            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            Log.e(LogUtils.TAG, e.getMessage(), e);
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+        } finally {
+            if (db != null) {
+                db.close();
+            }
+        }
+    }
 
-		return result;
-	}
+    /**
+     * Render a preview of the book export with the current parameters.
+     */
+    private void renderPreview() {
+        SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
+        SQLiteDatabase db = null;
+        try {
+            db = dbHelper.getReadableDatabase();
+            String preview = ExportServices.previewBookExport(db, mTextQualifier, mColumnSeparator, mFirstRowContainsHeader);
 
-	/**
-	 * Export the books as a CSV file using the current parameters.
-	 */
-	private void exportBooks() {
-		SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
-		SQLiteDatabase db = null;
-		try {
-			db = dbHelper.getReadableDatabase();
-			File exportFile = FileUtils.createFileInAppDir("Export.csv");
-			ExportServices.exportBookList(db, exportFile, mTextQualifier, mColumnSeparator, mFirstRowContainsHeader);
+            mTextPreview.setText(preview);
+        } finally {
+            if (db != null) {
+                db.close();
+            }
+        }
+    }
 
-			MediaScannerConnection.scanFile(getActivity(), new String[] { exportFile.getAbsolutePath() }, null, null);
-			String message = String.format(getString(R.string.message_file_saved), exportFile.getName(), exportFile
-					.getParentFile().getName());
-			Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-		} catch (IOException e) {
-			Log.e(LogUtils.TAG, e.getMessage(), e);
-			Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-		} finally {
-			if (db != null) {
-				db.close();
-			}
-		}
-	}
+    @Override
+    public void onTextQualifierPicked(TextQualifier textQualifier) {
+        mTextQualifier = textQualifier.getCharacter();
+        mTextViewQualifier.setText(textQualifier.getResourceId());
+        renderPreview();
+    }
 
-	/**
-	 * Render a preview of the book export with the current parameters.
-	 */
-	private void renderPreview() {
-		SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
-		SQLiteDatabase db = null;
-		try {
-			db = dbHelper.getReadableDatabase();
-			String preview = ExportServices.previewBookExport(db, mTextQualifier, mColumnSeparator, mFirstRowContainsHeader);
-
-			mTextPreview.setText(preview);
-		} finally {
-			if (db != null) {
-				db.close();
-			}
-		}
-	}
-
-	@Override
-	public void onTextQualifierPicked(TextQualifier textQualifier) {
-		mTextQualifier = textQualifier.getCharacter();
-		mTextViewQualifier.setText(textQualifier.getResourceId());
-		renderPreview();
-	}
-
-	@Override
-	public void onColumnSeparatorPicked(ColumnSeparator columnSeparator) {
-		mColumnSeparator = columnSeparator.getCharacter();
-		mTextViewSeparator.setText(columnSeparator.getResourceId());
-		renderPreview();
-	}
+    @Override
+    public void onColumnSeparatorPicked(ColumnSeparator columnSeparator) {
+        mColumnSeparator = columnSeparator.getCharacter();
+        mTextViewSeparator.setText(columnSeparator.getResourceId());
+        renderPreview();
+    }
 }

@@ -5,10 +5,10 @@ package com.blackbooks.adapters;
  */
 public interface ListItem {
 
-	/**
-	 * Return the type of this item.
-	 * 
-	 * @return A value for the enumeration {@link ListItemType}.
-	 */
-	ListItemType getListItemType();
+    /**
+     * Return the type of this item.
+     *
+     * @return A value for the enumeration {@link ListItemType}.
+     */
+    ListItemType getListItemType();
 }

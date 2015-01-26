@@ -6,13 +6,13 @@ import java.util.List;
 
 public class LanguageInfo implements Serializable {
 
-	private static final long serialVersionUID = 8807563807190599027L;
+    private static final long serialVersionUID = 8807563807190599027L;
 
-	public String languageCode;
-	public String displayName;
-	public List<BookInfo> books;
+    public String languageCode;
+    public String displayName;
+    public List<BookInfo> books;
 
-	public LanguageInfo() {
-		this.books = new ArrayList<BookInfo>();
-	}
+    public LanguageInfo() {
+        this.books = new ArrayList<BookInfo>();
+    }
 }

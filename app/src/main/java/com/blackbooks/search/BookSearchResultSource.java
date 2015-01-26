@@ -7,35 +7,34 @@ package com.blackbooks.search;
  */
 public enum BookSearchResultSource {
 
-	/**
-	 * Amazon.
-	 */
-	AMAZON(1),
+    /**
+     * Amazon.
+     */
+    AMAZON(1),
 
-	/**
-	 * Open Library.
-	 */
-	OPEN_LIBRARY(2),
+    /**
+     * Open Library.
+     */
+    OPEN_LIBRARY(2),
 
-	/**
-	 * Google Books.
-	 */
-	GOOGLE_BOOKS(3);
+    /**
+     * Google Books.
+     */
+    GOOGLE_BOOKS(3);
+    private int mMergeOrder;
 
-	private BookSearchResultSource(int mergeOrder) {
-		this.mMergeOrder = mergeOrder;
-	}
+    private BookSearchResultSource(int mergeOrder) {
+        this.mMergeOrder = mergeOrder;
+    }
 
-	private int mMergeOrder;
-
-	/**
-	 * Return the merge order for the books found using this source. The lowest
-	 * order is used first, the the other results will be merged to it, erasing
-	 * its properties.
-	 * 
-	 * @return Merge order.
-	 */
-	public int getMergeOrder() {
-		return mMergeOrder;
-	}
+    /**
+     * Return the merge order for the books found using this source. The lowest
+     * order is used first, the the other results will be merged to it, erasing
+     * its properties.
+     *
+     * @return Merge order.
+     */
+    public int getMergeOrder() {
+        return mMergeOrder;
+    }
 }

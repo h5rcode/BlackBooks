@@ -20,112 +20,111 @@ import com.blackbooks.utils.StringUtils;
  */
 public class BooksByFavouriteAdapter extends ArrayAdapter<ListItem> {
 
-	private final LayoutInflater mInflater;
-	private final ThumbnailManager mThumbnailManager;
+    private final LayoutInflater mInflater;
+    private final ThumbnailManager mThumbnailManager;
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param context
-	 *            Context.
-	 */
-	public BooksByFavouriteAdapter(Context context) {
-		super(context, 0);
-		this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		this.mThumbnailManager = ThumbnailManager.getInstance();
-	}
+    /**
+     * Constructor.
+     *
+     * @param context Context.
+     */
+    public BooksByFavouriteAdapter(Context context) {
+        super(context, 0);
+        this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.mThumbnailManager = ThumbnailManager.getInstance();
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		View view = convertView;
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View view = convertView;
 
-		ListItem item = this.getItem(position);
-		if (item != null) {
-			ListItemType itemType = item.getListItemType();
-			if (itemType == ListItemType.ENTRY) {
-				BookItem entry = (BookItem) item;
-				BookInfo book = entry.getBook();
+        ListItem item = this.getItem(position);
+        if (item != null) {
+            ListItemType itemType = item.getListItemType();
+            if (itemType == ListItemType.ENTRY) {
+                BookItem entry = (BookItem) item;
+                BookInfo book = entry.getBook();
 
-				view = mInflater.inflate(R.layout.list_books_by_favourite_item_book, parent, false);
+                view = mInflater.inflate(R.layout.list_books_by_favourite_item_book, parent, false);
 
-				ImageView imageView = (ImageView) view.findViewById(R.id.books_by_favourite_item_book_small_thumbnail);
-				ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.books_by_favourite_item_book_progressBar);
-				ImageView imageRead = (ImageView) view.findViewById(R.id.books_by_favourite_item_book_imageRead);
-				ImageView imageFavourite = (ImageView) view.findViewById(R.id.books_by_favourite_item_book_imageFavourite);
-				ImageView imageLoaned = (ImageView) view.findViewById(R.id.books_by_favourite_item_book_imageLoaned);
+                ImageView imageView = (ImageView) view.findViewById(R.id.books_by_favourite_item_book_small_thumbnail);
+                ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.books_by_favourite_item_book_progressBar);
+                ImageView imageRead = (ImageView) view.findViewById(R.id.books_by_favourite_item_book_imageRead);
+                ImageView imageFavourite = (ImageView) view.findViewById(R.id.books_by_favourite_item_book_imageFavourite);
+                ImageView imageLoaned = (ImageView) view.findViewById(R.id.books_by_favourite_item_book_imageLoaned);
 
-				mThumbnailManager.drawSmallThumbnail(book.id, getContext(), imageView, progressBar);
-				TextView textTitle = (TextView) view.findViewById(R.id.books_by_favourite_item_book_title);
-				textTitle.setText(book.title);
+                mThumbnailManager.drawSmallThumbnail(book.id, getContext(), imageView, progressBar);
+                TextView textTitle = (TextView) view.findViewById(R.id.books_by_favourite_item_book_title);
+                textTitle.setText(book.title);
 
-				TextView textAuthor = (TextView) view.findViewById(R.id.books_by_favourite_item_book_author);
-				String authors;
-				if (book.authors.size() > 0) {
-					authors = StringUtils.joinAuthorNameList(book.authors, ", ");
-				} else {
-					authors = getContext().getString(R.string.label_unspecified_author);
-				}
-				textAuthor.setText(authors);
+                TextView textAuthor = (TextView) view.findViewById(R.id.books_by_favourite_item_book_author);
+                String authors;
+                if (book.authors.size() > 0) {
+                    authors = StringUtils.joinAuthorNameList(book.authors, ", ");
+                } else {
+                    authors = getContext().getString(R.string.label_unspecified_author);
+                }
+                textAuthor.setText(authors);
 
-				if (book.isRead != 0) {
-					imageRead.setVisibility(View.VISIBLE);
-				} else {
-					imageRead.setVisibility(View.GONE);
-				}
-				if (book.isFavourite != 0) {
-					imageFavourite.setVisibility(View.VISIBLE);
-				} else {
-					imageFavourite.setVisibility(View.GONE);
-				}
-				if (book.loanedTo != null) {
-					imageLoaned.setVisibility(View.VISIBLE);
-				} else {
-					imageLoaned.setVisibility(View.GONE);
-				}
+                if (book.isRead != 0) {
+                    imageRead.setVisibility(View.VISIBLE);
+                } else {
+                    imageRead.setVisibility(View.GONE);
+                }
+                if (book.isFavourite != 0) {
+                    imageFavourite.setVisibility(View.VISIBLE);
+                } else {
+                    imageFavourite.setVisibility(View.GONE);
+                }
+                if (book.loanedTo != null) {
+                    imageLoaned.setVisibility(View.VISIBLE);
+                } else {
+                    imageLoaned.setVisibility(View.GONE);
+                }
 
-			} else if (itemType == ListItemType.HEADER) {
-				FavouriteItem header = (FavouriteItem) item;
+            } else if (itemType == ListItemType.HEADER) {
+                FavouriteItem header = (FavouriteItem) item;
 
-				view = mInflater.inflate(R.layout.list_books_by_favourite_item_favourite, parent, false);
+                view = mInflater.inflate(R.layout.list_books_by_favourite_item_favourite, parent, false);
 
-				TextView textViewName = (TextView) view.findViewById(R.id.books_by_favourite_item_to_read_read);
-				if (header.isFavourite()) {
-					textViewName.setText(R.string.header_favourite);
-				} else {
-					textViewName.setText(R.string.header_other_books);
-				}
+                TextView textViewName = (TextView) view.findViewById(R.id.books_by_favourite_item_to_read_read);
+                if (header.isFavourite()) {
+                    textViewName.setText(R.string.header_favourite);
+                } else {
+                    textViewName.setText(R.string.header_other_books);
+                }
 
-				TextView textViewTotalBooks = (TextView) view.findViewById(R.id.books_by_favourite_item_total);
-				String total = this.getContext().getString(R.string.label_total);
-				total = String.format(total, header.getTotalBooks());
-				textViewTotalBooks.setText(total);
-			}
-		}
+                TextView textViewTotalBooks = (TextView) view.findViewById(R.id.books_by_favourite_item_total);
+                String total = this.getContext().getString(R.string.label_total);
+                total = String.format(total, header.getTotalBooks());
+                textViewTotalBooks.setText(total);
+            }
+        }
 
-		return view;
-	}
+        return view;
+    }
 
-	public static final class FavouriteItem implements ListItem {
+    public static final class FavouriteItem implements ListItem {
 
-		private final boolean mIsFavourite;
-		private final int mTotalBook;
+        private final boolean mIsFavourite;
+        private final int mTotalBook;
 
-		public FavouriteItem(boolean isFavourite, int totalBooks) {
-			mIsFavourite = isFavourite;
-			mTotalBook = totalBooks;
-		}
+        public FavouriteItem(boolean isFavourite, int totalBooks) {
+            mIsFavourite = isFavourite;
+            mTotalBook = totalBooks;
+        }
 
-		@Override
-		public ListItemType getListItemType() {
-			return ListItemType.HEADER;
-		}
+        @Override
+        public ListItemType getListItemType() {
+            return ListItemType.HEADER;
+        }
 
-		public int getTotalBooks() {
-			return mTotalBook;
-		}
+        public int getTotalBooks() {
+            return mTotalBook;
+        }
 
-		public boolean isFavourite() {
-			return mIsFavourite;
-		}
-	}
+        public boolean isFavourite() {
+            return mIsFavourite;
+        }
+    }
 }

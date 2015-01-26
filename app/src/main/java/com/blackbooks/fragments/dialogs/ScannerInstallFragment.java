@@ -18,30 +18,30 @@ import com.blackbooks.utils.Pic2ShopUtils;
  */
 public class ScannerInstallFragment extends DialogFragment {
 
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-		builder.setTitle(R.string.title_dialog_install_scanner);
-		builder.setMessage(getString(R.string.message_scanner_install));
+        builder.setTitle(R.string.title_dialog_install_scanner);
+        builder.setMessage(getString(R.string.message_scanner_install));
 
-		builder.setPositiveButton(getString(R.string.button_go_to_pic2shop_page), new OnClickListener() {
+        builder.setPositiveButton(getString(R.string.button_go_to_pic2shop_page), new OnClickListener() {
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Pic2ShopUtils.URI_MARKET));
-				startActivity(marketIntent);
-			}
-		});
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Pic2ShopUtils.URI_MARKET));
+                startActivity(marketIntent);
+            }
+        });
 
-		builder.setNegativeButton(getString(R.string.button_cancel_scanner_install), new OnClickListener() {
+        builder.setNegativeButton(getString(R.string.button_cancel_scanner_install), new OnClickListener() {
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// Do nothing.
-			}
-		});
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing.
+            }
+        });
 
-		return builder.create();
-	}
+        return builder.create();
+    }
 }

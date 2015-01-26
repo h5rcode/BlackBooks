@@ -5,23 +5,23 @@ package com.blackbooks.adapters;
  */
 public enum ListItemType {
 
-	/**
-	 * Header.
-	 */
-	HEADER,
-	
-	/**
-	 * Header 2.
-	 */
-	HEADER_2,
-	
-	/**
-	 * Header 3.
-	 */
-	HEADER_3,
+    /**
+     * Header.
+     */
+    HEADER,
 
-	/**
-	 * Entry.
-	 */
-	ENTRY
+    /**
+     * Header 2.
+     */
+    HEADER_2,
+
+    /**
+     * Header 3.
+     */
+    HEADER_3,
+
+    /**
+     * Entry.
+     */
+    ENTRY
 }

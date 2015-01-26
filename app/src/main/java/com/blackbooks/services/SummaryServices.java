@@ -15,70 +15,70 @@ import com.blackbooks.model.persistent.Series;
  */
 public class SummaryServices {
 
-	public static Summary getSummary(SQLiteDatabase db) {
-		Summary summary = new Summary();
+    public static Summary getSummary(SQLiteDatabase db) {
+        Summary summary = new Summary();
 
-		summary.books = getBooks(db);
-		summary.authors = getAuthors(db);
-		summary.categories = getCategories(db);
-		summary.languages = getLanguages(db);
-		summary.series = getSeries(db);
-		summary.bookLocations = getBookLocations(db);
-		summary.toRead = getBooksToRead(db);
-		summary.loaned = getBooksLoaned(db);
-		summary.favourites = getFavouriteBooks(db);
+        summary.books = getBooks(db);
+        summary.authors = getAuthors(db);
+        summary.categories = getCategories(db);
+        summary.languages = getLanguages(db);
+        summary.series = getSeries(db);
+        summary.bookLocations = getBookLocations(db);
+        summary.toRead = getBooksToRead(db);
+        summary.loaned = getBooksLoaned(db);
+        summary.favourites = getFavouriteBooks(db);
 
-		return summary;
-	}
+        return summary;
+    }
 
-	private static int getBooks(SQLiteDatabase db) {
-		String sql = "SELECT COUNT(*) FROM " + Book.NAME;
-		return queryInt(db, sql);
-	}
+    private static int getBooks(SQLiteDatabase db) {
+        String sql = "SELECT COUNT(*) FROM " + Book.NAME;
+        return queryInt(db, sql);
+    }
 
-	private static int getAuthors(SQLiteDatabase db) {
-		String sql = "SELECT COUNT(*) FROM " + Author.NAME;
-		return queryInt(db, sql);
-	}
+    private static int getAuthors(SQLiteDatabase db) {
+        String sql = "SELECT COUNT(*) FROM " + Author.NAME;
+        return queryInt(db, sql);
+    }
 
-	private static int getCategories(SQLiteDatabase db) {
-		String sql = "SELECT COUNT(*) FROM " + Category.NAME;
-		return queryInt(db, sql);
-	}
+    private static int getCategories(SQLiteDatabase db) {
+        String sql = "SELECT COUNT(*) FROM " + Category.NAME;
+        return queryInt(db, sql);
+    }
 
-	private static int getLanguages(SQLiteDatabase db) {
-		String sql = "SELECT COUNT(DISTINCT " + Book.Cols.BOO_LANGUAGE_CODE + ") FROM " + Book.NAME;
-		return queryInt(db, sql);
-	}
+    private static int getLanguages(SQLiteDatabase db) {
+        String sql = "SELECT COUNT(DISTINCT " + Book.Cols.BOO_LANGUAGE_CODE + ") FROM " + Book.NAME;
+        return queryInt(db, sql);
+    }
 
-	private static int getSeries(SQLiteDatabase db) {
-		String sql = "SELECT COUNT(*) FROM " + Series.NAME;
-		return queryInt(db, sql);
-	}
+    private static int getSeries(SQLiteDatabase db) {
+        String sql = "SELECT COUNT(*) FROM " + Series.NAME;
+        return queryInt(db, sql);
+    }
 
-	private static int getBookLocations(SQLiteDatabase db) {
-		String sql = "SELECT COUNT(*) FROM " + BookLocation.NAME;
-		return queryInt(db, sql);
-	}
+    private static int getBookLocations(SQLiteDatabase db) {
+        String sql = "SELECT COUNT(*) FROM " + BookLocation.NAME;
+        return queryInt(db, sql);
+    }
 
-	public static int getBooksToRead(SQLiteDatabase db) {
-		String sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_IS_READ + " = 0;";
-		return queryInt(db, sql);
-	}
+    public static int getBooksToRead(SQLiteDatabase db) {
+        String sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_IS_READ + " = 0;";
+        return queryInt(db, sql);
+    }
 
-	public static int getBooksLoaned(SQLiteDatabase db) {
-		String sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_LOANED_TO + " IS NOT NULL;";
-		return queryInt(db, sql);
-	}
+    public static int getBooksLoaned(SQLiteDatabase db) {
+        String sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_LOANED_TO + " IS NOT NULL;";
+        return queryInt(db, sql);
+    }
 
-	public static int getFavouriteBooks(SQLiteDatabase db) {
-		String sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_IS_FAVOURITE + " = 1;";
-		return queryInt(db, sql);
-	}
+    public static int getFavouriteBooks(SQLiteDatabase db) {
+        String sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_IS_FAVOURITE + " = 1;";
+        return queryInt(db, sql);
+    }
 
-	private static int queryInt(SQLiteDatabase db, String sql) {
-		Cursor cursor = db.rawQuery(sql, null);
-		cursor.moveToNext();
-		return cursor.getInt(0);
-	}
+    private static int queryInt(SQLiteDatabase db, String sql) {
+        Cursor cursor = db.rawQuery(sql, null);
+        cursor.moveToNext();
+        return cursor.getInt(0);
+    }
 }

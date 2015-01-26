@@ -5,14 +5,14 @@ package com.blackbooks.test.data;
  */
 public final class BookLocations {
 
-	/**
-	 * Living room.
-	 */
-	public static final String LIVING_ROOM = "Living room";
+    /**
+     * Living room.
+     */
+    public static final String LIVING_ROOM = "Living room";
 
-	/**
-	 * Private constructor.
-	 */
-	private BookLocations() {
-	}
+    /**
+     * Private constructor.
+     */
+    private BookLocations() {
+    }
 }

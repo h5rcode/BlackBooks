@@ -5,23 +5,23 @@ package com.blackbooks.activities;
  */
 public enum DrawerActivity {
 
-	/**
-	 * {@link BookListActivity}.
-	 */
-	BOOK_LIST,
+    /**
+     * {@link BookListActivity}.
+     */
+    BOOK_LIST,
 
-	/**
-	 * {@link SummaryActivity}.
-	 */
-	SUMMARY,
+    /**
+     * {@link SummaryActivity}.
+     */
+    SUMMARY,
 
-	/**
-	 * {@link BookExportActivity}.
-	 */
-	BOOK_EXPORT,
+    /**
+     * {@link BookExportActivity}.
+     */
+    BOOK_EXPORT,
 
-	/**
-	 * {@link BookImportActivity}.
-	 */
-	BOOK_IMPORT
+    /**
+     * {@link BookImportActivity}.
+     */
+    BOOK_IMPORT
 }

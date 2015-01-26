@@ -5,19 +5,19 @@ package com.blackbooks.test.data;
  */
 public final class Languages {
 
-	/**
-	 * English.
-	 */
-	public static final String ENGLISH = "en";
+    /**
+     * English.
+     */
+    public static final String ENGLISH = "en";
 
-	/**
-	 * French.
-	 */
-	public static final String FRENCH = "fr";
+    /**
+     * French.
+     */
+    public static final String FRENCH = "fr";
 
-	/**
-	 * Private constructor.
-	 */
-	private Languages() {
-	}
+    /**
+     * Private constructor.
+     */
+    private Languages() {
+    }
 }

@@ -1,9 +1,5 @@
 package com.blackbooks.activities;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -27,281 +23,281 @@ import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.services.AuthorServices;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+
 /**
  * Activity to edit the authors of a book.
  */
 public class BookAuthorsEditActivity extends Activity {
 
-	public static final String EXTRA_BOOK_TITLE = "EXTRA_BOOK_TITLE";
-	public static final String EXTRA_AUTHOR_LIST = "EXTRA_AUTHOR_LIST";
+    public static final String EXTRA_BOOK_TITLE = "EXTRA_BOOK_TITLE";
+    public static final String EXTRA_AUTHOR_LIST = "EXTRA_AUTHOR_LIST";
 
-	private static final String BOOK_TITLE = "BOOK_TITLE";
-	private static final String AUTHOR_LIST = "AUTHOR_LIST";
+    private static final String BOOK_TITLE = "BOOK_TITLE";
+    private static final String AUTHOR_LIST = "AUTHOR_LIST";
 
-	private String mBookTitle;
-	private ArrayList<Author> mAuthorList;
-	private LinkedHashMap<String, Author> mAuthorMap;
-	private AutoCompleteAdapter<Author> mAutoCompleteAdapter;
-	private EditableArrayAdapter<Author> mAuthorArrayAdapter;
+    private String mBookTitle;
+    private ArrayList<Author> mAuthorList;
+    private LinkedHashMap<String, Author> mAuthorMap;
+    private AutoCompleteAdapter<Author> mAutoCompleteAdapter;
+    private EditableArrayAdapter<Author> mAuthorArrayAdapter;
 
-	private TextView mTextInfo;
-	private AutoCompleteTextView mTextAuthor;
-	private ListView mListAuthors;
+    private TextView mTextInfo;
+    private AutoCompleteTextView mTextAuthor;
+    private ListView mListAuthors;
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.book_authors_edit, menu);
-		return true;
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.book_authors_edit, menu);
+        return true;
+    }
 
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		boolean result;
-		switch (item.getItemId()) {
-		case R.id.bookAuthorsEdit_actionSave:
-			addAuthorList();
-			result = true;
-			break;
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        boolean result;
+        switch (item.getItemId()) {
+            case R.id.bookAuthorsEdit_actionSave:
+                addAuthorList();
+                result = true;
+                break;
 
-		case android.R.id.home:
-			result = true;
-			finish();
-			break;
+            case android.R.id.home:
+                result = true;
+                finish();
+                break;
 
-		default:
-			result = super.onMenuItemSelected(featureId, item);
-			break;
-		}
-		return result;
-	}
+            default:
+                result = super.onMenuItemSelected(featureId, item);
+                break;
+        }
+        return result;
+    }
 
-	/**
-	 * Add the author to the list.
-	 * 
-	 * @param view
-	 *            View.
-	 */
-	public void addAuthor(View view) {
-		String authorName = mTextAuthor.getText().toString().trim();
+    /**
+     * Add the author to the list.
+     *
+     * @param view View.
+     */
+    public void addAuthor(View view) {
+        String authorName = mTextAuthor.getText().toString().trim();
 
-		String errorMessage = null;
-		if (authorName.length() == 0) {
-			errorMessage = getString(R.string.message_author_missing);
-		} else {
-			if (mAuthorMap.containsKey(authorName)) {
-				String message = getString(R.string.message_author_already_present);
-				errorMessage = String.format(message, authorName);
-			} else {
-				Author a = new Author();
-				a.name = authorName;
+        String errorMessage = null;
+        if (authorName.length() == 0) {
+            errorMessage = getString(R.string.message_author_missing);
+        } else {
+            if (mAuthorMap.containsKey(authorName)) {
+                String message = getString(R.string.message_author_already_present);
+                errorMessage = String.format(message, authorName);
+            } else {
+                Author a = new Author();
+                a.name = authorName;
 
-				Author author = getAuthorByCriteria(a);
-				if (author != null) {
-					a = author;
-				}
+                Author author = getAuthorByCriteria(a);
+                if (author != null) {
+                    a = author;
+                }
 
-				mAuthorMap.put(authorName, a);
-				mAuthorArrayAdapter.add(a);
+                mAuthorMap.put(authorName, a);
+                mAuthorArrayAdapter.add(a);
 
-				String message = getString(R.string.message_author_added);
-				message = String.format(message, authorName);
-				Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+                String message = getString(R.string.message_author_added);
+                message = String.format(message, authorName);
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 
-				mTextAuthor.setText(null);
-				mTextAuthor.setError(null);
-			}
-		}
-		if (errorMessage == null) {
-			mTextAuthor.setText(null);
-			mTextAuthor.setError(null);
-		} else {
-			mTextAuthor.setError(errorMessage);
-		}
-	}
+                mTextAuthor.setText(null);
+                mTextAuthor.setError(null);
+            }
+        }
+        if (errorMessage == null) {
+            mTextAuthor.setText(null);
+            mTextAuthor.setError(null);
+        } else {
+            mTextAuthor.setError(errorMessage);
+        }
+    }
 
-	/**
-	 * Show a dialog to edit one of the authors of the list.
-	 * 
-	 * @param view
-	 *            View.
-	 */
-	public void editAuthor(final View view) {
-		final Author author = (Author) view.getTag();
+    /**
+     * Show a dialog to edit one of the authors of the list.
+     *
+     * @param view View.
+     */
+    public void editAuthor(final View view) {
+        final Author author = (Author) view.getTag();
 
-		final Dialog dialog = new Dialog(this);
-		dialog.setContentView(R.layout.dialog_edit_author);
-		dialog.setTitle(R.string.title_dialog_edit_author);
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_edit_author);
+        dialog.setTitle(R.string.title_dialog_edit_author);
 
-		final AutoCompleteTextView textAuthor = (AutoCompleteTextView) dialog.findViewById(R.id.editAuthor_textAuthor);
-		textAuthor.setText(author.name);
-		textAuthor.setAdapter(mAutoCompleteAdapter);
+        final AutoCompleteTextView textAuthor = (AutoCompleteTextView) dialog.findViewById(R.id.editAuthor_textAuthor);
+        textAuthor.setText(author.name);
+        textAuthor.setAdapter(mAutoCompleteAdapter);
 
-		Button saveButton = (Button) dialog.findViewById(R.id.editAuthor_confirm);
-		Button cancelButton = (Button) dialog.findViewById(R.id.editAuthor_cancel);
+        Button saveButton = (Button) dialog.findViewById(R.id.editAuthor_confirm);
+        Button cancelButton = (Button) dialog.findViewById(R.id.editAuthor_cancel);
 
-		saveButton.setOnClickListener(new OnClickListener() {
+        saveButton.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				String authorName = textAuthor.getText().toString().trim();
+            @Override
+            public void onClick(View v) {
+                String authorName = textAuthor.getText().toString().trim();
 
-				String errorMessage = null;
-				if (authorName.length() == 0) {
-					errorMessage = getString(R.string.message_author_missing);
-				} else if (!author.name.equals(authorName)) {
-					if (mAuthorMap.containsKey(authorName)) {
-						String message = getString(R.string.message_author_already_present);
-						errorMessage = String.format(message, authorName);
-					} else {
-						int authorIndex = mAuthorList.indexOf(author);
+                String errorMessage = null;
+                if (authorName.length() == 0) {
+                    errorMessage = getString(R.string.message_author_missing);
+                } else if (!author.name.equals(authorName)) {
+                    if (mAuthorMap.containsKey(authorName)) {
+                        String message = getString(R.string.message_author_already_present);
+                        errorMessage = String.format(message, authorName);
+                    } else {
+                        int authorIndex = mAuthorList.indexOf(author);
 
-						Author a = new Author();
-						a.name = authorName;
-						Author authorDb = getAuthorByCriteria(a);
+                        Author a = new Author();
+                        a.name = authorName;
+                        Author authorDb = getAuthorByCriteria(a);
 
-						if (authorDb != null) {
-							a = authorDb;
-						}
-						mAuthorList.remove(authorIndex);
-						mAuthorList.add(authorIndex, a);
-						mAuthorArrayAdapter.notifyDataSetChanged();
-						mAuthorMap.remove(author.name);
-						mAuthorMap.put(authorName, a);
-					}
-				}
+                        if (authorDb != null) {
+                            a = authorDb;
+                        }
+                        mAuthorList.remove(authorIndex);
+                        mAuthorList.add(authorIndex, a);
+                        mAuthorArrayAdapter.notifyDataSetChanged();
+                        mAuthorMap.remove(author.name);
+                        mAuthorMap.put(authorName, a);
+                    }
+                }
 
-				if (errorMessage == null) {
-					textAuthor.setText(null);
-					textAuthor.setError(null);
-					dialog.dismiss();
-				} else {
-					textAuthor.setError(errorMessage);
-				}
-			}
-		});
-		cancelButton.setOnClickListener(new OnClickListener() {
+                if (errorMessage == null) {
+                    textAuthor.setText(null);
+                    textAuthor.setError(null);
+                    dialog.dismiss();
+                } else {
+                    textAuthor.setError(errorMessage);
+                }
+            }
+        });
+        cancelButton.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				dialog.dismiss();
-			}
-		});
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
-		dialog.show();
-	}
+        dialog.show();
+    }
 
-	/**
-	 * Remove an author from the list.
-	 * 
-	 * @param view
-	 *            View.
-	 */
-	public void removeAuthor(View view) {
-		Author author = (Author) view.getTag();
-		mAuthorMap.remove(author.name);
-		mAuthorArrayAdapter.remove(author);
-	}
+    /**
+     * Remove an author from the list.
+     *
+     * @param view View.
+     */
+    public void removeAuthor(View view) {
+        Author author = (Author) view.getTag();
+        mAuthorMap.remove(author.name);
+        mAuthorArrayAdapter.remove(author);
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_book_authors_edit);
+    @SuppressWarnings("unchecked")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_book_authors_edit);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		if (savedInstanceState != null) {
-			mBookTitle = savedInstanceState.getString(BOOK_TITLE);
-			mAuthorList = (ArrayList<Author>) savedInstanceState.getSerializable(AUTHOR_LIST);
-		} else {
-			Intent intent = getIntent();
-			mBookTitle = intent.getStringExtra(EXTRA_BOOK_TITLE);
-			mAuthorList = (ArrayList<Author>) intent.getSerializableExtra(EXTRA_AUTHOR_LIST);
-		}
-		if (mAuthorList == null) {
-			mAuthorList = new ArrayList<Author>();
-		}
+        if (savedInstanceState != null) {
+            mBookTitle = savedInstanceState.getString(BOOK_TITLE);
+            mAuthorList = (ArrayList<Author>) savedInstanceState.getSerializable(AUTHOR_LIST);
+        } else {
+            Intent intent = getIntent();
+            mBookTitle = intent.getStringExtra(EXTRA_BOOK_TITLE);
+            mAuthorList = (ArrayList<Author>) intent.getSerializableExtra(EXTRA_AUTHOR_LIST);
+        }
+        if (mAuthorList == null) {
+            mAuthorList = new ArrayList<Author>();
+        }
 
-		mAuthorMap = new LinkedHashMap<String, Author>();
-		for (Author author : mAuthorList) {
-			mAuthorMap.put(author.name, author);
-		}
+        mAuthorMap = new LinkedHashMap<String, Author>();
+        for (Author author : mAuthorList) {
+            mAuthorMap.put(author.name, author);
+        }
 
-		mAutoCompleteAdapter = new AutoCompleteAdapter<Author>(this, android.R.layout.simple_list_item_1, new AutoCompleteSearcher<Author>() {
+        mAutoCompleteAdapter = new AutoCompleteAdapter<Author>(this, android.R.layout.simple_list_item_1, new AutoCompleteSearcher<Author>() {
 
-			@Override
-			public List<Author> search(CharSequence constraint) {
-				SQLiteHelper mDbHelper = new SQLiteHelper(BookAuthorsEditActivity.this);
-				SQLiteDatabase db = mDbHelper.getReadableDatabase();
-				List<Author> authorList = AuthorServices.getAuthorListByText(db, constraint.toString());
-				db.close();
-				return authorList;
-			}
+            @Override
+            public List<Author> search(CharSequence constraint) {
+                SQLiteHelper mDbHelper = new SQLiteHelper(BookAuthorsEditActivity.this);
+                SQLiteDatabase db = mDbHelper.getReadableDatabase();
+                List<Author> authorList = AuthorServices.getAuthorListByText(db, constraint.toString());
+                db.close();
+                return authorList;
+            }
 
-			@Override
-			public String getDisplayLabel(Author item) {
-				return item.name;
-			}
-		});
+            @Override
+            public String getDisplayLabel(Author item) {
+                return item.name;
+            }
+        });
 
-		mAuthorArrayAdapter = new EditableArrayAdapter<Author>(this, R.id.bookAuthorsEdit_authorList, R.layout.list_authors_item_author,
-				R.id.item_author_name, R.id.item_author_button_remove, mAuthorList) {
+        mAuthorArrayAdapter = new EditableArrayAdapter<Author>(this, R.id.bookAuthorsEdit_authorList, R.layout.list_authors_item_author,
+                R.id.item_author_name, R.id.item_author_button_remove, mAuthorList) {
 
-			@Override
-			protected String getDisplayLabel(Author object) {
-				return object.name;
-			}
-		};
+            @Override
+            protected String getDisplayLabel(Author object) {
+                return object.name;
+            }
+        };
 
-		mTextInfo = (TextView) findViewById(R.id.bookAuthorsEdit_textInfo);
-		mTextAuthor = (AutoCompleteTextView) findViewById(R.id.bookAuthorsEdit_textAuthor);
-		mListAuthors = (ListView) findViewById(R.id.bookAuthorsEdit_authorList);
+        mTextInfo = (TextView) findViewById(R.id.bookAuthorsEdit_textInfo);
+        mTextAuthor = (AutoCompleteTextView) findViewById(R.id.bookAuthorsEdit_textAuthor);
+        mListAuthors = (ListView) findViewById(R.id.bookAuthorsEdit_authorList);
 
-		if (mBookTitle == null || mBookTitle.trim().equals("")) {
-			mTextInfo.setText(getString(R.string.text_info_edit_authors_untitled_book));
-		} else {
-			String message = getString(R.string.text_info_edit_authors);
-			message = String.format(message, mBookTitle.trim());
-			mTextInfo.setText(message);
-		}
-		mTextAuthor.setAdapter(mAutoCompleteAdapter);
-		mListAuthors.setAdapter(mAuthorArrayAdapter);
+        if (mBookTitle == null || mBookTitle.trim().equals("")) {
+            mTextInfo.setText(getString(R.string.text_info_edit_authors_untitled_book));
+        } else {
+            String message = getString(R.string.text_info_edit_authors);
+            message = String.format(message, mBookTitle.trim());
+            mTextInfo.setText(message);
+        }
+        mTextAuthor.setAdapter(mAutoCompleteAdapter);
+        mListAuthors.setAdapter(mAuthorArrayAdapter);
 
-		TextView emptyText = (TextView) findViewById(android.R.id.empty);
-		mListAuthors.setEmptyView(emptyText);
-	}
+        TextView emptyText = (TextView) findViewById(android.R.id.empty);
+        mListAuthors.setEmptyView(emptyText);
+    }
 
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putString(BOOK_TITLE, mBookTitle);
-		outState.putSerializable(AUTHOR_LIST, mAuthorList);
-	}
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(BOOK_TITLE, mBookTitle);
+        outState.putSerializable(AUTHOR_LIST, mAuthorList);
+    }
 
-	/**
-	 * Finish the activity and add the list of authors to the result of the
-	 * activity.
-	 */
-	private void addAuthorList() {
-		Intent intent = new Intent();
-		ArrayList<Author> authorList = new ArrayList<Author>(mAuthorMap.values());
-		intent.putExtra(EXTRA_AUTHOR_LIST, authorList);
-		setResult(RESULT_OK, intent);
-		finish();
-	}
+    /**
+     * Finish the activity and add the list of authors to the result of the
+     * activity.
+     */
+    private void addAuthorList() {
+        Intent intent = new Intent();
+        ArrayList<Author> authorList = new ArrayList<Author>(mAuthorMap.values());
+        intent.putExtra(EXTRA_AUTHOR_LIST, authorList);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
 
-	/**
-	 * Get an author matching the given criteria.
-	 * 
-	 * @param criteria
-	 *            Criteria.
-	 * @return Author.
-	 */
-	private Author getAuthorByCriteria(Author criteria) {
-		SQLiteHelper dbHelper = new SQLiteHelper(this);
-		SQLiteDatabase db = dbHelper.getReadableDatabase();
-		Author author = AuthorServices.getAuthorByCriteria(db, criteria);
-		db.close();
-		return author;
-	}
+    /**
+     * Get an author matching the given criteria.
+     *
+     * @param criteria Criteria.
+     * @return Author.
+     */
+    private Author getAuthorByCriteria(Author criteria) {
+        SQLiteHelper dbHelper = new SQLiteHelper(this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Author author = AuthorServices.getAuthorByCriteria(db, criteria);
+        db.close();
+        return author;
+    }
 }

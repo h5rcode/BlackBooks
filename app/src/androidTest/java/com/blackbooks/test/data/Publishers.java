@@ -4,30 +4,30 @@ package com.blackbooks.test.data;
  * Publishers names.
  */
 public final class Publishers {
-	
-	/**
-	 * Bloomsbury.
-	 */
-	public static final String BLOOMSBURY = "Bloomsbury";
 
-	/**
-	 * Gallimard.
-	 */
-	public static final String GALLIMARD = "Gallimard";
+    /**
+     * Bloomsbury.
+     */
+    public static final String BLOOMSBURY = "Bloomsbury";
 
-	/**
-	 * Jonathan Cape.
-	 */
-	public static final String JONATHAN_CAPE = "Jonathan Cape";
+    /**
+     * Gallimard.
+     */
+    public static final String GALLIMARD = "Gallimard";
 
-	/**
-	 * Le Lombard.
-	 */
-	public static final String LE_LOMBARD = "Le Lombard";
+    /**
+     * Jonathan Cape.
+     */
+    public static final String JONATHAN_CAPE = "Jonathan Cape";
 
-	/**
-	 * Private constructor.
-	 */
-	private Publishers() {
-	}
+    /**
+     * Le Lombard.
+     */
+    public static final String LE_LOMBARD = "Le Lombard";
+
+    /**
+     * Private constructor.
+     */
+    private Publishers() {
+    }
 }

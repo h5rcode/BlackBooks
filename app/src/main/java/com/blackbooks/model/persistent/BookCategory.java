@@ -6,21 +6,21 @@ import com.blackbooks.model.metadata.Table;
 
 @Table(name = BookCategory.NAME, version = 1)
 public class BookCategory {
-	
-	public static final String NAME = "BOOK_CATEGORY";
 
-	@Column(name = Cols.BCA_ID, primaryKey = true, type = SQLiteDataType.INTEGER, version = 1)
-	public Long id;
+    public static final String NAME = "BOOK_CATEGORY";
 
-	@Column(name = Cols.BOO_ID, type = SQLiteDataType.INTEGER, mandatory = true, referencedType = Book.class, onDeleteCascade = true, version = 1)
-	public Long bookId;
+    @Column(name = Cols.BCA_ID, primaryKey = true, type = SQLiteDataType.INTEGER, version = 1)
+    public Long id;
 
-	@Column(name = Cols.CAT_ID, type = SQLiteDataType.INTEGER, mandatory = true, referencedType = Category.class, onDeleteCascade = true, version = 1)
-	public Long categoryId;
+    @Column(name = Cols.BOO_ID, type = SQLiteDataType.INTEGER, mandatory = true, referencedType = Book.class, onDeleteCascade = true, version = 1)
+    public Long bookId;
 
-	public final static class Cols {
-		public final static String BCA_ID = "BCA_ID";
-		public final static String BOO_ID = "BOO_ID";
-		public final static String CAT_ID = "CAT_ID";
-	}
+    @Column(name = Cols.CAT_ID, type = SQLiteDataType.INTEGER, mandatory = true, referencedType = Category.class, onDeleteCascade = true, version = 1)
+    public Long categoryId;
+
+    public final static class Cols {
+        public final static String BCA_ID = "BCA_ID";
+        public final static String BOO_ID = "BOO_ID";
+        public final static String CAT_ID = "CAT_ID";
+    }
 }

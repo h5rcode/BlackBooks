@@ -5,34 +5,34 @@ package com.blackbooks.test.data;
  */
 public final class Categories {
 
-	/**
-	 * Adventure.
-	 */
-	public static final String ADVENTURE = "Adventure";
+    /**
+     * Adventure.
+     */
+    public static final String ADVENTURE = "Adventure";
 
-	/**
-	 * Belgian comics.
-	 */
-	public static final String BELGIAN_COMICS = "Belgian comics";
+    /**
+     * Belgian comics.
+     */
+    public static final String BELGIAN_COMICS = "Belgian comics";
 
-	/**
-	 * French comics.
-	 */
-	public static final String FRENCH_COMICS = "French comics";
+    /**
+     * French comics.
+     */
+    public static final String FRENCH_COMICS = "French comics";
 
-	/**
-	 * Humor.
-	 */
-	public static final String HUMOR = "Humor";
+    /**
+     * Humor.
+     */
+    public static final String HUMOR = "Humor";
 
-	/**
-	 * Spy fiction.
-	 */
-	public static final String SPY_FICTION = "Spy fiction";
+    /**
+     * Spy fiction.
+     */
+    public static final String SPY_FICTION = "Spy fiction";
 
-	/**
-	 * Private constructor.
-	 */
-	private Categories() {
-	}
+    /**
+     * Private constructor.
+     */
+    private Categories() {
+    }
 }

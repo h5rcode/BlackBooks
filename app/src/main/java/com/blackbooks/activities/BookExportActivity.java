@@ -11,26 +11,26 @@ import com.blackbooks.fragments.BookExportFragment;
  */
 public class BookExportActivity extends AbstractDrawerActivity {
 
-	private static final String BOOK_EXPORT_FRAGMENT_TAG = "BOOK_EXPORT_FRAGMENT_TAG";
+    private static final String BOOK_EXPORT_FRAGMENT_TAG = "BOOK_EXPORT_FRAGMENT_TAG";
 
-	@Override
-	protected DrawerActivity getDrawerActivity() {
-		return DrawerActivity.BOOK_EXPORT;
-	}
+    @Override
+    protected DrawerActivity getDrawerActivity() {
+        return DrawerActivity.BOOK_EXPORT;
+    }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		FragmentManager fm = getSupportFragmentManager();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FragmentManager fm = getSupportFragmentManager();
 
-		BookExportFragment bookExportFragment = (BookExportFragment) fm.findFragmentByTag(BOOK_EXPORT_FRAGMENT_TAG);
+        BookExportFragment bookExportFragment = (BookExportFragment) fm.findFragmentByTag(BOOK_EXPORT_FRAGMENT_TAG);
 
-		if (bookExportFragment == null) {
-			bookExportFragment = new BookExportFragment();
+        if (bookExportFragment == null) {
+            bookExportFragment = new BookExportFragment();
 
-			fm.beginTransaction() //
-					.add(R.id.abstractDrawerActivity_frameLayout, bookExportFragment, BOOK_EXPORT_FRAGMENT_TAG) //
-					.commit();
-		}
-	}
+            fm.beginTransaction() //
+                    .add(R.id.abstractDrawerActivity_frameLayout, bookExportFragment, BOOK_EXPORT_FRAGMENT_TAG) //
+                    .commit();
+        }
+    }
 }
