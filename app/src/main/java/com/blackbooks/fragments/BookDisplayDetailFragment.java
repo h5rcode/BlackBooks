@@ -64,9 +64,11 @@ public class BookDisplayDetailFragment extends Fragment {
 	private TextView mTextCategory;
 	private TextView mTextLanguage;
 	private TextView mTextDescription;
+    private TextView mTextComment;
 
 	private LinearLayout mGroupInfo;
 	private LinearLayout mGroupDescription;
+    private LinearLayout mGroupComment;
 	private LinearLayout mGroupIsbn;
 
 	private LinearLayout mGroup1PageCount;
@@ -218,10 +220,12 @@ public class BookDisplayDetailFragment extends Fragment {
 		mTextLanguage = (TextView) view.findViewById(R.id.bookDisplayDetail_textLanguage);
 		mTextLanguage = (TextView) view.findViewById(R.id.bookDisplayDetail_textLanguage);
 		mTextDescription = (TextView) view.findViewById(R.id.bookDisplayDetail_textDescription);
+        mTextComment = (TextView) view.findViewById(R.id.bookDisplayDetail_textComment);
 
 		mGroupInfo = (LinearLayout) view.findViewById(R.id.bookDisplayDetail_groupInfo);
 		mGroupCategories = (LinearLayout) view.findViewById(R.id.bookDisplayDetail_groupCategories);
 		mGroupDescription = (LinearLayout) view.findViewById(R.id.bookDisplayDetail_groupDescription);
+        mGroupComment = (LinearLayout) view.findViewById(R.id.bookDisplayDetail_groupComment);
 		mGroupIsbn = (LinearLayout) view.findViewById(R.id.bookDisplayDetail_groupIsbn);
 
 		mGroup1PageCount = (LinearLayout) view.findViewById(R.id.bookDisplayDetail_groupInfo_pageCount);
@@ -378,6 +382,14 @@ public class BookDisplayDetailFragment extends Fragment {
 		} else {
 			mGroupDescription.setVisibility(View.GONE);
 		}
+
+        // Comment.
+        if (mBookInfo.comment != null && !mBookInfo.comment.isEmpty()) {
+            mTextComment.setText(mBookInfo.comment);
+            mGroupComment.setVisibility(View.VISIBLE);
+        } else {
+            mGroupComment.setVisibility(View.GONE);
+        }
 
 		// ISBN-10 and ISBN-13.
 		if (showGroupIsbn) {

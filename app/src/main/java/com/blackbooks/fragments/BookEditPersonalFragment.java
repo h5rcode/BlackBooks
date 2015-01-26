@@ -106,9 +106,13 @@ public class BookEditPersonalFragment extends Fragment {
 		bookInfo.isRead = mCheckBoxRead.isChecked() ? 1L : 0L;
 		bookInfo.isFavourite = mCheckBoxFavourite.isChecked() ? 1L : 0L;
 		String bookLocationName = mTextBookLocation.getText().toString();
-		bookInfo.comment = mTextComment.getText().toString();
+		String comment = mTextComment.getText().toString();
+        if (comment == null || comment.isEmpty()) {
+            comment = null;
+        }
+        bookInfo.comment = comment;
 
-		BookLocation bookLocation = new BookLocation();
+        BookLocation bookLocation = new BookLocation();
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
 		if (bookLocationName != null && !bookLocationName.isEmpty()) {
