@@ -13,8 +13,8 @@ import android.widget.Filterable;
  */
 public final class AutoCompleteAdapter<T> extends ArrayAdapter<String> implements Filterable {
 
-	private AutoCompleteSearcher<T> mSearcher;
-	private Filter mFilter;
+	private final AutoCompleteSearcher<T> mSearcher;
+	private final Filter mFilter;
 	private List<T> mResult;
 
 	/**
@@ -86,17 +86,19 @@ public final class AutoCompleteAdapter<T> extends ArrayAdapter<String> implement
 			FilterResults results = new FilterResults();
 
 			if (constraint != null) {
-				mResult = mSearcher.search(constraint);
+				List<T> searchResults = mSearcher.search(constraint);
 
-				results.values = mResult;
-				results.count = mResult.size();
+				results.values = searchResults;
+				results.count = searchResults.size();
 			}
 			return results;
 		}
 
+        @SuppressWarnings("unchecked")
 		@Override
 		protected void publishResults(CharSequence constraint, FilterResults results) {
 			if (results != null && results.count > 0) {
+                mResult = (List<T>) results.values;
 				notifyDataSetChanged();
 			} else {
 				notifyDataSetInvalidated();
