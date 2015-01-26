@@ -275,7 +275,7 @@
     <string name="message_no_result">The search returned no result.</string>
     <string name="message_scanner_install">Black Books requires Pic2shop in order to scan ISBN codes. Click OK to be redirected to its page on Google Play.</string>
     <string name="message_send_log">Black Books has encountered an unexpected error.\n\nTo help us fix the problem, click \"Send error report\" to send us a log file. Don\'t hesitate to describe what you were doing when the problem occurred.\n\nThank you.</string>
-    <string name="report_error_mail_content">Log file attached.</string>
+    <string name="report_error_mail_content">[Describe here what you were doing when the error occured.]</string>
     <string name="report_error_mail_subject">Black Books log file</string>
     <string name="report_error_log_not_saved">The log file could not be created.</string>
     <string name="text_info_edit_authors">Editing the authors of \"%s\".</string>

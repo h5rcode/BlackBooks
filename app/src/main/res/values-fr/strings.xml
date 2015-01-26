@@ -262,7 +262,7 @@
     <string name="message_no_result">La recherche n\'a retourné aucun résultat.</string>
     <string name="message_scanner_install">Black Books utilise l\'application Pic2shop pour scanner les codes ISBN. Cliquez sur OK pour être redirigé vers sa page Google Play.</string>
     <string name="message_send_log">Black Books a rencontré une erreur inattendue.\n\nPour nous aider à corriger le problème, cliquez sur \"Envoyer le rapport d\'erreur\" afin de nous transférer un journal d\'erreur. N\'hésitez pas à détailler ce que vous êtiez en train de faire lorsque l\'erreur est survenue.\n\nMerci.</string>
-    <string name="report_error_mail_content">Voir le fichier d\'erreur en pièce jointe.</string>
+    <string name="report_error_mail_content">[Décrivez ici ce que vous êtiez en train de faire lorsque l\'erreur est survenue.]</string>
     <string name="report_error_mail_subject">Black Books : rapport d\'erreur</string>
     <string name="report_error_log_not_saved">Impossible d\'écrire le fichier d\'erreur.</string>
     <string name="text_info_edit_authors">Modification des auteurs de \"%s\".</string>
