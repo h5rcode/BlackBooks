@@ -262,12 +262,19 @@ public class BookEditGeneralFragment extends Fragment implements DatePickerListe
 		mSpinnerLanguage.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				mBookInfo.languageCode = (String) arg1.getTag();
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String languageCode;
+                if (view == null) {
+                    languageCode = null;
+                } else {
+                    languageCode = (String) view.getTag();
+                }
+                mBookInfo.languageCode = languageCode;
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
+			public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing.
 			}
 		});
 
