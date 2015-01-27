@@ -19,6 +19,22 @@ public class BookLocation implements Serializable {
     @Column(name = Cols.BKL_NAME, type = SQLiteDataType.TEXT, mandatory = true, version = 1)
     public String name;
 
+    /**
+     * Default constructor.
+     */
+    public BookLocation() {
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @param bookLocation BookLocation.
+     */
+    public BookLocation(BookLocation bookLocation) {
+        this.id = bookLocation.id;
+        this.name = bookLocation.name;
+    }
+
     public class Cols {
         public static final String BKL_ID = "BKL_ID";
         public static final String BKL_NAME = "BKL_NAME";

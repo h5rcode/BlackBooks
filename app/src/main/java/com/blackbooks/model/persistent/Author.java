@@ -19,6 +19,22 @@ public class Author implements Serializable {
     @Column(name = Cols.AUT_NAME, mandatory = true, type = SQLiteDataType.TEXT, version = 1)
     public String name;
 
+    /**
+     * Default constructor.
+     */
+    public Author() {
+    }
+
+    /**
+     * Copy constructor.
+     * @param author Author.
+     */
+    public Author(Author author) {
+        this();
+        this.id = author.id;
+        this.name = author.name;
+    }
+
     public final static class Cols {
         public final static String AUT_ID = "AUT_ID";
         public final static String AUT_NAME = "AUT_NAME";

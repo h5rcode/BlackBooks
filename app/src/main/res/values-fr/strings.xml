@@ -260,6 +260,10 @@
     <string name="message_isbn_search_invalid_isbn13">ISBN-13 invalide</string>
     <string name="message_isbn_search_too_short">Trop court</string>
     <string name="message_no_result">La recherche n\'a retourné aucun résultat.</string>
+    <string name="message_unsaved_changes">Voulez-vous enregistrer les modifications en cours ?</string>
+    <string name="message_unsaved_changes_negative">Ne pas enregistrer</string>
+    <string name="message_unsaved_changes_neutral">Annuler</string>
+    <string name="message_unsaved_changes_positive">Enregistrer</string>
     <string name="message_scanner_install">Black Books utilise l\'application Pic2shop pour scanner les codes ISBN. Cliquez sur OK pour être redirigé vers sa page Google Play.</string>
     <string name="message_send_log">Black Books a rencontré une erreur inattendue.\n\nPour nous aider à corriger le problème, cliquez sur \"Envoyer le rapport d\'erreur\" afin de nous transférer un journal d\'erreur. N\'hésitez pas à détailler ce que vous êtiez en train de faire lorsque l\'erreur est survenue.\n\nMerci.</string>
     <string name="report_error_mail_content">[Décrivez ici ce que vous êtiez en train de faire lorsque l\'erreur est survenue.]</string>
@@ -293,6 +297,7 @@
     <string name="title_dialog_install_scanner">Installer un scanner de code-barres</string>
     <string name="title_dialog_return_book">Rendre un livre</string>
     <string name="title_dialog_text_qualifier_picker">Choisissez un délimiteur de texte</string>
+    <string name="title_dialog_unsaved_changes">Modifications en cours</string>
     <string name="title_menu_edit_thumbnail">Modifier une couverture</string>
     <string name="title_tab_book_display_detail">Détail</string>
     <string name="title_tab_book_display_loan">Prêt</string>

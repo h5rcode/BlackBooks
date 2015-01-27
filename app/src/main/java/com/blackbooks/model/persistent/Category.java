@@ -19,6 +19,22 @@ public class Category implements Serializable {
     @Column(name = Cols.CAT_NAME, type = SQLiteDataType.TEXT, unique = true, mandatory = true, version = 1)
     public String name;
 
+    /**
+     * Default constructor.
+     */
+    public Category() {
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @param category Category.
+     */
+    public Category(Category category) {
+        this.id = category.id;
+        this.name = category.name;
+    }
+
     public final static class Cols {
         public final static String CAT_ID = "CAT_ID";
         public final static String CAT_NAME = "CAT_NAME";

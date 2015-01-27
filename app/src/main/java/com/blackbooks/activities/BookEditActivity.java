@@ -3,7 +3,9 @@ package com.blackbooks.activities;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -28,6 +30,7 @@ import com.blackbooks.fragments.BookSearchFragment;
 import com.blackbooks.fragments.BookSearchFragment.BookSearchListener;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.services.BookServices;
+import com.blackbooks.utils.BeanUtils;
 import com.blackbooks.utils.VariableUtils;
 
 import java.security.InvalidParameterException;
@@ -46,6 +49,7 @@ public final class BookEditActivity extends FragmentActivity implements BookSear
 
     private static final String STATE_MODE = "STATE_MODE";
     private static final String STATE_IS_SEARCHING = "STATE_IS_SEARCHING";
+    private static final String STATE_BOOK_INFO_ORIGINAL = "STATE_BOOK_INFO_ORIGINAL";
     private static final String STATE_BOOK_INFO = "STATE_BOOK_INFO";
 
     private static final int TAB_GENERAL = 0;
@@ -62,6 +66,7 @@ public final class BookEditActivity extends FragmentActivity implements BookSear
 
     private int mMode;
     private boolean mIsSearching;
+    private BookInfo mBookInfoOriginal;
     private BookInfo mBookInfo;
 
     @Override
@@ -85,6 +90,7 @@ public final class BookEditActivity extends FragmentActivity implements BookSear
         super.onSaveInstanceState(outState);
         outState.putInt(STATE_MODE, mMode);
         outState.putBoolean(STATE_IS_SEARCHING, mIsSearching);
+        outState.putSerializable(STATE_BOOK_INFO_ORIGINAL, mBookInfoOriginal);
         outState.putSerializable(STATE_BOOK_INFO, mBookInfo);
 
         FragmentManager fm = getSupportFragmentManager();
@@ -113,7 +119,7 @@ public final class BookEditActivity extends FragmentActivity implements BookSear
                 break;
 
             case android.R.id.home:
-                finish();
+                leaveActivity();
                 result = true;
                 break;
 
@@ -122,6 +128,36 @@ public final class BookEditActivity extends FragmentActivity implements BookSear
                 break;
         }
         return result;
+    }
+
+    /**
+     * Show the "unsaved changes" dialog.
+     */
+    private void showUnsavedChangesDialog() {
+
+        new AlertDialog.Builder(this) //
+                .setTitle(R.string.title_dialog_unsaved_changes) //
+                .setMessage(R.string.message_unsaved_changes) //
+                .setPositiveButton(R.string.message_unsaved_changes_positive, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        BookEditActivity.this.save();
+                    }
+                }) //
+                .setNegativeButton(R.string.message_unsaved_changes_negative, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        BookEditActivity.this.finish();
+                    }
+                }) //
+                .setNeutralButton(R.string.message_unsaved_changes_neutral, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // Do nothing.
+                    }
+                }).show();
     }
 
     @Override
@@ -141,6 +177,7 @@ public final class BookEditActivity extends FragmentActivity implements BookSear
 
     @Override
     public void onSearchFinished(BookInfo bookInfo) {
+        mBookInfoOriginal = new BookInfo();
         if (bookInfo != null) {
             mBookInfo = bookInfo;
         } else {
@@ -165,6 +202,22 @@ public final class BookEditActivity extends FragmentActivity implements BookSear
     @Override
     public void onTabReselected(Tab tab, FragmentTransaction ft) {
         // Do nothing.
+    }
+
+    @Override
+    public void onBackPressed() {
+        leaveActivity();
+    }
+
+    private void leaveActivity() {
+        mBookEditGeneralFragment.readBookInfo(mBookInfo);
+        mBookEditPersonalFragment.readBookInfo(mBookInfo);
+
+        if (!BeanUtils.areBooksEqual(mBookInfo, mBookInfoOriginal)) {
+            showUnsavedChangesDialog();
+        } else {
+            finish();
+        }
     }
 
     /**
@@ -225,6 +278,7 @@ public final class BookEditActivity extends FragmentActivity implements BookSear
                         .commit();
             }
         } else {
+            mBookInfoOriginal = new BookInfo();
             mBookInfo = new BookInfo();
             createTabs();
         }
@@ -242,6 +296,8 @@ public final class BookEditActivity extends FragmentActivity implements BookSear
             SQLiteDatabase db = dbHelper.getReadableDatabase();
             mBookInfo = BookServices.getBookInfo(db, bookId);
             db.close();
+            mBookInfoOriginal = new BookInfo(mBookInfo);
+
             setTitleEditMode();
             createTabs();
 
@@ -260,6 +316,7 @@ public final class BookEditActivity extends FragmentActivity implements BookSear
         FragmentManager fm = getSupportFragmentManager();
         mMode = savedInstanceState.getInt(STATE_MODE);
         mIsSearching = savedInstanceState.getBoolean(STATE_IS_SEARCHING);
+        mBookInfoOriginal = (BookInfo) savedInstanceState.getSerializable(STATE_BOOK_INFO_ORIGINAL);
         mBookInfo = (BookInfo) savedInstanceState.getSerializable(STATE_BOOK_INFO);
         mBookEditGeneralFragment = (BookEditGeneralFragment) fm.getFragment(savedInstanceState,
                 BookEditGeneralFragment.class.getName());

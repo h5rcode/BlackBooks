@@ -19,6 +19,23 @@ public class Publisher implements Serializable {
     @Column(name = Cols.PUB_NAME, mandatory = true, type = SQLiteDataType.TEXT, version = 1)
     public String name;
 
+    /**
+     * Default constructor.
+     */
+    public Publisher() {
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @param publisher Publisher.
+     */
+    public Publisher(Publisher publisher) {
+        this();
+        this.id = publisher.id;
+        this.name = publisher.name;
+    }
+
     public final static class Cols {
         public final static String PUB_ID = "PUB_ID";
         public final static String PUB_NAME = "PUB_NAME";

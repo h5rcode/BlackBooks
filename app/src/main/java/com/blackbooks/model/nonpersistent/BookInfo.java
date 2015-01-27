@@ -69,6 +69,24 @@ public class BookInfo extends Book implements Serializable {
     }
 
     /**
+     * Copy constructor.
+     *
+     * @param bookInfo BookInfo.
+     */
+    public BookInfo(BookInfo bookInfo) {
+        this((Book) bookInfo);
+        for (Author author : bookInfo.authors) {
+            this.authors.add(new Author(author));
+        }
+        this.publisher = new Publisher(bookInfo.publisher);
+        for (Category category : bookInfo.categories) {
+            this.categories.add(new Category(category));
+        }
+        this.bookLocation = new BookLocation(bookInfo.bookLocation);
+        this.series = new Series(bookInfo.series);
+    }
+
+    /**
      * Merge a BookInfo with the current instance.
      *
      * @param bookInfo BookInfo.

@@ -19,6 +19,22 @@ public class Series implements Serializable {
     @Column(name = Cols.SER_NAME, type = SQLiteDataType.TEXT, mandatory = true, version = 1)
     public String name;
 
+    /**
+     * Default constructor.
+     */
+    public Series() {
+    }
+
+    /**
+     * Default constructor.
+     *
+     * @param series Series.
+     */
+    public Series(Series series) {
+        this.id = series.id;
+        this.name = series.name;
+    }
+
     public class Cols {
         public static final String SER_ID = "SER_ID";
         public static final String SER_NAME = "SER_NAME";
