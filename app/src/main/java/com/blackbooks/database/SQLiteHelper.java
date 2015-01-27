@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.blackbooks.database.upgrades.Version2;
 import com.blackbooks.sql.Broker;
 import com.blackbooks.sql.BrokerManager;
 import com.blackbooks.sql.FTSBroker;
@@ -65,5 +66,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        if (oldVersion < 2) {
+            Version2.upgrade(db);
+        }
     }
 }

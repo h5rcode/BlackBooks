@@ -27,7 +27,7 @@ public class SeriesServices {
                 + " FROM " + Series.NAME + " ser LEFT JOIN " + Book.NAME + " boo ON boo." + Book.Cols.SER_ID + " = ser."
                 + Series.Cols.SER_ID + " WHERE boo." + Book.Cols.BOO_ID + " IS NULL)";
 
-        BrokerManager.getBroker(Series.class).executeSql(db, sql);
+        db.execSQL(sql);
     }
 
     /**

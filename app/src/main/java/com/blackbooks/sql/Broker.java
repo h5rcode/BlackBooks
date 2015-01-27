@@ -111,16 +111,6 @@ public class Broker<T> {
     }
 
     /**
-     * Execute a single SQL statement .
-     *
-     * @param db  SQLiteDatabase.
-     * @param sql The SQL statement to be executed.
-     */
-    public void executeSql(SQLiteDatabase db, String sql) {
-        db.execSQL(sql);
-    }
-
-    /**
      * Gets a row from the table using its id.
      *
      * @param db SQLiteDatabase.

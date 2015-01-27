@@ -27,7 +27,7 @@ public class BookLocationServices {
         String sql = "DELETE FROM " + BookLocation.NAME + " WHERE " + BookLocation.Cols.BKL_ID + " IN (SELECT bkl."
                 + BookLocation.Cols.BKL_ID + " FROM " + BookLocation.NAME + " bkl LEFT JOIN " + Book.NAME + " boo ON boo."
                 + Book.Cols.BKL_ID + " = bkl." + BookLocation.Cols.BKL_ID + " WHERE boo." + Book.Cols.BOO_ID + " IS NULL)";
-        BrokerManager.getBroker(BookLocation.class).executeSql(db, sql);
+        db.execSQL(sql);
     }
 
     /**

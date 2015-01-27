@@ -27,7 +27,7 @@ public class CategoryServices {
                 + Category.Cols.CAT_ID + " FROM " + Category.NAME + " cat LEFT JOIN " + BookCategory.NAME + " bca ON bca."
                 + BookCategory.Cols.CAT_ID + " = cat." + Category.Cols.CAT_ID + " WHERE bca." + BookCategory.Cols.BCA_ID
                 + " IS NULL)";
-        BrokerManager.getBroker(Category.class).executeSql(db, sql);
+        db.execSQL(sql);
     }
 
     /**

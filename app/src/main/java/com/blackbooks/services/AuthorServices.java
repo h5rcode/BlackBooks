@@ -33,7 +33,7 @@ public class AuthorServices {
                 + " FROM " + Author.NAME + " aut LEFT JOIN " + BookAuthor.NAME + " bka ON bka." + BookAuthor.Cols.AUT_ID
                 + " = aut." + Author.Cols.AUT_ID + " WHERE bka." + BookAuthor.Cols.BKA_ID + " IS NULL)";
 
-        BrokerManager.getBroker(Author.class).executeSql(db, sql);
+        db.execSQL(sql);
     }
 
     /**

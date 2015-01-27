@@ -25,8 +25,11 @@ public final class Database {
 
     /**
      * Current version of the database.
+     * <p>
+     * <strong>Remark:</strong> this version is completely independent from the application version.
+     * </p>
      */
-    public final static int VERSION = 1;
+    public final static int VERSION = 2;
 
     private static Database mInstance = new Database();
     private static List<Class<?>> mTables;

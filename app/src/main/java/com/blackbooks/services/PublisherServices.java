@@ -23,7 +23,7 @@ public class PublisherServices {
                 + Publisher.Cols.PUB_ID + " FROM " + Publisher.NAME + " pub LEFT JOIN " + Book.NAME + " boo ON boo."
                 + Book.Cols.PUB_ID + " = pub." + Publisher.Cols.PUB_ID + " WHERE boo." + Book.Cols.BOO_ID + " IS NULL)";
 
-        BrokerManager.getBroker(Publisher.class).executeSql(db, sql);
+        db.execSQL(sql);
     }
 
     /**
