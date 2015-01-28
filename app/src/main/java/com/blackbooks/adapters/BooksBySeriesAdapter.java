@@ -1,14 +1,12 @@
 package com.blackbooks.adapters;
 
 import android.content.Context;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.blackbooks.R;
@@ -17,21 +15,14 @@ import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.nonpersistent.SeriesInfo;
 import com.blackbooks.utils.StringUtils;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.TreeMap;
-
 /**
  * An adapter handling instances of ListItem representing either a series or a
  * book.
  */
-public class BooksBySeriesAdapter extends ArrayAdapter<ListItem> implements SectionIndexer {
+public class BooksBySeriesAdapter extends ArrayAdapter<ListItem> {
 
     private final LayoutInflater mInflater;
     private final ThumbnailManager mThumbnailManager;
-    private final Map<String, Integer> mSectionPositionMap;
-    private final SparseArray<String> mPositionSectionMap;
-    private String[] mSections;
 
     /**
      * Constructor.
@@ -42,9 +33,6 @@ public class BooksBySeriesAdapter extends ArrayAdapter<ListItem> implements Sect
         super(context, 0);
         this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mThumbnailManager = ThumbnailManager.getInstance();
-        this.mSectionPositionMap = new TreeMap<String, Integer>();
-        this.mPositionSectionMap = new SparseArray<String>();
-        this.mSections = new String[]{};
     }
 
     @Override
@@ -120,59 +108,6 @@ public class BooksBySeriesAdapter extends ArrayAdapter<ListItem> implements Sect
         }
 
         return view;
-    }
-
-    @Override
-    public void addAll(Collection<? extends ListItem> collection) {
-        super.addAll(collection);
-        mSectionPositionMap.clear();
-        mPositionSectionMap.clear();
-
-        int position = 0;
-        String currentSection = null;
-        for (ListItem listItem : collection) {
-            if (listItem.getListItemType() == ListItemType.HEADER) {
-                SeriesItem bookLocationItem = (SeriesItem) listItem;
-                SeriesInfo bookLocation = bookLocationItem.getSeries();
-                String bookLocationName = bookLocation.name;
-                currentSection = bookLocationName.substring(0, 1);
-                if (!mSectionPositionMap.containsKey(currentSection)) {
-                    mSectionPositionMap.put(currentSection, position);
-                }
-            }
-            mPositionSectionMap.put(position, currentSection);
-            position++;
-        }
-        mSections = mSectionPositionMap.keySet().toArray(new String[mSectionPositionMap.size()]);
-    }
-
-    @Override
-    public Object[] getSections() {
-        return mSections;
-    }
-
-    @Override
-    public int getPositionForSection(int section) {
-        int index = section;
-        if (index >= mSections.length) {
-            index = mSections.length - 1;
-        }
-        return mSectionPositionMap.get(mSections[index]);
-    }
-
-    @Override
-    public int getSectionForPosition(int position) {
-        String currentSection = mPositionSectionMap.get(position);
-        int sectionIndex = 0;
-
-        for (int i = 0; i < mSections.length; i++) {
-            String section = mSections[i];
-            if (section.equals(currentSection)) {
-                break;
-            }
-            sectionIndex++;
-        }
-        return sectionIndex;
     }
 
     public static final class SeriesItem implements ListItem {
