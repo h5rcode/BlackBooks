@@ -26,8 +26,8 @@ import com.blackbooks.R;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.BookEditGeneralFragment;
 import com.blackbooks.fragments.BookEditPersonalFragment;
-import com.blackbooks.fragments.BookSearchFragment;
-import com.blackbooks.fragments.BookSearchFragment.BookSearchListener;
+import com.blackbooks.fragments.IsbnLookupFragment;
+import com.blackbooks.fragments.IsbnLookupFragment.IsbnLookupListener;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.services.BookServices;
 import com.blackbooks.utils.BeanUtils;
@@ -38,7 +38,7 @@ import java.security.InvalidParameterException;
 /**
  * Activity used to add a new book or edit an existing one.
  */
-public final class BookEditActivity extends FragmentActivity implements BookSearchListener, OnPageChangeListener, TabListener {
+public final class BookEditActivity extends FragmentActivity implements IsbnLookupListener, OnPageChangeListener, TabListener {
 
     public static final String EXTRA_BOOK_ID = "EXTRA_BOOK_ID";
     public static final String EXTRA_MODE = "EXTRA_MODE";
@@ -55,7 +55,7 @@ public final class BookEditActivity extends FragmentActivity implements BookSear
     private static final int TAB_GENERAL = 0;
     private static final int TAB_PERSONAL = 1;
 
-    private static final String TAG_BOOK_SEARCH_FRAGMENT = "TAG_BOOK_SEARCH_FRAGMENT";
+    private static final String TAG_ISBN_LOOKUP_FRAGMENT = "TAG_ISBN_LOOKUP_FRAGMENT";
 
     private ProgressBar mProgressBar;
     private BookEditPagerAdapter mPagerAdapter;
@@ -176,7 +176,7 @@ public final class BookEditActivity extends FragmentActivity implements BookSear
     }
 
     @Override
-    public void onSearchFinished(BookInfo bookInfo) {
+    public void onLookupFinished(BookInfo bookInfo) {
         mBookInfoOriginal = new BookInfo();
         if (bookInfo != null) {
             mBookInfo = bookInfo;
@@ -265,16 +265,16 @@ public final class BookEditActivity extends FragmentActivity implements BookSear
         setTitleAddMode();
         if (intent.hasExtra(EXTRA_ISBN)) {
             FragmentManager fm = getSupportFragmentManager();
-            BookSearchFragment bookSearchFragment = (BookSearchFragment) fm.findFragmentByTag(TAG_BOOK_SEARCH_FRAGMENT);
+            IsbnLookupFragment isbnLookupFragment = (IsbnLookupFragment) fm.findFragmentByTag(TAG_ISBN_LOOKUP_FRAGMENT);
 
-            if (bookSearchFragment == null && !mIsSearching) {
+            if (isbnLookupFragment == null && !mIsSearching) {
                 mIsSearching = true;
                 mProgressBar.setVisibility(View.VISIBLE);
                 mViewPager.setVisibility(View.GONE);
                 String isbn = intent.getStringExtra(EXTRA_ISBN);
-                bookSearchFragment = BookSearchFragment.newIntance(isbn);
+                isbnLookupFragment = IsbnLookupFragment.newInstance(isbn);
                 fm.beginTransaction() //
-                        .add(bookSearchFragment, TAG_BOOK_SEARCH_FRAGMENT) //
+                        .add(isbnLookupFragment, TAG_ISBN_LOOKUP_FRAGMENT) //
                         .commit();
             }
         } else {

@@ -19,23 +19,23 @@ import java.net.UnknownHostException;
 /**
  * Fragment without user interface used to search book information.
  */
-public class BookSearchFragment extends Fragment {
+public class IsbnLookupFragment extends Fragment {
 
     private static final String ARG_ISBN = "ARG_ISBN";
 
     private BookSearchTask mBookSearchTask;
 
-    private BookSearchListener mBookSearchListener;
+    private IsbnLookupListener mIsbnLookupListener;
 
     /**
-     * Return a new instance of BookSearchFragment, ready to search information
+     * Return a new instance of IsbnLookupFragment, ready to search information
      * from an ISBN number.
      *
      * @param isbn ISBN number.
-     * @return BookSearchFragment.
+     * @return IsbnLookupFragment.
      */
-    public static BookSearchFragment newIntance(String isbn) {
-        BookSearchFragment newInstance = new BookSearchFragment();
+    public static IsbnLookupFragment newInstance(String isbn) {
+        IsbnLookupFragment newInstance = new IsbnLookupFragment();
         Bundle args = new Bundle();
         args.putString(ARG_ISBN, isbn);
         newInstance.setArguments(args);
@@ -45,7 +45,7 @@ public class BookSearchFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mBookSearchListener = (BookSearchListener) activity;
+        mIsbnLookupListener = (IsbnLookupListener) activity;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class BookSearchFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mBookSearchListener = null;
+        mIsbnLookupListener = null;
     }
 
     @Override
@@ -75,17 +75,17 @@ public class BookSearchFragment extends Fragment {
     }
 
     /**
-     * Activities hosting {@link BookSearchFragment} should implement this
-     * interface to be notified when the search is finshed.
+     * Activities hosting {@link IsbnLookupFragment} should implement this
+     * interface to be notified when the lookup is finished.
      */
-    public interface BookSearchListener {
+    public interface IsbnLookupListener {
 
         /**
-         * Called when the search is finished.
+         * Called when the lookup is finished.
          *
          * @param bookInfo BookInfo.
          */
-        void onSearchFinished(BookInfo bookInfo);
+        void onLookupFinished(BookInfo bookInfo);
     }
 
     /**
@@ -125,8 +125,8 @@ public class BookSearchFragment extends Fragment {
                     Toast.makeText(getActivity(), getString(R.string.message_no_result), Toast.LENGTH_LONG).show();
                 }
             }
-            if (mBookSearchListener != null) {
-                mBookSearchListener.onSearchFinished(result);
+            if (mIsbnLookupListener != null) {
+                mIsbnLookupListener.onLookupFinished(result);
             }
         }
     }
