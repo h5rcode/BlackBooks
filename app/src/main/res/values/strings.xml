@@ -125,6 +125,10 @@
         <item quantity="one">%d read</item>
         <item quantity="other">%d read</item>
     </plurals>
+    <plurals name="label_footer_search">
+        <item quantity="one">%d result</item>
+        <item quantity="other">%d results</item>
+    </plurals>
     <plurals name="label_footer_series">
         <item quantity="one">%d series</item>
         <item quantity="other">%d series</item>

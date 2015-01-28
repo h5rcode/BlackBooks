@@ -53,6 +53,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
     private static final int ITEM_BOOK_DELETE = 0x6;
 
     private View mEmptyView;
+    private View mLoadingView;
     private ListView mListView;
     private TextView mTextFooter;
     private ArrayAdapter<ListItem> mBookListAdapter;
@@ -72,6 +73,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBookListAdapter = getBookListAdapter();
+        setListAdapter(mBookListAdapter);
         setRetainInstance(true);
         setReloadBookListToTrue();
     }
@@ -82,6 +84,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
         mListView = (ListView) view.findViewById(android.R.id.list);
         mTextFooter = (TextView) view.findViewById(R.id.abstractBookList_textFooter);
         mEmptyView = view.findViewById(R.id.abstractBookList_emptyView);
+        mLoadingView =  view.findViewById(R.id.abstractBookList_loadingView);
         mListView.setFastScrollEnabled(true);
         return view;
     }
@@ -455,20 +458,26 @@ public abstract class AbstractBookListFragment extends ListFragment {
     private class BookListLoadTask extends AsyncTask<Void, Void, List<ListItem>> {
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mLoadingView.setVisibility(View.VISIBLE);
+            mEmptyView.setVisibility(View.GONE);
+            mListView.setVisibility(View.GONE);
+        }
+
+        @Override
         protected List<ListItem> doInBackground(Void... params) {
             return loadBookList();
         }
 
         @Override
         protected void onPostExecute(List<ListItem> result) {
-            if (AbstractBookListFragment.this.getListAdapter() == null) {
-                AbstractBookListFragment.this.setListAdapter(mBookListAdapter);
-            }
-
             mBookListAdapter.clear();
             mBookListAdapter.addAll(result);
             mBookListAdapter.notifyDataSetChanged();
 
+
+            mLoadingView.setVisibility(View.GONE);
             if (result.isEmpty()) {
                 mEmptyView.setVisibility(View.VISIBLE);
                 mListView.setVisibility(View.GONE);

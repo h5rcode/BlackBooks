@@ -91,8 +91,8 @@ public final class ThumbnailManager {
      * @param context          Context.
      * @param imageView        ImageView.
      * @param progressBar      ProgressBar.
-     * @param isSmallThumbnail True to draw a small thumbnail, false to drow a normal
-     *                         thumnbail.
+     * @param isSmallThumbnail True to draw a small thumbnail, false to draw a normal
+     *                         thumbnail.
      */
     private void draw(long bookId, Context context, ImageView imageView, ProgressBar progressBar, boolean isSmallThumbnail) {
         Bitmap bmp;
@@ -144,8 +144,8 @@ public final class ThumbnailManager {
          * @param bookId           Id of the book.
          * @param imageView        ImageView.
          * @param progressBar      ProgressBar.
-         * @param isSmallThumbnail True to draw a small thumbnail, false to drow a normal
-         *                         thumnbail.
+         * @param isSmallThumbnail True to draw a small thumbnail, false to draw a normal
+         *                         thumbnail.
          */
         public BookLoadTask(Context context, long bookId, ImageView imageView, ProgressBar progressBar, boolean isSmallThumbnail) {
             mContext = context;
@@ -158,25 +158,17 @@ public final class ThumbnailManager {
         @Override
         protected Book doInBackground(Long... params) {
             SQLiteHelper dbHelper = new SQLiteHelper(mContext);
-            SQLiteDatabase db = null;
-            Book book = null;
-            try {
-                db = dbHelper.getReadableDatabase();
-                book = BookServices.getBook(db, mBookId);
-            } finally {
-                if (db != null) {
-                    db.close();
-                }
-            }
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            Book book = BookServices.getBook(db, mBookId);
+            db.close();
             return book;
         }
 
         @Override
         protected void onPostExecute(Book result) {
             super.onPostExecute(result);
-
             Bitmap smallThumbnailBmp;
-            Bitmap thumnailBmp;
+            Bitmap thumbnailBmp;
             byte[] smallThumbnail = result.smallThumbnail;
             byte[] thumbnail = result.thumbnail;
 
@@ -186,21 +178,21 @@ public final class ThumbnailManager {
                 smallThumbnailBmp = getUndefinedBitmap(mContext);
             }
             if (thumbnail != null) {
-                thumnailBmp = BitmapFactory.decodeByteArray(thumbnail, 0, thumbnail.length);
+                thumbnailBmp = BitmapFactory.decodeByteArray(thumbnail, 0, thumbnail.length);
             } else {
-                thumnailBmp = getUndefinedBitmap(mContext);
+                thumbnailBmp = getUndefinedBitmap(mContext);
             }
 
             mSmallThumbnailCache.put(mBookId, smallThumbnailBmp);
-            mThumbnailCache.put(mBookId, thumnailBmp);
+            mThumbnailCache.put(mBookId, thumbnailBmp);
 
             if (mIsSmallThumbnail) {
                 if (smallThumbnailBmp != null) {
                     mImageView.setImageBitmap(smallThumbnailBmp);
                 }
             } else {
-                if (thumnailBmp != null) {
-                    mImageView.setImageBitmap(thumnailBmp);
+                if (thumbnailBmp != null) {
+                    mImageView.setImageBitmap(thumbnailBmp);
                 }
             }
             mProgressBar.setVisibility(View.GONE);

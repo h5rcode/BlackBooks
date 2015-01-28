@@ -115,6 +115,10 @@
         <item quantity="one">%d lu</item>
         <item quantity="other">%d lus</item>
     </plurals>
+    <plurals name="label_footer_search">
+        <item quantity="one">%d résultat</item>
+        <item quantity="other">%d résultats</item>
+    </plurals>
     <plurals name="label_footer_series">
         <item quantity="one">%d série</item>
         <item quantity="other">%d série</item>

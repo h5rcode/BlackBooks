@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/abstractBookList_emptyView"
+        android:id="@+id/bookSearch_emptyView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -18,25 +18,15 @@
         android:visibility="gone">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/text_info_no_books_1"
-            android:textColor="@color/grey_600"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:paddingTop="10sp"
-            android:text="@string/text_info_no_books_2"
-            android:textSize="16sp" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:text="@string/message_no_result" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/abstractBookList_loadingView"
+        android:id="@+id/bookSearch_loadingView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -64,7 +54,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/abstractBookList_textFooter"
+            android:id="@+id/bookSearch_textFooter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5sp"
