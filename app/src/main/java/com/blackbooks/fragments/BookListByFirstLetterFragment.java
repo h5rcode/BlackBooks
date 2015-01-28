@@ -61,7 +61,7 @@ public class BookListByFirstLetterFragment extends AbstractBookListFragment {
         LinkedHashMap<String, List<BookInfo>> bookMap = new LinkedHashMap<String, List<BookInfo>>();
 
         for (BookInfo book : bookList) {
-            String firstLetter = book.title.substring(0, 1);
+            String firstLetter = book.title.substring(0, 1).toUpperCase();
 
             if (!bookMap.containsKey(firstLetter)) {
                 bookMap.put(firstLetter, new ArrayList<BookInfo>());

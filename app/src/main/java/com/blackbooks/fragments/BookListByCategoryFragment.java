@@ -82,9 +82,9 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
             case ITEM_CATEGORY_EDIT:
                 categoryItem = (CategoryItem) getListAdapter().getItem(info.position);
                 category = categoryItem.getCategory();
-                CategoryEditFragment editfragment = CategoryEditFragment.newInstance(category, false);
-                editfragment.setTargetFragment(this, 0);
-                editfragment.show(getFragmentManager(), CATEGORY_EDIT_FRAGMENT_TAG);
+                CategoryEditFragment editFragment = CategoryEditFragment.newInstance(category, false);
+                editFragment.setTargetFragment(this, 0);
+                editFragment.show(getFragmentManager(), CATEGORY_EDIT_FRAGMENT_TAG);
                 break;
 
             case ITEM_CATEGORY_DELETE:

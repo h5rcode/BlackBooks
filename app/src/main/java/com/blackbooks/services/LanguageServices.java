@@ -4,8 +4,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.nonpersistent.LanguageInfo;
-import com.blackbooks.model.persistent.Book;
-import com.blackbooks.sql.BrokerManager;
 import com.blackbooks.utils.LanguageUtils;
 
 import java.util.ArrayList;
@@ -26,11 +24,7 @@ public class LanguageServices {
      * @return List of LanguageInfo.
      */
     public static List<LanguageInfo> getLanguageInfoList(SQLiteDatabase db) {
-        String[] selectedColumns = new String[]{Book.Cols.BOO_ID, Book.Cols.BOO_TITLE, Book.Cols.BOO_LANGUAGE_CODE,
-                Book.Cols.BOO_IS_READ, Book.Cols.BOO_IS_FAVOURITE, Book.Cols.BOO_LOANED_TO};
-        String[] sortingColumns = new String[]{Book.Cols.BOO_LANGUAGE_CODE, Book.Cols.BOO_TITLE};
-        List<Book> bookList = BrokerManager.getBroker(Book.class).getAll(db, selectedColumns, sortingColumns);
-        List<BookInfo> bookInfoList = BookServices.getBookInfoListFromBookList(db, bookList);
+        List<BookInfo> bookInfoList = BookServices.getBookInfoList(db);
 
         LanguageInfo unspecifiedLanguage = null;
         Map<String, LanguageInfo> languageMap = new HashMap<String, LanguageInfo>();

@@ -39,9 +39,9 @@ public class GetBookInfoListTest extends AbstractDatabaseTest {
         heartOfDarkness.title = Books.HEART_OF_DARKNESS;
         heartOfDarkness.authors.add(josephConrad);
 
-        BookInfo theGoldeBough = new BookInfo();
-        theGoldeBough.title = Books.THE_GOLDEN_BOUGH;
-        theGoldeBough.authors.add(sirJamesGeorgeFrazer);
+        BookInfo theGoldenBough = new BookInfo();
+        theGoldenBough.title = Books.THE_GOLDEN_BOUGH;
+        theGoldenBough.authors.add(sirJamesGeorgeFrazer);
 
         BookInfo asterixLeGaulois = new BookInfo();
         asterixLeGaulois.title = Books.ASTERIX_LE_GAULOIS;
@@ -53,7 +53,7 @@ public class GetBookInfoListTest extends AbstractDatabaseTest {
 
         BookServices.saveBookInfo(getDb(), nostromo);
         BookServices.saveBookInfo(getDb(), heartOfDarkness);
-        BookServices.saveBookInfo(getDb(), theGoldeBough);
+        BookServices.saveBookInfo(getDb(), theGoldenBough);
         BookServices.saveBookInfo(getDb(), asterixLeGaulois);
         BookServices.saveBookInfo(getDb(), theVoynichManuscript);
 
@@ -89,16 +89,16 @@ public class GetBookInfoListTest extends AbstractDatabaseTest {
         Author authorDb4 = bookInfoDb3.authors.get(0);
         Assert.assertEquals(josephConrad.id.longValue(), authorDb4.id.longValue());
 
-        // Fourth result corresponds to theVoynichManuscript.
-        Assert.assertEquals(theVoynichManuscript.id.longValue(), bookInfoDb4.id.longValue());
-        Assert.assertEquals(theVoynichManuscript.title, bookInfoDb4.title);
-        Assert.assertEquals(0, bookInfoDb4.authors.size());
-
-        // Fifth result corresponds to theGoldeBough.
-        Assert.assertEquals(theGoldeBough.id.longValue(), bookInfoDb5.id.longValue());
-        Assert.assertEquals(theGoldeBough.title, bookInfoDb5.title);
-        Assert.assertEquals(1, bookInfoDb5.authors.size());
-        Author authorDb5 = bookInfoDb5.authors.get(0);
+        // Fourth result corresponds to theGoldenBough.
+        Assert.assertEquals(theGoldenBough.id.longValue(), bookInfoDb4.id.longValue());
+        Assert.assertEquals(theGoldenBough.title, bookInfoDb4.title);
+        Assert.assertEquals(1, bookInfoDb4.authors.size());
+        Author authorDb5 = bookInfoDb4.authors.get(0);
         Assert.assertEquals(sirJamesGeorgeFrazer.id.longValue(), authorDb5.id.longValue());
+
+        // Fifth result corresponds to theVoynichManuscript.
+        Assert.assertEquals(theVoynichManuscript.id.longValue(), bookInfoDb5.id.longValue());
+        Assert.assertEquals(theVoynichManuscript.title, bookInfoDb5.title);
+        Assert.assertEquals(0, bookInfoDb5.authors.size());
     }
 }
