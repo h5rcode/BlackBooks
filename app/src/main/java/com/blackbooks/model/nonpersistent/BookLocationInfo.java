@@ -8,15 +8,22 @@ import java.util.List;
 public class BookLocationInfo extends BookLocation {
 
     private static final long serialVersionUID = 2060138705569284648L;
-    public List<BookInfo> books;
 
+    public List<BookInfo> books = new ArrayList<BookInfo>();
+
+    /**
+     * Default constructor.
+     */
     public BookLocationInfo() {
-        this.books = new ArrayList<BookInfo>();
+        super();
     }
 
+    /**
+     * Copy constructor.
+     *
+     * @param bookLocation BookLocation.
+     */
     public BookLocationInfo(BookLocation bookLocation) {
-        this();
-        this.id = bookLocation.id;
-        this.name = bookLocation.name;
+        super(bookLocation);
     }
 }

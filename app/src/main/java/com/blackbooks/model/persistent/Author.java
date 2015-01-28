@@ -27,6 +27,7 @@ public class Author implements Serializable {
 
     /**
      * Copy constructor.
+     *
      * @param author Author.
      */
     public Author(Author author) {

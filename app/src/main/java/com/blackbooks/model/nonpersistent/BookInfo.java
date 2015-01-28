@@ -18,54 +18,26 @@ public class BookInfo extends Book implements Serializable {
 
     private static final long serialVersionUID = 6822093497761500275L;
 
-    public List<Author> authors;
-
-    public Publisher publisher;
-
-    public List<Category> categories;
-
-    public BookLocation bookLocation;
-
-    public Series series;
+    public List<Author> authors = new ArrayList<Author>();
+    public Publisher publisher = new Publisher();
+    public List<Category> categories = new ArrayList<Category>();
+    public BookLocation bookLocation = new BookLocation();
+    public Series series = new Series();
 
     /**
      * Default constructor.
      */
     public BookInfo() {
-        this.authors = new ArrayList<Author>();
-        this.publisher = new Publisher();
-        this.categories = new ArrayList<Category>();
-        this.bookLocation = new BookLocation();
-        this.series = new Series();
+        super();
     }
 
     /**
-     * Constructor that creates a copy of an instance of Book.
+     * Copy constructor.
      *
-     * @param book Instance of Book.
+     * @param book Book.
      */
     public BookInfo(Book book) {
-        this();
-        this.id = book.id;
-        this.title = book.title;
-        this.subtitle = book.subtitle;
-        this.languageCode = book.languageCode;
-        this.publisherId = book.publisherId;
-        this.publishedDate = book.publishedDate;
-        this.description = book.description;
-        this.pageCount = book.pageCount;
-        this.smallThumbnail = book.smallThumbnail;
-        this.thumbnail = book.thumbnail;
-        this.isRead = book.isRead;
-        this.isFavourite = book.isFavourite;
-        this.isbn10 = book.isbn10;
-        this.isbn13 = book.isbn13;
-        this.comment = book.comment;
-        this.bookLocationId = book.bookLocationId;
-        this.seriesId = book.seriesId;
-        this.number = book.number;
-        this.loanedTo = book.loanedTo;
-        this.loanDate = book.loanDate;
+        super(book);
     }
 
     /**
@@ -74,7 +46,7 @@ public class BookInfo extends Book implements Serializable {
      * @param bookInfo BookInfo.
      */
     public BookInfo(BookInfo bookInfo) {
-        this((Book) bookInfo);
+        super(bookInfo);
         for (Author author : bookInfo.authors) {
             this.authors.add(new Author(author));
         }

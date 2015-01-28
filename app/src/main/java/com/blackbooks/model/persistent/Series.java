@@ -31,6 +31,7 @@ public class Series implements Serializable {
      * @param series Series.
      */
     public Series(Series series) {
+        this();
         this.id = series.id;
         this.name = series.name;
     }

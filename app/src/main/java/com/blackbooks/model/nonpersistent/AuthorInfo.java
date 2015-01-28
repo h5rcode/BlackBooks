@@ -13,26 +13,22 @@ public class AuthorInfo extends Author {
 
     private static final long serialVersionUID = -2843891916239884742L;
 
-    public List<Book> books;
-
-    public List<SeriesInfo> series;
+    public List<Book> books = new ArrayList<Book>();
+    public List<SeriesInfo> series = new ArrayList<SeriesInfo>();
 
     /**
      * Default constructor.
      */
     public AuthorInfo() {
-        this.books = new ArrayList<Book>();
-        this.series = new ArrayList<SeriesInfo>();
+        super();
     }
 
     /**
-     * Constructor that creates a copy of an instance of Author.
+     * Copy constructor.
      *
-     * @param author Instance of Author.
+     * @param author Author.
      */
     public AuthorInfo(Author author) {
-        this();
-        this.id = author.id;
-        this.name = author.name;
+        super(author);
     }
 }

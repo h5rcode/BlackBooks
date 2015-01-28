@@ -74,9 +74,41 @@ public class Book implements Serializable {
     @Column(name = Cols.BOO_LOAN_DATE, type = SQLiteDataType.INTEGER, version = 1)
     public Date loanDate;
 
+    /**
+     * Default constructor.
+     */
     public Book() {
         this.isRead = 0L;
         this.isFavourite = 0L;
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @param book Book.
+     */
+    public Book(Book book) {
+        this();
+        this.id = book.id;
+        this.title = book.title;
+        this.subtitle = book.subtitle;
+        this.languageCode = book.languageCode;
+        this.publisherId = book.publisherId;
+        this.publishedDate = book.publishedDate;
+        this.description = book.description;
+        this.pageCount = book.pageCount;
+        this.smallThumbnail = book.smallThumbnail;
+        this.thumbnail = book.thumbnail;
+        this.isRead = book.isRead;
+        this.isFavourite = book.isFavourite;
+        this.isbn10 = book.isbn10;
+        this.isbn13 = book.isbn13;
+        this.comment = book.comment;
+        this.bookLocationId = book.bookLocationId;
+        this.seriesId = book.seriesId;
+        this.number = book.number;
+        this.loanedTo = book.loanedTo;
+        this.loanDate = book.loanDate;
     }
 
     public static final class Cols {

@@ -10,16 +10,21 @@ public class CategoryInfo extends Category implements Serializable {
 
     private static final long serialVersionUID = -8014226958819494369L;
 
-    public final List<BookInfo> books;
+    public final List<BookInfo> books = new ArrayList<BookInfo>();
 
+    /**
+     * Default constructor.
+     */
     public CategoryInfo() {
         super();
-        this.books = new ArrayList<BookInfo>();
     }
 
+    /**
+     * Copy constructor.
+     *
+     * @param category
+     */
     public CategoryInfo(Category category) {
-        this();
-        this.id = category.id;
-        this.name = category.name;
+        super(category);
     }
 }

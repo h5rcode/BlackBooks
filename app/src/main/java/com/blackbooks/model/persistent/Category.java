@@ -31,6 +31,7 @@ public class Category implements Serializable {
      * @param category Category.
      */
     public Category(Category category) {
+        this();
         this.id = category.id;
         this.name = category.name;
     }
