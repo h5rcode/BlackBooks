@@ -13,7 +13,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Menu;
@@ -372,7 +371,9 @@ public final class BookEditActivity extends FragmentActivity implements IsbnLook
                     case MODE_ADD:
                         message = String.format(getString(R.string.message_book_added), title);
                         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-                        NavUtils.navigateUpFromSameTask(this);
+                        Intent i = new Intent(this, BookListActivity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        startActivity(i);
                         break;
 
                     case MODE_EDIT:

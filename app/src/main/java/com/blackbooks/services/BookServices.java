@@ -128,6 +128,7 @@ public class BookServices {
         String[] selectedColumns = new String[]{
                 Book.Cols.BOO_ID,
                 Book.Cols.BOO_TITLE,
+                Book.Cols.BOO_DESCRIPTION,
                 Book.Cols.SER_ID,
                 Book.Cols.BOO_NUMBER,
                 Book.Cols.BOO_IS_READ,

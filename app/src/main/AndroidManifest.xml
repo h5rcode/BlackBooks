@@ -47,9 +47,6 @@
             android:name="com.blackbooks.activities.BookEditActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.blackbooks.activities.BookListActivity" />
         </activity>
         <activity
             android:name="com.blackbooks.activities.BookDisplayActivity"
