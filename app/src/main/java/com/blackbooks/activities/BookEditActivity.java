@@ -374,6 +374,7 @@ public final class BookEditActivity extends FragmentActivity implements IsbnLook
                         Intent i = new Intent(this, BookListActivity.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(i);
+                        finish();
                         break;
 
                     case MODE_EDIT:
