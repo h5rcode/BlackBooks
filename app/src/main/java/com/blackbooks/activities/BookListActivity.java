@@ -13,7 +13,6 @@ import android.widget.SearchView;
 
 import com.blackbooks.R;
 import com.blackbooks.fragments.AbstractBookListFragment;
-import com.blackbooks.fragments.AbstractBookListFragment.BookListListener;
 import com.blackbooks.fragments.BookListByAuthorFragment;
 import com.blackbooks.fragments.BookListByBookLocationFragment;
 import com.blackbooks.fragments.BookListByCategoryFragment;
@@ -28,7 +27,7 @@ import com.blackbooks.fragments.BookListByToReadReadFragment;
  * The book list activity. It hosts an AbstractBookListFragment used to display
  * list in various orders.
  */
-public class BookListActivity extends AbstractDrawerActivity implements BookListListener {
+public class BookListActivity extends AbstractDrawerActivity {
 
     public static final String PREFERENCES = "PREFERENCES";
     public static final String PREF_DEFAULT_LIST = "PREF_DEFAULT_LIST";
@@ -266,9 +265,5 @@ public class BookListActivity extends AbstractDrawerActivity implements BookList
                     .replace(R.id.abstractDrawerActivity_frameLayout, mCurrentFragment, BOOK_LIST_FRAGMENT_TAG) //
                     .commit();
         }
-    }
-
-    @Override
-    public void onBookListLoaded() {
     }
 }

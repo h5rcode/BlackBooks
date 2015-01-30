@@ -57,15 +57,11 @@ public abstract class AbstractBookListFragment extends ListFragment {
     private ListView mListView;
     private TextView mTextFooter;
     private ArrayAdapter<ListItem> mBookListAdapter;
-    private BookListListener mBookListListener;
     private BookListLoadTask mBookListLoadTask;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (activity instanceof BookListListener) {
-            mBookListListener = (BookListListener) activity;
-        }
         activity.getActionBar().setSubtitle(getActionBarSubtitle());
     }
 
@@ -84,7 +80,7 @@ public abstract class AbstractBookListFragment extends ListFragment {
         mListView = (ListView) view.findViewById(android.R.id.list);
         mTextFooter = (TextView) view.findViewById(R.id.abstractBookList_textFooter);
         mEmptyView = view.findViewById(R.id.abstractBookList_emptyView);
-        mLoadingView =  view.findViewById(R.id.abstractBookList_loadingView);
+        mLoadingView = view.findViewById(R.id.abstractBookList_loadingView);
         mListView.setFastScrollEnabled(true);
         return view;
     }
@@ -210,12 +206,6 @@ public abstract class AbstractBookListFragment extends ListFragment {
                 result = super.onContextItemSelected(item);
         }
         return result;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mBookListListener = null;
     }
 
     @Override
@@ -439,19 +429,6 @@ public abstract class AbstractBookListFragment extends ListFragment {
     }
 
     /**
-     * Activities hosting {@link AbstractBookListFragment} or any fragment that
-     * inherits from it should implement this interface to be notified when the
-     * loading of the book list is complete.
-     */
-    public interface BookListListener {
-
-        /**
-         * Called when the book list is loaded.
-         */
-        void onBookListLoaded();
-    }
-
-    /**
      * Implementation of AsyncTask used to load the book list without blocking
      * the UI.
      */
@@ -484,10 +461,6 @@ public abstract class AbstractBookListFragment extends ListFragment {
             } else {
                 mEmptyView.setVisibility(View.GONE);
                 mListView.setVisibility(View.VISIBLE);
-            }
-
-            if (mBookListListener != null) {
-                mBookListListener.onBookListLoaded();
             }
 
             mTextFooter.setText(getFooterText());
