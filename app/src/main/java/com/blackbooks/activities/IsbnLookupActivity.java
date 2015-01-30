@@ -2,7 +2,6 @@ package com.blackbooks.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -47,7 +46,6 @@ public class IsbnLookupActivity extends Activity {
         mTextIsbn = (EditText) findViewById(R.id.isbnEnter_textIsbn);
         mTextStatus = (TextView) findViewById(R.id.isbnEnter_textStatus);
 
-        mTextIsbn.setRawInputType(Configuration.KEYBOARD_QWERTY);
         mTextIsbn.addTextChangedListener(new IsbnValidator());
 
         Intent intent = getIntent();
