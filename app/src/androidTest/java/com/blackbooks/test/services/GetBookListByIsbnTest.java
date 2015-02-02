@@ -70,6 +70,7 @@ public class GetBookListByIsbnTest extends AbstractDatabaseTest {
 
         try {
             BookServices.getBookListByIsbn(getDb(), "Invalid!");
+            fail("InvalidParameterException expected.");
         } catch (InvalidParameterException e) {
             assertEquals("isbn", e.getMessage());
         }
