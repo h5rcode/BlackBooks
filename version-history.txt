@@ -1,15 +1,15 @@
 # Version 1.0.1 (30/01/2015)
 New features:
-- Book detail: display the comment if there is one.
-- Book edit: if unsaved changes are detected, ask for confirmation when leaving.
+* Book detail: display the comment if there is one.
+* Book edit: if unsaved changes are detected, ask for confirmation when leaving.
 
 Enhancements:
-- Book search: display the number of results at the bottom of the screen.
-- Book list: the sorting of books by title is now case insensitive.
+* Book search: display the number of results at the bottom of the screen.
+* Book list: the sorting of books by title is now case insensitive.
 
 Bug fixes:
-- Fixed a crash happening when typing in an auto completed text field.
-- The crash when taking a picture (when editing the thumbnail of a book) should not happen again.
+* Fixed a crash happening when typing in an auto completed text field.
+* The crash when taking a picture (when editing the thumbnail of a book) should not happen again.
 
 # Version 1.0 (21/01/2015)
 First release
