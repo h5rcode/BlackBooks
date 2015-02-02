@@ -5,9 +5,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.util.DisplayMetrics;
 
-import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -34,39 +35,27 @@ public final class BitmapUtils {
     /**
      * Compress an image and resize it before if necessary.
      *
-     * @param activity  The calling activity.
-     * @param image     The image to compress.
+     * @param context   The calling activity.
+     * @param uri       The URI of the image to compress.
      * @param maxHeight Max height of the compressed image.
      * @return A byte array containing the compressed image.
      */
-    public static byte[] compress(Activity activity, byte[] image, int maxHeight) {
-        Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+    public static byte[] compress(Context context, Uri uri, int maxWidth, int maxHeight) {
+        Bitmap bitmap = decodeSampledBitmapFromUri(context, uri, maxWidth, maxHeight);
         Bitmap resizedBitmap = resize(bitmap, maxHeight);
         byte[] bytes;
         try {
-            OutputStream outputStream = activity.openFileOutput(TEMP_PNG, Context.MODE_PRIVATE);
+            OutputStream outputStream = context.openFileOutput(TEMP_PNG, Context.MODE_PRIVATE);
             resizedBitmap.compress(CompressFormat.PNG, 100, outputStream);
 
-            InputStream in = activity.openFileInput(TEMP_PNG);
+            InputStream in = context.openFileInput(TEMP_PNG);
             bytes = FileUtils.readBytes(in);
 
-            activity.deleteFile(TEMP_PNG);
+            context.deleteFile(TEMP_PNG);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return bytes;
-    }
-
-    /**
-     * Get the byte array representing a Bitmap.
-     *
-     * @param bitmap Bitmap.
-     * @return Byte array.
-     */
-    public static byte[] getBytes(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        return stream.toByteArray();
     }
 
     /**
@@ -86,6 +75,66 @@ public final class BitmapUtils {
         int maxHeight = Math.min(MAX_THUMBNAIL_HEIGHT, Math.max(metrics.widthPixels, metrics.heightPixels) / 3);
         Bitmap result = resize(bitmap, maxHeight);
         return result;
+    }
+
+    /**
+     * Calculate the sample size that should be used to load a scaled down version of an image.
+     *
+     * @param options   {@link android.graphics.BitmapFactory.Options} set with the height and the width of the image to read.
+     * @param reqWidth  Target width of the sub sampled image.
+     * @param reqHeight Target height of the sub sampled image.
+     * @return Sample size to use to load the sub sampled version of the image.
+     */
+    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
+
+    /**
+     * Load a sampled {@link android.graphics.Bitmap} of an image.
+     * <p/>
+     * See <a href="http://developer.android.com/training/displaying-bitmaps/load-bitmap.html">Loading Large Bitmaps Efficiently</a>.
+     *
+     * @param context   Context.
+     * @param uri       Uri of the image to load.
+     * @param reqWidth  Target width of the sub sampled image.
+     * @param reqHeight Target height of the sub sampled image.
+     * @return A sup sampled bitmap of the original image.
+     */
+    private static Bitmap decodeSampledBitmapFromUri(Context context, Uri uri, int reqWidth, int reqHeight) {
+
+        try {
+            InputStream is = context.getContentResolver().openInputStream(uri);
+
+            final BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+
+            BitmapFactory.decodeStream(is, null, options);
+
+            options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+            options.inJustDecodeBounds = false;
+
+            is = context.getContentResolver().openInputStream(uri);
+            return BitmapFactory.decodeStream(is, null, options);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

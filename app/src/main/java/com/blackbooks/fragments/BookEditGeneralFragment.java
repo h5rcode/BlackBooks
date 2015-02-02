@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -26,7 +26,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.blackbooks.R;
 import com.blackbooks.activities.BookAuthorsEditActivity;
@@ -49,15 +48,10 @@ import com.blackbooks.services.CategoryServices;
 import com.blackbooks.services.PublisherServices;
 import com.blackbooks.services.SeriesServices;
 import com.blackbooks.utils.BitmapUtils;
-import com.blackbooks.utils.Commons;
 import com.blackbooks.utils.DateUtils;
-import com.blackbooks.utils.FileUtils;
 import com.blackbooks.utils.IsbnUtils;
-import com.blackbooks.utils.LogUtils;
 import com.blackbooks.utils.StringUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -186,27 +180,12 @@ public class BookEditGeneralFragment extends Fragment implements DatePickerListe
                 mBookInfo.authors = (ArrayList<Author>) data.getSerializableExtra(BookAuthorsEditActivity.EXTRA_AUTHOR_LIST);
                 setButtonEditAuthorsText();
             } else if (requestCode == REQUEST_EDIT_CATEGORIES) {
-                mBookInfo.categories = (ArrayList<Category>) data
-                        .getSerializableExtra(BookCategoriesEditActivity.EXTRA_CATEGORY_LIST);
+                mBookInfo.categories = (ArrayList<Category>) data.getSerializableExtra(BookCategoriesEditActivity.EXTRA_CATEGORY_LIST);
                 setButtonEditCategoriesText();
-            } else if (requestCode == REQUEST_PICK_IMAGE) {
-
-                try {
-                    InputStream stream = getActivity().getContentResolver().openInputStream(data.getData());
-                    byte[] image = FileUtils.readBytes(stream);
-                    mBookInfo.smallThumbnail = BitmapUtils.compress(getActivity(), image, 160);
-                    mBookInfo.thumbnail = BitmapUtils.compress(getActivity(), image, 500);
-                    setImageThumbnail();
-                } catch (IOException e) {
-                    Log.e(LogUtils.TAG, "Could not read selected image.", e);
-                    Toast.makeText(getActivity(), getString(R.string.message_cant_read_selected_image), Toast.LENGTH_LONG).show();
-                }
-            } else if (requestCode == REQUEST_TAKE_PICTURE) {
-                Bundle extras = data.getExtras();
-                Bitmap bitmap = (Bitmap) extras.get(Commons.EXTRA_CAMERA_DATA);
-                byte[] image = BitmapUtils.getBytes(bitmap);
-                mBookInfo.smallThumbnail = BitmapUtils.compress(getActivity(), image, 160);
-                mBookInfo.thumbnail = BitmapUtils.compress(getActivity(), image, 500);
+            } else if (requestCode == REQUEST_PICK_IMAGE || requestCode == REQUEST_TAKE_PICTURE) {
+                Uri uri = data.getData();
+                mBookInfo.smallThumbnail = BitmapUtils.compress(getActivity(), uri, 160, 160);
+                mBookInfo.thumbnail = BitmapUtils.compress(getActivity(), uri, 500, 500);
                 setImageThumbnail();
             }
         }
