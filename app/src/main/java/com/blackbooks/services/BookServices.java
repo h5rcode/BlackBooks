@@ -146,6 +146,35 @@ public class BookServices {
     }
 
     /**
+     * Return the books corresponding to a given ISBN number.
+     *
+     * @param db   SQLiteDatabase.
+     * @param isbn ISBN-10 or ISBN-13.
+     * @return The list of books with this ISBN number.
+     */
+    public static List<Book> getBookListByIsbn(SQLiteDatabase db, String isbn) {
+        String testedColumn;
+        if (IsbnUtils.isValidIsbn10(isbn)) {
+            testedColumn = Book.Cols.BOO_ISBN_10;
+        } else if (IsbnUtils.isValidIsbn13(isbn)) {
+            testedColumn = Book.Cols.BOO_ISBN_13;
+        } else {
+            throw new InvalidParameterException("isbn");
+        }
+
+        String[] selectedColumns = new String[]{
+                Book.Cols.BOO_ID,
+                Book.Cols.BOO_TITLE
+        };
+
+        String select = StringUtils.join(selectedColumns, ", ");
+        String sql = "SELECT " + select + " FROM " + Book.NAME + " WHERE " + testedColumn + " = ? COLLATE NOCASE ORDER BY " + Book.Cols.BOO_ID;
+        String[] selectionArgs = new String[]{isbn};
+
+        return BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
+    }
+
+    /**
      * Get the info of all the books in the database.
      *
      * @param db SQLiteDatabase.

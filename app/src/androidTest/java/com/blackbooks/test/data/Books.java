@@ -51,6 +51,11 @@ public final class Books {
     public static final String LE_MYTHE_DE_SISYPHE = "Le mythe de Sisyphe";
 
     /**
+     * Lettres de mon moulin.
+     */
+    public static final String LETTRES_DE_MON_MOULIN = "Lettres de mon moulin";
+
+    /**
      * Nostromo.
      */
     public static final String NOSTROMO = "Nostromo";
