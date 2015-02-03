@@ -1,3 +1,10 @@
+# Version 1.0.2 (TODO)
+New feature:
+* When adding a book using its ISBN, check for duplicates and display a dialog if there are any.
+
+Bug fix:
+* Fixed the crash happening when adding a large image as the cover of a book using the camera or the gallery.
+
 # Version 1.0.1 (30/01/2015)
 New features:
 * Book detail: display the comment if there is one.
