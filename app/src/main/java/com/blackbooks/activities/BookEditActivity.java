@@ -209,8 +209,10 @@ public final class BookEditActivity extends FragmentActivity implements IsbnLook
     }
 
     private void leaveActivity() {
-        mBookEditGeneralFragment.readBookInfo(mBookInfo);
-        mBookEditPersonalFragment.readBookInfo(mBookInfo);
+        if (mBookEditGeneralFragment != null && mBookEditPersonalFragment != null) {
+            mBookEditGeneralFragment.readBookInfo(mBookInfo);
+            mBookEditPersonalFragment.readBookInfo(mBookInfo);
+        }
 
         if (!BeanUtils.areBooksEqual(mBookInfo, mBookInfoOriginal)) {
             showUnsavedChangesDialog();
@@ -317,10 +319,8 @@ public final class BookEditActivity extends FragmentActivity implements IsbnLook
         mIsSearching = savedInstanceState.getBoolean(STATE_IS_SEARCHING);
         mBookInfoOriginal = (BookInfo) savedInstanceState.getSerializable(STATE_BOOK_INFO_ORIGINAL);
         mBookInfo = (BookInfo) savedInstanceState.getSerializable(STATE_BOOK_INFO);
-        mBookEditGeneralFragment = (BookEditGeneralFragment) fm.getFragment(savedInstanceState,
-                BookEditGeneralFragment.class.getName());
-        mBookEditPersonalFragment = (BookEditPersonalFragment) fm.getFragment(savedInstanceState,
-                BookEditPersonalFragment.class.getName());
+        mBookEditGeneralFragment = (BookEditGeneralFragment) fm.getFragment(savedInstanceState, BookEditGeneralFragment.class.getName());
+        mBookEditPersonalFragment = (BookEditPersonalFragment) fm.getFragment(savedInstanceState, BookEditPersonalFragment.class.getName());
 
         switch (mMode) {
             case MODE_ADD:

@@ -1,8 +1,10 @@
 package com.blackbooks.activities;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -12,10 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blackbooks.R;
+import com.blackbooks.database.SQLiteHelper;
+import com.blackbooks.fragments.dialogs.DuplicateBooksDialog;
+import com.blackbooks.model.persistent.Book;
+import com.blackbooks.services.BookServices;
 import com.blackbooks.utils.Commons;
 import com.blackbooks.utils.IsbnUtils;
 import com.blackbooks.utils.Pic2ShopUtils;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -24,7 +31,7 @@ import java.util.regex.Pattern;
  * a bar code scan. Start the activity with an intent having the extra
  * {@link #EXTRA_SCAN} set to <code>true</code>.
  */
-public class IsbnLookupActivity extends Activity {
+public class IsbnLookupActivity extends FragmentActivity implements DuplicateBooksDialog.DuplicateBooksListener {
 
     /**
      * A boolean extra used to initiate a bar code scan if set to
@@ -32,10 +39,14 @@ public class IsbnLookupActivity extends Activity {
      */
     public static final String EXTRA_SCAN = "EXTRA_SCAN";
 
+    private static final String STATE_ISBN_SCANNED = "STATE_ISBN_SCANNED";
+    private static final String TAG_DUPLICATE_BOOKS_DIALOG = "TAG_DUPLICATE_BOOKS_DIALOG";
+
     private EditText mTextIsbn;
     private TextView mTextStatus;
     private MenuItem mMenuItemLookup;
     private boolean mEnableLookup;
+    private boolean mIsbnScanned;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,21 +74,24 @@ public class IsbnLookupActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Pic2ShopUtils.REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
-            String barCode = data.getStringExtra(Pic2ShopUtils.BARCODE);
+        if (requestCode == Pic2ShopUtils.REQUEST_CODE_SCAN) {
+            if (resultCode == RESULT_OK) {
+                String barCode = data.getStringExtra(Pic2ShopUtils.BARCODE);
+                mIsbnScanned = true;
 
-            if (IsbnUtils.isValidIsbn(barCode)) {
-                Intent i = new Intent(this, BookEditActivity.class);
-                i.putExtra(BookEditActivity.EXTRA_MODE, BookEditActivity.MODE_ADD);
-                i.putExtra(BookEditActivity.EXTRA_ISBN, barCode);
-                this.startActivity(i);
+                if (IsbnUtils.isValidIsbn(barCode)) {
+                    mTextIsbn.setText(barCode);
+                    checkIsbnAndStartSearch(barCode);
+                } else {
+                    String message = getString(R.string.message_invalid_isbn);
+                    message = String.format(message, barCode);
+                    Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+                    finishIfIsbnScanned();
+                }
             } else {
-                String message = getString(R.string.message_invalid_isbn);
-                message = String.format(message, barCode);
-                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+                finish();
             }
         }
-        finish();
     }
 
     @Override
@@ -94,7 +108,8 @@ public class IsbnLookupActivity extends Activity {
         boolean result;
         switch (item.getItemId()) {
             case R.id.isbnEnter_actionLookup:
-                search();
+                String isbn = mTextIsbn.getText().toString();
+                checkIsbnAndStartSearch(isbn);
                 result = true;
                 break;
 
@@ -111,12 +126,39 @@ public class IsbnLookupActivity extends Activity {
         return result;
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(STATE_ISBN_SCANNED, mIsbnScanned);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mIsbnScanned = savedInstanceState.getBoolean(STATE_ISBN_SCANNED);
+    }
+
     /**
-     * Get the entered ISBN number and start the search.
+     * Check if there are books with the same ISBN in the library. If there are, show a
+     * {@link com.blackbooks.fragments.dialogs.DuplicateBooksDialog}. Otherwise, start the
+     * search immediately.
+     *
+     * @param isbn ISBN.
      */
-    public void search() {
-        String isbn = mTextIsbn.getText().toString();
-        startIsbnSearch(isbn);
+    private void checkIsbnAndStartSearch(final String isbn) {
+
+        SQLiteHelper dbHelper = new SQLiteHelper(this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        List<Book> bookList = BookServices.getBookListByIsbn(db, isbn);
+        db.close();
+
+        if (bookList.isEmpty()) {
+            startIsbnSearch(isbn);
+        } else {
+            FragmentManager fm = IsbnLookupActivity.this.getSupportFragmentManager();
+            DuplicateBooksDialog fragment = DuplicateBooksDialog.newInstance(isbn, bookList);
+            fragment.show(fm, TAG_DUPLICATE_BOOKS_DIALOG);
+        }
     }
 
     /**
@@ -130,6 +172,16 @@ public class IsbnLookupActivity extends Activity {
         i.putExtra(BookEditActivity.EXTRA_MODE, BookEditActivity.MODE_ADD);
         i.putExtra(BookEditActivity.EXTRA_ISBN, isbn);
         IsbnLookupActivity.this.startActivity(i);
+        finishIfIsbnScanned();
+    }
+
+    /**
+     * Finish the activity if the ISBN was scanned.
+     */
+    private void finishIfIsbnScanned() {
+        if (mIsbnScanned) {
+            finish();
+        }
     }
 
     /**
@@ -140,6 +192,16 @@ public class IsbnLookupActivity extends Activity {
             mMenuItemLookup.setEnabled(mEnableLookup);
             mMenuItemLookup.getIcon().setAlpha(mEnableLookup ? Commons.ALPHA_ENABLED : Commons.ALPHA_DISABLED);
         }
+    }
+
+    @Override
+    public void onContinue(String isbn) {
+        startIsbnSearch(isbn);
+    }
+
+    @Override
+    public void onCancel() {
+        finishIfIsbnScanned();
     }
 
     /**
@@ -188,10 +250,12 @@ public class IsbnLookupActivity extends Activity {
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // Do nothing.
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // Do nothing.
         }
     }
 }

@@ -200,6 +200,10 @@
         <item quantity="one">série</item>
         <item quantity="other">séries</item>
     </plurals>
+    <plurals name="message_duplicate_books">
+        <item quantity="one">%d livre de la bibliothèque correspond à cet ISBN.</item>
+        <item quantity="other">%d livres de la bibliothèque correspondent à cet ISBN.</item>
+    </plurals>
 
     <string name="label_text_qualifier">Délimiteur de texte</string>
     <string name="label_text_qualifier_double_quote">Guillemets doubles (\")</string>
@@ -255,6 +259,8 @@
     <string name="message_confirm_return_book">Rendre \"%s\" ?</string>
     <string name="message_confirm_return_book_cancel">Non</string>
     <string name="message_confirm_return_book_confirm">Oui</string>
+    <string name="message_duplicate_books_negative">Annuler</string>
+    <string name="message_duplicate_books_positive">Continuer</string>
     <string name="message_file_not_saved">Impossible d\'écrire le fichier.</string>
     <string name="message_file_saved">Le fichier \"%1$s\" a été enregistré dans le dossier \"%2$s\".</string>
     <string name="message_invalid_isbn">%s n\'est pas un numéro ISBN valide.</string>
@@ -298,6 +304,7 @@
     <string name="title_dialog_delete_category">Supprimer une catégorie</string>
     <string name="title_dialog_edit_author">Modifier un auteur</string>
     <string name="title_dialog_edit_category">Modifier une catégorie</string>
+    <string name="title_dialog_duplicate_books">Livre en double</string>
     <string name="title_dialog_install_scanner">Installer un scanner de code-barres</string>
     <string name="title_dialog_return_book">Rendre un livre</string>
     <string name="title_dialog_text_qualifier_picker">Choisissez un délimiteur de texte</string>

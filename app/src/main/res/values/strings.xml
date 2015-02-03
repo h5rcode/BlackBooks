@@ -212,6 +212,10 @@
         <item quantity="one">series</item>
         <item quantity="other">series</item>
     </plurals>
+    <plurals name="message_duplicate_books">
+        <item quantity="one">%d book in the library corresponds to this ISBN.</item>
+        <item quantity="other">%d books in the library correspond to this ISBN.</item>
+    </plurals>
 
     <string name="label_text_qualifier">Text qualifier</string>
     <string name="label_text_qualifier_double_quote">Double quote (\")</string>
@@ -268,6 +272,8 @@
     <string name="message_confirm_return_book">Return \"%s\"?</string>
     <string name="message_confirm_return_book_cancel">No</string>
     <string name="message_confirm_return_book_confirm">Yes</string>
+    <string name="message_duplicate_books_negative">Cancel</string>
+    <string name="message_duplicate_books_positive">Continue</string>
     <string name="message_file_not_saved">File could not be written.</string>
     <string name="message_file_saved">File \"%1$s\" saved in folder \"%2$s\".</string>
     <string name="message_invalid_isbn">%s is not a valid ISBN number.</string>
@@ -311,8 +317,9 @@
     <string name="title_dialog_delete_category">Delete category</string>
     <string name="title_dialog_edit_author">Edit author</string>
     <string name="title_dialog_edit_category">Edit category</string>
-    <string name="title_dialog_return_book">Return book</string>
+    <string name="title_dialog_duplicate_books">Duplicate book</string>
     <string name="title_dialog_install_scanner">Install a bar code scanner</string>
+    <string name="title_dialog_return_book">Return book</string>
     <string name="title_dialog_unsaved_changes">Unsaved changes</string>
     <string name="title_dialog_text_qualifier_picker">Choose a text qualifier</string>
     <string name="title_menu_edit_thumbnail">Edit thumbnail</string>
