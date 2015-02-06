@@ -123,10 +123,8 @@ public class BookSearchFragment extends ListFragment {
 
         @Override
         protected List<BookInfo> doInBackground(Void... params) {
-            SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
-            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
             List<BookInfo> bookList = FullTextSearchServices.searchBooks(db, mQuery);
-            db.close();
             return bookList;
         }
 

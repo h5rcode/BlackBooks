@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.blackbooks.activities.ReportErrorActivity;
+import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.utils.LogUtils;
 
 /**
@@ -14,6 +15,8 @@ public final class BlackBooksApplication extends Application {
 
     @Override
     public void onCreate() {
+        SQLiteHelper.initialize(getApplicationContext());
+
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 
             @Override

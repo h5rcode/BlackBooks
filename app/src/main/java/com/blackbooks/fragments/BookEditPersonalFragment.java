@@ -27,8 +27,6 @@ public class BookEditPersonalFragment extends Fragment {
 
     private static final String ARG_BOOK = "ARG_BOOK";
 
-    private SQLiteHelper mDbHelper;
-
     private CheckBox mCheckBoxRead;
     private CheckBox mCheckBoxFavourite;
     private EditText mTextComment;
@@ -69,8 +67,6 @@ public class BookEditPersonalFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mDbHelper = new SQLiteHelper(getActivity());
-
         findViews();
         renderBookInfo();
 
@@ -79,9 +75,8 @@ public class BookEditPersonalFragment extends Fragment {
 
             @Override
             public List<BookLocation> search(CharSequence constraint) {
-                SQLiteDatabase db = mDbHelper.getReadableDatabase();
+                SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
                 List<BookLocation> bookLocationList = BookLocationServices.getBookLocationListByText(db, constraint.toString());
-                db.close();
                 return bookLocationList;
             }
 
@@ -110,7 +105,7 @@ public class BookEditPersonalFragment extends Fragment {
         bookInfo.comment = comment;
 
         BookLocation bookLocation = new BookLocation();
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
 
         if (bookLocationName != null && !bookLocationName.isEmpty()) {
             bookLocation.name = bookLocationName;
@@ -120,7 +115,6 @@ public class BookEditPersonalFragment extends Fragment {
                 bookLocation = bookLocationDb;
             }
         }
-        db.close();
 
         bookInfo.bookLocation = bookLocation;
         return true;

@@ -75,8 +75,6 @@ public class BookEditGeneralFragment extends Fragment implements DatePickerListe
     private static final int REQUEST_PICK_IMAGE = 3;
     private static final int REQUEST_TAKE_PICTURE = 4;
 
-    private SQLiteHelper mDbHelper;
-
     private ImageView mImageThumbnail;
     private EditText mTextTitle;
     private EditText mTextSubtitle;
@@ -202,8 +200,6 @@ public class BookEditGeneralFragment extends Fragment implements DatePickerListe
 
         findViews();
 
-        mDbHelper = new SQLiteHelper(this.getActivity());
-
         registerForContextMenu(mImageThumbnail);
 
         android.view.View.OnClickListener listener = new android.view.View.OnClickListener() {
@@ -261,9 +257,8 @@ public class BookEditGeneralFragment extends Fragment implements DatePickerListe
 
             @Override
             public List<Publisher> search(CharSequence constraint) {
-                SQLiteDatabase db = mDbHelper.getReadableDatabase();
+                SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
                 List<Publisher> publisherList = PublisherServices.getPublisherListByText(db, constraint.toString());
-                db.close();
                 return publisherList;
             }
 
@@ -289,9 +284,8 @@ public class BookEditGeneralFragment extends Fragment implements DatePickerListe
 
             @Override
             public List<Series> search(CharSequence constraint) {
-                SQLiteDatabase db = mDbHelper.getReadableDatabase();
+                SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
                 List<Series> seriesList = SeriesServices.getSeriesListByText(db, constraint.toString());
-                db.close();
                 return seriesList;
             }
 
@@ -372,7 +366,7 @@ public class BookEditGeneralFragment extends Fragment implements DatePickerListe
         }
         bookInfo.description = description;
 
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
 
         List<Author> authors = new ArrayList<Author>();
         for (Author author : bookInfo.authors) {
@@ -417,8 +411,6 @@ public class BookEditGeneralFragment extends Fragment implements DatePickerListe
             }
         }
         bookInfo.categories = categories;
-
-        db.close();
 
         return mValidBookInfo;
     }

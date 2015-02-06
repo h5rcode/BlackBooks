@@ -276,10 +276,8 @@ public abstract class AbstractBookListFragment extends ListFragment {
         String title = book.title;
         String message = String.format(getString(R.string.message_book_deleted), title);
 
-        SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
         BookServices.deleteBook(db, book.id);
-        db.close();
         VariableUtils.getInstance().setReloadBookList(true);
         Toast.makeText(this.getActivity(), message, Toast.LENGTH_SHORT).show();
         loadData();
@@ -300,12 +298,8 @@ public abstract class AbstractBookListFragment extends ListFragment {
      * @param book Book.
      */
     private void markBookAsFavourite(Book book) {
-        SQLiteHelper dbHelper;
-        SQLiteDatabase db;
-        dbHelper = new SQLiteHelper(getActivity());
-        db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
         BookServices.markBookAsFavourite(db, book.id);
-        db.close();
 
         String text;
         if (book.isFavourite == 1L) {
@@ -324,12 +318,8 @@ public abstract class AbstractBookListFragment extends ListFragment {
      * @param book Book.
      */
     private void markBookAsRead(Book book) {
-        SQLiteHelper dbHelper;
-        SQLiteDatabase db;
-        dbHelper = new SQLiteHelper(getActivity());
-        db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
         BookServices.markBookAsRead(db, book.id);
-        db.close();
 
         String text;
         if (book.isRead == 1L) {
@@ -343,12 +333,8 @@ public abstract class AbstractBookListFragment extends ListFragment {
     }
 
     private void returnBook(Book book) {
-        SQLiteHelper dbHelper;
-        SQLiteDatabase db;
-        dbHelper = new SQLiteHelper(getActivity());
-        db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
         BookServices.returnBook(db, book.id);
-        db.close();
 
         String message = getString(R.string.message_book_returned, book.title);
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();

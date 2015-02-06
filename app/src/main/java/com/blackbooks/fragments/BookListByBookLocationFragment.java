@@ -42,17 +42,9 @@ public class BookListByBookLocationFragment extends AbstractBookListFragment {
 
     @Override
     protected List<ListItem> loadBookList() {
-        SQLiteHelper dbHelper = new SQLiteHelper(this.getActivity());
-        SQLiteDatabase db = null;
         List<BookLocationInfo> bookLocationInfoList;
-        try {
-            db = dbHelper.getReadableDatabase();
-            bookLocationInfoList = BookLocationServices.getBookLocationInfoList(db);
-        } finally {
-            if (db != null) {
-                db.close();
-            }
-        }
+        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
+        bookLocationInfoList = BookLocationServices.getBookLocationInfoList(db);
 
         List<ListItem> listItems = new ArrayList<ListItem>();
 

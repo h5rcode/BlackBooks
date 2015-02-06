@@ -42,15 +42,8 @@ public class BookListByLoanedFragment extends AbstractBookListFragment {
 
     @Override
     protected List<ListItem> loadBookList() {
-        SQLiteHelper dbHelper = new SQLiteHelper(this.getActivity());
-        SQLiteDatabase db = null;
-        List<BookInfo> bookInfoList;
-        try {
-            db = dbHelper.getReadableDatabase();
-            bookInfoList = BookServices.getBookInfoList(db);
-        } finally {
-            db.close();
-        }
+        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
+        List<BookInfo> bookInfoList = BookServices.getBookInfoList(db);
 
         Map<String, Map<Date, List<BookInfo>>> loanedToMap = new TreeMap<String, Map<Date, List<BookInfo>>>();
 

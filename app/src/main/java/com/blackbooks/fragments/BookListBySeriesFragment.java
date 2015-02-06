@@ -37,17 +37,8 @@ public class BookListBySeriesFragment extends AbstractBookListFragment {
 
     @Override
     protected List<ListItem> loadBookList() {
-        SQLiteHelper dbHelper = new SQLiteHelper(this.getActivity());
-        SQLiteDatabase db = null;
-        List<SeriesInfo> seriesInfoList;
-        try {
-            db = dbHelper.getReadableDatabase();
-            seriesInfoList = SeriesServices.getSeriesInfoList(db);
-        } finally {
-            if (db != null) {
-                db.close();
-            }
-        }
+        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
+        List<SeriesInfo> seriesInfoList = SeriesServices.getSeriesInfoList(db);
 
         int seriesCount = 0;
         int bookCount = 0;

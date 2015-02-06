@@ -45,8 +45,6 @@ public class BookDisplayDetailFragment extends Fragment {
 
     private static final int REQUEST_CODE_EDIT_BOOK = 1;
 
-    private SQLiteHelper mDbHelper;
-
     private BookInfo mBookInfo;
 
     private ImageView mImageCover;
@@ -102,7 +100,6 @@ public class BookDisplayDetailFragment extends Fragment {
         if (activity instanceof BookDisplayListener) {
             mBookDisplayListener = (BookDisplayListener) activity;
         }
-        mDbHelper = new SQLiteHelper(activity);
         Bundle args = getArguments();
         long bookId = args.getLong(ARG_BOOK_ID);
         loadBookInfo(bookId);
@@ -185,9 +182,8 @@ public class BookDisplayDetailFragment extends Fragment {
         String title = mBookInfo.title;
         String message = String.format(getString(R.string.message_book_deleted), title);
 
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
         BookServices.deleteBook(db, mBookInfo.id);
-        db.close();
         VariableUtils.getInstance().setReloadBookList(true);
         Toast.makeText(this.getActivity(), message, Toast.LENGTH_SHORT).show();
 
@@ -240,9 +236,8 @@ public class BookDisplayDetailFragment extends Fragment {
      * @param bookId Id of a book.
      */
     private void loadBookInfo(long bookId) {
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
         mBookInfo = BookServices.getBookInfo(db, bookId);
-        db.close();
 
         if (mBookDisplayListener != null) {
             mBookDisplayListener.onBookLoaded(mBookInfo);

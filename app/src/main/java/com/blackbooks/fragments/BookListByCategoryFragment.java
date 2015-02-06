@@ -115,10 +115,8 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
             Category criteria = new Category();
             criteria.name = newName;
 
-            SQLiteHelper dbHelper = new SQLiteHelper(this.getActivity());
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
             Category categoryDb = CategoryServices.getCategoryByCriteria(db, criteria);
-            db.close();
 
             if (categoryDb != null) {
                 errorMessage = getString(R.string.message_category_already_exists);
@@ -135,8 +133,7 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
         if (!oldName.equals(newName)) {
             category.name = newName;
 
-            SQLiteHelper dbHelper = new SQLiteHelper(this.getActivity());
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
 
             CategoryServices.saveCategory(db, category);
 
@@ -144,18 +141,14 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
             message = String.format(message, oldName, newName);
             Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
 
-            db.close();
-
             super.loadData();
         }
     }
 
     @Override
     public void onCategoryDeleted(Category category) {
-        SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
         CategoryServices.deleteCategory(db, category.id);
-        db.close();
         String text = getString(R.string.message_category_deleted);
         text = String.format(text, category.name);
         Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
@@ -171,17 +164,8 @@ public class BookListByCategoryFragment extends AbstractBookListFragment impleme
     @Override
     protected List<ListItem> loadBookList() {
 
-        SQLiteHelper dbHelper = new SQLiteHelper(this.getActivity());
-        SQLiteDatabase db = null;
-        List<CategoryInfo> categoryList;
-        try {
-            db = dbHelper.getReadableDatabase();
-            categoryList = CategoryServices.getCategoryInfoList(db);
-        } finally {
-            if (db != null) {
-                db.close();
-            }
-        }
+        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
+        List<CategoryInfo> categoryList = CategoryServices.getCategoryInfoList(db);
 
         int categoryCount = 0;
         List<Long> bookIdList = new ArrayList<Long>();

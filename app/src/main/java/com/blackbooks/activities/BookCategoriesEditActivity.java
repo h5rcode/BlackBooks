@@ -225,10 +225,8 @@ public class BookCategoriesEditActivity extends Activity {
 
             @Override
             public List<Category> search(CharSequence constraint) {
-                SQLiteHelper mDbHelper = new SQLiteHelper(BookCategoriesEditActivity.this);
-                SQLiteDatabase db = mDbHelper.getReadableDatabase();
+                SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
                 List<Category> categoryList = CategoryServices.getCategoryListByText(db, constraint.toString());
-                db.close();
                 return categoryList;
             }
 
@@ -272,10 +270,8 @@ public class BookCategoriesEditActivity extends Activity {
     }
 
     private Category getCategoryByCriteria(Category criteria) {
-        SQLiteHelper dbHelper = new SQLiteHelper(this);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
         Category category = CategoryServices.getCategoryByCriteria(db, criteria);
-        db.close();
         return category;
     }
 

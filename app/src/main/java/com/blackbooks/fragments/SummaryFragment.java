@@ -159,38 +159,30 @@ public class SummaryFragment extends Fragment {
         mTextLabelLoanedCount = (TextView) view.findViewById(R.id.summary_textLabelLoanedCount);
         mTextLabelFavouriteCount = (TextView) view.findViewById(R.id.summary_textLabelFavouriteCount);
 
-        SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
-        SQLiteDatabase db = null;
-        try {
-            db = dbHelper.getReadableDatabase();
-            Summary summary = SummaryServices.getSummary(db);
+        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
+        Summary summary = SummaryServices.getSummary(db);
 
-            mTextBooksCount.setText(String.valueOf(summary.books));
-            mTextAuthorsCount.setText(String.valueOf(summary.authors));
-            mTextCategoriesCount.setText(String.valueOf(summary.categories));
-            mTextLanguagesCount.setText(String.valueOf(summary.languages));
-            mTextSeriesCount.setText(String.valueOf(summary.series));
-            mTextLocationsCount.setText(String.valueOf(summary.bookLocations));
-            mTextToReadCount.setText(String.valueOf(summary.toRead));
-            mTextLoanedCount.setText(String.valueOf(summary.loaned));
-            mTextFavouriteCount.setText(String.valueOf(summary.favourites));
+        mTextBooksCount.setText(String.valueOf(summary.books));
+        mTextAuthorsCount.setText(String.valueOf(summary.authors));
+        mTextCategoriesCount.setText(String.valueOf(summary.categories));
+        mTextLanguagesCount.setText(String.valueOf(summary.languages));
+        mTextSeriesCount.setText(String.valueOf(summary.series));
+        mTextLocationsCount.setText(String.valueOf(summary.bookLocations));
+        mTextToReadCount.setText(String.valueOf(summary.toRead));
+        mTextLoanedCount.setText(String.valueOf(summary.loaned));
+        mTextFavouriteCount.setText(String.valueOf(summary.favourites));
 
-            Resources res = getResources();
+        Resources res = getResources();
 
-            mTextLabelBookCount.setText(res.getQuantityText(R.plurals.label_summary_books, summary.books));
-            mTextLabelAuthorCount.setText(res.getQuantityText(R.plurals.label_summary_authors, summary.authors));
-            mTextLabelCategoryCount.setText(res.getQuantityText(R.plurals.label_summary_categories, summary.categories));
-            mTextLabelLanguageCount.setText(res.getQuantityText(R.plurals.label_summary_languages, summary.languages));
-            mTextLabelSeriesCount.setText(res.getQuantityText(R.plurals.label_summary_series, summary.series));
-            mTextLabelLocationCount.setText(res.getQuantityText(R.plurals.label_summary_locations, summary.bookLocations));
-            mTextLabelToReadCount.setText(res.getQuantityText(R.plurals.label_summary_to_read, summary.toRead));
-            mTextLabelLoanedCount.setText(res.getQuantityText(R.plurals.label_summary_loaned, summary.loaned));
-            mTextLabelFavouriteCount.setText(res.getQuantityText(R.plurals.label_summary_favourites, summary.favourites));
-        } finally {
-            if (db != null) {
-                db.close();
-            }
-        }
+        mTextLabelBookCount.setText(res.getQuantityText(R.plurals.label_summary_books, summary.books));
+        mTextLabelAuthorCount.setText(res.getQuantityText(R.plurals.label_summary_authors, summary.authors));
+        mTextLabelCategoryCount.setText(res.getQuantityText(R.plurals.label_summary_categories, summary.categories));
+        mTextLabelLanguageCount.setText(res.getQuantityText(R.plurals.label_summary_languages, summary.languages));
+        mTextLabelSeriesCount.setText(res.getQuantityText(R.plurals.label_summary_series, summary.series));
+        mTextLabelLocationCount.setText(res.getQuantityText(R.plurals.label_summary_locations, summary.bookLocations));
+        mTextLabelToReadCount.setText(res.getQuantityText(R.plurals.label_summary_to_read, summary.toRead));
+        mTextLabelLoanedCount.setText(res.getQuantityText(R.plurals.label_summary_loaned, summary.loaned));
+        mTextLabelFavouriteCount.setText(res.getQuantityText(R.plurals.label_summary_favourites, summary.favourites));
     }
 
     /**

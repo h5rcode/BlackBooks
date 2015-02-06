@@ -148,10 +148,8 @@ public class BookExportFragment extends Fragment implements TextQualifierPickerL
      * Export the books as a CSV file using the current parameters.
      */
     private void exportBooks() {
-        SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
-        SQLiteDatabase db = null;
         try {
-            db = dbHelper.getReadableDatabase();
+            SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
             File exportFile = FileUtils.createFileInAppDir("Export.csv");
             ExportServices.exportBookList(db, exportFile, mTextQualifier, mColumnSeparator, mFirstRowContainsHeader);
 
@@ -162,10 +160,6 @@ public class BookExportFragment extends Fragment implements TextQualifierPickerL
         } catch (IOException e) {
             Log.e(LogUtils.TAG, e.getMessage(), e);
             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-        } finally {
-            if (db != null) {
-                db.close();
-            }
         }
     }
 
@@ -173,18 +167,10 @@ public class BookExportFragment extends Fragment implements TextQualifierPickerL
      * Render a preview of the book export with the current parameters.
      */
     private void renderPreview() {
-        SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
-        SQLiteDatabase db = null;
-        try {
-            db = dbHelper.getReadableDatabase();
-            String preview = ExportServices.previewBookExport(db, mTextQualifier, mColumnSeparator, mFirstRowContainsHeader);
+        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
+        String preview = ExportServices.previewBookExport(db, mTextQualifier, mColumnSeparator, mFirstRowContainsHeader);
 
-            mTextPreview.setText(preview);
-        } finally {
-            if (db != null) {
-                db.close();
-            }
-        }
+        mTextPreview.setText(preview);
     }
 
     @Override

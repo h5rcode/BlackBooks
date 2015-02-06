@@ -17,15 +17,37 @@ import java.util.List;
 /**
  * Helper class to create/open/upgrade the database.
  */
-public class SQLiteHelper extends SQLiteOpenHelper {
+public final class SQLiteHelper extends SQLiteOpenHelper {
+
+    private static SQLiteHelper mInstance;
 
     /**
-     * Constructor.
+     * Private constructor.
      *
      * @param context Context.
      */
-    public SQLiteHelper(Context context) {
+    private SQLiteHelper(Context context) {
         super(context, Database.NAME, null, Database.VERSION);
+    }
+
+    /**
+     * Initialize the singleton.
+     *
+     * @param context Context.
+     */
+    public static synchronized void initialize(Context context) {
+        if (mInstance == null) {
+            mInstance = new SQLiteHelper(context);
+        }
+    }
+
+    /**
+     * Return the instance.
+     *
+     * @return
+     */
+    public static SQLiteHelper getInstance() {
+        return mInstance;
     }
 
     @Override

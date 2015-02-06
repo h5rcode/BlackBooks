@@ -45,17 +45,9 @@ public class BookListByAuthorFragment extends AbstractBookListFragment {
 
     @Override
     protected List<ListItem> loadBookList() {
-        SQLiteHelper dbHelper = new SQLiteHelper(this.getActivity());
-        SQLiteDatabase db = null;
         List<AuthorInfo> authorInfoList;
-        try {
-            db = dbHelper.getReadableDatabase();
-            authorInfoList = AuthorServices.getAuthorInfoList(db);
-        } finally {
-            if (db != null) {
-                db.close();
-            }
-        }
+        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
+        authorInfoList = AuthorServices.getAuthorInfoList(db);
 
         List<ListItem> listItems = new ArrayList<ListItem>();
 

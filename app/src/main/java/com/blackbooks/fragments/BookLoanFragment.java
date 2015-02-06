@@ -57,7 +57,6 @@ public class BookLoanFragment extends Fragment implements DatePickerListener {
     private TextView mTextLoanedTo;
     private TextView mTextLoanedOn;
 
-    private SQLiteHelper mDbHelper;
     private BookInfo mBookInfo;
 
     /**
@@ -80,10 +79,8 @@ public class BookLoanFragment extends Fragment implements DatePickerListener {
 
         Bundle args = getArguments();
         long bookId = args.getLong(ARG_BOOK_ID);
-        mDbHelper = new SQLiteHelper(activity);
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
         mBookInfo = BookServices.getBookInfo(db, bookId);
-        db.close();
 
         mBookLoanListener = (BookLoanListener) activity;
     }
@@ -256,9 +253,8 @@ public class BookLoanFragment extends Fragment implements DatePickerListener {
         }
 
         if (isValid) {
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
+            SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
             BookServices.saveBookInfo(db, mBookInfo);
-            db.close();
 
             mTextLoanTo.setText("");
             mTextLoanDate.setText("");
@@ -280,9 +276,8 @@ public class BookLoanFragment extends Fragment implements DatePickerListener {
         mBookInfo.loanedTo = null;
         mBookInfo.loanDate = null;
 
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
         BookServices.returnBook(db, mBookInfo.id);
-        db.close();
 
         String message = getString(R.string.message_book_returned);
         message = String.format(message, mBookInfo.title);

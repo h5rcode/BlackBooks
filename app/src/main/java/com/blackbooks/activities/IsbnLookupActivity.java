@@ -147,10 +147,8 @@ public class IsbnLookupActivity extends FragmentActivity implements DuplicateBoo
      */
     private void checkIsbnAndStartSearch(final String isbn) {
 
-        SQLiteHelper dbHelper = new SQLiteHelper(this);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
         List<Book> bookList = BookServices.getBookListByIsbn(db, isbn);
-        db.close();
 
         if (bookList.isEmpty()) {
             startIsbnSearch(isbn);

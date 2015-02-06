@@ -42,11 +42,8 @@ public class BookListByToReadReadFragment extends AbstractBookListFragment {
     @Override
     protected List<ListItem> loadBookList() {
 
-        SQLiteHelper dbHelper = new SQLiteHelper(getActivity());
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
+        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
         List<BookInfo> bookInfoList = BookServices.getBookInfoList(db);
-        db.close();
 
         List<ListItem> listItems = new ArrayList<ListItem>();
 

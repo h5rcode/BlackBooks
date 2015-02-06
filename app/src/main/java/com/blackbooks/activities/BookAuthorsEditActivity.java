@@ -228,10 +228,8 @@ public class BookAuthorsEditActivity extends Activity {
 
             @Override
             public List<Author> search(CharSequence constraint) {
-                SQLiteHelper mDbHelper = new SQLiteHelper(BookAuthorsEditActivity.this);
-                SQLiteDatabase db = mDbHelper.getReadableDatabase();
+                SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
                 List<Author> authorList = AuthorServices.getAuthorListByText(db, constraint.toString());
-                db.close();
                 return authorList;
             }
 
@@ -294,10 +292,8 @@ public class BookAuthorsEditActivity extends Activity {
      * @return Author.
      */
     private Author getAuthorByCriteria(Author criteria) {
-        SQLiteHelper dbHelper = new SQLiteHelper(this);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
         Author author = AuthorServices.getAuthorByCriteria(db, criteria);
-        db.close();
         return author;
     }
 }

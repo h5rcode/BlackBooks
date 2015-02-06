@@ -157,10 +157,8 @@ public final class ThumbnailManager {
 
         @Override
         protected Book doInBackground(Long... params) {
-            SQLiteHelper dbHelper = new SQLiteHelper(mContext);
-            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
             Book book = BookServices.getBook(db, mBookId);
-            db.close();
             return book;
         }
 

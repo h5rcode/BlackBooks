@@ -293,10 +293,8 @@ public final class BookEditActivity extends FragmentActivity implements IsbnLook
     private void initStateEditMode(Intent intent) {
         if (intent.hasExtra(EXTRA_BOOK_ID)) {
             long bookId = intent.getLongExtra(EXTRA_BOOK_ID, 0);
-            SQLiteHelper dbHelper = new SQLiteHelper(this);
-            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
             mBookInfo = BookServices.getBookInfo(db, bookId);
-            db.close();
             mBookInfoOriginal = new BookInfo(mBookInfo);
 
             setTitleEditMode();
@@ -358,10 +356,8 @@ public final class BookEditActivity extends FragmentActivity implements IsbnLook
             isValid = isValid && mBookEditPersonalFragment.readBookInfo(mBookInfo);
 
             if (isValid) {
-                SQLiteHelper dbHelper = new SQLiteHelper(this);
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
                 BookServices.saveBookInfo(db, mBookInfo);
-                db.close();
 
                 VariableUtils.getInstance().setReloadBookList(true);
 

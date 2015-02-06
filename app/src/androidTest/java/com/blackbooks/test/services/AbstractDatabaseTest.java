@@ -36,8 +36,8 @@ public abstract class AbstractDatabaseTest extends AndroidTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         RenamingDelegatingContext ctx = new RenamingDelegatingContext(getContext(), "test-");
-        SQLiteHelper dbHelper = new SQLiteHelper(ctx);
-        mDb = dbHelper.getWritableDatabase();
+        SQLiteHelper.initialize(ctx);
+        mDb = SQLiteHelper.getInstance().getWritableDatabase();
     }
 
     /**
