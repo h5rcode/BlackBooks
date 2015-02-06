@@ -13,11 +13,11 @@ public final class Version3 {
      * @param db SQLiteDatabase.
      */
     public static void upgrade(SQLiteDatabase db) {
-        String updateEmptyBookComments = "CREATE TABLE SCANNED_ISBN  (\n" +
+        String createTableScannedIsbn = "CREATE TABLE SCANNED_ISBN  (\n" +
                 "\tSCI_ID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "\tSCN_ISBN TEXT NOT NULL UNIQUE,\n" +
                 "\tSCI_SCAN_DATE INTEGER NOT NULL\n" +
                 ");";
-        db.execSQL(updateEmptyBookComments);
+        db.execSQL(createTableScannedIsbn);
     }
 }
