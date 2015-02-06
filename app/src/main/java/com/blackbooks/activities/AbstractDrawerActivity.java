@@ -42,11 +42,12 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
     private static final int ITEM_SCAN_ISBN = 5;
     private static final int ITEM_ENTER_ISBN = 6;
     private static final int ITEM_ADD_MANUALLY = 7;
-    // private static final int ITEM_IMPORT_EXPORT_BOOKS = 8;
-    private static final int ITEM_IMPORT_BOOKS = 9;
-    private static final int ITEM_EXPORT_BOOKS = 10;
-    private static final int ITEM_ADMINISTRATION = 11;
-    private static final int ITEM_BACKUP_DB = 12;
+    private static final int ITEM_BULK_SCAN = 8;
+    // private static final int ITEM_IMPORT_EXPORT_BOOKS = 9;
+    private static final int ITEM_IMPORT_BOOKS = 10;
+    private static final int ITEM_EXPORT_BOOKS = 11;
+    private static final int ITEM_ADMINISTRATION = 12;
+    private static final int ITEM_BACKUP_DB = 13;
 
     private static final String SCANNER_INSTALL_FRAGMENT = "SCANNER_INSTALL_FRAGMENT";
 
@@ -75,19 +76,15 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 
         // Books.
         DrawerItem groupBooks = new DrawerItem(ITEM_BOOKS, getString(R.string.menu_books), null, DrawerItemType.GROUP);
-        DrawerItem itemSummary = new DrawerItem(ITEM_SUMMARY, getString(R.string.menu_book_list_summary),
-                R.drawable.ic_action_summary, DrawerItemType.ITEM);
-        DrawerItem itemBookList = new DrawerItem(ITEM_BOOK_LIST, getString(R.string.menu_book_list),
-                R.drawable.ic_action_book_list, DrawerItemType.ITEM);
+        DrawerItem itemSummary = new DrawerItem(ITEM_SUMMARY, getString(R.string.menu_book_list_summary), R.drawable.ic_action_summary, DrawerItemType.ITEM);
+        DrawerItem itemBookList = new DrawerItem(ITEM_BOOK_LIST, getString(R.string.menu_book_list), R.drawable.ic_action_book_list, DrawerItemType.ITEM);
 
         // Add books.
         DrawerItem groupAddBook = new DrawerItem(ITEM_ADD_BOOK, getString(R.string.menu_add_books), null, DrawerItemType.GROUP);
-        DrawerItem itemScanIsbn = new DrawerItem(ITEM_SCAN_ISBN, getString(R.string.action_scan_isbn),
-                R.drawable.ic_action_camera, DrawerItemType.ITEM);
-        DrawerItem itemEnterIsbn = new DrawerItem(ITEM_ENTER_ISBN, getString(R.string.action_enter_isbn),
-                R.drawable.ic_action_dial_pad, DrawerItemType.ITEM);
-        DrawerItem itemAddManually = new DrawerItem(ITEM_ADD_MANUALLY, getString(R.string.action_add_manually),
-                R.drawable.ic_action_keyboard, DrawerItemType.ITEM);
+        DrawerItem itemScanIsbn = new DrawerItem(ITEM_SCAN_ISBN, getString(R.string.action_scan_isbn), R.drawable.ic_action_camera, DrawerItemType.ITEM);
+        DrawerItem itemEnterIsbn = new DrawerItem(ITEM_ENTER_ISBN, getString(R.string.action_enter_isbn), R.drawable.ic_action_dial_pad, DrawerItemType.ITEM);
+        DrawerItem itemAddManually = new DrawerItem(ITEM_ADD_MANUALLY, getString(R.string.action_add_manually), R.drawable.ic_action_keyboard, DrawerItemType.ITEM);
+        DrawerItem itemBulkScan = new DrawerItem(ITEM_BULK_SCAN, getString(R.string.action_bulk_scan), R.drawable.ic_action_add_to_queue, DrawerItemType.ITEM);
 
         // Import/Export.
         // DrawerItem groupImportExportBooks = new
@@ -119,6 +116,7 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
         list.add(itemScanIsbn);
         list.add(itemEnterIsbn);
         list.add(itemAddManually);
+        list.add(itemBulkScan);
         // list.add(groupImportExportBooks);
         // list.add(itemImportBooks);
         // list.add(itemExportBooks);
@@ -208,6 +206,10 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
                     startBookEditActivity();
                     break;
 
+                case ITEM_BULK_SCAN:
+                    startBulkScanActivity();
+                    break;
+
                 case ITEM_IMPORT_BOOKS:
                     startBookImportActivity();
                     break;
@@ -229,6 +231,15 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
             closeDrawer();
             Intent i = new Intent(AbstractDrawerActivity.this, BookEditActivity.class);
             i.putExtra(BookEditActivity.EXTRA_MODE, BookEditActivity.MODE_ADD);
+            startActivity(i);
+        }
+
+        /**
+         * Start {@link BulkScanActivity}.
+         */
+        private void startBulkScanActivity() {
+            closeDrawer();
+            Intent i = new Intent(AbstractDrawerActivity.this, BulkScanActivity.class);
             startActivity(i);
         }
 

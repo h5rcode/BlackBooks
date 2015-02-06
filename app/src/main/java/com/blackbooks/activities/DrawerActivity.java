@@ -23,5 +23,10 @@ public enum DrawerActivity {
     /**
      * {@link BookImportActivity}.
      */
-    BOOK_IMPORT
+    BOOK_IMPORT,
+
+    /**
+     * {@link BulkScanActivity}.
+     */
+    BULK_SCAN
 }

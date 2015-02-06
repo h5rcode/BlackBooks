@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.blackbooks.database.upgrades.Version2;
+import com.blackbooks.database.upgrades.Version3;
 import com.blackbooks.sql.Broker;
 import com.blackbooks.sql.BrokerManager;
 import com.blackbooks.sql.FTSBroker;
@@ -44,7 +45,7 @@ public final class SQLiteHelper extends SQLiteOpenHelper {
     /**
      * Return the instance.
      *
-     * @return
+     * @return SQLiteHelper.
      */
     public static SQLiteHelper getInstance() {
         return mInstance;
@@ -91,6 +92,10 @@ public final class SQLiteHelper extends SQLiteOpenHelper {
 
         if (oldVersion < 2) {
             Version2.upgrade(db);
+        }
+
+        if (oldVersion < 3) {
+            Version3.upgrade(db);
         }
     }
 }
