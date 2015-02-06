@@ -32,6 +32,7 @@
     <string name="action_sort_by_loaned">Loaned/available</string>
     <string name="action_sort_by_to_read_read">To read/read</string>
     <string name="action_sort_by_series">By series</string>
+    <string name="action_start_background_search">Start background search</string>
     <string name="action_start_bulk_scan">Start bulk scan</string>
     <string name="action_take_picture">Take a picture</string>
     <string name="action_unmark_book_as_favourite">Unmark as favourite</string>

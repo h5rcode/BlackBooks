@@ -95,6 +95,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name="com.blackbooks.service.BulkSearchService"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

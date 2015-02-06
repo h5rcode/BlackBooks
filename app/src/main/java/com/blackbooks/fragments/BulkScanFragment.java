@@ -20,6 +20,7 @@ import com.blackbooks.R;
 import com.blackbooks.adapters.ScannedIsbnsAdapter;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.persistent.ScannedIsbn;
+import com.blackbooks.service.BulkSearchService;
 import com.blackbooks.services.ScannedIsbnServices;
 import com.blackbooks.utils.IsbnUtils;
 import com.blackbooks.utils.Pic2ShopUtils;
@@ -70,6 +71,12 @@ public class BulkScanFragment extends ListFragment {
         switch (item.getItemId()) {
             case R.id.bulkScan_startScanning:
                 startIsbnScan();
+                result = true;
+                break;
+
+            case R.id.bulkScan_startSearch:
+                Intent i = new Intent(getActivity(), BulkSearchService.class);
+                getActivity().startService(i);
                 result = true;
                 break;
 

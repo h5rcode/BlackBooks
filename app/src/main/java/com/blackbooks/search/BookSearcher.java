@@ -62,10 +62,7 @@ public final class BookSearcher {
             executorService.shutdown();
         }
 
-        BookInfo bookInfo = mergeSearchResults(bookSearchResultList);
-
-        return bookInfo;
-
+        return mergeSearchResults(bookSearchResultList);
     }
 
     /**
@@ -88,8 +85,7 @@ public final class BookSearcher {
                 if (cause instanceof IOException) {
                     throw (IOException) cause;
                 } else {
-                    Log.e(LogUtils.TAG, "A book search encountered an error.");
-                    Log.e(LogUtils.TAG, cause.getMessage(), cause);
+                    Log.e(LogUtils.TAG, "A book search encountered an error.", cause);
                 }
             }
             if (bookSearchResult != null) {

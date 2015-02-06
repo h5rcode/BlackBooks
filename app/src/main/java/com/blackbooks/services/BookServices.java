@@ -396,11 +396,23 @@ public class BookServices {
     private static void updateBookCategoryList(SQLiteDatabase db, BookInfo bookInfo) {
         BookCategoryServices.deleteBookCategoryListByBook(db, bookInfo.id);
         for (Category category : bookInfo.categories) {
-            CategoryServices.saveCategory(db, category);
+
+            Category criteria = new Category();
+            criteria.name = category.name;
+
+            Category categoryDb = CategoryServices.getCategoryByCriteria(db, criteria);
+
+            long categoryId;
+            if (categoryDb != null) {
+                categoryId = categoryDb.id;
+            } else {
+                CategoryServices.saveCategory(db, category);
+                categoryId = category.id;
+            }
 
             BookCategory bookCategory = new BookCategory();
             bookCategory.bookId = bookInfo.id;
-            bookCategory.categoryId = category.id;
+            bookCategory.categoryId = categoryId;
 
             BookCategoryServices.saveBookCategory(db, bookCategory);
         }

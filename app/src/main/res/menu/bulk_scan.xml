@@ -8,6 +8,12 @@
         android:title="@string/action_start_bulk_scan" />
 
     <item
+        android:id="@+id/bulkScan_startSearch"
+        android:icon="@drawable/ic_action_forward"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_start_background_search" />
+
+    <item
         android:id="@+id/bulkScan_deleteAll"
         android:icon="@drawable/ic_action_discard"
         android:showAsAction="ifRoom"

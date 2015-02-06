@@ -5,14 +5,15 @@ package com.blackbooks.utils;
  */
 public final class VariableUtils {
 
-    private final static VariableUtils mInstance = new VariableUtils();
-
+    private static final Object LOCK_RELOAD_BOOK_LIST = new Object();
+    private static VariableUtils mInstance;
     private boolean mReloadBookList;
 
     /**
      * Private constructor.
      */
     private VariableUtils() {
+        mReloadBookList = false;
     }
 
     /**
@@ -20,7 +21,10 @@ public final class VariableUtils {
      *
      * @return VariableUtils.
      */
-    public static VariableUtils getInstance() {
+    public static synchronized VariableUtils getInstance() {
+        if (mInstance == null) {
+            mInstance = new VariableUtils();
+        }
         return mInstance;
     }
 
@@ -31,7 +35,9 @@ public final class VariableUtils {
      * @return True if the book list should be reloaded, false otherwise.
      */
     public boolean getReloadBookList() {
-        return mReloadBookList;
+        synchronized (LOCK_RELOAD_BOOK_LIST) {
+            return mReloadBookList;
+        }
     }
 
     /**
@@ -40,6 +46,8 @@ public final class VariableUtils {
      * @param reloadBookList True if the book list should be reloaded, false otherwise.
      */
     public void setReloadBookList(boolean reloadBookList) {
-        mReloadBookList = reloadBookList;
+        synchronized (LOCK_RELOAD_BOOK_LIST) {
+            mReloadBookList = reloadBookList;
+        }
     }
 }

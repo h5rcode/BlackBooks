@@ -31,6 +31,7 @@
     <string name="action_sort_by_loaned">Prêtés/disponibles</string>
     <string name="action_sort_by_series">Par série</string>
     <string name="action_sort_by_to_read_read">À lire/lus</string>
+    <string name="action_start_background_search">Lancer la recherche</string>
     <string name="action_start_bulk_scan">Commencer à scanner</string>
     <string name="action_take_picture">Prendre une photo</string>
     <string name="action_unmark_book_as_favourite">Retirer des favoris</string>
