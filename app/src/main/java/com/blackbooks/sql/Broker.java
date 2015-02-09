@@ -22,6 +22,8 @@ import java.util.List;
  */
 public class Broker<T> {
 
+    private static final int MAX_SQL_PARAMETERS = 250;
+
     private Class<T> mType;
     private Table mTable;
     private Field mPrimaryKeyField;
@@ -184,6 +186,18 @@ public class Broker<T> {
      * @return List of rows corresponding to the values.
      */
     public List<T> getAllWhereIn(SQLiteDatabase db, String column, List<?> values) {
+
+        int valueCount = values.size();
+
+        List<T> results = new ArrayList<T>();
+        int startIndex = 0;
+        int endIndex;
+        if (valueCount <= MAX_SQL_PARAMETERS) {
+            endIndex = valueCount;
+        } else {
+            endIndex = MAX_SQL_PARAMETERS;
+        }
+
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT * FROM");
         sb.append(' ');
@@ -193,20 +207,38 @@ public class Broker<T> {
         sb.append(' ');
         sb.append(column);
         sb.append(' ');
-        sb.append("IN (");
+        sb.append("IN (%s);");
+        String sqlFormat = sb.toString();
 
-        String selectionArgs[] = new String[values.size()];
-        for (int i = 0; i < values.size(); i++) {
-            sb.append('?');
-            if (i < values.size() - 1) {
-                sb.append(", ");
+        boolean goOn = true;
+        while (goOn) {
+            List<?> valuesSubList = values.subList(startIndex, endIndex);
+            if (valuesSubList.isEmpty()) {
+                goOn = false;
+            } else {
+                StringBuilder sbSelectionArgs = new StringBuilder();
+                String selectionArgs[] = new String[valuesSubList.size()];
+                for (int i = 0; i < valuesSubList.size(); i++) {
+                    sbSelectionArgs.append('?');
+                    if (i < valuesSubList.size() - 1) {
+                        sbSelectionArgs.append(", ");
+                    }
+
+                    selectionArgs[i] = valuesSubList.get(i).toString();
+                }
+                String sql = String.format(sqlFormat, sbSelectionArgs.toString());
+
+                results.addAll(rawSelect(db, sql, selectionArgs));
+
+                startIndex = endIndex;
+                endIndex = endIndex + MAX_SQL_PARAMETERS;
+                if (endIndex > valueCount) {
+                    endIndex = valueCount;
+                }
             }
-
-            selectionArgs[i] = values.get(i).toString();
         }
-        sb.append(')');
-        String sql = sb.toString();
-        return rawSelect(db, sql, selectionArgs);
+
+        return results;
     }
 
     /**

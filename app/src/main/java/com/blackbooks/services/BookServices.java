@@ -246,6 +246,20 @@ public class BookServices {
     }
 
     /**
+     * Load the small thumbnail of a book.
+     *
+     * @param db     SQLiteDatabase.
+     * @param bookId Id of a book.
+     * @return Small thumbnail as a byte array.
+     */
+    public static byte[] getBookSmallThumbnail(SQLiteDatabase db, long bookId) {
+        String sql = "SELECT " + Book.Cols.BOO_SMALL_THUMBNAIL + " FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_ID + " = ?;";
+        String[] selectionArgs = new String[]{String.valueOf(bookId)};
+        Book book = BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs).get(0);
+        return book.smallThumbnail;
+    }
+
+    /**
      * Mark or unmark a book as favourite.
      *
      * @param db     SQLiteDatabase.
