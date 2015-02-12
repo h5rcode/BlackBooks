@@ -26,7 +26,6 @@
         android:theme="@style/AppTheme" >
         <activity android:name="com.blackbooks.activities.BookListActivity" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -38,6 +37,10 @@
         <activity
             android:name="com.blackbooks.activities.SummaryActivity"
             android:label="@string/title_activity_summary" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.blackbooks.activities.IsbnLookupActivity"
@@ -91,6 +94,16 @@
             android:label="@string/title_activity_bulk_scan">
         </activity>
         <activity android:name="com.blackbooks.activities.ReportErrorActivity" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activities.BookGroupListActivity" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.blackbooks.activities.BookListActivity2" >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

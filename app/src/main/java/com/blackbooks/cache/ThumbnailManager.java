@@ -42,7 +42,7 @@ public final class ThumbnailManager {
      *
      * @return ThumbnailManager.
      */
-    public static ThumbnailManager getInstance() {
+    public static synchronized ThumbnailManager getInstance() {
         if (mInstance == null) {
             mInstance = new ThumbnailManager();
         }
@@ -142,7 +142,7 @@ public final class ThumbnailManager {
             super.onPostExecute(result);
             Bitmap smallThumbnailBmp;
 
-            if (result != null) {
+            if (result != null && result.length > 0) {
                 smallThumbnailBmp = BitmapFactory.decodeByteArray(result, 0, result.length);
             } else {
                 smallThumbnailBmp = getUndefinedBitmap(mContext);
@@ -150,9 +150,7 @@ public final class ThumbnailManager {
 
             mSmallThumbnailCache.put(mBookId, smallThumbnailBmp);
 
-            if (smallThumbnailBmp != null) {
-                mImageView.setImageBitmap(smallThumbnailBmp);
-            }
+            mImageView.setImageBitmap(smallThumbnailBmp);
             mProgressBar.setVisibility(View.GONE);
             mImageView.setVisibility(View.VISIBLE);
         }

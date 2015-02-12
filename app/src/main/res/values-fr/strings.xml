@@ -54,6 +54,10 @@
     <string name="field_invalid_date">Date invalide.</string>
     <string name="field_invalid_loan_date">La date doit être antérieure à la date du jour.</string>
     <string name="field_mandatory">Ce champ est obligatoire.</string>
+    <plurals name="footer_fragment_books">
+        <item quantity="one">%1$s livre sur %2$s</item>
+        <item quantity="other">%1$s livres sur %2$s</item>
+    </plurals>
     <string name="header_available">Disponibles</string>
     <string name="header_favourite">Favoris</string>
     <string name="header_loaned">Prêtés</string>
@@ -302,6 +306,12 @@
     <string name="title_activity_book_edit_mode_add">Ajouter un livre</string>
     <string name="title_activity_book_edit_mode_edit">Modifier \"%s\"</string>
     <string name="title_activity_book_export">Exporter au format CSV</string>
+    <string name="title_activity_book_group_authors">Auteurs</string>
+    <string name="title_activity_book_group_book_locations">Emplacements</string>
+    <string name="title_activity_book_group_categories">Catégories</string>
+    <string name="title_activity_book_group_first_letter">Première lettre du titre</string>
+    <string name="title_activity_book_group_languages">Langues</string>
+    <string name="title_activity_book_group_series">Séries</string>
     <string name="title_activity_book_import">Importer depuis un fichier CSV</string>
     <string name="title_activity_bulk_scan">Scanner des ISBNs en masse</string>
     <string name="title_activity_isbn_lookup">Recherche par ISBN</string>

@@ -55,6 +55,10 @@
     <string name="field_invalid_date">Invalid date.</string>
     <string name="field_invalid_loan_date">The date must be before today\'s date.</string>
     <string name="field_mandatory">This field is mandatory.</string>
+    <plurals name="footer_fragment_books">
+        <item quantity="one">%1$s book out of %2$s</item>
+        <item quantity="other">%1$s books out of %2$s</item>
+    </plurals>
     <string name="footer_fragment_books_by_author" translatable="false">%1$s, %2$s</string>
     <string name="footer_fragment_books_by_book_location" translatable="false">%1$s, %2$s</string>
     <string name="footer_fragment_books_by_category" translatable="false">%1$s, %2$s</string>
@@ -315,6 +319,12 @@
     <string name="title_activity_book_edit_mode_add">Add a book</string>
     <string name="title_activity_book_edit_mode_edit">Edit \"%s\"</string>
     <string name="title_activity_book_export">Export to CSV</string>
+    <string name="title_activity_book_group_authors">Authors</string>
+    <string name="title_activity_book_group_book_locations">Book locations</string>
+    <string name="title_activity_book_group_categories">Categories</string>
+    <string name="title_activity_book_group_first_letter">First letter</string>
+    <string name="title_activity_book_group_languages">Languages</string>
+    <string name="title_activity_book_group_series">Series</string>
     <string name="title_activity_book_import">Import from CSV</string>
     <string name="title_activity_bulk_scan">Bulk scan</string>
     <string name="title_activity_isbn_lookup">ISBN lookup</string>

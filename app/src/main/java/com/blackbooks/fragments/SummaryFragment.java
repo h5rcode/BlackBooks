@@ -15,8 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blackbooks.R;
+import com.blackbooks.activities.BookGroupListActivity;
 import com.blackbooks.activities.BookListActivity;
 import com.blackbooks.database.SQLiteHelper;
+import com.blackbooks.model.nonpersistent.BookGroup;
 import com.blackbooks.model.nonpersistent.Summary;
 import com.blackbooks.services.SummaryServices;
 
@@ -79,42 +81,42 @@ public class SummaryFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                startBookListActivity(BookListByFirstLetterFragment.class);
+                startBookGroupListActivity(BookGroup.BookGroupType.FIRST_LETTER);
             }
         });
         mLayoutAuthors.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                startBookListActivity(BookListByAuthorFragment.class);
+                startBookGroupListActivity(BookGroup.BookGroupType.AUTHOR);
             }
         });
         mLayoutCategories.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                startBookListActivity(BookListByCategoryFragment.class);
+                startBookGroupListActivity(BookGroup.BookGroupType.CATEGORY);
             }
         });
         mLayoutLanguages.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                startBookListActivity(BookListByLanguageFragment.class);
+                startBookGroupListActivity(BookGroup.BookGroupType.LANGUAGE);
             }
         });
         mLayoutSeries.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                startBookListActivity(BookListBySeriesFragment.class);
+                startBookGroupListActivity(BookGroup.BookGroupType.SERIES);
             }
         });
         mLayoutLocations.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                startBookListActivity(BookListByBookLocationFragment.class);
+                startBookGroupListActivity(BookGroup.BookGroupType.BOOK_LOCATION);
             }
         });
         mLayoutToRead.setOnClickListener(new OnClickListener() {
@@ -202,6 +204,17 @@ public class SummaryFragment extends Fragment {
         }
         Intent i = new Intent(getActivity(), BookListActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(i);
+    }
+
+    /**
+     * Start the {@link com.blackbooks.activities.BookGroupListActivity}.
+     *
+     * @param bookGroupType BookGroupType.
+     */
+    private void startBookGroupListActivity(BookGroup.BookGroupType bookGroupType) {
+        Intent i = new Intent(getActivity(), BookGroupListActivity.class);
+        i.putExtra(BookGroupListActivity.EXTRA_GROUP_BOOK_TYPE, bookGroupType);
         startActivity(i);
     }
 }

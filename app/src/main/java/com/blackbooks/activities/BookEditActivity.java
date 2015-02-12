@@ -367,7 +367,7 @@ public final class BookEditActivity extends FragmentActivity implements IsbnLook
                     case MODE_ADD:
                         message = String.format(getString(R.string.message_book_added), title);
                         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(this, BookListActivity.class);
+                        Intent i = new Intent(this, SummaryActivity.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(i);
                         finish();

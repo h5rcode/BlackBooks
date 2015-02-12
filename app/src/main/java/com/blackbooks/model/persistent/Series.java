@@ -16,7 +16,7 @@ public class Series implements Serializable {
     @Column(name = Cols.SER_ID, primaryKey = true, type = SQLiteDataType.INTEGER, version = 1)
     public Long id;
 
-    @Column(name = Cols.SER_NAME, type = SQLiteDataType.TEXT, mandatory = true, version = 1)
+    @Column(name = Cols.SER_NAME, mandatory = true, unique = true, type = SQLiteDataType.TEXT, version = 1)
     public String name;
 
     /**

@@ -16,7 +16,7 @@ public class Author implements Serializable {
     @Column(name = Cols.AUT_ID, primaryKey = true, type = SQLiteDataType.INTEGER, version = 1)
     public Long id;
 
-    @Column(name = Cols.AUT_NAME, mandatory = true, type = SQLiteDataType.TEXT, version = 1)
+    @Column(name = Cols.AUT_NAME, mandatory = true, unique = true, type = SQLiteDataType.TEXT, version = 1)
     public String name;
 
     /**

@@ -16,7 +16,7 @@ public class Publisher implements Serializable {
     @Column(name = Cols.PUB_ID, primaryKey = true, type = SQLiteDataType.INTEGER, version = 1)
     public Long id;
 
-    @Column(name = Cols.PUB_NAME, mandatory = true, type = SQLiteDataType.TEXT, version = 1)
+    @Column(name = Cols.PUB_NAME, mandatory = true, unique = true, type = SQLiteDataType.TEXT, version = 1)
     public String name;
 
     /**

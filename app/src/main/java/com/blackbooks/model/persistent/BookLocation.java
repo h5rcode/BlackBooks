@@ -13,7 +13,7 @@ public class BookLocation implements Serializable {
 
     private static final long serialVersionUID = -7452261290218427907L;
 
-    @Column(name = Cols.BKL_ID, primaryKey = true, type = SQLiteDataType.INTEGER, version = 1)
+    @Column(name = Cols.BKL_ID, primaryKey = true, unique = true, type = SQLiteDataType.INTEGER, version = 1)
     public Long id;
 
     @Column(name = Cols.BKL_NAME, type = SQLiteDataType.TEXT, mandatory = true, version = 1)
