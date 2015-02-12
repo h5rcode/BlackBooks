@@ -1,15 +1,19 @@
 package com.blackbooks.services;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.util.LongSparseArray;
 
 import com.blackbooks.cache.ThumbnailManager;
+import com.blackbooks.model.nonpersistent.BookGroup;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.model.persistent.BookAuthor;
 import com.blackbooks.model.persistent.BookCategory;
+import com.blackbooks.model.persistent.BookLocation;
 import com.blackbooks.model.persistent.Category;
+import com.blackbooks.model.persistent.Publisher;
 import com.blackbooks.model.persistent.fts.BookFTS;
 import com.blackbooks.sql.BrokerManager;
 import com.blackbooks.sql.FTSBroker;
@@ -17,6 +21,7 @@ import com.blackbooks.sql.FTSBrokerManager;
 import com.blackbooks.utils.IsbnUtils;
 import com.blackbooks.utils.StringUtils;
 
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
@@ -146,6 +151,51 @@ public class BookServices {
     }
 
     /**
+     * Return the number of books of a given group.
+     *
+     * @param db            SQLiteDatabase.
+     * @param bookGroupType BookGroupType.
+     * @param bookGroupId   Book group id.
+     * @return Book count.
+     */
+    public static int getBookCountByBookGroup(SQLiteDatabase db, BookGroup.BookGroupType bookGroupType, Serializable bookGroupId) {
+
+        String sql;
+        switch (bookGroupType) {
+            case AUTHOR:
+                sql = "SELECT COUNT(*) FROM " + BookAuthor.NAME + " WHERE " + BookAuthor.Cols.AUT_ID + " = ?;";
+                break;
+
+            case BOOK_LOCATION:
+                sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.BKL_ID + " = ?;";
+                break;
+
+            case CATEGORY:
+                sql = "SELECT COUNT(*) FROM " + BookCategory.NAME + " WHERE " + BookCategory.Cols.CAT_ID + " = ?;";
+                break;
+
+            case FIRST_LETTER:
+                sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE SUBSTR(UPPER(" + Book.Cols.BOO_TITLE + "), 1, 1) = ?;";
+                break;
+
+            case LANGUAGE:
+                sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_LANGUAGE_CODE + " = ? COLLATE NOCASE;";
+                break;
+
+            case SERIES:
+                sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.SER_ID + " = ?;";
+                break;
+
+            default:
+                throw new IllegalArgumentException(String.format("Invalid bookGroupType: %s.", bookGroupType));
+        }
+
+        Cursor cursor = db.rawQuery(sql, new String[]{String.valueOf(bookGroupId)});
+        cursor.moveToNext();
+        return cursor.getInt(0);
+    }
+
+    /**
      * Return the books corresponding to a given ISBN number.
      *
      * @param db   SQLiteDatabase.
@@ -182,6 +232,67 @@ public class BookServices {
      */
     public static List<BookInfo> getBookInfoList(SQLiteDatabase db) {
         List<Book> bookList = getBookList(db);
+        return getBookInfoListFromBookList(db, bookList);
+    }
+
+    /**
+     * Return the list of books of a given group.
+     *
+     * @param db            SQLiteDatabase.
+     * @param bookGroupType Book group type.
+     * @param bookGroupId   Book group id.
+     * @param limit         Max number of books to return.
+     * @param offset        Offset.
+     * @return List of BookInfo.
+     */
+    public static List<BookInfo> getBookInfoListByBookGroup(SQLiteDatabase db, BookGroup.BookGroupType bookGroupType, Serializable bookGroupId, int limit, int offset) {
+
+        String[] selectedColumnList = new String[]{
+                "boo." + Book.Cols.BOO_ID,
+                "boo." + Book.Cols.BOO_TITLE,
+                "boo." + Book.Cols.BOO_IS_READ,
+                "boo." + Book.Cols.BOO_IS_FAVOURITE
+        };
+
+        String selectedColumns = StringUtils.join(selectedColumnList, ", ");
+
+        String sql;
+        switch (bookGroupType) {
+            case AUTHOR:
+                sql = "SELECT " + selectedColumns + " FROM " + Book.NAME + " boo JOIN " + BookAuthor.NAME + " bka ON bka." + BookAuthor.Cols.BOO_ID + " = boo." + Book.Cols.BOO_ID + " WHERE bka." + BookAuthor.Cols.AUT_ID + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " LIMIT ? OFFSET ?;";
+                break;
+
+            case BOOK_LOCATION:
+                sql = "SELECT " + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.BKL_ID + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " LIMIT ? OFFSET ?;";
+                break;
+
+            case CATEGORY:
+                sql = "SELECT " + selectedColumns + " FROM " + Book.NAME + " boo JOIN " + BookCategory.NAME + " bca ON bca." + BookCategory.Cols.BOO_ID + " = boo." + Book.Cols.BOO_ID + " WHERE bca." + BookCategory.Cols.CAT_ID + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " LIMIT ? OFFSET ?;";
+                break;
+
+            case FIRST_LETTER:
+                sql = "SELECT " + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.BOO_TITLE + " LIKE ? || '%' COLLATE NOCASE ORDER BY " + Book.Cols.BOO_TITLE + " COLLATE NOCASE LIMIT ? OFFSET ?;";
+                break;
+
+            case LANGUAGE:
+                sql = "SELECT " + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.BOO_LANGUAGE_CODE + " = ? COLLATE NOCASE LIMIT ? OFFSET ?;";
+                break;
+
+            case SERIES:
+                sql = "SELECT boo." + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.SER_ID + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " LIMIT ? OFFSET ?;";
+                break;
+
+            default:
+                throw new IllegalArgumentException(String.format("Invalid bookGroupType: %s.", bookGroupType));
+        }
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(bookGroupId),
+                String.valueOf(limit),
+                String.valueOf(offset)
+        };
+
+        List<Book> bookList = BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
         return getBookInfoListFromBookList(db, bookList);
     }
 
@@ -326,15 +437,39 @@ public class BookServices {
             boolean isCreation = bookInfo.id == null;
 
             if (bookInfo.publisher.name != null) {
-                PublisherServices.savePublisher(db, bookInfo.publisher);
-                bookInfo.publisherId = bookInfo.publisher.id;
+
+                Publisher criteria = new Publisher();
+                criteria.name = bookInfo.publisher.name;
+
+                Publisher publisherDb = PublisherServices.getPublisherByCriteria(db, criteria);
+
+                long publisherId;
+                if (publisherDb != null) {
+                    publisherId = publisherDb.id;
+                } else {
+                    PublisherServices.savePublisher(db, bookInfo.publisher);
+                    publisherId = bookInfo.publisher.id;
+                }
+                bookInfo.publisherId = publisherId;
             } else {
                 bookInfo.publisherId = null;
             }
 
             if (bookInfo.bookLocation.name != null) {
-                BookLocationServices.saveBookLocation(db, bookInfo.bookLocation);
-                bookInfo.bookLocationId = bookInfo.bookLocation.id;
+                BookLocation criteria = new BookLocation();
+                criteria.name = bookInfo.bookLocation.name;
+
+                BookLocation bookLocationDb = BookLocationServices.getBookLocationByCriteria(db, criteria);
+
+                long bookLocationId;
+                if (bookLocationDb != null) {
+                    bookLocationId = bookLocationDb.id;
+                } else {
+                    BookLocationServices.saveBookLocation(db, bookInfo.bookLocation);
+                    bookLocationId = bookInfo.bookLocation.id;
+                }
+
+                bookInfo.bookLocationId = bookLocationId;
             } else {
                 bookInfo.bookLocationId = null;
             }
@@ -389,10 +524,21 @@ public class BookServices {
     private static void updateBookAuthorList(SQLiteDatabase db, BookInfo bookInfo) {
         BookAuthorServices.deleteBookAuthorListByBook(db, bookInfo.id);
         for (Author author : bookInfo.authors) {
-            AuthorServices.saveAuthor(db, author);
+            Author criteria = new Author();
+            criteria.name = author.name;
+
+            Author authorDb = AuthorServices.getAuthorByCriteria(db, criteria);
+
+            long authorId;
+            if (authorDb != null) {
+                authorId = authorDb.id;
+            } else {
+                AuthorServices.saveAuthor(db, author);
+                authorId = author.id;
+            }
 
             BookAuthor bookAuthor = new BookAuthor();
-            bookAuthor.authorId = author.id;
+            bookAuthor.authorId = authorId;
             bookAuthor.bookId = bookInfo.id;
 
             BookAuthorServices.saveBookAuthor(db, bookAuthor);

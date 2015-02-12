@@ -438,7 +438,14 @@ public final class BookListFragment extends ListFragment {
             super.onPostExecute(bookInfoList);
             mBookListAdapter.addAll(bookInfoList);
             mBookListAdapter.notifyDataSetChanged();
-            setFooterText();
+
+            int bookCount = bookInfoList.size();
+            if (bookCount > 0) {
+                Resources res = getResources();
+                String message = res.getQuantityString(R.plurals.message_books_loaded, bookCount, bookCount);
+                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                setFooterText();
+            }
         }
     }
 }

@@ -208,6 +208,10 @@
         <item quantity="one">série</item>
         <item quantity="other">séries</item>
     </plurals>
+    <plurals name="message_books_loaded">
+        <item quantity="one">%d livre chargé</item>
+        <item quantity="other">%d livres chargés</item>
+    </plurals>
     <plurals name="message_duplicate_books">
         <item quantity="one">%d livre de la bibliothèque correspond à cet ISBN.</item>
         <item quantity="other">%d livres de la bibliothèque correspondent à cet ISBN.</item>
