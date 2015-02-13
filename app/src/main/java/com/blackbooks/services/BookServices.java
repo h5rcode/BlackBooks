@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.util.LongSparseArray;
 
 import com.blackbooks.cache.ThumbnailManager;
-import com.blackbooks.model.nonpersistent.BookGroup;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Book;
@@ -21,7 +20,6 @@ import com.blackbooks.sql.FTSBrokerManager;
 import com.blackbooks.utils.IsbnUtils;
 import com.blackbooks.utils.StringUtils;
 
-import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
@@ -151,46 +149,125 @@ public class BookServices {
     }
 
     /**
-     * Return the number of books of a given group.
+     * Return the number of books of a given author.
      *
-     * @param db            SQLiteDatabase.
-     * @param bookGroupType BookGroupType.
-     * @param bookGroupId   Book group id.
+     * @param db       SQLiteDatabase.
+     * @param authorId Author id.
      * @return Book count.
      */
-    public static int getBookCountByBookGroup(SQLiteDatabase db, BookGroup.BookGroupType bookGroupType, Serializable bookGroupId) {
+    public static int getBookCountByAuthor(SQLiteDatabase db, long authorId) {
+        String sql = "SELECT COUNT(*) FROM " + BookAuthor.NAME + " WHERE " + BookAuthor.Cols.AUT_ID + " = ?;";
 
-        String sql;
-        switch (bookGroupType) {
-            case AUTHOR:
-                sql = "SELECT COUNT(*) FROM " + BookAuthor.NAME + " WHERE " + BookAuthor.Cols.AUT_ID + " = ?;";
-                break;
+        Cursor cursor = db.rawQuery(sql, new String[]{String.valueOf(authorId)});
+        cursor.moveToNext();
+        return cursor.getInt(0);
+    }
 
-            case BOOK_LOCATION:
-                sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.BKL_ID + " = ?;";
-                break;
-
-            case CATEGORY:
-                sql = "SELECT COUNT(*) FROM " + BookCategory.NAME + " WHERE " + BookCategory.Cols.CAT_ID + " = ?;";
-                break;
-
-            case FIRST_LETTER:
-                sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE SUBSTR(UPPER(" + Book.Cols.BOO_TITLE + "), 1, 1) = ?;";
-                break;
-
-            case LANGUAGE:
-                sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_LANGUAGE_CODE + " = ? COLLATE NOCASE;";
-                break;
-
-            case SERIES:
-                sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.SER_ID + " = ?;";
-                break;
-
-            default:
-                throw new IllegalArgumentException(String.format("Invalid bookGroupType: %s.", bookGroupType));
+    /**
+     * Return the number of books of a given book location.
+     *
+     * @param db             SQLiteDatabase.
+     * @param bookLocationId Book location id.
+     * @return Book count.
+     */
+    public static int getBookCountByBookLocation(SQLiteDatabase db, Long bookLocationId) {
+        String sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.BKL_ID;
+        String[] selectionArgs;
+        if (bookLocationId == null) {
+            sql += " IS NULL;";
+            selectionArgs = null;
+        } else {
+            sql += " = ?;";
+            selectionArgs = new String[]{String.valueOf(bookLocationId)};
         }
 
-        Cursor cursor = db.rawQuery(sql, new String[]{String.valueOf(bookGroupId)});
+        Cursor cursor = db.rawQuery(sql, selectionArgs);
+        cursor.moveToNext();
+        return cursor.getInt(0);
+    }
+
+    /**
+     * Return the number of books of a given book category.
+     *
+     * @param db         SQLiteDatabase.
+     * @param categoryId Category id.
+     * @return Book count.
+     */
+    public static int getBookCountByCategory(SQLiteDatabase db, Long categoryId) {
+        String sql = "SELECT COUNT(*) FROM " + BookCategory.NAME + " WHERE " + BookCategory.Cols.CAT_ID;
+
+        String[] selectionArgs;
+        if (categoryId == null) {
+            sql += " IS NULL";
+            selectionArgs = null;
+        } else {
+            sql += " = ?;";
+            selectionArgs = new String[]{String.valueOf(categoryId)};
+        }
+
+        Cursor cursor = db.rawQuery(sql, selectionArgs);
+        cursor.moveToNext();
+        return cursor.getInt(0);
+    }
+
+    /**
+     * Return the number of books whose title begins with a given letter.
+     *
+     * @param db          SQLiteDatabase.
+     * @param firstLetter First letter of the title.
+     * @return Book count.
+     */
+    public static int getBookCountByFirstLetter(SQLiteDatabase db, String firstLetter) {
+        String sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE SUBSTR(UPPER(" + Book.Cols.BOO_TITLE + "), 1, 1) = ?;";
+
+        Cursor cursor = db.rawQuery(sql, new String[]{firstLetter});
+        cursor.moveToNext();
+        return cursor.getInt(0);
+    }
+
+    /**
+     * Return the number of books whose title begins with a given letter.
+     *
+     * @param db           SQLiteDatabase.
+     * @param languageCode Language code.
+     * @return Book count.
+     */
+    public static int getBookCountByLanguage(SQLiteDatabase db, String languageCode) {
+        String sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_LANGUAGE_CODE;
+
+        String[] selectionArgs;
+        if (languageCode == null) {
+            sql += " IS NULL;";
+            selectionArgs = null;
+        } else {
+            sql += " = ?;";
+            selectionArgs = new String[]{languageCode};
+        }
+        Cursor cursor = db.rawQuery(sql, selectionArgs);
+        cursor.moveToNext();
+        return cursor.getInt(0);
+    }
+
+    /**
+     * Return the number of books of a given series.
+     *
+     * @param db       SQLiteDatabase.
+     * @param seriesId Series id.
+     * @return Book count.
+     */
+    public static int getBookCountBySeries(SQLiteDatabase db, Long seriesId) {
+        String sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.SER_ID;
+
+        String[] selectionArgs;
+        if (seriesId == null) {
+            sql += " IS NULL;";
+            selectionArgs = null;
+        } else {
+            sql += " = ?;";
+            selectionArgs = new String[]{String.valueOf(seriesId)};
+        }
+
+        Cursor cursor = db.rawQuery(sql, selectionArgs);
         cursor.moveToNext();
         return cursor.getInt(0);
     }
@@ -236,17 +313,15 @@ public class BookServices {
     }
 
     /**
-     * Return the list of books of a given group.
+     * Return the list of books of a given author.
      *
-     * @param db            SQLiteDatabase.
-     * @param bookGroupType Book group type.
-     * @param bookGroupId   Book group id.
-     * @param limit         Max number of books to return.
-     * @param offset        Offset.
+     * @param db       SQLiteDatabase.
+     * @param authorId Author id.
+     * @param limit    Max number of books to return.
+     * @param offset   Offset.
      * @return List of BookInfo.
      */
-    public static List<BookInfo> getBookInfoListByBookGroup(SQLiteDatabase db, BookGroup.BookGroupType bookGroupType, Serializable bookGroupId, int limit, int offset) {
-
+    public static List<BookInfo> getBookInfoListByAuthor(SQLiteDatabase db, long authorId, int limit, int offset) {
         String[] selectedColumnList = new String[]{
                 "boo." + Book.Cols.BOO_ID,
                 "boo." + Book.Cols.BOO_TITLE,
@@ -255,39 +330,160 @@ public class BookServices {
         };
 
         String selectedColumns = StringUtils.join(selectedColumnList, ", ");
-
-        String sql;
-        switch (bookGroupType) {
-            case AUTHOR:
-                sql = "SELECT " + selectedColumns + " FROM " + Book.NAME + " boo JOIN " + BookAuthor.NAME + " bka ON bka." + BookAuthor.Cols.BOO_ID + " = boo." + Book.Cols.BOO_ID + " WHERE bka." + BookAuthor.Cols.AUT_ID + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " LIMIT ? OFFSET ?;";
-                break;
-
-            case BOOK_LOCATION:
-                sql = "SELECT " + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.BKL_ID + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " LIMIT ? OFFSET ?;";
-                break;
-
-            case CATEGORY:
-                sql = "SELECT " + selectedColumns + " FROM " + Book.NAME + " boo JOIN " + BookCategory.NAME + " bca ON bca." + BookCategory.Cols.BOO_ID + " = boo." + Book.Cols.BOO_ID + " WHERE bca." + BookCategory.Cols.CAT_ID + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " LIMIT ? OFFSET ?;";
-                break;
-
-            case FIRST_LETTER:
-                sql = "SELECT " + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.BOO_TITLE + " LIKE ? || '%' COLLATE NOCASE ORDER BY " + Book.Cols.BOO_TITLE + " COLLATE NOCASE LIMIT ? OFFSET ?;";
-                break;
-
-            case LANGUAGE:
-                sql = "SELECT " + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.BOO_LANGUAGE_CODE + " = ? COLLATE NOCASE LIMIT ? OFFSET ?;";
-                break;
-
-            case SERIES:
-                sql = "SELECT boo." + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.SER_ID + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " LIMIT ? OFFSET ?;";
-                break;
-
-            default:
-                throw new IllegalArgumentException(String.format("Invalid bookGroupType: %s.", bookGroupType));
-        }
+        String sql = "SELECT " + selectedColumns + " FROM " + Book.NAME + " boo JOIN " + BookAuthor.NAME + " bka ON bka." + BookAuthor.Cols.BOO_ID + " = boo." + Book.Cols.BOO_ID + " WHERE bka." + BookAuthor.Cols.AUT_ID + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " LIMIT ? OFFSET ?;";
 
         String[] selectionArgs = new String[]{
-                String.valueOf(bookGroupId),
+                String.valueOf(authorId),
+                String.valueOf(limit),
+                String.valueOf(offset)
+        };
+
+        List<Book> bookList = BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
+        return getBookInfoListFromBookList(db, bookList);
+    }
+
+    /**
+     * Return the list of books in a given location.
+     *
+     * @param db             SQLiteDatabase.
+     * @param bookLocationId Location id.
+     * @param limit          Max number of books to return.
+     * @param offset         Offset.
+     * @return List of BookInfo.
+     */
+    public static List<BookInfo> getBookInfoListByBookLocation(SQLiteDatabase db, long bookLocationId, int limit, int offset) {
+        String[] selectedColumnList = new String[]{
+                "boo." + Book.Cols.BOO_ID,
+                "boo." + Book.Cols.BOO_TITLE,
+                "boo." + Book.Cols.BOO_IS_READ,
+                "boo." + Book.Cols.BOO_IS_FAVOURITE
+        };
+
+        String selectedColumns = StringUtils.join(selectedColumnList, ", ");
+        String sql = "SELECT " + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.BKL_ID + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " LIMIT ? OFFSET ?;";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(bookLocationId),
+                String.valueOf(limit),
+                String.valueOf(offset)
+        };
+
+        List<Book> bookList = BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
+        return getBookInfoListFromBookList(db, bookList);
+    }
+
+    /**
+     * Return the list of books of a given category.
+     *
+     * @param db         SQLiteDatabase.
+     * @param categoryId Category id.
+     * @param limit      Max number of books to return.
+     * @param offset     Offset.
+     * @return List of BookInfo.
+     */
+    public static List<BookInfo> getBookInfoListByCategory(SQLiteDatabase db, long categoryId, int limit, int offset) {
+        String[] selectedColumnList = new String[]{
+                "boo." + Book.Cols.BOO_ID,
+                "boo." + Book.Cols.BOO_TITLE,
+                "boo." + Book.Cols.BOO_IS_READ,
+                "boo." + Book.Cols.BOO_IS_FAVOURITE
+        };
+
+        String selectedColumns = StringUtils.join(selectedColumnList, ", ");
+        String sql = "SELECT " + selectedColumns + " FROM " + Book.NAME + " boo JOIN " + BookCategory.NAME + " bca ON bca." + BookCategory.Cols.BOO_ID + " = boo." + Book.Cols.BOO_ID + " WHERE bca." + BookCategory.Cols.CAT_ID + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " LIMIT ? OFFSET ?;";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(categoryId),
+                String.valueOf(limit),
+                String.valueOf(offset)
+        };
+
+        List<Book> bookList = BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
+        return getBookInfoListFromBookList(db, bookList);
+    }
+
+    /**
+     * Return the list of books whose title begins with a given letter.
+     *
+     * @param db          SQLiteDatabase.
+     * @param firstLetter First letter of the title.
+     * @param limit       Max number of books to return.
+     * @param offset      Offset.
+     * @return List of BookInfo.
+     */
+    public static List<BookInfo> getBookInfoListByFirstLetter(SQLiteDatabase db, String firstLetter, int limit, int offset) {
+        String[] selectedColumnList = new String[]{
+                "boo." + Book.Cols.BOO_ID,
+                "boo." + Book.Cols.BOO_TITLE,
+                "boo." + Book.Cols.BOO_IS_READ,
+                "boo." + Book.Cols.BOO_IS_FAVOURITE
+        };
+
+        String selectedColumns = StringUtils.join(selectedColumnList, ", ");
+        String sql = "SELECT " + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.BOO_TITLE + " LIKE ? || '%' COLLATE NOCASE ORDER BY " + Book.Cols.BOO_TITLE + " COLLATE NOCASE LIMIT ? OFFSET ?;";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(firstLetter),
+                String.valueOf(limit),
+                String.valueOf(offset)
+        };
+
+        List<Book> bookList = BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
+        return getBookInfoListFromBookList(db, bookList);
+    }
+
+    /**
+     * Return the list of books of a given language.
+     *
+     * @param db           SQLiteDatabase.
+     * @param languageCode Language code.
+     * @param limit        Max number of books to return.
+     * @param offset       Offset.
+     * @return List of BookInfo.
+     */
+    public static List<BookInfo> getBookInfoListByLanguage(SQLiteDatabase db, String languageCode, int limit, int offset) {
+        String[] selectedColumnList = new String[]{
+                "boo." + Book.Cols.BOO_ID,
+                "boo." + Book.Cols.BOO_TITLE,
+                "boo." + Book.Cols.BOO_IS_READ,
+                "boo." + Book.Cols.BOO_IS_FAVOURITE
+        };
+
+        String selectedColumns = StringUtils.join(selectedColumnList, ", ");
+        String sql = "SELECT " + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.BOO_LANGUAGE_CODE + " = ? COLLATE NOCASE LIMIT ? OFFSET ?;";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(languageCode),
+                String.valueOf(limit),
+                String.valueOf(offset)
+        };
+
+        List<Book> bookList = BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
+        return getBookInfoListFromBookList(db, bookList);
+    }
+
+    /**
+     * Return the list of books of a given series.
+     *
+     * @param db       SQLiteDatabase.
+     * @param seriesId Series id.
+     * @param limit    Max number of books to return.
+     * @param offset   Offset.
+     * @return List of BookInfo.
+     */
+    public static List<BookInfo> getBookInfoListBySeries(SQLiteDatabase db, long seriesId, int limit, int offset) {
+        String[] selectedColumnList = new String[]{
+                "boo." + Book.Cols.BOO_ID,
+                "boo." + Book.Cols.BOO_TITLE,
+                "boo." + Book.Cols.BOO_IS_READ,
+                "boo." + Book.Cols.BOO_IS_FAVOURITE
+        };
+
+        String selectedColumns = StringUtils.join(selectedColumnList, ", ");
+        String sql = "SELECT boo." + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.SER_ID + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " LIMIT ? OFFSET ?;";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(seriesId),
                 String.valueOf(limit),
                 String.valueOf(offset)
         };

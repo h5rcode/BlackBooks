@@ -9,7 +9,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.blackbooks.R;
-import com.blackbooks.fragments.BookListFragment;
+import com.blackbooks.fragments.AbstractBookListFragment2;
+import com.blackbooks.fragments.BookListByAuthorFragment2;
+import com.blackbooks.fragments.BookListByBookLocationFragment2;
+import com.blackbooks.fragments.BookListByCategoryFragment2;
+import com.blackbooks.fragments.BookListByFirstLetterFragment2;
+import com.blackbooks.fragments.BookListByLanguageFragment2;
+import com.blackbooks.fragments.BookListBySeriesFragment2;
 import com.blackbooks.model.nonpersistent.BookGroup;
 
 import java.io.Serializable;
@@ -33,14 +39,33 @@ public final class BookListActivity2 extends FragmentActivity {
         }
 
         FragmentManager fm = getSupportFragmentManager();
-        BookListFragment fragment = (BookListFragment) fm.findFragmentByTag(TAG_BOOK_LIST_FRAGMENT);
+        AbstractBookListFragment2 fragment = (AbstractBookListFragment2) fm.findFragmentByTag(TAG_BOOK_LIST_FRAGMENT);
 
         if (fragment == null) {
             Intent i = getIntent();
             BookGroup.BookGroupType bookGroupType = (BookGroup.BookGroupType) i.getSerializableExtra(EXTRA_BOOK_GROUP_TYPE);
             Serializable bookGroupId = i.getSerializableExtra(EXTRA_BOOK_GROUP_ID);
 
-            fragment = BookListFragment.newInstance(bookGroupType, bookGroupId);
+            switch (bookGroupType) {
+                case AUTHOR:
+                    fragment = BookListByAuthorFragment2.newInstance((Long) bookGroupId);
+                    break;
+                case BOOK_LOCATION:
+                    fragment = BookListByBookLocationFragment2.newInstance((Long) bookGroupId);
+                    break;
+                case CATEGORY:
+                    fragment = BookListByCategoryFragment2.newInstance((Long) bookGroupId);
+                    break;
+                case FIRST_LETTER:
+                    fragment = BookListByFirstLetterFragment2.newInstance((String) bookGroupId);
+                    break;
+                case LANGUAGE:
+                    fragment = BookListByLanguageFragment2.newInstance((String) bookGroupId);
+                    break;
+                case SERIES:
+                    fragment = BookListBySeriesFragment2.newInstance((Long) bookGroupId);
+                    break;
+            }
 
             fm.beginTransaction() //
                     .replace(R.id.activity_book_group_list_frameLayout, fragment, TAG_BOOK_LIST_FRAGMENT) //

@@ -27,25 +27,20 @@ import com.blackbooks.activities.BookDisplayActivity;
 import com.blackbooks.activities.BookEditActivity;
 import com.blackbooks.adapters.BookListAdapter;
 import com.blackbooks.database.SQLiteHelper;
-import com.blackbooks.model.nonpersistent.BookGroup;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.services.BookServices;
 import com.blackbooks.utils.VariableUtils;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * Fragment to display the books belonging to a particular group.
  */
-public final class BookListFragment extends ListFragment {
+public abstract class AbstractBookListFragment2 extends ListFragment {
 
     private static final String AMAZON_SEARCH_RESULT_URL = "http://www.amazon.com/gp/search?ie=UTF8&index=books&keywords=%s&tag=h5rcode-20";
-
-    private static final String ARG_BOOK_GROUP_TYPE = "ARG_BOOK_GROUP_TYPE";
-    private static final String ARG_BOOK_GROUP_ID = "ARG_BOOK_GROUP_ID";
 
     private static final int BOOKS_BY_PAGE = 50;
 
@@ -56,8 +51,6 @@ public final class BookListFragment extends ListFragment {
     private static final int ITEM_BOOK_SEARCH_AUTHOR_ON_AMAZON = 0x5;
     private static final int ITEM_BOOK_DELETE = 0x6;
 
-    private BookGroup.BookGroupType mBookGroupType;
-    private Serializable mBookGroupId;
     private Integer mBookCount;
     private int mLastPage = 1;
     private int mLastItem = -1;
@@ -67,32 +60,10 @@ public final class BookListFragment extends ListFragment {
 
     private BookListAdapter mBookListAdapter;
 
-    /**
-     * Return a new instance of BookListFragment initialized to display the books of a given book group.
-     *
-     * @param bookGroupType Type of the book group.
-     * @param bookGroupId   Id of the book group.
-     * @return BookListFragment.
-     */
-    public static BookListFragment newInstance(BookGroup.BookGroupType bookGroupType, Serializable bookGroupId) {
-        BookListFragment fragment = new BookListFragment();
-
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_BOOK_GROUP_TYPE, bookGroupType);
-        args.putSerializable(ARG_BOOK_GROUP_ID, bookGroupId);
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-
-        Bundle args = getArguments();
-        mBookGroupType = (BookGroup.BookGroupType) args.getSerializable(ARG_BOOK_GROUP_TYPE);
-        mBookGroupId = args.getSerializable(ARG_BOOK_GROUP_ID);
 
         mBookListAdapter = new BookListAdapter(getActivity());
         setListAdapter(mBookListAdapter);
@@ -257,6 +228,24 @@ public final class BookListFragment extends ListFragment {
     }
 
     /**
+     * Return the total number of books.
+     *
+     * @param db SQLiteDatabase.
+     * @return Book count.
+     */
+    protected abstract int getBookCount(SQLiteDatabase db);
+
+    /**
+     * Load books.
+     *
+     * @param db     SQLiteDatabase.
+     * @param limit  Limit.
+     * @param offset Offset.
+     * @return List of BookInfo.
+     */
+    protected abstract List<BookInfo> loadBookInfoList(SQLiteDatabase db, int limit, int offset);
+
+    /**
      * Delete a book.
      *
      * @param book BookInfo.
@@ -395,7 +384,7 @@ public final class BookListFragment extends ListFragment {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        BookListFragment.this.deleteBook(book);
+                        AbstractBookListFragment2.this.deleteBook(book);
                     }
                 }).setNegativeButton(cancelText, new DialogInterface.OnClickListener() {
 
@@ -429,23 +418,26 @@ public final class BookListFragment extends ListFragment {
         @Override
         protected List<BookInfo> doInBackground(Void... params) {
             SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-            mBookCount = BookServices.getBookCountByBookGroup(db, mBookGroupType, mBookGroupId);
-            return BookServices.getBookInfoListByBookGroup(db, mBookGroupType, mBookGroupId, mLimit, mOffset);
+            mBookCount = AbstractBookListFragment2.this.getBookCount(db);
+            return AbstractBookListFragment2.this.loadBookInfoList(db, mLimit, mOffset);
         }
 
         @Override
         protected void onPostExecute(List<BookInfo> bookInfoList) {
             super.onPostExecute(bookInfoList);
+
+            int initialAdapterBookCount = mBookListAdapter.getCount();
+
             mBookListAdapter.addAll(bookInfoList);
             mBookListAdapter.notifyDataSetChanged();
 
             int bookCount = bookInfoList.size();
-            if (bookCount > 0) {
+            if (bookCount > 0 && initialAdapterBookCount > 0) {
                 Resources res = getResources();
                 String message = res.getQuantityString(R.plurals.message_books_loaded, bookCount, bookCount);
                 Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-                setFooterText();
             }
+            setFooterText();
         }
     }
 }
