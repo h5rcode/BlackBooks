@@ -67,7 +67,7 @@ public class BulkScanFragment extends ListFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean result;
-
+        Intent i;
         switch (item.getItemId()) {
             case R.id.bulkScan_startScanning:
                 startIsbnScan();
@@ -75,8 +75,14 @@ public class BulkScanFragment extends ListFragment {
                 break;
 
             case R.id.bulkScan_startSearch:
-                Intent i = new Intent(getActivity(), BulkSearchService.class);
+                i = new Intent(getActivity(), BulkSearchService.class);
                 getActivity().startService(i);
+                result = true;
+                break;
+
+            case R.id.bulkScan_stopSearch:
+                i = new Intent(getActivity(), BulkSearchService.class);
+                getActivity().stopService(i);
                 result = true;
                 break;
 

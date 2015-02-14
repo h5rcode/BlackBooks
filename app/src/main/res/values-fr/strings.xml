@@ -32,6 +32,7 @@
     <string name="action_sort_by_series">Par série</string>
     <string name="action_sort_by_to_read_read">À lire/lus</string>
     <string name="action_start_background_search">Lancer la recherche</string>
+    <string name="action_stop_background_search">Arrêter la recherche</string>
     <string name="action_start_bulk_scan">Commencer à scanner</string>
     <string name="action_take_picture">Prendre une photo</string>
     <string name="action_unmark_book_as_favourite">Retirer des favoris</string>
@@ -292,6 +293,13 @@
     <string name="message_scanned_isbn_saved">ISBN %s enregistré.</string>
     <string name="message_scanner_install">Black Books utilise l\'application Pic2shop pour scanner les codes ISBN. Cliquez sur OK pour être redirigé vers sa page Google Play.</string>
     <string name="message_send_log">Black Books a rencontré une erreur inattendue.\n\nPour nous aider à corriger le problème, cliquez sur \"Envoyer le rapport d\'erreur\" afin de nous transférer un journal d\'erreur. N\'hésitez pas à détailler ce que vous êtiez en train de faire lorsque l\'erreur est survenue.\n\nMerci.</string>
+    <string name="notification_bulk_search_finished_title">Recherche de livres terminées</string>
+    <string name="notification_bulk_search_finished_text">Cliquez pour voir les résultats.</string>
+    <string name="notification_bulk_search_running_title">Recherche de livres en cours</string>
+    <plurals name="notification_bulk_search_running_text">
+        <item quantity="one">Récupération de %d livre.</item>
+        <item quantity="other">Récupération de %d livres.</item>
+    </plurals>
     <string name="report_error_mail_content">[Décrivez ici ce que vous êtiez en train de faire lorsque l\'erreur est survenue.]</string>
     <string name="report_error_mail_subject">Black Books : rapport d\'erreur</string>
     <string name="report_error_log_not_saved">Impossible d\'écrire le fichier d\'erreur.</string>

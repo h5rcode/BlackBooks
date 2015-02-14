@@ -33,6 +33,7 @@
     <string name="action_sort_by_to_read_read">To read/read</string>
     <string name="action_sort_by_series">By series</string>
     <string name="action_start_background_search">Start background search</string>
+    <string name="action_stop_background_search">Stop background search</string>
     <string name="action_start_bulk_scan">Start bulk scan</string>
     <string name="action_take_picture">Take a picture</string>
     <string name="action_unmark_book_as_favourite">Unmark as favourite</string>
@@ -305,6 +306,13 @@
     <string name="message_unsaved_changes_positive">Save</string>
     <string name="message_unsaved_changes_negative">Do not save</string>
     <string name="message_unsaved_changes_neutral">Cancel</string>
+    <string name="notification_bulk_search_finished_title">Book search finished</string>
+    <string name="notification_bulk_search_finished_text">Click to see the see the results.</string>
+    <string name="notification_bulk_search_running_title">Book search in progress</string>
+    <plurals name="notification_bulk_search_running_text">
+        <item quantity="one">Fetching %d book.</item>
+        <item quantity="other">Fetching %d books.</item>
+    </plurals>
     <string name="report_error_mail_content">[Describe here what you were doing when the error occurred.]</string>
     <string name="report_error_mail_subject">Black Books log file</string>
     <string name="report_error_log_not_saved">The log file could not be created.</string>
