@@ -59,6 +59,17 @@ public class SummaryServices {
     }
 
     /**
+     * Return the number of authors in the library.
+     *
+     * @param db SQLiteDatabase.
+     * @return Author count.
+     */
+    public static int getFirstLetterCount(SQLiteDatabase db) {
+        String sql = "SELECT COUNT(DISTINCT UPPER(SUBSTR(" + Book.Cols.BOO_TITLE + ", 1, 1))) FROM " + Book.NAME;
+        return queryInt(db, sql);
+    }
+
+    /**
      * Return the number of languages in the library.
      *
      * @param db SQLiteDatabase.

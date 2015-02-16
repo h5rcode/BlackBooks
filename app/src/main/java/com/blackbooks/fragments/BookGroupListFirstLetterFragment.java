@@ -4,6 +4,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.blackbooks.model.nonpersistent.BookGroup;
 import com.blackbooks.services.BookGroupServices;
+import com.blackbooks.services.SummaryServices;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public final class BookGroupListFirstLetterFragment extends AbstractBookGroupLis
 
     @Override
     protected int getBookGroupCount(SQLiteDatabase db) {
-        return 0;
+        return SummaryServices.getFirstLetterCount(db);
     }
 
     @Override
