@@ -60,4 +60,15 @@ public class ScannedIsbnServices {
             db.endTransaction();
         }
     }
+
+    public static void markScannedIsbnLookedUp(SQLiteDatabase db, long scannedIsbnId) {
+        db.beginTransaction();
+        try {
+            String sql = "UPDATE " + ScannedIsbn.NAME + " SET " + ScannedIsbn.Cols.SCI_LOOKED_UP + " = 1 WHERE " + ScannedIsbn.Cols.SCI_ID + " = ?;";
+            db.rawQuery(sql, new String[]{String.valueOf(scannedIsbnId)});
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
 }

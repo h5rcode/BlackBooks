@@ -17,6 +17,7 @@ public final class Version3 {
                 "\tSCI_ID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "\tSCN_ISBN TEXT NOT NULL UNIQUE,\n" +
                 "\tSCI_SCAN_DATE INTEGER NOT NULL\n" +
+                "\tSCI_LOOKED_UP INTEGER NOT NULL\n" +
                 ");";
         db.execSQL(createTableScannedIsbn);
     }

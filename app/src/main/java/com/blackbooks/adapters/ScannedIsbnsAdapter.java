@@ -11,7 +11,6 @@ import com.blackbooks.R;
 import com.blackbooks.model.persistent.ScannedIsbn;
 
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 /**
  * Scanned ISBNs adapter.
@@ -21,8 +20,8 @@ public final class ScannedIsbnsAdapter extends ArrayAdapter<ScannedIsbn> {
     private final SimpleDateFormat mDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     private final LayoutInflater mLayoutInflater;
 
-    public ScannedIsbnsAdapter(Context context, List<ScannedIsbn> objects) {
-        super(context, 0, objects);
+    public ScannedIsbnsAdapter(Context context) {
+        super(context, 0);
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 

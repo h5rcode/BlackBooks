@@ -15,13 +15,12 @@ import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.ScannedIsbn;
 import com.blackbooks.search.BookSearcher;
+import com.blackbooks.services.BookServices;
 import com.blackbooks.services.ScannedIsbnServices;
 import com.blackbooks.utils.LogUtils;
+import com.blackbooks.utils.VariableUtils;
 
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.conn.HttpHostConnectException;
-
-import java.io.IOException;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.List;
 
@@ -31,6 +30,8 @@ import java.util.List;
 public final class BulkSearchService extends IntentService {
 
     private static final int NOTIFICATION_ID = 1;
+
+    private static final int MAX_CONNECTION_ERRORS = 5;
 
     private NotificationManager mNotificationManager;
     private NotificationCompat.Builder mBuilder;
@@ -65,12 +66,15 @@ public final class BulkSearchService extends IntentService {
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
         mBuilder.setTicker(null);
 
-        int i = 0;
-        for (ScannedIsbn scannedIsbn : scannedIsbnList) {
+        int connectionErrors = 0;
+        for (int i = 0; i < scannedIsbnCount; i++) {
             if (mStop) {
                 break;
             }
-            i++;
+            if (connectionErrors > MAX_CONNECTION_ERRORS) {
+                break;
+            }
+            ScannedIsbn scannedIsbn = scannedIsbnList.get(i);
             String isbn = scannedIsbn.isbn;
             Log.d(LogUtils.TAG, String.format("Searching results for ISBN %s.", isbn));
 
@@ -80,27 +84,30 @@ public final class BulkSearchService extends IntentService {
                     Log.d(LogUtils.TAG, "No results.");
                 } else {
                     Log.d(LogUtils.TAG, String.format("Result: %s", bookInfo.title));
-                    //BookServices.saveBookInfo(db, bookInfo);
-                    //VariableUtils.getInstance().setReloadBookList(true);
-
-                    mBuilder.setProgress(scannedIsbnCount, i, false);
-                    Notification notification = mBuilder.build();
-                    notification.flags |= Notification.FLAG_NO_CLEAR;
-                    mNotificationManager.notify(NOTIFICATION_ID, notification);
+                    BookServices.saveBookInfo(db, bookInfo);
+                    VariableUtils.getInstance().setReloadBookList(true);
                 }
 
-            } catch (ClientProtocolException e) {
-                Log.e(LogUtils.TAG, "Connection problem.", e);
-            } catch (HttpHostConnectException e) {
-                Log.e(LogUtils.TAG, "Connection problem.", e);
+                ScannedIsbnServices.markScannedIsbnLookedUp(db, scannedIsbn.id);
+
+            } catch (SocketException e) {
+                Log.w(LogUtils.TAG, "SocketException.", e);
+                connectionErrors++;
             } catch (UnknownHostException e) {
-                Log.e(LogUtils.TAG, "Connection problem.", e);
-            } catch (IOException e) {
-                Log.e(LogUtils.TAG, "An exception occurred during the background search.", e);
+                Log.w(LogUtils.TAG, "Host name could not be resolved.", e);
+                connectionErrors++;
             } catch (InterruptedException e) {
                 Log.i(LogUtils.TAG, "Service interrupted.");
                 break;
+            } catch (Exception e) {
+                Log.e(LogUtils.TAG, "An exception occurred during the background search.", e);
+                break;
             }
+
+            mBuilder.setProgress(scannedIsbnCount, i, false);
+            Notification notification = mBuilder.build();
+            notification.flags |= Notification.FLAG_NO_CLEAR;
+            mNotificationManager.notify(NOTIFICATION_ID, notification);
         }
 
         mBuilder.setContentTitle(getString(R.string.notification_bulk_search_finished_title));

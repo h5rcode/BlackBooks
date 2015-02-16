@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -13,7 +14,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.blackbooks.R;
@@ -30,9 +30,9 @@ import java.util.List;
 /**
  * Bulk scan fragment.
  */
-public class BulkScanFragment extends ListFragment {
+public final class BulkScanFragment extends ListFragment {
 
-    private ListView mListView;
+    private ScannedIsbnsAdapter mScannedIsbnsAdapter;
     private boolean mStartScan;
 
     /**
@@ -49,12 +49,16 @@ public class BulkScanFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         setHasOptionsMenu(true);
+
+        mScannedIsbnsAdapter = new ScannedIsbnsAdapter(getActivity());
+        setListAdapter(mScannedIsbnsAdapter);
+
+        new ScannedIsbnsLoadTask().execute();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bulk_scan, container, false);
-        mListView = (ListView) view.findViewById(android.R.id.list);
         return view;
     }
 
@@ -105,7 +109,8 @@ public class BulkScanFragment extends ListFragment {
     private void deleteAll() {
         SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
         ScannedIsbnServices.deleteAllScannedIsbns(db);
-        loadScannedISBNs();
+        mScannedIsbnsAdapter.clear();
+        mScannedIsbnsAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -114,20 +119,7 @@ public class BulkScanFragment extends ListFragment {
 
         if (mStartScan) {
             startIsbnScan();
-        } else {
-            loadScannedISBNs();
         }
-    }
-
-    /**
-     * Load the scanned ISBNs and display them in a ListView.
-     */
-    private void loadScannedISBNs() {
-        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-        List<ScannedIsbn> scannedIsbnList = ScannedIsbnServices.getScannedIsbnList(db);
-
-        ScannedIsbnsAdapter adapter = new ScannedIsbnsAdapter(getActivity(), scannedIsbnList);
-        mListView.setAdapter(adapter);
     }
 
     @Override
@@ -158,7 +150,6 @@ public class BulkScanFragment extends ListFragment {
      */
     private void startIsbnScan() {
         Intent intent = new Intent(Pic2ShopUtils.ACTION);
-
         startActivityForResult(intent, Pic2ShopUtils.REQUEST_CODE_SCAN);
     }
 
@@ -183,5 +174,24 @@ public class BulkScanFragment extends ListFragment {
                         // Do nothing.
                     }
                 }).show();
+    }
+
+    /**
+     * A task to load the scanned ISBNs.
+     */
+    private final class ScannedIsbnsLoadTask extends AsyncTask<Void, Void, List<ScannedIsbn>> {
+
+        @Override
+        protected List<ScannedIsbn> doInBackground(Void... params) {
+            SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
+            return ScannedIsbnServices.getScannedIsbnList(db);
+        }
+
+        @Override
+        protected void onPostExecute(List<ScannedIsbn> scannedIsbns) {
+            super.onPostExecute(scannedIsbns);
+            mScannedIsbnsAdapter.addAll(scannedIsbns);
+            mScannedIsbnsAdapter.notifyDataSetChanged();
+        }
     }
 }

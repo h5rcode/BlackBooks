@@ -21,15 +21,20 @@ public class ScannedIsbn implements Serializable {
     @Column(name = Cols.SCI_SCAN_DATE, mandatory = true, type = SQLiteDataType.INTEGER, version = 3)
     public Date scanDate;
 
+    @Column(name = Cols.SCI_LOOKED_UP, mandatory = true, type = SQLiteDataType.INTEGER, version = 3)
+    public Long lookedUp;
+
     /**
      * Default constructor.
      */
     public ScannedIsbn() {
+        this.lookedUp = 0L;
     }
 
     public static final class Cols {
         public static final String SCI_ID = "SCI_ID";
         public static final String SCI_ISBN = "SCN_ISBN";
         public static final String SCI_SCAN_DATE = "SCI_SCAN_DATE";
+        public static final String SCI_LOOKED_UP = "SCI_LOOKED_UP";
     }
 }
