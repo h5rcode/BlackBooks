@@ -8,7 +8,13 @@ import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 
 import com.blackbooks.R;
-import com.blackbooks.fragments.BookGroupListFragment;
+import com.blackbooks.fragments.AbstractBookGroupListFragment;
+import com.blackbooks.fragments.BookGroupListAuthorFragment;
+import com.blackbooks.fragments.BookGroupListBookLocationFragment;
+import com.blackbooks.fragments.BookGroupListCategoryFragment;
+import com.blackbooks.fragments.BookGroupListFirstLetterFragment;
+import com.blackbooks.fragments.BookGroupListLanguageFragment;
+import com.blackbooks.fragments.BookGroupListSeriesFragment;
 import com.blackbooks.model.nonpersistent.BookGroup;
 
 /**
@@ -33,10 +39,39 @@ public final class BookGroupListActivity extends FragmentActivity {
         setTitle(bookGroupType);
 
         FragmentManager fm = getSupportFragmentManager();
-        BookGroupListFragment fragment = (BookGroupListFragment) fm.findFragmentByTag(TAG_GROUP_LIST_FRAGMENT);
+        AbstractBookGroupListFragment fragment = (AbstractBookGroupListFragment) fm.findFragmentByTag(TAG_GROUP_LIST_FRAGMENT);
 
         if (fragment == null) {
-            fragment = BookGroupListFragment.newInstance(bookGroupType);
+
+
+            switch (bookGroupType) {
+                case AUTHOR:
+                    fragment = new BookGroupListAuthorFragment();
+                    break;
+
+                case BOOK_LOCATION:
+                    fragment = new BookGroupListBookLocationFragment();
+                    break;
+
+                case CATEGORY:
+                    fragment = new BookGroupListCategoryFragment();
+                    break;
+
+                case FIRST_LETTER:
+                    fragment = new BookGroupListFirstLetterFragment();
+                    break;
+
+                case LANGUAGE:
+                    fragment = new BookGroupListLanguageFragment();
+                    break;
+
+                case SERIES:
+                    fragment = new BookGroupListSeriesFragment();
+                    break;
+
+                default:
+                    throw new IllegalArgumentException();
+            }
 
             fm.beginTransaction() //
                     .replace(R.id.activity_book_group_list_frameLayout, fragment, TAG_GROUP_LIST_FRAGMENT) //
@@ -66,6 +101,7 @@ public final class BookGroupListActivity extends FragmentActivity {
      *
      * @param bookGroupType BookGroupType.
      */
+
     private void setTitle(BookGroup.BookGroupType bookGroupType) {
         int resId;
         switch (bookGroupType) {

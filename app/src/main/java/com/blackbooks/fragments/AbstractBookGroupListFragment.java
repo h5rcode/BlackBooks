@@ -20,7 +20,6 @@ import com.blackbooks.activities.BookListActivity2;
 import com.blackbooks.adapters.BookGroupListAdapter;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookGroup;
-import com.blackbooks.services.BookGroupServices;
 import com.blackbooks.utils.VariableUtils;
 
 import java.util.List;
@@ -28,14 +27,13 @@ import java.util.List;
 /**
  * A fragment to display the book groups of a certain type.
  */
-public final class BookGroupListFragment extends ListFragment {
+public abstract class AbstractBookGroupListFragment extends ListFragment {
 
-    private static final String ARG_BOOK_GROUP_TYPE = "ARG_BOOK_GROUP_TYPE";
     private static final int GROUPS_BY_PAGE = 50;
 
-    private BookGroup.BookGroupType mBookGroupType;
     private GroupLoadTask mGroupLoadTask;
 
+    private boolean mAlreadyLoaded;
     private Integer mBookGroupCount;
     private int mLastPage = 1;
     private int mLastItem = -1;
@@ -44,34 +42,13 @@ public final class BookGroupListFragment extends ListFragment {
 
     private TextView mTextViewFooter;
 
-    /**
-     * Return an instance of BookGroupListFragment initialized to display the groups of a certain type.
-     *
-     * @param bookGroupType Book group type.
-     * @return BookGroupListFragment.
-     */
-    public static BookGroupListFragment newInstance(BookGroup.BookGroupType bookGroupType) {
-        BookGroupListFragment fragment = new BookGroupListFragment();
-
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_BOOK_GROUP_TYPE, bookGroupType);
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
-        Bundle args = getArguments();
-        mBookGroupType = (BookGroup.BookGroupType) args.getSerializable(ARG_BOOK_GROUP_TYPE);
-
         mBookGroupListAdapter = new BookGroupListAdapter(getActivity());
         setListAdapter(mBookGroupListAdapter);
-
-        VariableUtils.getInstance().setReloadBookList(true);
     }
 
     @Override
@@ -121,7 +98,8 @@ public final class BookGroupListFragment extends ListFragment {
     public void onResume() {
         super.onResume();
 
-        if (VariableUtils.getInstance().getReloadBookGroupList()) {
+        if (!mAlreadyLoaded || VariableUtils.getInstance().getReloadBookGroupList()) {
+            mAlreadyLoaded = true;
             VariableUtils.getInstance().setReloadBookGroupListToFalse();
             mLastItem = -1;
             mLastPage = 1;
@@ -145,11 +123,36 @@ public final class BookGroupListFragment extends ListFragment {
         BookGroup bookGroup = (BookGroup) getListView().getItemAtPosition(position);
 
         Intent i = new Intent(getActivity(), BookListActivity2.class);
-        i.putExtra(BookListActivity2.EXTRA_BOOK_GROUP_TYPE, mBookGroupType);
+        i.putExtra(BookListActivity2.EXTRA_BOOK_GROUP_TYPE, getBookGroupType());
         i.putExtra(BookListActivity2.EXTRA_BOOK_GROUP_ID, bookGroup.id);
 
         startActivity(i);
     }
+
+    /**
+     * Return the type of the book groups.
+     *
+     * @return BookGroupType.
+     */
+    protected abstract BookGroup.BookGroupType getBookGroupType();
+
+    /**
+     * Return the total number of book groups.
+     *
+     * @param db SQLiteDatabase.
+     * @return Book group count.
+     */
+    protected abstract int getBookGroupCount(SQLiteDatabase db);
+
+    /**
+     * Load book groups.
+     *
+     * @param db     SQLiteDatabase.
+     * @param limit  Limit.
+     * @param offset Offset.
+     * @return List of BookGroup.
+     */
+    protected abstract List<BookGroup> loadBookGroupList(SQLiteDatabase db, int limit, int offset);
 
     /**
      * Load more book groups.
@@ -197,8 +200,8 @@ public final class BookGroupListFragment extends ListFragment {
         @Override
         protected List<BookGroup> doInBackground(Void... params) {
             SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-            mBookGroupCount = 43;
-            return BookGroupServices.getBookGroupList(db, mBookGroupType, mLimit, mOffset);
+            mBookGroupCount = AbstractBookGroupListFragment.this.getBookGroupCount(db);
+            return AbstractBookGroupListFragment.this.loadBookGroupList(db, mLimit, mOffset);
         }
 
         @Override

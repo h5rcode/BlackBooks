@@ -52,6 +52,7 @@ public abstract class AbstractBookListFragment2 extends ListFragment {
     private static final int ITEM_BOOK_DELETE = 0x6;
 
     private Integer mBookCount;
+    private boolean mAlreadyLoaded;
     private int mLastPage = 1;
     private int mLastItem = -1;
     private BookLoadTask mBookLoadTask;
@@ -67,8 +68,6 @@ public abstract class AbstractBookListFragment2 extends ListFragment {
 
         mBookListAdapter = new BookListAdapter(getActivity());
         setListAdapter(mBookListAdapter);
-
-        VariableUtils.getInstance().setReloadBookList(true);
     }
 
     @Override
@@ -150,7 +149,8 @@ public abstract class AbstractBookListFragment2 extends ListFragment {
     public void onResume() {
         super.onResume();
 
-        if (VariableUtils.getInstance().getReloadBookList()) {
+        if (!mAlreadyLoaded || VariableUtils.getInstance().getReloadBookList()) {
+            mAlreadyLoaded = true;
             VariableUtils.getInstance().setReloadBookList(false);
             mLastItem = -1;
             mLastPage = 1;
