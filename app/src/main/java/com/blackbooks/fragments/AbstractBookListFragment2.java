@@ -56,7 +56,7 @@ public abstract class AbstractBookListFragment2 extends ListFragment {
     private int mLastItem = -1;
     private BookLoadTask mBookLoadTask;
 
-    private TextView textViewFooter;
+    private TextView mTextViewFooter;
 
     private BookListAdapter mBookListAdapter;
 
@@ -67,6 +67,8 @@ public abstract class AbstractBookListFragment2 extends ListFragment {
 
         mBookListAdapter = new BookListAdapter(getActivity());
         setListAdapter(mBookListAdapter);
+
+        VariableUtils.getInstance().setReloadBookList(true);
     }
 
     @Override
@@ -74,7 +76,7 @@ public abstract class AbstractBookListFragment2 extends ListFragment {
         View view = inflater.inflate(R.layout.abstract_book_list_fragment, container, false);
 
         ListView listView = (ListView) view.findViewById(android.R.id.list);
-        textViewFooter = (TextView) view.findViewById(R.id.abstractBookList_textFooter);
+        mTextViewFooter = (TextView) view.findViewById(R.id.abstractBookList_textFooter);
 
         registerForContextMenu(listView);
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -85,6 +87,9 @@ public abstract class AbstractBookListFragment2 extends ListFragment {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (totalItemCount == 0) {
+                    return;
+                }
                 switch (view.getId()) {
                     case android.R.id.list:
 
@@ -92,9 +97,7 @@ public abstract class AbstractBookListFragment2 extends ListFragment {
                         if (lastItem == totalItemCount) {
                             if (mLastItem != lastItem) {
                                 mLastItem = lastItem;
-                                mBookLoadTask = new BookLoadTask(BOOKS_BY_PAGE, BOOKS_BY_PAGE * (mLastPage - 1));
-                                mBookLoadTask.execute();
-                                mLastPage++;
+                                loadMoreBooks();
                             }
                         }
                 }
@@ -152,7 +155,7 @@ public abstract class AbstractBookListFragment2 extends ListFragment {
             mLastItem = -1;
             mLastPage = 1;
             mBookListAdapter.clear();
-            mBookListAdapter.notifyDataSetChanged();
+            loadMoreBooks();
         }
     }
 
@@ -264,6 +267,15 @@ public abstract class AbstractBookListFragment2 extends ListFragment {
     }
 
     /**
+     * Load more books.
+     */
+    private void loadMoreBooks() {
+        mBookLoadTask = new BookLoadTask(BOOKS_BY_PAGE, BOOKS_BY_PAGE * (mLastPage - 1));
+        mBookLoadTask.execute();
+        mLastPage++;
+    }
+
+    /**
      * Mark or unmark a book as favourite.
      *
      * @param book Book.
@@ -332,7 +344,7 @@ public abstract class AbstractBookListFragment2 extends ListFragment {
             Resources res = getResources();
             String footerText = res.getQuantityString(R.plurals.footer_fragment_books, displayedBookCount, displayedBookCount, mBookCount);
 
-            textViewFooter.setText(footerText);
+            mTextViewFooter.setText(footerText);
         }
     }
 
