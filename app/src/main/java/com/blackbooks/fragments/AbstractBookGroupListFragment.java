@@ -1,7 +1,6 @@
 package com.blackbooks.fragments;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -168,15 +167,26 @@ public abstract class AbstractBookGroupListFragment extends ListFragment {
      */
     private void setFooterText() {
         if (mBookGroupCount != null) {
-
-            int displayedBookCount = mBookGroupListAdapter.getCount();
-
-            Resources res = getResources();
-            String footerText = res.getQuantityString(R.plurals.footer_fragment_books, displayedBookCount, displayedBookCount, mBookGroupCount);
-
-            mTextViewFooter.setText(footerText);
+            mTextViewFooter.setText(getFooterText(mBookGroupListAdapter.getCount(), mBookGroupCount));
         }
     }
+
+    /**
+     * Get the text to display in the footer.
+     *
+     * @param displayedBookGroupCount Number of book groups displayed.
+     * @param totalBookGroupCount     Total number of book groups.
+     * @return Text footer.
+     */
+    protected abstract String getFooterText(int displayedBookGroupCount, int totalBookGroupCount);
+
+    /**
+     * Get the text to display when more groups have been loaded.
+     *
+     * @param bookGroupCount Number of additional groups loaded.
+     * @return Text.
+     */
+    protected abstract String getMoreGroupsLoadedText(int bookGroupCount);
 
     /**
      * A task to load book groups.
@@ -215,8 +225,7 @@ public abstract class AbstractBookGroupListFragment extends ListFragment {
 
             int bookCount = bookGroups.size();
             if (bookCount > 0 && initialAdapterBookCount > 0) {
-                Resources res = getResources();
-                String message = res.getQuantityString(R.plurals.message_books_loaded, bookCount, bookCount);
+                String message = getMoreGroupsLoadedText(bookCount);
                 Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
             }
 

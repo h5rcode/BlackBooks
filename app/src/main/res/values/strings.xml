@@ -56,6 +56,30 @@
     <string name="field_invalid_date">Invalid date.</string>
     <string name="field_invalid_loan_date">The date must be before today\'s date.</string>
     <string name="field_mandatory">This field is mandatory.</string>
+    <plurals name="footer_fragment_book_groups_authors">
+        <item quantity="one">%1$s author out of %2$s</item>
+        <item quantity="other">%1$s authors out of %2$s</item>
+    </plurals>
+    <plurals name="footer_fragment_book_groups_book_locations">
+        <item quantity="one">%1$s location out of %2$s</item>
+        <item quantity="other">%1$s locations out of %2$s</item>
+    </plurals>
+    <plurals name="footer_fragment_book_groups_categories">
+        <item quantity="one">%1$s category out of %2$s</item>
+        <item quantity="other">%1$s categories out of %2$s</item>
+    </plurals>
+    <plurals name="footer_fragment_book_groups_first_letters">
+        <item quantity="one">%1$s group out of %2$s</item>
+        <item quantity="other">%1$s groups out of %2$s</item>
+    </plurals>
+    <plurals name="footer_fragment_book_groups_languages">
+        <item quantity="one">%1$s language out of %2$s</item>
+        <item quantity="other">%1$s languages out of %2$s</item>
+    </plurals>
+    <plurals name="footer_fragment_book_groups_series">
+        <item quantity="one">%1$s series out of %2$s</item>
+        <item quantity="other">%1$s series out of %2$s</item>
+    </plurals>
     <plurals name="footer_fragment_books">
         <item quantity="one">%1$s book out of %2$s</item>
         <item quantity="other">%1$s books out of %2$s</item>
@@ -220,6 +244,30 @@
     <plurals name="label_summary_series">
         <item quantity="one">series</item>
         <item quantity="other">series</item>
+    </plurals>
+    <plurals name="message_book_groups_loaded_authors">
+        <item quantity="one">%d more author loaded</item>
+        <item quantity="other">%d more authors loaded</item>
+    </plurals>
+    <plurals name="message_book_groups_loaded_book_locations">
+        <item quantity="one">%d more location loaded</item>
+        <item quantity="other">%d more locations loaded</item>
+    </plurals>
+    <plurals name="message_book_groups_loaded_categories">
+        <item quantity="one">%d more category loaded</item>
+        <item quantity="other">%d more categories loaded</item>
+    </plurals>
+    <plurals name="message_book_groups_loaded_first_letter">
+        <item quantity="one">%d more group loaded</item>
+        <item quantity="other">%d more groups loaded</item>
+    </plurals>
+    <plurals name="message_book_groups_loaded_languages">
+        <item quantity="one">%d more language loaded</item>
+        <item quantity="other">%d more languages loaded</item>
+    </plurals>
+    <plurals name="message_book_groups_loaded_series">
+        <item quantity="one">%d more series loaded</item>
+        <item quantity="other">%d more series loaded</item>
     </plurals>
     <plurals name="message_books_loaded">
         <item quantity="one">%d more book loaded</item>
