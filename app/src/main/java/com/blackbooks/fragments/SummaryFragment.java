@@ -1,8 +1,6 @@
 package com.blackbooks.fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -16,7 +14,6 @@ import android.widget.TextView;
 
 import com.blackbooks.R;
 import com.blackbooks.activities.BookGroupListActivity;
-import com.blackbooks.activities.BookListActivity;
 import com.blackbooks.activities.BookListActivity2;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookGroup;
@@ -28,36 +25,6 @@ import com.blackbooks.services.SummaryServices;
  */
 public class SummaryFragment extends Fragment {
 
-    private LinearLayout mLayoutBooks;
-    private LinearLayout mLayoutAuthors;
-    private LinearLayout mLayoutCategories;
-    private LinearLayout mLayoutLanguages;
-    private LinearLayout mLayoutSeries;
-    private LinearLayout mLayoutLocations;
-    private LinearLayout mLayoutToRead;
-    private LinearLayout mLayoutLoaned;
-    private LinearLayout mLayoutFavourite;
-
-    private TextView mTextBooksCount;
-    private TextView mTextAuthorsCount;
-    private TextView mTextCategoriesCount;
-    private TextView mTextLanguagesCount;
-    private TextView mTextSeriesCount;
-    private TextView mTextLocationsCount;
-    private TextView mTextToReadCount;
-    private TextView mTextLoanedCount;
-    private TextView mTextFavouriteCount;
-
-    private TextView mTextLabelBookCount;
-    private TextView mTextLabelAuthorCount;
-    private TextView mTextLabelCategoryCount;
-    private TextView mTextLabelLanguageCount;
-    private TextView mTextLabelSeriesCount;
-    private TextView mTextLabelLocationCount;
-    private TextView mTextLabelToReadCount;
-    private TextView mTextLabelLoanedCount;
-    private TextView mTextLabelFavouriteCount;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_summary, container, false);
@@ -68,15 +35,15 @@ public class SummaryFragment extends Fragment {
         super.onResume();
 
         View view = getView();
-        mLayoutBooks = (LinearLayout) view.findViewById(R.id.summary_layoutBooks);
-        mLayoutAuthors = (LinearLayout) view.findViewById(R.id.summary_layoutAuthors);
-        mLayoutCategories = (LinearLayout) view.findViewById(R.id.summary_layoutCategories);
-        mLayoutLanguages = (LinearLayout) view.findViewById(R.id.summary_layoutLanguages);
-        mLayoutSeries = (LinearLayout) view.findViewById(R.id.summary_layoutSeries);
-        mLayoutLocations = (LinearLayout) view.findViewById(R.id.summary_layoutLocations);
-        mLayoutToRead = (LinearLayout) view.findViewById(R.id.summary_layoutToRead);
-        mLayoutLoaned = (LinearLayout) view.findViewById(R.id.summary_layoutLoaned);
-        mLayoutFavourite = (LinearLayout) view.findViewById(R.id.summary_layoutFavourite);
+        LinearLayout mLayoutBooks = (LinearLayout) view.findViewById(R.id.summary_layoutBooks);
+        LinearLayout mLayoutAuthors = (LinearLayout) view.findViewById(R.id.summary_layoutAuthors);
+        LinearLayout mLayoutCategories = (LinearLayout) view.findViewById(R.id.summary_layoutCategories);
+        LinearLayout mLayoutLanguages = (LinearLayout) view.findViewById(R.id.summary_layoutLanguages);
+        LinearLayout mLayoutSeries = (LinearLayout) view.findViewById(R.id.summary_layoutSeries);
+        LinearLayout mLayoutLocations = (LinearLayout) view.findViewById(R.id.summary_layoutLocations);
+        LinearLayout mLayoutToRead = (LinearLayout) view.findViewById(R.id.summary_layoutToRead);
+        LinearLayout mLayoutLoaned = (LinearLayout) view.findViewById(R.id.summary_layoutLoaned);
+        LinearLayout mLayoutFavourite = (LinearLayout) view.findViewById(R.id.summary_layoutFavourite);
 
         mLayoutBooks.setOnClickListener(new OnClickListener() {
 
@@ -124,7 +91,9 @@ public class SummaryFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                startBookListActivity(BookListByToReadReadFragment.class);
+                Intent i = new Intent(getActivity(), BookListActivity2.class);
+                i.putExtra(BookListActivity2.EXTRA_BOOK_GROUP_TYPE, BookGroup.BookGroupType.TO_READ);
+                startActivity(i);
             }
         });
         mLayoutLoaned.setOnClickListener(new OnClickListener() {
@@ -144,25 +113,25 @@ public class SummaryFragment extends Fragment {
             }
         });
 
-        mTextBooksCount = (TextView) view.findViewById(R.id.summary_booksCount);
-        mTextAuthorsCount = (TextView) view.findViewById(R.id.summary_authorsCount);
-        mTextCategoriesCount = (TextView) view.findViewById(R.id.summary_categoriesCount);
-        mTextLanguagesCount = (TextView) view.findViewById(R.id.summary_languagesCount);
-        mTextSeriesCount = (TextView) view.findViewById(R.id.summary_seriesCount);
-        mTextLocationsCount = (TextView) view.findViewById(R.id.summary_locationsCount);
-        mTextToReadCount = (TextView) view.findViewById(R.id.summary_toReadCount);
-        mTextLoanedCount = (TextView) view.findViewById(R.id.summary_loanedCount);
-        mTextFavouriteCount = (TextView) view.findViewById(R.id.summary_favouriteCount);
+        TextView mTextBooksCount = (TextView) view.findViewById(R.id.summary_booksCount);
+        TextView mTextAuthorsCount = (TextView) view.findViewById(R.id.summary_authorsCount);
+        TextView mTextCategoriesCount = (TextView) view.findViewById(R.id.summary_categoriesCount);
+        TextView mTextLanguagesCount = (TextView) view.findViewById(R.id.summary_languagesCount);
+        TextView mTextSeriesCount = (TextView) view.findViewById(R.id.summary_seriesCount);
+        TextView mTextLocationsCount = (TextView) view.findViewById(R.id.summary_locationsCount);
+        TextView mTextToReadCount = (TextView) view.findViewById(R.id.summary_toReadCount);
+        TextView mTextLoanedCount = (TextView) view.findViewById(R.id.summary_loanedCount);
+        TextView mTextFavouriteCount = (TextView) view.findViewById(R.id.summary_favouriteCount);
 
-        mTextLabelBookCount = (TextView) view.findViewById(R.id.summary_textLabelBookCount);
-        mTextLabelAuthorCount = (TextView) view.findViewById(R.id.summary_textLabelAuthorCount);
-        mTextLabelCategoryCount = (TextView) view.findViewById(R.id.summary_textLabelCategoryCount);
-        mTextLabelLanguageCount = (TextView) view.findViewById(R.id.summary_textLabelLanguageCount);
-        mTextLabelSeriesCount = (TextView) view.findViewById(R.id.summary_textLabelSeriesCount);
-        mTextLabelLocationCount = (TextView) view.findViewById(R.id.summary_textLabelLocationCount);
-        mTextLabelToReadCount = (TextView) view.findViewById(R.id.summary_textLabelToReadCount);
-        mTextLabelLoanedCount = (TextView) view.findViewById(R.id.summary_textLabelLoanedCount);
-        mTextLabelFavouriteCount = (TextView) view.findViewById(R.id.summary_textLabelFavouriteCount);
+        TextView mTextLabelBookCount = (TextView) view.findViewById(R.id.summary_textLabelBookCount);
+        TextView mTextLabelAuthorCount = (TextView) view.findViewById(R.id.summary_textLabelAuthorCount);
+        TextView mTextLabelCategoryCount = (TextView) view.findViewById(R.id.summary_textLabelCategoryCount);
+        TextView mTextLabelLanguageCount = (TextView) view.findViewById(R.id.summary_textLabelLanguageCount);
+        TextView mTextLabelSeriesCount = (TextView) view.findViewById(R.id.summary_textLabelSeriesCount);
+        TextView mTextLabelLocationCount = (TextView) view.findViewById(R.id.summary_textLabelLocationCount);
+        TextView mTextLabelToReadCount = (TextView) view.findViewById(R.id.summary_textLabelToReadCount);
+        TextView mTextLabelLoanedCount = (TextView) view.findViewById(R.id.summary_textLabelLoanedCount);
+        TextView mTextLabelFavouriteCount = (TextView) view.findViewById(R.id.summary_textLabelFavouriteCount);
 
         SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
         Summary summary = SummaryServices.getSummary(db);
@@ -188,26 +157,6 @@ public class SummaryFragment extends Fragment {
         mTextLabelToReadCount.setText(res.getQuantityText(R.plurals.label_summary_to_read, summary.toRead));
         mTextLabelLoanedCount.setText(res.getQuantityText(R.plurals.label_summary_loaned, summary.loaned));
         mTextLabelFavouriteCount.setText(res.getQuantityText(R.plurals.label_summary_favourites, summary.favourites));
-    }
-
-    /**
-     * Start the {@link BookListActivity}.
-     *
-     * @param fragmentClass Name of the fragment's class to be displayed.
-     */
-    private void startBookListActivity(Class<?> fragmentClass) {
-        String className = fragmentClass.getName();
-
-        SharedPreferences sharedPref = getActivity().getSharedPreferences(BookListActivity.PREFERENCES, Context.MODE_PRIVATE);
-        String defaultList = sharedPref.getString(BookListActivity.PREF_DEFAULT_LIST, null);
-        if (!className.equals(defaultList)) {
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString(BookListActivity.PREF_DEFAULT_LIST, className);
-            editor.commit();
-        }
-        Intent i = new Intent(getActivity(), BookListActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(i);
     }
 
     /**

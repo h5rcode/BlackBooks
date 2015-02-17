@@ -16,6 +16,7 @@ import com.blackbooks.utils.LanguageUtils;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 /**
  * Book group services.
@@ -147,12 +148,10 @@ public final class BookGroupServices {
     /**
      * Load the list of languages.
      *
-     * @param db     SQLiteDatabase
-     * @param limit  Limit.
-     * @param offset Offset.
+     * @param db SQLiteDatabase
      * @return List of BookGroup.
      */
-    public static List<BookGroup> getBookGroupListLanguage(SQLiteDatabase db, int limit, int offset) {
+    public static List<BookGroup> getBookGroupListLanguage(SQLiteDatabase db) {
         String sql = "SELECT" + "\n" +
                 "LOWER(" + Book.Cols.BOO_LANGUAGE_CODE + ")," + "\n" +
                 "NULL," + "\n" +
@@ -161,23 +160,17 @@ public final class BookGroupServices {
                 Book.NAME + "\n" +
                 "WHERE " + Book.Cols.BOO_LANGUAGE_CODE + " IS NOT NULL" + "\n" +
                 "GROUP BY" + "\n" +
-                "1" + "\n" +
-                "ORDER BY" + "\n" +
-                "1" + "\n" +
-                "LIMIT ?" + "\n" +
-                "OFFSET ?" + ";";
+                "1;";
 
-        String[] selectionArgs = new String[]{
-                String.valueOf(limit),
-                String.valueOf(offset)
-        };
-        List<BookGroup> bookGroupList = queryBookGroupList(db, sql, selectionArgs);
-        for (BookGroup bookGroup : bookGroupList) {
+
+        TreeMap<String, BookGroup> bookGroupMap = new TreeMap<String, BookGroup>();
+        for (BookGroup bookGroup : queryBookGroupList(db, sql, null)) {
             if (bookGroup.id != null) {
                 bookGroup.name = LanguageUtils.getDisplayLanguage((String) bookGroup.id);
             }
+            bookGroupMap.put(bookGroup.name, bookGroup);
         }
-        return bookGroupList;
+        return new ArrayList<BookGroup>(bookGroupMap.values());
     }
 
     /**

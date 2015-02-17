@@ -8,6 +8,7 @@ import com.blackbooks.model.nonpersistent.BookGroup;
 import com.blackbooks.services.BookGroupServices;
 import com.blackbooks.services.SummaryServices;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,7 +28,13 @@ public final class BookGroupListLanguageFragment extends AbstractBookGroupListFr
 
     @Override
     protected List<BookGroup> loadBookGroupList(SQLiteDatabase db, int limit, int offset) {
-        return BookGroupServices.getBookGroupListLanguage(db, limit, offset);
+        List<BookGroup> bookGroupList;
+        if (offset == 0) {
+            bookGroupList = BookGroupServices.getBookGroupListLanguage(db);
+        } else {
+            bookGroupList = new ArrayList<BookGroup>();
+        }
+        return bookGroupList;
     }
 
     @Override

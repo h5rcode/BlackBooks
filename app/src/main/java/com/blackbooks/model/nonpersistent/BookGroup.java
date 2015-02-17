@@ -55,5 +55,10 @@ public final class BookGroup {
          * Series.
          */
         SERIES,
+
+        /**
+         * To read.
+         */
+        TO_READ
     }
 }

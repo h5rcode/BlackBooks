@@ -56,6 +56,6 @@ public final class BookListByFirstLetterFragment2 extends AbstractBookListFragme
 
     @Override
     protected String getTitle() {
-        return getString(R.string.title_activity_books_by_category, mFirstLetter);
+        return getString(R.string.title_activity_books_by_first_letter, mFirstLetter);
     }
 }

@@ -398,10 +398,12 @@
     <string name="title_activity_books_by_author">Books by %s</string>
     <string name="title_activity_books_by_book_location">Location \"%s\"</string>
     <string name="title_activity_books_by_category">Category \"%s\"</string>
+    <string name="title_activity_books_by_first_letter">Group %s</string>
     <string name="title_activity_books_by_language">Books in %s</string>
     <string name="title_activity_books_by_loaned">Books loaned to %s</string>
     <string name="title_activity_books_by_series">Series \"%s\"</string>
     <string name="title_activity_books_favourites">Favourite books</string>
+    <string name="title_activity_books_to_read">Books to read</string>
     <string name="title_activity_bulk_scan">Bulk scan</string>
     <string name="title_activity_isbn_lookup">ISBN lookup</string>
     <string name="title_activity_book_search">Search results for \"%s\"</string>

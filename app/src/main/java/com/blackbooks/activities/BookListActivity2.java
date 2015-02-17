@@ -18,6 +18,7 @@ import com.blackbooks.fragments.BookListByLanguageFragment2;
 import com.blackbooks.fragments.BookListByLoanedFragment2;
 import com.blackbooks.fragments.BookListBySeriesFragment2;
 import com.blackbooks.fragments.BookListFavouriteFragment;
+import com.blackbooks.fragments.BookListToReadFragment;
 import com.blackbooks.model.nonpersistent.BookGroup;
 
 import java.io.Serializable;
@@ -72,6 +73,9 @@ public final class BookListActivity2 extends FragmentActivity {
                     break;
                 case SERIES:
                     fragment = BookListBySeriesFragment2.newInstance((Long) bookGroupId);
+                    break;
+                case TO_READ:
+                    fragment = new BookListToReadFragment();
                     break;
             }
 

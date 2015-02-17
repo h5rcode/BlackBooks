@@ -533,7 +533,7 @@ public class BookServices {
         };
 
         String selectedColumns = StringUtils.join(selectedColumnList, ", ");
-        String sql = "SELECT boo." + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.SER_ID + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " LIMIT ? OFFSET ?;";
+        String sql = "SELECT boo." + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.SER_ID + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " COLLATE NOCASE LIMIT ? OFFSET ?;";
 
         String[] selectionArgs = new String[]{
                 String.valueOf(seriesId),
@@ -562,10 +562,39 @@ public class BookServices {
         };
 
         String selectedColumns = StringUtils.join(selectedColumnList, ", ");
-        String sql = "SELECT boo." + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.BOO_IS_FAVOURITE + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " LIMIT ? OFFSET ?;";
+        String sql = "SELECT boo." + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.BOO_IS_FAVOURITE + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " COLLATE NOCASE LIMIT ? OFFSET ?;";
 
         String[] selectionArgs = new String[]{
                 String.valueOf(1L),
+                String.valueOf(limit),
+                String.valueOf(offset)
+        };
+
+        List<Book> bookList = BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
+        return getBookInfoListFromBookList(db, bookList);
+    }
+
+    /**
+     * Return the list of books to read.
+     *
+     * @param db     SQLiteDatabase.
+     * @param limit  Max number of books to return.
+     * @param offset Offset.
+     * @return List of BookInfo.
+     */
+    public static List<BookInfo> getBookInfoListToRead(SQLiteDatabase db, int limit, int offset) {
+        String[] selectedColumnList = new String[]{
+                "boo." + Book.Cols.BOO_ID,
+                "boo." + Book.Cols.BOO_TITLE,
+                "boo." + Book.Cols.BOO_IS_READ,
+                "boo." + Book.Cols.BOO_IS_FAVOURITE
+        };
+
+        String selectedColumns = StringUtils.join(selectedColumnList, ", ");
+        String sql = "SELECT boo." + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.BOO_IS_READ + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " COLLATE NOCASE LIMIT ? OFFSET ?;";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(0L),
                 String.valueOf(limit),
                 String.valueOf(offset)
         };
