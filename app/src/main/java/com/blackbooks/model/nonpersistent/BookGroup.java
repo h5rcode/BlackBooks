@@ -32,6 +32,11 @@ public final class BookGroup {
         CATEGORY,
 
         /**
+         * Favourite.
+         */
+        FAVOURITE,
+
+        /**
          * First letter of the title.
          */
         FIRST_LETTER,

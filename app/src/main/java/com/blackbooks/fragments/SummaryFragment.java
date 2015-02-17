@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.blackbooks.R;
 import com.blackbooks.activities.BookGroupListActivity;
 import com.blackbooks.activities.BookListActivity;
+import com.blackbooks.activities.BookListActivity2;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookGroup;
 import com.blackbooks.model.nonpersistent.Summary;
@@ -137,7 +138,9 @@ public class SummaryFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                startBookListActivity(BookListByFavouriteFragment.class);
+                Intent i = new Intent(getActivity(), BookListActivity2.class);
+                i.putExtra(BookListActivity2.EXTRA_BOOK_GROUP_TYPE, BookGroup.BookGroupType.FAVOURITE);
+                startActivity(i);
             }
         });
 
