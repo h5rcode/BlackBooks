@@ -256,7 +256,7 @@ public class BookServices {
      * @return Book count.
      */
     public static int getBookCountByLoanedTo(SQLiteDatabase db, String loanedTo) {
-        String sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_LANGUAGE_CODE;
+        String sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_LOANED_TO;
 
         String[] selectionArgs;
         if (loanedTo == null) {
