@@ -25,7 +25,7 @@ public class SummaryServices {
         summary.series = getSeriesCount(db);
         summary.bookLocations = getBookLocationCount(db);
         summary.toRead = getBookToReadCount(db);
-        summary.loaned = getBookLoanedCount(db);
+        summary.loans = getBookLoanCount(db);
         summary.favourites = getFavouriteBooks(db);
 
         return summary;
@@ -114,12 +114,12 @@ public class SummaryServices {
     }
 
     /**
-     * Return the number of loaned books.
+     * Return the number of distinct person who have an ongoing loan.
      *
      * @param db SQLiteDatabase.
      * @return Loaned book count.
      */
-    public static int getBookLoanedCount(SQLiteDatabase db) {
+    public static int getBookLoanCount(SQLiteDatabase db) {
         String sql = "SELECT COUNT(DISTINCT " + Book.Cols.BOO_LOANED_TO + ") FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_LOANED_TO + " IS NOT NULL;";
         return queryInt(db, sql);
     }

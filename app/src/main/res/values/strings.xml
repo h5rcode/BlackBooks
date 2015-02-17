@@ -76,9 +76,9 @@
         <item quantity="one">%1$s language out of %2$s</item>
         <item quantity="other">%1$s languages out of %2$s</item>
     </plurals>
-    <plurals name="footer_fragment_book_groups_loaned">
-        <item quantity="one">%1$s person out of %2$s</item>
-        <item quantity="other">%1$s persons out of %2$s</item>
+    <plurals name="footer_fragment_book_groups_loans">
+        <item quantity="one">%1$s loan out of %2$s</item>
+        <item quantity="other">%1$s loans out of %2$s</item>
     </plurals>
     <plurals name="footer_fragment_book_groups_series">
         <item quantity="one">%1$s series out of %2$s</item>
@@ -233,9 +233,9 @@
         <item quantity="one">language</item>
         <item quantity="other">languages</item>
     </plurals>
-    <plurals name="label_summary_loaned">
-        <item quantity="one">loaned</item>
-        <item quantity="other">loaned</item>
+    <plurals name="label_summary_loans">
+        <item quantity="one">loan</item>
+        <item quantity="other">loans</item>
     </plurals>
     <plurals name="label_summary_locations">
         <item quantity="one">location</item>
@@ -269,9 +269,9 @@
         <item quantity="one">%d more language loaded</item>
         <item quantity="other">%d more languages loaded</item>
     </plurals>
-    <plurals name="message_book_groups_loaded_loaned">
-        <item quantity="one">%d more person loaded</item>
-        <item quantity="other">%d more persons loaded</item>
+    <plurals name="message_book_groups_loaded_loans">
+        <item quantity="one">%d more loan loaded</item>
+        <item quantity="other">%d more loans loaded</item>
     </plurals>
     <plurals name="message_book_groups_loaded_series">
         <item quantity="one">%d more series loaded</item>

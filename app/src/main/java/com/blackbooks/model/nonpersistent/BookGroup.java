@@ -47,9 +47,9 @@ public final class BookGroup {
         LANGUAGE,
 
         /**
-         * Loaned.
+         * Loan.
          */
-        LOANED,
+        LOAN,
 
         /**
          * Series.

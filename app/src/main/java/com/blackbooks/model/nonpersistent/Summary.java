@@ -14,5 +14,5 @@ public class Summary implements Serializable {
     public int toRead;
     public int favourites;
     public int languages;
-    public int loaned;
+    public int loans;
 }

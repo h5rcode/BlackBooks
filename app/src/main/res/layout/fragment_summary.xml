@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/summary_layoutBooks"
@@ -15,7 +15,7 @@
             android:background="@drawable/selector_linear_layout_grey_900"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="5sp" >
+            android:padding="5sp">
 
             <TextView
                 android:id="@+id/summary_booksCount"
@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/summary_layoutToRead"
@@ -47,7 +47,7 @@
                 android:background="@drawable/selector_linear_layout_grey_800"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:padding="5sp" >
+                android:padding="5sp">
 
                 <TextView
                     android:id="@+id/summary_toReadCount"
@@ -66,7 +66,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/summary_layoutLoaned"
+                android:id="@+id/summary_layoutLoans"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -74,10 +74,10 @@
                 android:clickable="true"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:padding="5sp" >
+                android:padding="5sp">
 
                 <TextView
-                    android:id="@+id/summary_loanedCount"
+                    android:id="@+id/summary_loanCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/white"
@@ -85,7 +85,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/summary_textLabelLoanedCount"
+                    android:id="@+id/summary_textLabelLoanCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/white"
@@ -97,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/summary_layoutAuthors"
@@ -108,7 +108,7 @@
                 android:clickable="true"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:padding="5sp" >
+                android:padding="5sp">
 
                 <TextView
                     android:id="@+id/summary_authorsCount"
@@ -134,7 +134,7 @@
                 android:background="@drawable/selector_linear_layout_grey_500"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:padding="5sp" >
+                android:padding="5sp">
 
                 <TextView
                     android:id="@+id/summary_categoriesCount"
@@ -160,15 +160,14 @@
                 android:background="@drawable/selector_linear_layout_grey_400"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:padding="5sp" >
+                android:padding="5sp">
 
                 <TextView
                     android:id="@+id/summary_seriesCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="30sp"
-                    android:textStyle="bold" >
-                </TextView>
+                    android:textStyle="bold"></TextView>
 
                 <TextView
                     android:id="@+id/summary_textLabelSeriesCount"
@@ -182,7 +181,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/summary_layoutLocations"
@@ -192,15 +191,14 @@
                 android:background="@drawable/selector_linear_layout_grey_300"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:padding="5sp" >
+                android:padding="5sp">
 
                 <TextView
                     android:id="@+id/summary_locationsCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="35sp"
-                    android:textStyle="bold" >
-                </TextView>
+                    android:textStyle="bold"></TextView>
 
                 <TextView
                     android:id="@+id/summary_textLabelLocationCount"
@@ -217,15 +215,14 @@
                 android:background="@drawable/selector_linear_layout_grey_200"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:padding="5sp" >
+                android:padding="5sp">
 
                 <TextView
                     android:id="@+id/summary_languagesCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="35sp"
-                    android:textStyle="bold" >
-                </TextView>
+                    android:textStyle="bold"></TextView>
 
                 <TextView
                     android:id="@+id/summary_textLabelLanguageCount"
@@ -242,7 +239,7 @@
             android:background="@drawable/selector_linear_layout_grey_100"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="5sp" >
+            android:padding="5sp">
 
             <TextView
                 android:id="@+id/summary_favouriteCount"

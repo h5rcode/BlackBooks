@@ -75,9 +75,9 @@
         <item quantity="one">%1$s langues sur %2$s</item>
         <item quantity="other">%1$s langues sur %2$s</item>
     </plurals>
-    <plurals name="footer_fragment_book_groups_loaned">
-        <item quantity="one">%1$s personne sur %2$s</item>
-        <item quantity="other">%1$s personne sur %2$s</item>
+    <plurals name="footer_fragment_book_groups_loans">
+        <item quantity="one">%1$s prêt sur %2$s</item>
+        <item quantity="other">%1$s prêts sur %2$s</item>
     </plurals>
     <plurals name="footer_fragment_book_groups_series">
         <item quantity="one">%1$s series out of %2$s</item>
@@ -221,9 +221,9 @@
         <item quantity="one">langue</item>
         <item quantity="other">langues</item>
     </plurals>
-    <plurals name="label_summary_loaned">
-        <item quantity="one">prêté</item>
-        <item quantity="other">prêtés</item>
+    <plurals name="label_summary_loans">
+        <item quantity="one">prêt</item>
+        <item quantity="other">prêts</item>
     </plurals>
     <plurals name="label_summary_locations">
         <item quantity="one">emplacement</item>
@@ -257,9 +257,9 @@
         <item quantity="one">%d langue supplémentaire chargée</item>
         <item quantity="other">%d langues supplémentaires chargées</item>
     </plurals>
-    <plurals name="message_book_groups_loaded_loaned">
-        <item quantity="one">%d personne supplémentaire chargée</item>
-        <item quantity="other">%d personnes supplémentaires chargées</item>
+    <plurals name="message_book_groups_loaded_loans">
+        <item quantity="one">%d prêt supplémentaire chargé</item>
+        <item quantity="other">%d prêts supplémentaires chargés</item>
     </plurals>
     <plurals name="message_book_groups_loaded_series">
         <item quantity="one">%d série supplémentaire chargée</item>

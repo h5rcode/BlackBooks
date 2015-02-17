@@ -68,7 +68,7 @@ public final class BookListActivity2 extends FragmentActivity {
                 case LANGUAGE:
                     fragment = BookListByLanguageFragment2.newInstance((String) bookGroupId);
                     break;
-                case LOANED:
+                case LOAN:
                     fragment = BookListByLoanedFragment2.newInstance((String) bookGroupId);
                     break;
                 case SERIES:

@@ -181,7 +181,7 @@ public final class BookGroupServices {
      * @param offset Offset.
      * @return List of BookGroup.
      */
-    public static List<BookGroup> getBookGroupListLoaned(SQLiteDatabase db, int limit, int offset) {
+    public static List<BookGroup> getBookGroupListLoan(SQLiteDatabase db, int limit, int offset) {
         String sql = "SELECT" + "\n" +
                 Book.Cols.BOO_LOANED_TO + "," + "\n" +
                 Book.Cols.BOO_LOANED_TO + "," + "\n" +
