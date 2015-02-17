@@ -3,8 +3,10 @@ package com.blackbooks.fragments;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import com.blackbooks.R;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.services.BookServices;
+import com.blackbooks.utils.LanguageUtils;
 
 import java.util.List;
 
@@ -49,5 +51,10 @@ public final class BookListByLanguageFragment2 extends AbstractBookListFragment2
     @Override
     protected List<BookInfo> loadBookInfoList(SQLiteDatabase db, int limit, int offset) {
         return BookServices.getBookInfoListByLanguage(db, mLanguageCode, limit, offset);
+    }
+
+    @Override
+    protected String getTitle() {
+        return getString(R.string.title_activity_books_by_language, LanguageUtils.getDisplayLanguage(mLanguageCode));
     }
 }

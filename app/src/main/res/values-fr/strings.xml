@@ -382,6 +382,12 @@
     <string name="title_activity_book_group_loaned">Prêts</string>
     <string name="title_activity_book_group_series">Séries</string>
     <string name="title_activity_book_import">Importer depuis un fichier CSV</string>
+    <string name="title_activity_books_by_author">Livres de %s</string>
+    <string name="title_activity_books_by_book_location">Emplacement \"%s\"</string>
+    <string name="title_activity_books_by_category">Catégorie \"%s\"</string>
+    <string name="title_activity_books_by_language">Livres en %s</string>
+    <string name="title_activity_books_by_loaned">Livres prêtés à %s</string>
+    <string name="title_activity_books_by_series">Série \"%s\"</string>
     <string name="title_activity_bulk_scan">Scanner des ISBNs en masse</string>
     <string name="title_activity_isbn_lookup">Recherche par ISBN</string>
     <string name="title_activity_book_search">Résultats pour \"%s\"</string>

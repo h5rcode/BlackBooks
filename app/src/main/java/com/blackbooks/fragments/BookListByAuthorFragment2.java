@@ -3,7 +3,11 @@ package com.blackbooks.fragments;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import com.blackbooks.R;
+import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
+import com.blackbooks.model.persistent.Author;
+import com.blackbooks.services.AuthorServices;
 import com.blackbooks.services.BookServices;
 
 import java.util.List;
@@ -16,6 +20,7 @@ public final class BookListByAuthorFragment2 extends AbstractBookListFragment2 {
     private static final String ARG_AUTHOR_ID = "ARG_AUTHOR_ID";
 
     private long mAuthorId;
+    private Author mAuthor;
 
     /**
      * Return a new instance of BookListByAuthorFragment2, initialized to display the books of an author.
@@ -39,6 +44,9 @@ public final class BookListByAuthorFragment2 extends AbstractBookListFragment2 {
 
         Bundle args = getArguments();
         mAuthorId = args.getLong(ARG_AUTHOR_ID);
+
+        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
+        mAuthor = AuthorServices.getAuthor(db, mAuthorId);
     }
 
     @Override
@@ -49,5 +57,10 @@ public final class BookListByAuthorFragment2 extends AbstractBookListFragment2 {
     @Override
     protected List<BookInfo> loadBookInfoList(SQLiteDatabase db, int limit, int offset) {
         return BookServices.getBookInfoListByAuthor(db, mAuthorId, limit, offset);
+    }
+
+    @Override
+    protected String getTitle() {
+        return getString(R.string.title_activity_books_by_author, mAuthor.name);
     }
 }

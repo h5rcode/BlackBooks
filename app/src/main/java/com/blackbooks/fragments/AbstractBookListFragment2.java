@@ -143,6 +143,7 @@ public abstract class AbstractBookListFragment2 extends ListFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setFooterText();
+        setTitle();
     }
 
     @Override
@@ -249,6 +250,13 @@ public abstract class AbstractBookListFragment2 extends ListFragment {
     protected abstract List<BookInfo> loadBookInfoList(SQLiteDatabase db, int limit, int offset);
 
     /**
+     * Return the title of the activity.
+     *
+     * @return Title.
+     */
+    protected abstract String getTitle();
+
+    /**
      * Delete a book.
      *
      * @param book BookInfo.
@@ -346,6 +354,13 @@ public abstract class AbstractBookListFragment2 extends ListFragment {
 
             mTextViewFooter.setText(footerText);
         }
+    }
+
+    /**
+     * Set the title of the parent activity.
+     */
+    private void setTitle() {
+        getActivity().setTitle(getTitle());
     }
 
     /**

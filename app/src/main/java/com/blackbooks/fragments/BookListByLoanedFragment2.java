@@ -3,6 +3,7 @@ package com.blackbooks.fragments;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import com.blackbooks.R;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.services.BookServices;
 
@@ -50,5 +51,10 @@ public final class BookListByLoanedFragment2 extends AbstractBookListFragment2 {
     @Override
     protected List<BookInfo> loadBookInfoList(SQLiteDatabase db, int limit, int offset) {
         return BookServices.getBookInfoListByLoanedTo(db, mLoanedTo, limit, offset);
+    }
+
+    @Override
+    protected String getTitle() {
+        return getString(R.string.title_activity_books_by_loaned, mLoanedTo);
     }
 }
