@@ -130,7 +130,7 @@ public class SummaryFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                startBookListActivity(BookListByLoanedFragment.class);
+                startBookGroupListActivity(BookGroup.BookGroupType.LOANED);
             }
         });
         mLayoutFavourite.setOnClickListener(new OnClickListener() {

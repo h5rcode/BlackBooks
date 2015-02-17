@@ -75,6 +75,10 @@
         <item quantity="one">%1$s langues sur %2$s</item>
         <item quantity="other">%1$s langues sur %2$s</item>
     </plurals>
+    <plurals name="footer_fragment_book_groups_loaned">
+        <item quantity="one">%1$s personne sur %2$s</item>
+        <item quantity="other">%1$s personne sur %2$s</item>
+    </plurals>
     <plurals name="footer_fragment_book_groups_series">
         <item quantity="one">%1$s series out of %2$s</item>
         <item quantity="other">%1$s series out of %2$s</item>
@@ -253,6 +257,10 @@
         <item quantity="one">%d langue supplémentaire chargée</item>
         <item quantity="other">%d langues supplémentaires chargées</item>
     </plurals>
+    <plurals name="message_book_groups_loaded_loaned">
+        <item quantity="one">%d personne supplémentaire chargée</item>
+        <item quantity="other">%d personnes supplémentaires chargées</item>
+    </plurals>
     <plurals name="message_book_groups_loaded_series">
         <item quantity="one">%d série supplémentaire chargée</item>
         <item quantity="other">%d séries supplémentaires chargées</item>
@@ -371,6 +379,7 @@
     <string name="title_activity_book_group_categories">Catégories</string>
     <string name="title_activity_book_group_first_letter">Première lettre du titre</string>
     <string name="title_activity_book_group_languages">Langues</string>
+    <string name="title_activity_book_group_loaned">Prêts</string>
     <string name="title_activity_book_group_series">Séries</string>
     <string name="title_activity_book_import">Importer depuis un fichier CSV</string>
     <string name="title_activity_bulk_scan">Scanner des ISBNs en masse</string>

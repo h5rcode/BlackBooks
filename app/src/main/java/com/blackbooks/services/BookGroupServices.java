@@ -180,6 +180,35 @@ public final class BookGroupServices {
         return bookGroupList;
     }
 
+    /**
+     * Load the list of persons who are loaned a book.
+     *
+     * @param db     SQLiteDatabase
+     * @param limit  Limit.
+     * @param offset Offset.
+     * @return List of BookGroup.
+     */
+    public static List<BookGroup> getBookGroupListLoaned(SQLiteDatabase db, int limit, int offset) {
+        String sql = "SELECT" + "\n" +
+                Book.Cols.BOO_LOANED_TO + "," + "\n" +
+                Book.Cols.BOO_LOANED_TO + "," + "\n" +
+                "COUNT(*)" + "\n" +
+                "FROM" + "\n" +
+                Book.NAME + "\n" +
+                "WHERE " + Book.Cols.BOO_LOANED_TO + " IS NOT NULL" + "\n" +
+                "GROUP BY" + "\n" +
+                "1" + "\n" +
+                "ORDER BY" + "\n" +
+                "1" + "\n" +
+                "LIMIT ?" + "\n" +
+                "OFFSET ?" + ";";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(limit),
+                String.valueOf(offset)
+        };
+        return queryBookGroupList(db, sql, selectionArgs);
+    }
 
     /**
      * Load the list of series.

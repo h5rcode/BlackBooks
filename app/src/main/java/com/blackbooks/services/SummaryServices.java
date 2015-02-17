@@ -120,7 +120,7 @@ public class SummaryServices {
      * @return Loaned book count.
      */
     public static int getBookLoanedCount(SQLiteDatabase db) {
-        String sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_LOANED_TO + " IS NOT NULL;";
+        String sql = "SELECT COUNT(DISTINCT " + Book.Cols.BOO_LOANED_TO + ") FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_LOANED_TO + " IS NOT NULL;";
         return queryInt(db, sql);
     }
 

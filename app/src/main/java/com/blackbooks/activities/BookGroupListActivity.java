@@ -14,6 +14,7 @@ import com.blackbooks.fragments.BookGroupListBookLocationFragment;
 import com.blackbooks.fragments.BookGroupListCategoryFragment;
 import com.blackbooks.fragments.BookGroupListFirstLetterFragment;
 import com.blackbooks.fragments.BookGroupListLanguageFragment;
+import com.blackbooks.fragments.BookGroupListLoanedFragment;
 import com.blackbooks.fragments.BookGroupListSeriesFragment;
 import com.blackbooks.model.nonpersistent.BookGroup;
 
@@ -63,6 +64,10 @@ public final class BookGroupListActivity extends FragmentActivity {
 
                 case LANGUAGE:
                     fragment = new BookGroupListLanguageFragment();
+                    break;
+
+                case LOANED:
+                    fragment = new BookGroupListLoanedFragment();
                     break;
 
                 case SERIES:
@@ -123,6 +128,10 @@ public final class BookGroupListActivity extends FragmentActivity {
 
             case LANGUAGE:
                 resId = R.string.title_activity_book_group_languages;
+                break;
+
+            case LOANED:
+                resId = R.string.title_activity_book_group_loaned;
                 break;
 
             case SERIES:

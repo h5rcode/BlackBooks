@@ -15,6 +15,7 @@ import com.blackbooks.fragments.BookListByBookLocationFragment2;
 import com.blackbooks.fragments.BookListByCategoryFragment2;
 import com.blackbooks.fragments.BookListByFirstLetterFragment2;
 import com.blackbooks.fragments.BookListByLanguageFragment2;
+import com.blackbooks.fragments.BookListByLoanedFragment2;
 import com.blackbooks.fragments.BookListBySeriesFragment2;
 import com.blackbooks.model.nonpersistent.BookGroup;
 
@@ -61,6 +62,9 @@ public final class BookListActivity2 extends FragmentActivity {
                     break;
                 case LANGUAGE:
                     fragment = BookListByLanguageFragment2.newInstance((String) bookGroupId);
+                    break;
+                case LOANED:
+                    fragment = BookListByLoanedFragment2.newInstance((String) bookGroupId);
                     break;
                 case SERIES:
                     fragment = BookListBySeriesFragment2.newInstance((Long) bookGroupId);

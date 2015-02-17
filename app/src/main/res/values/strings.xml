@@ -76,6 +76,10 @@
         <item quantity="one">%1$s language out of %2$s</item>
         <item quantity="other">%1$s languages out of %2$s</item>
     </plurals>
+    <plurals name="footer_fragment_book_groups_loaned">
+        <item quantity="one">%1$s person out of %2$s</item>
+        <item quantity="other">%1$s persons out of %2$s</item>
+    </plurals>
     <plurals name="footer_fragment_book_groups_series">
         <item quantity="one">%1$s series out of %2$s</item>
         <item quantity="other">%1$s series out of %2$s</item>
@@ -265,6 +269,10 @@
         <item quantity="one">%d more language loaded</item>
         <item quantity="other">%d more languages loaded</item>
     </plurals>
+    <plurals name="message_book_groups_loaded_loaned">
+        <item quantity="one">%d more person loaded</item>
+        <item quantity="other">%d more persons loaded</item>
+    </plurals>
     <plurals name="message_book_groups_loaded_series">
         <item quantity="one">%d more series loaded</item>
         <item quantity="other">%d more series loaded</item>
@@ -384,6 +392,7 @@
     <string name="title_activity_book_group_categories">Categories</string>
     <string name="title_activity_book_group_first_letter">First letter</string>
     <string name="title_activity_book_group_languages">Languages</string>
+    <string name="title_activity_book_group_loaned">Loans</string>
     <string name="title_activity_book_group_series">Series</string>
     <string name="title_activity_book_import">Import from CSV</string>
     <string name="title_activity_bulk_scan">Bulk scan</string>
