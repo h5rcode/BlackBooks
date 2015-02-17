@@ -25,7 +25,7 @@ public final class LanguageUtils {
 
             for (Locale locale : locales) {
                 if (locale.getLanguage().equals(languageCode)) {
-                    displayName = StringUtils.capitalize(locale.getDisplayName(Locale.getDefault()));
+                    displayName = locale.getDisplayName(Locale.getDefault());
                     break;
                 }
             }

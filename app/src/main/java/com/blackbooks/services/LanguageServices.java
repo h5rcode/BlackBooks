@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.nonpersistent.LanguageInfo;
 import com.blackbooks.utils.LanguageUtils;
+import com.blackbooks.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +43,7 @@ public class LanguageServices {
                 if (languageMap.containsKey(languageCode)) {
                     language = languageMap.get(languageCode);
                 } else {
-                    String displayName = LanguageUtils.getDisplayLanguage(languageCode);
+                    String displayName = StringUtils.capitalize(LanguageUtils.getDisplayLanguage(languageCode));
 
                     language = new LanguageInfo();
                     language.languageCode = languageCode;

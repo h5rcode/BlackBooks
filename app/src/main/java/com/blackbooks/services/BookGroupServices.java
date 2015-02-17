@@ -12,6 +12,7 @@ import com.blackbooks.model.persistent.BookLocation;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Series;
 import com.blackbooks.utils.LanguageUtils;
+import com.blackbooks.utils.StringUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -166,7 +167,7 @@ public final class BookGroupServices {
         TreeMap<String, BookGroup> bookGroupMap = new TreeMap<String, BookGroup>();
         for (BookGroup bookGroup : queryBookGroupList(db, sql, null)) {
             if (bookGroup.id != null) {
-                bookGroup.name = LanguageUtils.getDisplayLanguage((String) bookGroup.id);
+                bookGroup.name = StringUtils.capitalize(LanguageUtils.getDisplayLanguage((String) bookGroup.id));
             }
             bookGroupMap.put(bookGroup.name, bookGroup);
         }
