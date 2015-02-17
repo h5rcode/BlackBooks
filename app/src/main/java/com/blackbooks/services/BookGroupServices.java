@@ -42,7 +42,7 @@ public final class BookGroupServices {
                 "aut." + Author.Cols.AUT_ID + "," + "\n" +
                 "aut." + Author.Cols.AUT_NAME + "\n" +
                 "ORDER BY" + "\n" +
-                "aut." + Author.Cols.AUT_NAME + "\n" +
+                "aut." + Author.Cols.AUT_NAME + " COLLATE NOCASE" + "\n" +
                 "LIMIT ?" + "\n" +
                 "OFFSET ?" + ";";
 
@@ -73,7 +73,7 @@ public final class BookGroupServices {
                 "bkl." + BookLocation.Cols.BKL_ID + "," + "\n" +
                 "bkl." + BookLocation.Cols.BKL_NAME + "\n" +
                 "ORDER BY" + "\n" +
-                "bkl." + BookLocation.Cols.BKL_NAME + "\n" +
+                "bkl." + BookLocation.Cols.BKL_NAME + " COLLATE NOCASE" + "\n" +
                 "LIMIT ?" + "\n" +
                 "OFFSET ?" + ";";
 
@@ -104,7 +104,7 @@ public final class BookGroupServices {
                 "cat." + Category.Cols.CAT_ID + "," + "\n" +
                 "cat." + Category.Cols.CAT_NAME + "\n" +
                 "ORDER BY" + "\n" +
-                "cat." + Category.Cols.CAT_NAME + "\n" +
+                "cat." + Category.Cols.CAT_NAME + " COLLATE NOCASE" + "\n" +
                 "LIMIT ?" + "\n" +
                 "OFFSET ?" + ";";
 
@@ -201,7 +201,7 @@ public final class BookGroupServices {
                 "ser." + Series.Cols.SER_ID + "," + "\n" +
                 "ser." + Series.Cols.SER_NAME + "\n" +
                 "ORDER BY" + "\n" +
-                "ser." + Series.Cols.SER_NAME + "\n" +
+                "ser." + Series.Cols.SER_NAME + " COLLATE NOCASE" + "\n" +
                 "LIMIT ?" + "\n" +
                 "OFFSET ?" + ";";
 
