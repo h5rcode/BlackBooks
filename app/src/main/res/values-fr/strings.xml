@@ -80,8 +80,8 @@
         <item quantity="other">%1$s prêts sur %2$s</item>
     </plurals>
     <plurals name="footer_fragment_book_groups_series">
-        <item quantity="one">%1$s series out of %2$s</item>
-        <item quantity="other">%1$s series out of %2$s</item>
+        <item quantity="one">%1$s série sur %2$s</item>
+        <item quantity="other">%1$s séries sur %2$s</item>
     </plurals>
     <plurals name="footer_fragment_books">
         <item quantity="one">%1$s livre sur %2$s</item>
