@@ -69,8 +69,8 @@
         <item quantity="other">%1$s categories out of %2$s</item>
     </plurals>
     <plurals name="footer_fragment_book_groups_first_letters">
-        <item quantity="one">%1$s group out of %2$s</item>
-        <item quantity="other">%1$s groups out of %2$s</item>
+        <item quantity="one">%1$s letter out of %2$s</item>
+        <item quantity="other">%1$s letters out of %2$s</item>
     </plurals>
     <plurals name="footer_fragment_book_groups_languages">
         <item quantity="one">%1$s language out of %2$s</item>
@@ -262,8 +262,8 @@
         <item quantity="other">%d more categories loaded</item>
     </plurals>
     <plurals name="message_book_groups_loaded_first_letter">
-        <item quantity="one">%d more group loaded</item>
-        <item quantity="other">%d more groups loaded</item>
+        <item quantity="one">%d more letter loaded</item>
+        <item quantity="other">%d more letters loaded</item>
     </plurals>
     <plurals name="message_book_groups_loaded_languages">
         <item quantity="one">%d more language loaded</item>
@@ -398,7 +398,7 @@
     <string name="title_activity_books_by_author">Books by %s</string>
     <string name="title_activity_books_by_book_location">Location \"%s\"</string>
     <string name="title_activity_books_by_category">Category \"%s\"</string>
-    <string name="title_activity_books_by_first_letter">Group %s</string>
+    <string name="title_activity_books_by_first_letter">Letter %s</string>
     <string name="title_activity_books_by_language">Books in %s</string>
     <string name="title_activity_books_by_loaned">Books loaned to %s</string>
     <string name="title_activity_books_by_series">Series \"%s\"</string>
