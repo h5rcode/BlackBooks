@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * Class to manage brokers.
  */
-public class BrokerManager {
+public final class BrokerManager {
 
     private final static HashMap<Class<?>, Broker<?>> mBrokerMap = new HashMap<Class<?>, Broker<?>>();
 

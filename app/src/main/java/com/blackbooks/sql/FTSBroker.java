@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @param <T> Type of the persistent object to manipulate with the broker.
  */
-public class FTSBroker<T> {
+public final class FTSBroker<T> {
 
     private static final String DOCID = "DOCID";
 

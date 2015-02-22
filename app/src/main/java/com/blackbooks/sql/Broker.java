@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @param <T> Type of the persistent object to manipulate with the broker.
  */
-public class Broker<T> {
+public final class Broker<T> {
 
     private static final int MAX_SQL_PARAMETERS = 250;
 
@@ -318,6 +318,9 @@ public class Broker<T> {
             switch (column.type()) {
                 case BLOB:
                     byte[] byteArrayValue = (byte[]) ReflectionUtils.getFieldValue(field, bean);
+                    if (byteArrayValue != null && byteArrayValue.length == 0) {
+                        byteArrayValue = null;
+                    }
                     values.put(columnName, byteArrayValue);
                     break;
 

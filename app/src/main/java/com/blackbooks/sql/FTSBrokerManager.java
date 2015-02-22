@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * Class to manage Full-Text-Search brokers.
  */
-public class FTSBrokerManager {
+public final class FTSBrokerManager {
 
     private final static HashMap<Class<?>, FTSBroker<?>> mBrokerMap = new HashMap<Class<?>, FTSBroker<?>>();
 
