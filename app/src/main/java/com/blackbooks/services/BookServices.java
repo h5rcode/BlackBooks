@@ -473,7 +473,7 @@ public class BookServices {
         };
 
         String selectedColumns = StringUtils.join(selectedColumnList, ", ");
-        String sql = "SELECT " + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.BOO_LANGUAGE_CODE + " = ? COLLATE NOCASE LIMIT ? OFFSET ?;";
+        String sql = "SELECT " + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.BOO_LANGUAGE_CODE + " = ? ORDER BY " + Book.Cols.BOO_TITLE + " COLLATE NOCASE LIMIT ? OFFSET ?;";
 
         String[] selectionArgs = new String[]{
                 String.valueOf(languageCode),
