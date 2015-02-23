@@ -78,7 +78,7 @@ public class SaveBookInfoTest extends AbstractDatabaseTest {
 
         BookServices.saveBookInfo(getDb(), bookInfo);
 
-        List<BookInfo> bookInfoList = FullTextSearchServices.searchBooks(getDb(), Books.LE_MYTHE_DE_SISYPHE);
+        List<BookInfo> bookInfoList = FullTextSearchServices.searchBooks(getDb(), Books.LE_MYTHE_DE_SISYPHE, Integer.MAX_VALUE, 0);
 
         Assert.assertEquals(1, bookInfoList.size());
         BookInfo bookInfoDb = bookInfoList.get(0);
@@ -151,8 +151,8 @@ public class SaveBookInfoTest extends AbstractDatabaseTest {
         Publisher publisher1Db = bookInfo1Db.publisher;
         Publisher publisher2Db = bookInfo2Db.publisher;
 
-        Assert.assertEquals(bookInfo1.publisher.id, publisher1Db.id);
-        Assert.assertEquals(bookInfo2.publisher.id, publisher2Db.id);
+        Assert.assertEquals(bookInfo1.publisherId, publisher1Db.id);
+        Assert.assertEquals(bookInfo2.publisherId, publisher2Db.id);
 
         Assert.assertEquals(Publishers.GALLIMARD, publisher1Db.name);
         Assert.assertEquals(Publishers.GALLIMARD, publisher2Db.name);

@@ -37,9 +37,7 @@ public final class SQLiteHelper extends SQLiteOpenHelper {
      * @param context Context.
      */
     public static synchronized void initialize(Context context) {
-        if (mInstance == null) {
-            mInstance = new SQLiteHelper(context);
-        }
+        mInstance = new SQLiteHelper(context);
     }
 
     /**

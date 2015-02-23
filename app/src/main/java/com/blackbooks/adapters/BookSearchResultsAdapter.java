@@ -71,8 +71,6 @@ public class BookSearchResultsAdapter extends ArrayAdapter<BookInfo> {
                 int spanEnd = Math.min(start + normalizedSearch.length(), originalText.length());
 
                 highlightSpannable(highlighted, spanStart, spanEnd);
-
-                start = normalizedOriginalText.indexOf(normalizedSearch, spanEnd);
             }
 
             return highlighted;

@@ -52,7 +52,7 @@ public class DeleteBookTest extends AbstractDatabaseTest {
         BookServices.saveBookInfo(getDb(), bookInfo);
         BookServices.deleteBook(getDb(), bookInfo.id);
 
-        List<BookInfo> bookInfoList = FullTextSearchServices.searchBooks(getDb(), bookInfo.title);
+        List<BookInfo> bookInfoList = FullTextSearchServices.searchBooks(getDb(), bookInfo.title, Integer.MAX_VALUE, 0);
 
         Assert.assertEquals(0, bookInfoList.size());
     }

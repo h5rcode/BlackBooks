@@ -38,6 +38,7 @@ public class GetAuthorInfoListTest extends AbstractDatabaseTest {
         bookInfo1.authors.add(author);
         bookInfo1.series = series;
         bookInfo1.number = 1L;
+
         BookServices.saveBookInfo(getDb(), bookInfo1);
 
         BookInfo bookInfo2 = new BookInfo();

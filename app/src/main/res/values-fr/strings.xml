@@ -153,8 +153,8 @@
         <item quantity="other">%d lus</item>
     </plurals>
     <plurals name="label_footer_search">
-        <item quantity="one">%d résultat</item>
-        <item quantity="other">%d résultats</item>
+        <item quantity="one">%1$d résultat sur %2$d</item>
+        <item quantity="other">%1$d résultats sur %2$d</item>
     </plurals>
     <plurals name="label_footer_series">
         <item quantity="one">%d série</item>
@@ -272,6 +272,10 @@
     <plurals name="message_duplicate_books">
         <item quantity="one">%d livre de la bibliothèque correspond à cet ISBN.</item>
         <item quantity="other">%d livres de la bibliothèque correspondent à cet ISBN.</item>
+    </plurals>
+    <plurals name="message_results_loaded">
+        <item quantity="one">%d résultat supplémentaire chargé</item>
+        <item quantity="other">%d résultats supplémentaires chargés</item>
     </plurals>
 
     <string name="label_text_qualifier">Délimiteur de texte</string>
