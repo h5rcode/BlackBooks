@@ -35,9 +35,9 @@ import java.util.List;
  */
 public abstract class AbstractDrawerActivity extends FragmentActivity {
 
-    private static final int ITEM_BOOKS = 1;
-    private static final int ITEM_SUMMARY = 2;
-    private static final int ITEM_BOOK_LIST = 3;
+    //private static final int ITEM_BOOKS = 1;
+    //private static final int ITEM_SUMMARY = 2;
+    //private static final int ITEM_BOOK_LIST = 3;
     private static final int ITEM_ADD_BOOK = 4;
     private static final int ITEM_SCAN_ISBN = 5;
     private static final int ITEM_ENTER_ISBN = 6;
@@ -75,9 +75,9 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Books.
-        DrawerItem groupBooks = new DrawerItem(ITEM_BOOKS, getString(R.string.menu_books), null, DrawerItemType.GROUP);
-        DrawerItem itemSummary = new DrawerItem(ITEM_SUMMARY, getString(R.string.menu_book_list_summary), R.drawable.ic_action_summary, DrawerItemType.ITEM);
-        DrawerItem itemBookList = new DrawerItem(ITEM_BOOK_LIST, getString(R.string.menu_book_list), R.drawable.ic_action_book_list, DrawerItemType.ITEM);
+        //DrawerItem groupBooks = new DrawerItem(ITEM_BOOKS, getString(R.string.menu_books), null, DrawerItemType.GROUP);
+        //DrawerItem itemSummary = new DrawerItem(ITEM_SUMMARY, getString(R.string.menu_book_list_summary), R.drawable.ic_action_summary, DrawerItemType.ITEM);
+        //DrawerItem itemBookList = new DrawerItem(ITEM_BOOK_LIST, getString(R.string.menu_book_list), R.drawable.ic_action_book_list, DrawerItemType.ITEM);
 
         // Add books.
         DrawerItem groupAddBook = new DrawerItem(ITEM_ADD_BOOK, getString(R.string.menu_add_books), null, DrawerItemType.GROUP);
@@ -109,9 +109,9 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
                 DrawerItemType.ITEM);
 
         List<DrawerItem> list = new ArrayList<DrawerItem>();
-        list.add(groupBooks);
-        list.add(itemBookList);
-        list.add(itemSummary);
+        // list.add(groupBooks);
+        // list.add(itemBookList);
+        // list.add(itemSummary);
         list.add(groupAddBook);
         list.add(itemScanIsbn);
         list.add(itemEnterIsbn);
@@ -185,13 +185,13 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
             DrawerItem drawerItem = (DrawerItem) mListDrawer.getAdapter().getItem(position);
 
             switch (drawerItem.getId()) {
-                case ITEM_BOOK_LIST:
-                    startBookListActivity();
-                    break;
+                //case ITEM_BOOK_LIST:
+                //  startBookListActivity();
+                //break;
 
-                case ITEM_SUMMARY:
-                    startSummaryActivity();
-                    break;
+                //case ITEM_SUMMARY:
+                //  startSummaryActivity();
+                //break;
 
                 case ITEM_SCAN_ISBN:
                     mDrawerLayout.closeDrawer(mListDrawer);

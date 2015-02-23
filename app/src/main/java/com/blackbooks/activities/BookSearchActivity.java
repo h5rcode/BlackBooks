@@ -13,11 +13,9 @@ import com.blackbooks.fragments.BookSearchFragment;
 /**
  * The activity that searches books in the library.
  */
-public class BookSearchActivity extends FragmentActivity {
+public final class BookSearchActivity extends FragmentActivity {
 
     private static final String TAG_BOOK_SEARCH_FRAGMENT = "TAG_BOOK_SEARCH_FRAGMENT";
-
-    private String mQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +25,10 @@ public class BookSearchActivity extends FragmentActivity {
         Intent intent = getIntent();
 
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            mQuery = intent.getStringExtra(SearchManager.QUERY);
-            mQuery = mQuery.replace("*", "");
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            query = query.replace("*", "");
 
-            String title = String.format(getString(R.string.title_activity_book_search), mQuery);
+            String title = String.format(getString(R.string.title_activity_book_search), query);
             setTitle(title);
 
             FragmentManager fm = getSupportFragmentManager();
@@ -38,7 +36,7 @@ public class BookSearchActivity extends FragmentActivity {
             BookSearchFragment fragment = (BookSearchFragment) fm.findFragmentByTag(TAG_BOOK_SEARCH_FRAGMENT);
 
             if (fragment == null) {
-                fragment = BookSearchFragment.newInstance(mQuery);
+                fragment = BookSearchFragment.newInstance(query);
                 fm.beginTransaction() //
                         .replace(R.id.bookSearch_frameLayout, fragment, TAG_BOOK_SEARCH_FRAGMENT) //
                         .commit();

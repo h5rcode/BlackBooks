@@ -28,7 +28,7 @@ import java.io.InputStreamReader;
  * The activity that allows the user to report errors by sending the log file to
  * the developer by mail.
  */
-public class ReportErrorActivity extends Activity {
+public final class ReportErrorActivity extends Activity {
 
     private static final String EMAIL = "report.blackbooks@gmail.com";
 

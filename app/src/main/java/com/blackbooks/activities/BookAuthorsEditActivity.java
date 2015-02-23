@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * Activity to edit the authors of a book.
  */
-public class BookAuthorsEditActivity extends Activity {
+public final class BookAuthorsEditActivity extends Activity {
 
     public static final String EXTRA_BOOK_TITLE = "EXTRA_BOOK_TITLE";
     public static final String EXTRA_AUTHOR_LIST = "EXTRA_AUTHOR_LIST";

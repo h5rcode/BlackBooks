@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
  * a bar code scan. Start the activity with an intent having the extra
  * {@link #EXTRA_SCAN} set to <code>true</code>.
  */
-public class IsbnLookupActivity extends FragmentActivity implements DuplicateBooksDialog.DuplicateBooksListener {
+public final class IsbnLookupActivity extends FragmentActivity implements DuplicateBooksDialog.DuplicateBooksListener {
 
     /**
      * A boolean extra used to initiate a bar code scan if set to
