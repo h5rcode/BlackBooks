@@ -15,7 +15,6 @@ import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.ScannedIsbn;
 import com.blackbooks.search.BookSearcher;
-import com.blackbooks.services.BookServices;
 import com.blackbooks.services.ScannedIsbnServices;
 import com.blackbooks.utils.LogUtils;
 import com.blackbooks.utils.VariableUtils;
@@ -33,8 +32,6 @@ public final class BulkSearchService extends IntentService {
 
     private static final int MAX_CONNECTION_ERRORS = 5;
 
-    private NotificationManager mNotificationManager;
-    private NotificationCompat.Builder mBuilder;
     private boolean mStop;
 
     /**
@@ -47,24 +44,26 @@ public final class BulkSearchService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
+        VariableUtils.getInstance().setBulkSearchRunning(true);
+
         SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-        List<ScannedIsbn> scannedIsbnList = ScannedIsbnServices.getScannedIsbnList(db);
+        List<ScannedIsbn> scannedIsbnList = ScannedIsbnServices.getScannedIsbnListToLookUp(db);
 
         int scannedIsbnCount = scannedIsbnList.size();
 
         Resources res = getResources();
         String text = res.getQuantityString(R.plurals.notification_bulk_search_running_text, scannedIsbnCount, scannedIsbnCount);
 
-        mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mBuilder = new NotificationCompat.Builder(this)
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_notify)
                 .setContentTitle(getString(R.string.notification_bulk_search_running_title))
                 .setContentText(text);
 
 
-        mBuilder.setTicker(getString(R.string.notification_bulk_search_running_title));
-        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-        mBuilder.setTicker(null);
+        builder.setTicker(getString(R.string.notification_bulk_search_running_title));
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
+        builder.setTicker(null);
 
         int connectionErrors = 0;
         for (int i = 0; i < scannedIsbnCount; i++) {
@@ -82,13 +81,14 @@ public final class BulkSearchService extends IntentService {
                 BookInfo bookInfo = BookSearcher.search(isbn);
                 if (bookInfo == null) {
                     Log.d(LogUtils.TAG, "No results.");
+                    ScannedIsbnServices.markScannedIsbnLookedUp(db, scannedIsbn.id, false);
                 } else {
                     Log.d(LogUtils.TAG, String.format("Result: %s", bookInfo.title));
-                    BookServices.saveBookInfo(db, bookInfo);
+                    ScannedIsbnServices.saveBookInfo(db, bookInfo, scannedIsbn.id);
                     VariableUtils.getInstance().setReloadBookList(true);
                 }
 
-                ScannedIsbnServices.markScannedIsbnLookedUp(db, scannedIsbn.id);
+                connectionErrors = 0;
 
             } catch (SocketException e) {
                 Log.w(LogUtils.TAG, "SocketException.", e);
@@ -104,17 +104,19 @@ public final class BulkSearchService extends IntentService {
                 break;
             }
 
-            mBuilder.setProgress(scannedIsbnCount, i, false);
-            Notification notification = mBuilder.build();
+            builder.setProgress(scannedIsbnCount, i, false);
+            Notification notification = builder.build();
             notification.flags |= Notification.FLAG_NO_CLEAR;
-            mNotificationManager.notify(NOTIFICATION_ID, notification);
+            notificationManager.notify(NOTIFICATION_ID, notification);
         }
 
-        mBuilder.setContentTitle(getString(R.string.notification_bulk_search_finished_title));
-        mBuilder.setContentText(getString(R.string.notification_bulk_search_finished_text));
-        mBuilder.setProgress(0, 0, false);
-        mBuilder.setTicker(getString(R.string.notification_bulk_search_finished_title));
-        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+        builder.setContentTitle(getString(R.string.notification_bulk_search_finished_title));
+        builder.setContentText(getString(R.string.notification_bulk_search_finished_text));
+        builder.setProgress(0, 0, false);
+        builder.setTicker(getString(R.string.notification_bulk_search_finished_title));
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
+
+        VariableUtils.getInstance().setBulkSearchRunning(false);
     }
 
     @Override

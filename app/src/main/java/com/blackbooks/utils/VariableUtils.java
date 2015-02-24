@@ -10,6 +10,7 @@ public final class VariableUtils {
 
     private boolean mReloadBookGroupList;
     private boolean mReloadBookList;
+    private boolean mBulkSearchRunning;
 
     /**
      * Private constructor.
@@ -17,6 +18,7 @@ public final class VariableUtils {
     private VariableUtils() {
         mReloadBookGroupList = false;
         mReloadBookList = false;
+        mBulkSearchRunning = false;
     }
 
     /**
@@ -77,6 +79,28 @@ public final class VariableUtils {
             if (reloadBookList) {
                 mReloadBookGroupList = reloadBookList;
             }
+        }
+    }
+
+    /**
+     * Return a boolean value indicating whether the bulk search is running or not.
+     *
+     * @return True if the search is running, false otherwise.
+     */
+    public boolean getBulkSearchRunning() {
+        synchronized (LOCK) {
+            return mBulkSearchRunning;
+        }
+    }
+
+    /**
+     * Set the value indicating whether the bulk search is running or not.
+     *
+     * @param bulkSearchRunning True if the search is running, false otherwise.
+     */
+    public void setBulkSearchRunning(boolean bulkSearchRunning) {
+        synchronized (LOCK) {
+            mBulkSearchRunning = bulkSearchRunning;
         }
     }
 }

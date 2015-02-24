@@ -184,7 +184,7 @@ public final class BulkAddFragment extends ListFragment {
         @Override
         protected List<ScannedIsbn> doInBackground(Void... params) {
             SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-            return ScannedIsbnServices.getScannedIsbnList(db);
+            return ScannedIsbnServices.getScannedIsbnListToLookUp(db);
         }
 
         @Override
