@@ -329,9 +329,12 @@
     <string name="message_confirm_delete_category">Voulez-vous vraiment supprimer la catégorie \"%s\" ?\n\nLes livres associés ne seront pas supprimés.</string>
     <string name="message_confirm_delete_category_cancel">Non</string>
     <string name="message_confirm_delete_category_confirm">Oui</string>
-    <string name="message_confirm_delete_isbns">Voulez-vous vraiment supprimer tous les ISBNs enregistrés ?</string>
-    <string name="message_confirm_delete_isbns_cancel">Non</string>
-    <string name="message_confirm_delete_isbns_confirm">Oui</string>
+    <string name="message_confirm_delete_looked_up_isbns">Voulez-vous vraiment supprimer tous les ISBNs recherchés ?</string>
+    <string name="message_confirm_delete_looked_up_isbns_cancel">Non</string>
+    <string name="message_confirm_delete_looked_up_isbns_confirm">Oui</string>
+    <string name="message_confirm_delete_pending_isbns">Voulez-vous vraiment supprimer tous les ISBNs en attente ?</string>
+    <string name="message_confirm_delete_pending_isbns_cancel">Non</string>
+    <string name="message_confirm_delete_pending_isbns_confirm">Oui</string>
     <string name="message_confirm_return_book">Rendre \"%s\" ?</string>
     <string name="message_confirm_return_book_cancel">Non</string>
     <string name="message_confirm_return_book_confirm">Oui</string>
@@ -416,6 +419,8 @@
     <string name="title_tab_book_display_loan">Prêt</string>
     <string name="title_tab_book_edit_general">Général</string>
     <string name="title_tab_book_edit_personal">Personnel</string>
+    <string name="title_tab_bulk_add_pending">En attente</string>
+    <string name="title_tab_bulk_add_looked_up">Terminés</string>
     <string name="message_cannot_delete_isbns">Une recherche est en cours, les ISBNs ne peuvent pas être supprimés.</string>
 
 </resources>

@@ -17,12 +17,37 @@ import java.util.List;
 public class IsbnServices {
 
     /**
-     * Delete all the ISBNs.
+     * Delete all the looked up ISBNs.
      *
      * @param db SQLiteDatabase.
      */
-    public static void deleteAllIsbns(SQLiteDatabase db) {
-        db.delete(Isbn.NAME, null, null);
+    public static void deleteAllLookedUpIsbns(SQLiteDatabase db) {
+        String whereClause = Isbn.Cols.ISB_LOOKED_UP + " = ?";
+        String[] whereArgs = new String[]{String.valueOf(1L)};
+        db.delete(Isbn.NAME, whereClause, whereArgs);
+    }
+
+    /**
+     * Delete all the pending ISBNs.
+     *
+     * @param db SQLiteDatabase.
+     */
+    public static void deleteAllPendingIsbns(SQLiteDatabase db) {
+        String whereClause = Isbn.Cols.ISB_LOOKED_UP + " = ?";
+        String[] whereArgs = new String[]{String.valueOf(0L)};
+        db.delete(Isbn.NAME, whereClause, whereArgs);
+    }
+
+    /**
+     * Get the list of all the ISBNs that have been looked up.
+     *
+     * @param db SQLiteDatabase.
+     */
+    public static List<Isbn> getIsbnListLookedUp(SQLiteDatabase db) {
+        Isbn criteria = new Isbn();
+        criteria.lookedUp = 1L;
+        criteria.searchSuccessful = null;
+        return BrokerManager.getBroker(Isbn.class).getAllByCriteria(db, criteria);
     }
 
     /**

@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * Bulk add fragment.
  */
-public final class BulkAddFragment extends ListFragment {
+public final class BulkAddFragmentPending extends ListFragment {
 
     private IsbnListAdapter mIsbnListAdapter;
     private boolean mStartScan;
@@ -41,8 +41,8 @@ public final class BulkAddFragment extends ListFragment {
      *
      * @return BulkAddFragment.
      */
-    public static BulkAddFragment newInstance() {
-        return new BulkAddFragment();
+    public static BulkAddFragmentPending newInstance() {
+        return new BulkAddFragmentPending();
     }
 
     @Override
@@ -65,7 +65,7 @@ public final class BulkAddFragment extends ListFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.bulk_add, menu);
+        inflater.inflate(R.menu.bulk_add_pending, menu);
     }
 
     @Override
@@ -108,7 +108,7 @@ public final class BulkAddFragment extends ListFragment {
      */
     private void deleteAll() {
         SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-        IsbnServices.deleteAllIsbns(db);
+        IsbnServices.deleteAllPendingIsbns(db);
         mIsbnListAdapter.clear();
         mIsbnListAdapter.notifyDataSetChanged();
     }
@@ -164,15 +164,15 @@ public final class BulkAddFragment extends ListFragment {
 
         new AlertDialog.Builder(this.getActivity()) //
                 .setTitle(R.string.title_dialog_delete_isbns) //
-                .setMessage(R.string.message_confirm_delete_isbns) //
-                .setPositiveButton(R.string.message_confirm_delete_isbns_confirm, new DialogInterface.OnClickListener() {
+                .setMessage(R.string.message_confirm_delete_pending_isbns) //
+                .setPositiveButton(R.string.message_confirm_delete_pending_isbns_confirm, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        BulkAddFragment.this.deleteAll();
+                        BulkAddFragmentPending.this.deleteAll();
                     }
                 }) //
-                .setNegativeButton(R.string.message_confirm_delete_isbns_cancel, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.message_confirm_delete_pending_isbns_cancel, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

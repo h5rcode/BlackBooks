@@ -342,9 +342,12 @@
     <string name="message_confirm_delete_category">Do you really want to remove the category \"%s\"?\n\nThe related books will not be deleted.</string>
     <string name="message_confirm_delete_category_cancel">No</string>
     <string name="message_confirm_delete_category_confirm">Yes</string>
-    <string name="message_confirm_delete_isbns">Do you really want to remove all the ISBNs?</string>
-    <string name="message_confirm_delete_isbns_cancel">No</string>
-    <string name="message_confirm_delete_isbns_confirm">Yes</string>
+    <string name="message_confirm_delete_looked_up_isbns">Do you really want to remove all the looked up ISBNs?</string>
+    <string name="message_confirm_delete_looked_up_isbns_cancel">No</string>
+    <string name="message_confirm_delete_looked_up_isbns_confirm">Yes</string>
+    <string name="message_confirm_delete_pending_isbns">Do you really want to remove all the pending ISBNs?</string>
+    <string name="message_confirm_delete_pending_isbns_cancel">No</string>
+    <string name="message_confirm_delete_pending_isbns_confirm">Yes</string>
     <string name="message_confirm_return_book">Return \"%s\"?</string>
     <string name="message_confirm_return_book_cancel">No</string>
     <string name="message_confirm_return_book_confirm">Yes</string>
@@ -429,6 +432,8 @@
     <string name="title_tab_book_display_loan">Loan</string>
     <string name="title_tab_book_edit_general">General</string>
     <string name="title_tab_book_edit_personal">Personal</string>
+    <string name="title_tab_bulk_add_pending">Pending</string>
+    <string name="title_tab_bulk_add_looked_up">Looked up</string>
     <string name="message_cannot_delete_isbns">ISBNs cannot be deleted because there is an ongoing search.</string>
 
 </resources>
