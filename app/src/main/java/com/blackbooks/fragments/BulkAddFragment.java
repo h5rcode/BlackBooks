@@ -24,6 +24,7 @@ import com.blackbooks.service.BulkSearchService;
 import com.blackbooks.services.IsbnServices;
 import com.blackbooks.utils.IsbnUtils;
 import com.blackbooks.utils.Pic2ShopUtils;
+import com.blackbooks.utils.VariableUtils;
 
 import java.util.List;
 
@@ -58,8 +59,7 @@ public final class BulkAddFragment extends ListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_bulk_add, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_bulk_add, container, false);
     }
 
     @Override
@@ -157,6 +157,11 @@ public final class BulkAddFragment extends ListFragment {
      * Show the delete confirm dialog.
      */
     private void showDeleteAllConfirmDialog() {
+        if (VariableUtils.getInstance().getBulkSearchRunning()) {
+            Toast.makeText(getActivity(), getString(R.string.message_cannot_delete_isbns), Toast.LENGTH_LONG).show();
+            return;
+        }
+
         new AlertDialog.Builder(this.getActivity()) //
                 .setTitle(R.string.title_dialog_delete_isbns) //
                 .setMessage(R.string.message_confirm_delete_isbns) //

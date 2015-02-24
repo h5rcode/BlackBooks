@@ -416,5 +416,6 @@
     <string name="title_tab_book_display_loan">Prêt</string>
     <string name="title_tab_book_edit_general">Général</string>
     <string name="title_tab_book_edit_personal">Personnel</string>
+    <string name="message_cannot_delete_isbns">Une recherche est en cours, les ISBNs ne peuvent pas être supprimés.</string>
 
 </resources>

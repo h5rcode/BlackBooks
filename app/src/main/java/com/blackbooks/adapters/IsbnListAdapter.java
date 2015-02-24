@@ -10,14 +10,15 @@ import android.widget.TextView;
 import com.blackbooks.R;
 import com.blackbooks.model.persistent.Isbn;
 
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+import java.util.Locale;
 
 /**
  * ISBN list adapter.
  */
 public final class IsbnListAdapter extends ArrayAdapter<Isbn> {
 
-    private final SimpleDateFormat mDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    private final DateFormat mDateFormat = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT, Locale.getDefault());
     private final LayoutInflater mLayoutInflater;
 
     public IsbnListAdapter(Context context) {
