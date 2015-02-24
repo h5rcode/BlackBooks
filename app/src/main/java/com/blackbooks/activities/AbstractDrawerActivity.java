@@ -42,7 +42,7 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
     private static final int ITEM_SCAN_ISBN = 5;
     private static final int ITEM_ENTER_ISBN = 6;
     private static final int ITEM_ADD_MANUALLY = 7;
-    private static final int ITEM_BULK_SCAN = 8;
+    private static final int ITEM_BULK_ADD = 8;
     // private static final int ITEM_IMPORT_EXPORT_BOOKS = 9;
     private static final int ITEM_IMPORT_BOOKS = 10;
     private static final int ITEM_EXPORT_BOOKS = 11;
@@ -84,7 +84,7 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
         DrawerItem itemScanIsbn = new DrawerItem(ITEM_SCAN_ISBN, getString(R.string.action_scan_isbn), R.drawable.ic_action_camera, DrawerItemType.ITEM);
         DrawerItem itemEnterIsbn = new DrawerItem(ITEM_ENTER_ISBN, getString(R.string.action_enter_isbn), R.drawable.ic_action_dial_pad, DrawerItemType.ITEM);
         DrawerItem itemAddManually = new DrawerItem(ITEM_ADD_MANUALLY, getString(R.string.action_add_manually), R.drawable.ic_action_keyboard, DrawerItemType.ITEM);
-        DrawerItem itemBulkScan = new DrawerItem(ITEM_BULK_SCAN, getString(R.string.action_bulk_scan), R.drawable.ic_action_add_to_queue, DrawerItemType.ITEM);
+        DrawerItem itemBulkAdd = new DrawerItem(ITEM_BULK_ADD, getString(R.string.action_bulk_add), R.drawable.ic_action_add_to_queue, DrawerItemType.ITEM);
 
         // Import/Export.
         // DrawerItem groupImportExportBooks = new
@@ -116,7 +116,7 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
         list.add(itemScanIsbn);
         list.add(itemEnterIsbn);
         list.add(itemAddManually);
-        list.add(itemBulkScan);
+        list.add(itemBulkAdd);
         // list.add(groupImportExportBooks);
         // list.add(itemImportBooks);
         // list.add(itemExportBooks);
@@ -206,8 +206,8 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
                     startBookEditActivity();
                     break;
 
-                case ITEM_BULK_SCAN:
-                    startBulkScanActivity();
+                case ITEM_BULK_ADD:
+                    startBulkAddActivity();
                     break;
 
                 case ITEM_IMPORT_BOOKS:
@@ -235,11 +235,11 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
         }
 
         /**
-         * Start {@link BulkScanActivity}.
+         * Start {@link BulkAddActivity}.
          */
-        private void startBulkScanActivity() {
+        private void startBulkAddActivity() {
             closeDrawer();
-            Intent i = new Intent(AbstractDrawerActivity.this, BulkScanActivity.class);
+            Intent i = new Intent(AbstractDrawerActivity.this, BulkAddActivity.class);
             startActivity(i);
         }
 

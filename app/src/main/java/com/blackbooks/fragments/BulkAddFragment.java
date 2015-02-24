@@ -28,20 +28,20 @@ import com.blackbooks.utils.Pic2ShopUtils;
 import java.util.List;
 
 /**
- * Bulk scan fragment.
+ * Bulk add fragment.
  */
-public final class BulkScanFragment extends ListFragment {
+public final class BulkAddFragment extends ListFragment {
 
     private ScannedIsbnsAdapter mScannedIsbnsAdapter;
     private boolean mStartScan;
 
     /**
-     * Return a new instance of BulkScanFragment.
+     * Return a new instance of BulkAddFragment.
      *
-     * @return BulkScanFragment.
+     * @return BulkAddFragment.
      */
-    public static BulkScanFragment newInstance() {
-        return new BulkScanFragment();
+    public static BulkAddFragment newInstance() {
+        return new BulkAddFragment();
     }
 
     @Override
@@ -58,14 +58,14 @@ public final class BulkScanFragment extends ListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_bulk_scan, container, false);
+        View view = inflater.inflate(R.layout.fragment_bulk_add, container, false);
         return view;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.bulk_scan, menu);
+        inflater.inflate(R.menu.bulk_add, menu);
     }
 
     @Override
@@ -73,24 +73,24 @@ public final class BulkScanFragment extends ListFragment {
         boolean result;
         Intent i;
         switch (item.getItemId()) {
-            case R.id.bulkScan_startScanning:
+            case R.id.bulkAdd_startScanning:
                 startIsbnScan();
                 result = true;
                 break;
 
-            case R.id.bulkScan_startSearch:
+            case R.id.bulkAdd_startSearch:
                 i = new Intent(getActivity(), BulkSearchService.class);
                 getActivity().startService(i);
                 result = true;
                 break;
 
-            case R.id.bulkScan_stopSearch:
+            case R.id.bulkAdd_stopSearch:
                 i = new Intent(getActivity(), BulkSearchService.class);
                 getActivity().stopService(i);
                 result = true;
                 break;
 
-            case R.id.bulkScan_deleteAll:
+            case R.id.bulkAdd_deleteAll:
                 showDeleteAllConfirmDialog();
                 result = true;
                 break;
@@ -164,7 +164,7 @@ public final class BulkScanFragment extends ListFragment {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        BulkScanFragment.this.deleteAll();
+                        BulkAddFragment.this.deleteAll();
                     }
                 }) //
                 .setNegativeButton(R.string.message_confirm_delete_scanned_isbns_cancel, new DialogInterface.OnClickListener() {

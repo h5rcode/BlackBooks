@@ -5,7 +5,7 @@
     <string name="action_add_authors">Add authors</string>
     <string name="action_add_categories">Add categories</string>
     <string name="action_add_manually">Add manually</string>
-    <string name="action_bulk_scan">Bulk scan ISBNs</string>
+    <string name="action_bulk_add">Bulk add</string>
     <string name="action_delete_book">Delete book</string>
     <string name="action_delete_category">Delete category</string>
     <string name="action_delete_scanned_isbns">Delete all</string>
@@ -408,7 +408,7 @@
     <string name="title_activity_books_by_series">Series \"%s\"</string>
     <string name="title_activity_books_favourites">Favourite books</string>
     <string name="title_activity_books_to_read">Books to read</string>
-    <string name="title_activity_bulk_scan">Bulk scan</string>
+    <string name="title_activity_bulk_add">Bulk add books</string>
     <string name="title_activity_isbn_lookup">ISBN lookup</string>
     <string name="title_activity_book_search">Search results for \"%s\"</string>
     <string name="title_activity_book_search_default">Search results</string>

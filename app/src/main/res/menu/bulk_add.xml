@@ -2,25 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/bulkScan_startScanning"
+        android:id="@+id/bulkAdd_startScanning"
         android:icon="@drawable/ic_action_add_to_queue"
         android:showAsAction="ifRoom"
         android:title="@string/action_start_bulk_scan" />
 
     <item
-        android:id="@+id/bulkScan_startSearch"
+        android:id="@+id/bulkAdd_startSearch"
         android:icon="@drawable/ic_action_forward"
         android:showAsAction="ifRoom"
         android:title="@string/action_start_background_search" />
 
     <item
-        android:id="@+id/bulkScan_stopSearch"
+        android:id="@+id/bulkAdd_stopSearch"
         android:icon="@drawable/ic_action_discard"
         android:showAsAction="ifRoom"
         android:title="@string/action_stop_background_search" />
 
     <item
-        android:id="@+id/bulkScan_deleteAll"
+        android:id="@+id/bulkAdd_deleteAll"
         android:icon="@drawable/ic_action_discard"
         android:showAsAction="ifRoom"
         android:title="@string/action_delete_scanned_isbns" />

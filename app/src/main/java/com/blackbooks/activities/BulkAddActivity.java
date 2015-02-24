@@ -6,14 +6,14 @@ import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 
 import com.blackbooks.R;
-import com.blackbooks.fragments.BulkScanFragment;
+import com.blackbooks.fragments.BulkAddFragment;
 
 /**
  * Bulk scan activity.
  */
-public final class BulkScanActivity extends FragmentActivity {
+public final class BulkAddActivity extends FragmentActivity {
 
-    private static final String TAG_FRAGMENT_BULK_SCAN = "TAG_FRAGMENT_BULK_SCAN";
+    private static final String TAG_FRAGMENT_BULK_ADD = "TAG_FRAGMENT_BULK_ADD";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +24,13 @@ public final class BulkScanActivity extends FragmentActivity {
         FragmentManager fm = getSupportFragmentManager();
 
 
-        BulkScanFragment fragment = (BulkScanFragment) fm.findFragmentByTag(TAG_FRAGMENT_BULK_SCAN);
+        BulkAddFragment fragment = (BulkAddFragment) fm.findFragmentByTag(TAG_FRAGMENT_BULK_ADD);
 
         if (fragment == null) {
-            fragment = BulkScanFragment.newInstance();
+            fragment = BulkAddFragment.newInstance();
 
             fm.beginTransaction() //
-                    .replace(R.id.fragmentActivity_frameLayout, fragment, TAG_FRAGMENT_BULK_SCAN) //
+                    .replace(R.id.fragmentActivity_frameLayout, fragment, TAG_FRAGMENT_BULK_ADD) //
                     .commit();
         }
     }
