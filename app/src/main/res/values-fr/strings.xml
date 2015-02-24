@@ -3,8 +3,10 @@
 
     <string name="action_add_authors">Ajouter des auteurs</string>
     <string name="action_add_categories">Ajouter des catégories</string>
+    <string name="action_add_isbns">Ajouter des ISBNs</string>
     <string name="action_add_manually">Ajouter manuellement</string>
     <string name="action_bulk_add">Ajouter en masse</string>
+    <string name="action_bulk_scan">Scanner en masse</string>
     <string name="action_delete_book">Supprimer le livre</string>
     <string name="action_delete_category">Supprimer la catégorie</string>
     <string name="action_delete_isbns">Tout supprimer</string>
@@ -14,6 +16,7 @@
     <string name="action_export_books">Exporter les livres</string>
     <string name="action_loan_book">Prêter le livre</string>
     <string name="action_lookup_isbn">Rechercher</string>
+    <string name="action_manage_search">Gérer la recherche</string>
     <string name="action_mark_book_as_favourite">Ajouter aux favoris</string>
     <string name="action_mark_book_as_read">Marquer comme lu</string>
     <string name="action_pick_image">Sélectionner une image</string>
@@ -33,7 +36,6 @@
     <string name="action_sort_by_to_read_read">À lire/lus</string>
     <string name="action_start_background_search">Lancer la recherche</string>
     <string name="action_stop_background_search">Arrêter la recherche</string>
-    <string name="action_start_bulk_scan">Commencer à scanner</string>
     <string name="action_take_picture">Prendre une photo</string>
     <string name="action_unmark_book_as_favourite">Retirer des favoris</string>
     <string name="action_mark_book_as_to_read">Ajouter aux livres à lire</string>

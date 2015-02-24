@@ -4,8 +4,10 @@
     <string name="app_name" translatable="false">Black Books</string>
     <string name="action_add_authors">Add authors</string>
     <string name="action_add_categories">Add categories</string>
+    <string name="action_add_isbns">Add ISBNs</string>
     <string name="action_add_manually">Add manually</string>
     <string name="action_bulk_add">Bulk add</string>
+    <string name="action_bulk_scan">Bulk scan</string>
     <string name="action_delete_book">Delete book</string>
     <string name="action_delete_category">Delete category</string>
     <string name="action_delete_isbns">Delete all</string>
@@ -15,6 +17,7 @@
     <string name="action_export_books">Export books</string>
     <string name="action_loan_book">Loan book</string>
     <string name="action_lookup_isbn">Lookup ISBN</string>
+    <string name="action_manage_search">Manage search</string>
     <string name="action_mark_book_as_favourite">Mark as favourite</string>
     <string name="action_mark_book_as_read">Mark as read</string>
     <string name="action_pick_image">Pick an image</string>
@@ -34,7 +37,6 @@
     <string name="action_sort_by_series">By series</string>
     <string name="action_start_background_search">Start background search</string>
     <string name="action_stop_background_search">Stop background search</string>
-    <string name="action_start_bulk_scan">Start bulk scan</string>
     <string name="action_take_picture">Take a picture</string>
     <string name="action_unmark_book_as_favourite">Unmark as favourite</string>
     <string name="action_mark_book_as_to_read">Add to the books to read</string>

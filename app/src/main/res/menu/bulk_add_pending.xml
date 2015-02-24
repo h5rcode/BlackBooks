@@ -2,25 +2,41 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/bulkAdd_startScanning"
-        android:icon="@drawable/ic_action_add_to_queue"
+        android:id="@+id/bulkAddPending_addIsbn"
+        android:icon="@drawable/ic_action_new"
         android:showAsAction="ifRoom"
-        android:title="@string/action_start_bulk_scan" />
+        android:title="@string/action_add_isbns">
+        <menu>
+            <item
+                android:id="@+id/bulkAddPending_startScanning"
+                android:icon="@drawable/ic_action_camera"
+                android:showAsAction="ifRoom"
+                android:title="@string/action_bulk_scan" />
+        </menu>
+    </item>
 
     <item
-        android:id="@+id/bulkAdd_startSearch"
-        android:icon="@drawable/ic_action_forward"
+        android:id="@+id/bulkAddPending_manageSearch"
+        android:icon="@drawable/ic_action_search_books"
         android:showAsAction="ifRoom"
-        android:title="@string/action_start_background_search" />
+        android:title="@string/action_manage_search">
+        <menu>
+            <item
+                android:id="@+id/bulkAddPending_startSearch"
+                android:icon="@drawable/ic_action_forward"
+                android:showAsAction="ifRoom"
+                android:title="@string/action_start_background_search" />
 
-    <item
-        android:id="@+id/bulkAdd_stopSearch"
-        android:icon="@drawable/ic_action_discard"
-        android:showAsAction="ifRoom"
-        android:title="@string/action_stop_background_search" />
+            <item
+                android:id="@+id/bulkAddPending_stopSearch"
+                android:icon="@drawable/ic_action_cancel"
+                android:showAsAction="ifRoom"
+                android:title="@string/action_stop_background_search" />
 
+        </menu>
+    </item>
     <item
-        android:id="@+id/bulkAdd_deleteAll"
+        android:id="@+id/bulkAddPending_deleteAll"
         android:icon="@drawable/ic_action_discard"
         android:showAsAction="ifRoom"
         android:title="@string/action_delete_isbns" />

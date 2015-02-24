@@ -73,24 +73,24 @@ public final class BulkAddFragmentPending extends ListFragment {
         boolean result;
         Intent i;
         switch (item.getItemId()) {
-            case R.id.bulkAdd_startScanning:
+            case R.id.bulkAddPending_startScanning:
                 startIsbnScan();
                 result = true;
                 break;
 
-            case R.id.bulkAdd_startSearch:
+            case R.id.bulkAddPending_startSearch:
                 i = new Intent(getActivity(), BulkSearchService.class);
                 getActivity().startService(i);
                 result = true;
                 break;
 
-            case R.id.bulkAdd_stopSearch:
+            case R.id.bulkAddPending_stopSearch:
                 i = new Intent(getActivity(), BulkSearchService.class);
                 getActivity().stopService(i);
                 result = true;
                 break;
 
-            case R.id.bulkAdd_deleteAll:
+            case R.id.bulkAddPending_deleteAll:
                 showDeleteAllConfirmDialog();
                 result = true;
                 break;
