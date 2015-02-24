@@ -23,6 +23,6 @@
         android:id="@+id/bulkAdd_deleteAll"
         android:icon="@drawable/ic_action_discard"
         android:showAsAction="ifRoom"
-        android:title="@string/action_delete_scanned_isbns" />
+        android:title="@string/action_delete_isbns" />
 
 </menu>

@@ -9,13 +9,13 @@
     android:paddingTop="1sp">
 
     <TextView
-        android:id="@+id/scanned_isbns_item_scanned_isbn_isbn"
+        android:id="@+id/isbns_item_isbn_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="19sp" />
 
     <TextView
-        android:id="@+id/scanned_isbns_item_scanned_isbn_scan_date"
+        android:id="@+id/isbns_item_isbn_date_added"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14sp" />

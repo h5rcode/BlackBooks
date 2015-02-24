@@ -6,8 +6,8 @@ import com.blackbooks.model.persistent.BookAuthor;
 import com.blackbooks.model.persistent.BookCategory;
 import com.blackbooks.model.persistent.BookLocation;
 import com.blackbooks.model.persistent.Category;
+import com.blackbooks.model.persistent.Isbn;
 import com.blackbooks.model.persistent.Publisher;
-import com.blackbooks.model.persistent.ScannedIsbn;
 import com.blackbooks.model.persistent.Series;
 import com.blackbooks.model.persistent.fts.BookFTS;
 
@@ -50,7 +50,7 @@ public final class Database {
         mTables.add(BookAuthor.class);
         mTables.add(Category.class);
         mTables.add(BookCategory.class);
-        mTables.add(ScannedIsbn.class);
+        mTables.add(Isbn.class);
 
         mFTSTables = new ArrayList<Class<?>>();
         mFTSTables.add(BookFTS.class);

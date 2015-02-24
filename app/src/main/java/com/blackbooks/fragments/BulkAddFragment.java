@@ -17,11 +17,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.blackbooks.R;
-import com.blackbooks.adapters.ScannedIsbnsAdapter;
+import com.blackbooks.adapters.IsbnListAdapter;
 import com.blackbooks.database.SQLiteHelper;
-import com.blackbooks.model.persistent.ScannedIsbn;
+import com.blackbooks.model.persistent.Isbn;
 import com.blackbooks.service.BulkSearchService;
-import com.blackbooks.services.ScannedIsbnServices;
+import com.blackbooks.services.IsbnServices;
 import com.blackbooks.utils.IsbnUtils;
 import com.blackbooks.utils.Pic2ShopUtils;
 
@@ -32,7 +32,7 @@ import java.util.List;
  */
 public final class BulkAddFragment extends ListFragment {
 
-    private ScannedIsbnsAdapter mScannedIsbnsAdapter;
+    private IsbnListAdapter mIsbnListAdapter;
     private boolean mStartScan;
 
     /**
@@ -50,10 +50,10 @@ public final class BulkAddFragment extends ListFragment {
         setRetainInstance(true);
         setHasOptionsMenu(true);
 
-        mScannedIsbnsAdapter = new ScannedIsbnsAdapter(getActivity());
-        setListAdapter(mScannedIsbnsAdapter);
+        mIsbnListAdapter = new IsbnListAdapter(getActivity());
+        setListAdapter(mIsbnListAdapter);
 
-        new ScannedIsbnsLoadTask().execute();
+        new IsbnListLoadTask().execute();
     }
 
     @Override
@@ -104,13 +104,13 @@ public final class BulkAddFragment extends ListFragment {
     }
 
     /**
-     * Delete al the scanned ISBNs.
+     * Delete al the ISBNs.
      */
     private void deleteAll() {
         SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-        ScannedIsbnServices.deleteAllScannedIsbns(db);
-        mScannedIsbnsAdapter.clear();
-        mScannedIsbnsAdapter.notifyDataSetChanged();
+        IsbnServices.deleteAllIsbns(db);
+        mIsbnListAdapter.clear();
+        mIsbnListAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -132,8 +132,8 @@ public final class BulkAddFragment extends ListFragment {
             String message;
             if (IsbnUtils.isValidIsbn(barCode)) {
                 SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-                ScannedIsbnServices.saveScannedIsbn(db, barCode);
-                message = getString(R.string.message_scanned_isbn_saved, barCode);
+                IsbnServices.saveIsbn(db, barCode);
+                message = getString(R.string.message_isbn_saved, barCode);
             } else {
                 message = getString(R.string.message_invalid_isbn, barCode);
             }
@@ -158,16 +158,16 @@ public final class BulkAddFragment extends ListFragment {
      */
     private void showDeleteAllConfirmDialog() {
         new AlertDialog.Builder(this.getActivity()) //
-                .setTitle(R.string.title_dialog_delete_scanned_isbns) //
-                .setMessage(R.string.message_confirm_delete_scanned_isbns) //
-                .setPositiveButton(R.string.message_confirm_delete_scanned_isbns_confirm, new DialogInterface.OnClickListener() {
+                .setTitle(R.string.title_dialog_delete_isbns) //
+                .setMessage(R.string.message_confirm_delete_isbns) //
+                .setPositiveButton(R.string.message_confirm_delete_isbns_confirm, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         BulkAddFragment.this.deleteAll();
                     }
                 }) //
-                .setNegativeButton(R.string.message_confirm_delete_scanned_isbns_cancel, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.message_confirm_delete_isbns_cancel, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -177,21 +177,21 @@ public final class BulkAddFragment extends ListFragment {
     }
 
     /**
-     * A task to load the scanned ISBNs.
+     * A task to load the ISBNs.
      */
-    private final class ScannedIsbnsLoadTask extends AsyncTask<Void, Void, List<ScannedIsbn>> {
+    private final class IsbnListLoadTask extends AsyncTask<Void, Void, List<Isbn>> {
 
         @Override
-        protected List<ScannedIsbn> doInBackground(Void... params) {
+        protected List<Isbn> doInBackground(Void... params) {
             SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-            return ScannedIsbnServices.getScannedIsbnListToLookUp(db);
+            return IsbnServices.getIsbnListToLookUp(db);
         }
 
         @Override
-        protected void onPostExecute(List<ScannedIsbn> scannedIsbns) {
-            super.onPostExecute(scannedIsbns);
-            mScannedIsbnsAdapter.addAll(scannedIsbns);
-            mScannedIsbnsAdapter.notifyDataSetChanged();
+        protected void onPostExecute(List<Isbn> isbns) {
+            super.onPostExecute(isbns);
+            mIsbnListAdapter.addAll(isbns);
+            mIsbnListAdapter.notifyDataSetChanged();
         }
     }
 }

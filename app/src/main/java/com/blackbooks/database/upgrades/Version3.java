@@ -13,13 +13,13 @@ public final class Version3 {
      * @param db SQLiteDatabase.
      */
     public static void upgrade(SQLiteDatabase db) {
-        String createTableScannedIsbn = "CREATE TABLE SCANNED_ISBN  (\n" +
-                "\tSCI_ID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "\tSCN_ISBN TEXT NOT NULL UNIQUE,\n" +
-                "\tSCI_SCAN_DATE INTEGER NOT NULL,\n" +
-                "\tSCI_LOOKED_UP INTEGER NOT NULL,\n" +
-                "\tSCI_SEARCH_SUCCESSFUL INTEGER NOT NULL\n" +
+        String createTableIsbn = "CREATE TABLE ISBN  (\n" +
+                "\tISB_DATE_ADDED INTEGER NOT NULL,\n" +
+                "\tISB_ID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "\tISB_LOOKED_UP INTEGER NOT NULL,\n" +
+                "\tISB_NUMBER TEXT NOT NULL UNIQUE,\n" +
+                "\tISB_SEARCH_SUCCESSFUL INTEGER NOT NULL\n" +
                 ");";
-        db.execSQL(createTableScannedIsbn);
+        db.execSQL(createTableIsbn);
     }
 }

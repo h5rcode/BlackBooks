@@ -7,7 +7,7 @@
     <string name="action_bulk_add">Ajouter en masse</string>
     <string name="action_delete_book">Supprimer le livre</string>
     <string name="action_delete_category">Supprimer la catégorie</string>
-    <string name="action_delete_scanned_isbns">Tout supprimer</string>
+    <string name="action_delete_isbns">Tout supprimer</string>
     <string name="action_edit_book">Modifier le livre</string>
     <string name="action_edit_category">Modifier la catégorie</string>
     <string name="action_enter_isbn">Entrer un ISBN</string>
@@ -329,9 +329,9 @@
     <string name="message_confirm_delete_category">Voulez-vous vraiment supprimer la catégorie \"%s\" ?\n\nLes livres associés ne seront pas supprimés.</string>
     <string name="message_confirm_delete_category_cancel">Non</string>
     <string name="message_confirm_delete_category_confirm">Oui</string>
-    <string name="message_confirm_delete_scanned_isbns">Voulez-vous vraiment supprimer tous les ISBNs enregistrés ?</string>
-    <string name="message_confirm_delete_scanned_isbns_cancel">Non</string>
-    <string name="message_confirm_delete_scanned_isbns_confirm">Oui</string>
+    <string name="message_confirm_delete_isbns">Voulez-vous vraiment supprimer tous les ISBNs enregistrés ?</string>
+    <string name="message_confirm_delete_isbns_cancel">Non</string>
+    <string name="message_confirm_delete_isbns_confirm">Oui</string>
     <string name="message_confirm_return_book">Rendre \"%s\" ?</string>
     <string name="message_confirm_return_book_cancel">Non</string>
     <string name="message_confirm_return_book_confirm">Oui</string>
@@ -350,7 +350,7 @@
     <string name="message_unsaved_changes_negative">Ne pas enregistrer</string>
     <string name="message_unsaved_changes_neutral">Annuler</string>
     <string name="message_unsaved_changes_positive">Enregistrer</string>
-    <string name="message_scanned_isbn_saved">ISBN %s enregistré.</string>
+    <string name="message_isbn_saved">ISBN %s enregistré.</string>
     <string name="message_scanner_install">Black Books utilise l\'application Pic2shop pour scanner les codes ISBN. Cliquez sur OK pour être redirigé vers sa page Google Play.</string>
     <string name="message_send_log">Black Books a rencontré une erreur inattendue.\n\nPour nous aider à corriger le problème, cliquez sur \"Envoyer le rapport d\'erreur\" afin de nous transférer un journal d\'erreur. N\'hésitez pas à détailler ce que vous êtiez en train de faire lorsque l\'erreur est survenue.\n\nMerci.</string>
     <string name="notification_bulk_search_finished_title">Recherche de livres terminées</string>
@@ -403,7 +403,7 @@
     <string name="title_dialog_column_separator_picker">Choisissez un séparateur de colonnes</string>
     <string name="title_dialog_delete_book">Supprimer un livre</string>
     <string name="title_dialog_delete_category">Supprimer une catégorie</string>
-    <string name="title_dialog_delete_scanned_isbns">Supprimer les ISBNs</string>
+    <string name="title_dialog_delete_isbns">Supprimer les ISBNs</string>
     <string name="title_dialog_edit_author">Modifier un auteur</string>
     <string name="title_dialog_edit_category">Modifier une catégorie</string>
     <string name="title_dialog_duplicate_books">Livre en double</string>

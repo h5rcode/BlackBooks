@@ -13,9 +13,9 @@ import android.util.Log;
 import com.blackbooks.R;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
-import com.blackbooks.model.persistent.ScannedIsbn;
+import com.blackbooks.model.persistent.Isbn;
 import com.blackbooks.search.BookSearcher;
-import com.blackbooks.services.ScannedIsbnServices;
+import com.blackbooks.services.IsbnServices;
 import com.blackbooks.utils.LogUtils;
 import com.blackbooks.utils.VariableUtils;
 
@@ -47,12 +47,12 @@ public final class BulkSearchService extends IntentService {
         VariableUtils.getInstance().setBulkSearchRunning(true);
 
         SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-        List<ScannedIsbn> scannedIsbnList = ScannedIsbnServices.getScannedIsbnListToLookUp(db);
+        List<Isbn> isbnList = IsbnServices.getIsbnListToLookUp(db);
 
-        int scannedIsbnCount = scannedIsbnList.size();
+        int isbnCount = isbnList.size();
 
         Resources res = getResources();
-        String text = res.getQuantityString(R.plurals.notification_bulk_search_running_text, scannedIsbnCount, scannedIsbnCount);
+        String text = res.getQuantityString(R.plurals.notification_bulk_search_running_text, isbnCount, isbnCount);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
@@ -66,25 +66,25 @@ public final class BulkSearchService extends IntentService {
         builder.setTicker(null);
 
         int connectionErrors = 0;
-        for (int i = 0; i < scannedIsbnCount; i++) {
+        for (int i = 0; i < isbnCount; i++) {
             if (mStop) {
                 break;
             }
             if (connectionErrors > MAX_CONNECTION_ERRORS) {
                 break;
             }
-            ScannedIsbn scannedIsbn = scannedIsbnList.get(i);
-            String isbn = scannedIsbn.isbn;
-            Log.d(LogUtils.TAG, String.format("Searching results for ISBN %s.", isbn));
+            Isbn isbn = isbnList.get(i);
+            String number = isbn.number;
+            Log.d(LogUtils.TAG, String.format("Searching results for ISBN %s.", number));
 
             try {
-                BookInfo bookInfo = BookSearcher.search(isbn);
+                BookInfo bookInfo = BookSearcher.search(number);
                 if (bookInfo == null) {
                     Log.d(LogUtils.TAG, "No results.");
-                    ScannedIsbnServices.markScannedIsbnLookedUp(db, scannedIsbn.id, false);
+                    IsbnServices.markIsbnLookedUp(db, isbn.id, false);
                 } else {
                     Log.d(LogUtils.TAG, String.format("Result: %s", bookInfo.title));
-                    ScannedIsbnServices.saveBookInfo(db, bookInfo, scannedIsbn.id);
+                    IsbnServices.saveBookInfo(db, bookInfo, isbn.id);
                     VariableUtils.getInstance().setReloadBookList(true);
                 }
 
@@ -104,7 +104,7 @@ public final class BulkSearchService extends IntentService {
                 break;
             }
 
-            builder.setProgress(scannedIsbnCount, i, false);
+            builder.setProgress(isbnCount, i, false);
             Notification notification = builder.build();
             notification.flags |= Notification.FLAG_NO_CLEAR;
             notificationManager.notify(NOTIFICATION_ID, notification);
