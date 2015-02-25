@@ -23,11 +23,11 @@ public class OpenLibraryBook implements BookSearchResult {
     public String title;
     public String subtitle;
 
-    public List<String> authors;
-    public List<String> publishers;
+    public final List<String> authors;
+    public final List<String> publishers;
     public String isbn10;
     public String isbn13;
-    public List<String> subjects;
+    public final List<String> subjects;
     public String publishDate;
     public String coverLinkSmall;
     public String coverLinkMedium;

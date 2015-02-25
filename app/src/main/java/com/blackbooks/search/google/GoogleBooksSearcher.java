@@ -16,7 +16,7 @@ public final class GoogleBooksSearcher implements Callable<BookSearchResult> {
 
     private static final String URI_FORMAT_STRING = "https://www.googleapis.com/books/v1/volumes?q=isbn:%s";
 
-    private String mIsbn;
+    private final String mIsbn;
 
     /**
      * Constructor.

@@ -23,8 +23,8 @@ public final class FTSBroker<T> {
 
     private static final String DOCID = "DOCID";
 
-    private Class<T> mType;
-    private FTSTable mTable;
+    private final Class<T> mType;
+    private final FTSTable mTable;
     private List<FTSColumn> mColumns;
     private HashMap<Field, FTSColumn> mColumnMap;
     private Field mPrimaryKeyField;

@@ -18,7 +18,7 @@ import junit.framework.Assert;
  */
 public abstract class AbstractDatabaseTest extends AndroidTestCase {
 
-    private static String SQLITE_ERROR_19 = "error code 19: constraint failed";
+    private static final String SQLITE_ERROR_19 = "error code 19: constraint failed";
 
     private SQLiteDatabase mDb;
 

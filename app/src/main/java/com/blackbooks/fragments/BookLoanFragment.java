@@ -196,6 +196,7 @@ public class BookLoanFragment extends Fragment implements DatePickerListener {
                     int column = cursor.getColumnIndex(Phone.DISPLAY_NAME);
                     mTextLoanTo.setError(null);
                     mTextLoanTo.setText(cursor.getString(column));
+                    cursor.close();
                     break;
             }
         }

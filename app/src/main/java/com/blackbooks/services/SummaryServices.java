@@ -138,6 +138,8 @@ public class SummaryServices {
     private static int queryInt(SQLiteDatabase db, String sql) {
         Cursor cursor = db.rawQuery(sql, null);
         cursor.moveToNext();
-        return cursor.getInt(0);
+        int result = cursor.getInt(0);
+        cursor.close();
+        return result;
     }
 }

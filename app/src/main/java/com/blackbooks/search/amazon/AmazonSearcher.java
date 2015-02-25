@@ -17,7 +17,7 @@ public class AmazonSearcher implements Callable<BookSearchResult> {
 
     private static final String URI_FORMAT_STRING = "http://isbnlookup-h5rcode.rhcloud.com/api/v1/aws/book/%s/Large";
 
-    private String mIsbn;
+    private final String mIsbn;
 
     /**
      * Constructor.

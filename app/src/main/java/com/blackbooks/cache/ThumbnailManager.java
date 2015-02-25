@@ -114,7 +114,7 @@ public final class ThumbnailManager {
         private final Context mContext;
         private final long mBookId;
         private final ImageView mImageView;
-        private ProgressBar mProgressBar;
+        private final ProgressBar mProgressBar;
 
         /**
          * Constructor.

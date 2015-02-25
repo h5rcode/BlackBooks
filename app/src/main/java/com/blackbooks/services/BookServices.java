@@ -157,10 +157,8 @@ public class BookServices {
      */
     public static int getBookCountByAuthor(SQLiteDatabase db, long authorId) {
         String sql = "SELECT COUNT(*) FROM " + BookAuthor.NAME + " WHERE " + BookAuthor.Cols.AUT_ID + " = ?;";
-
-        Cursor cursor = db.rawQuery(sql, new String[]{String.valueOf(authorId)});
-        cursor.moveToNext();
-        return cursor.getInt(0);
+        String[] selectionArgs = {String.valueOf(authorId)};
+        return queryInt(db, sql, selectionArgs);
     }
 
     /**
@@ -181,9 +179,7 @@ public class BookServices {
             selectionArgs = new String[]{String.valueOf(bookLocationId)};
         }
 
-        Cursor cursor = db.rawQuery(sql, selectionArgs);
-        cursor.moveToNext();
-        return cursor.getInt(0);
+        return queryInt(db, sql, selectionArgs);
     }
 
     /**
@@ -205,9 +201,7 @@ public class BookServices {
             selectionArgs = new String[]{String.valueOf(categoryId)};
         }
 
-        Cursor cursor = db.rawQuery(sql, selectionArgs);
-        cursor.moveToNext();
-        return cursor.getInt(0);
+        return queryInt(db, sql, selectionArgs);
     }
 
     /**
@@ -220,9 +214,7 @@ public class BookServices {
     public static int getBookCountByFirstLetter(SQLiteDatabase db, String firstLetter) {
         String sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE SUBSTR(UPPER(" + Book.Cols.BOO_TITLE + "), 1, 1) = ?;";
 
-        Cursor cursor = db.rawQuery(sql, new String[]{firstLetter});
-        cursor.moveToNext();
-        return cursor.getInt(0);
+        return queryInt(db, sql, new String[]{firstLetter});
     }
 
     /**
@@ -243,9 +235,7 @@ public class BookServices {
             sql += " = ?;";
             selectionArgs = new String[]{languageCode};
         }
-        Cursor cursor = db.rawQuery(sql, selectionArgs);
-        cursor.moveToNext();
-        return cursor.getInt(0);
+        return queryInt(db, sql, selectionArgs);
     }
 
     /**
@@ -266,9 +256,7 @@ public class BookServices {
             sql += " = ?;";
             selectionArgs = new String[]{loanedTo};
         }
-        Cursor cursor = db.rawQuery(sql, selectionArgs);
-        cursor.moveToNext();
-        return cursor.getInt(0);
+        return queryInt(db, sql, selectionArgs);
     }
 
     /**
@@ -290,9 +278,7 @@ public class BookServices {
             selectionArgs = new String[]{String.valueOf(seriesId)};
         }
 
-        Cursor cursor = db.rawQuery(sql, selectionArgs);
-        cursor.moveToNext();
-        return cursor.getInt(0);
+        return queryInt(db, sql, selectionArgs);
     }
 
     /**
@@ -828,6 +814,22 @@ public class BookServices {
         } finally {
             db.endTransaction();
         }
+    }
+
+    /**
+     * Execute a SQL query that returns an integer.
+     *
+     * @param db            SQLiteDatabase.
+     * @param sql           SQL query.
+     * @param selectionArgs Selection arguments.
+     * @return Integer value.
+     */
+    private static int queryInt(SQLiteDatabase db, String sql, String[] selectionArgs) {
+        Cursor cursor = db.rawQuery(sql, selectionArgs);
+        cursor.moveToNext();
+        int result = cursor.getInt(0);
+        cursor.close();
+        return result;
     }
 
     /**

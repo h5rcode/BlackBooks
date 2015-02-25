@@ -24,8 +24,8 @@ public final class Broker<T> {
 
     private static final int MAX_SQL_PARAMETERS = 250;
 
-    private Class<T> mType;
-    private Table mTable;
+    private final Class<T> mType;
+    private final Table mTable;
     private Field mPrimaryKeyField;
     private Column mPrimaryKeyColumn;
     private List<Column> mColumns;

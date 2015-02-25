@@ -267,6 +267,7 @@ public final class BookGroupServices {
 
             bookGroupList.add(bookGroup);
         }
+        cursor.close();
         return bookGroupList;
     }
 }

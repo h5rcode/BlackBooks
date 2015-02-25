@@ -10,5 +10,5 @@ public class LanguageInfo implements Serializable {
 
     public String languageCode;
     public String displayName;
-    public List<BookInfo> books = new ArrayList<BookInfo>();
+    public final List<BookInfo> books = new ArrayList<BookInfo>();
 }

@@ -21,7 +21,8 @@ public enum BookSearchResultSource {
      * Google Books.
      */
     GOOGLE_BOOKS(3);
-    private int mMergeOrder;
+
+    private final int mMergeOrder;
 
     private BookSearchResultSource(int mergeOrder) {
         this.mMergeOrder = mergeOrder;

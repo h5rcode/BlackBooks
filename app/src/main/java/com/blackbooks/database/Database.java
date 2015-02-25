@@ -22,7 +22,7 @@ public final class Database {
     /**
      * Name of the database.
      */
-    public final static String NAME = "BLACK_BOOKS_DB";
+    public static final String NAME = "BLACK_BOOKS_DB";
 
     /**
      * Current version of the database.
@@ -30,9 +30,9 @@ public final class Database {
      * <strong>Remark:</strong> this version is completely independent from the application version.
      * </p>
      */
-    public final static int VERSION = 3;
+    public static final int VERSION = 3;
 
-    private static Database mInstance = new Database();
+    private static final Database mInstance = new Database();
     private static List<Class<?>> mTables;
     private static List<Class<?>> mFTSTables;
 

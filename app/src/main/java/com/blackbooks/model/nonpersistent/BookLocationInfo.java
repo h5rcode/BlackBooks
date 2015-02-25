@@ -9,7 +9,7 @@ public class BookLocationInfo extends BookLocation {
 
     private static final long serialVersionUID = 2060138705569284648L;
 
-    public List<BookInfo> books = new ArrayList<BookInfo>();
+    public final List<BookInfo> books = new ArrayList<BookInfo>();
 
     /**
      * Default constructor.

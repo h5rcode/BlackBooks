@@ -13,7 +13,7 @@ public class SeriesInfo extends Series implements Serializable {
 
     private static final long serialVersionUID = 3177599050568320257L;
 
-    public List<BookInfo> books = new ArrayList<BookInfo>();
+    public final List<BookInfo> books = new ArrayList<BookInfo>();
 
     /**
      * Default constructor.

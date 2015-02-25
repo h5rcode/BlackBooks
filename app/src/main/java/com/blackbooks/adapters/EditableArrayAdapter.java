@@ -18,10 +18,10 @@ import java.util.List;
  */
 public abstract class EditableArrayAdapter<T> extends ArrayAdapter<T> {
 
-    private LayoutInflater mInflater;
-    private int mLayoutList;
-    private int mTextViewId;
-    private int mButtonId;
+    private final LayoutInflater mInflater;
+    private final int mLayoutList;
+    private final int mTextViewId;
+    private final int mButtonId;
 
     /**
      * Constructor.
