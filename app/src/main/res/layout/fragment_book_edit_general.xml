@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bookEditGeneral_scrollView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,7 +11,7 @@
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin" >
+        android:paddingTop="@dimen/activity_vertical_margin">
 
         <TextView
             android:layout_width="wrap_content"
@@ -87,7 +86,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <AutoCompleteTextView
                 android:id="@+id/bookEditGeneral_textSeries"
@@ -129,7 +128,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/bookEditGeneral_textPublishedDate"
@@ -202,8 +201,7 @@
             android:id="@+id/bookEditGeneral_textIsbn13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/label_isbn13"
-            android:inputType="number" />
+            android:hint="@string/label_isbn13" />
     </LinearLayout>
 
 </ScrollView>

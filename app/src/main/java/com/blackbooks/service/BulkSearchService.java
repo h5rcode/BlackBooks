@@ -3,14 +3,17 @@ package com.blackbooks.service;
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.blackbooks.R;
+import com.blackbooks.activities.BulkAddActivity;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Isbn;
@@ -47,12 +50,18 @@ public final class BulkSearchService extends IntentService {
         VariableUtils.getInstance().setBulkSearchRunning(true);
 
         SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-        List<Isbn> isbnList = IsbnServices.getIsbnListToLookUp(db);
+        List<Isbn> isbnList = IsbnServices.getIsbnListToLookUp(db, Integer.MAX_VALUE, 0);
 
         int isbnCount = isbnList.size();
 
         Resources res = getResources();
         String text = res.getQuantityString(R.plurals.notification_bulk_search_running_text, isbnCount, isbnCount);
+
+        Intent resultIntent = new Intent(this, BulkAddActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(BulkAddActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
@@ -60,6 +69,7 @@ public final class BulkSearchService extends IntentService {
                 .setContentTitle(getString(R.string.notification_bulk_search_running_title))
                 .setContentText(text);
 
+        builder.setContentIntent(resultPendingIntent);
 
         builder.setTicker(getString(R.string.notification_bulk_search_running_title));
         notificationManager.notify(NOTIFICATION_ID, builder.build());
@@ -81,10 +91,11 @@ public final class BulkSearchService extends IntentService {
                 BookInfo bookInfo = BookSearcher.search(number);
                 if (bookInfo == null) {
                     Log.d(LogUtils.TAG, "No results.");
-                    IsbnServices.markIsbnLookedUp(db, isbn.id, false);
+                    IsbnServices.markIsbnLookedUp(db, isbn.id, null);
                 } else {
                     Log.d(LogUtils.TAG, String.format("Result: %s", bookInfo.title));
                     IsbnServices.saveBookInfo(db, bookInfo, isbn.id);
+                    VariableUtils.getInstance().setReloadIsbnLists();
                     VariableUtils.getInstance().setReloadBookList(true);
                 }
 
@@ -110,10 +121,12 @@ public final class BulkSearchService extends IntentService {
             notificationManager.notify(NOTIFICATION_ID, notification);
         }
 
+
         builder.setContentTitle(getString(R.string.notification_bulk_search_finished_title));
         builder.setContentText(getString(R.string.notification_bulk_search_finished_text));
         builder.setProgress(0, 0, false);
         builder.setTicker(getString(R.string.notification_bulk_search_finished_title));
+        builder.setAutoCancel(true);
         notificationManager.notify(NOTIFICATION_ID, builder.build());
 
         VariableUtils.getInstance().setBulkSearchRunning(false);

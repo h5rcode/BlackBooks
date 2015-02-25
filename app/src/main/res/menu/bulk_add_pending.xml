@@ -12,6 +12,11 @@
                 android:icon="@drawable/ic_action_camera"
                 android:showAsAction="ifRoom"
                 android:title="@string/action_bulk_scan" />
+            <item
+                android:id="@+id/bulkAddPending_enterIsbn"
+                android:icon="@drawable/ic_action_dial_pad"
+                android:showAsAction="ifRoom"
+                android:title="@string/action_enter_isbn" />
         </menu>
     </item>
 

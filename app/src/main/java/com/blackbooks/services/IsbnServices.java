@@ -46,7 +46,6 @@ public class IsbnServices {
     public static List<Isbn> getIsbnListLookedUp(SQLiteDatabase db) {
         Isbn criteria = new Isbn();
         criteria.lookedUp = 1L;
-        criteria.searchSuccessful = null;
         return BrokerManager.getBroker(Isbn.class).getAllByCriteria(db, criteria);
     }
 
@@ -55,10 +54,13 @@ public class IsbnServices {
      *
      * @param db SQLiteDatabase.
      */
-    public static List<Isbn> getIsbnListToLookUp(SQLiteDatabase db) {
-        Isbn criteria = new Isbn();
-        criteria.lookedUp = 0L;
-        return BrokerManager.getBroker(Isbn.class).getAllByCriteria(db, criteria);
+    public static List<Isbn> getIsbnListToLookUp(SQLiteDatabase db, int limit, int offset) {
+        String sql = "SELECT * FROM " + Isbn.NAME + " WHERE " + Isbn.Cols.ISB_LOOKED_UP + " = 0 ORDER BY " + Isbn.Cols.ISB_DATE_ADDED + " LIMIT ? OFFSET ?;";
+        String[] selectionArgs = new String[]{
+                String.valueOf(limit),
+                String.valueOf(offset)
+        };
+        return BrokerManager.getBroker(Isbn.class).rawSelect(db, sql, selectionArgs);
     }
 
     /**
@@ -74,6 +76,7 @@ public class IsbnServices {
 
             Isbn criteria = new Isbn();
             criteria.number = number;
+            criteria.lookedUp = null;
             Isbn isbn = broker.getByCriteria(db, criteria);
 
             if (isbn == null) {
@@ -101,7 +104,7 @@ public class IsbnServices {
         db.beginTransaction();
         try {
             BookServices.saveBookInfo(db, bookInfo);
-            markIsbnLookedUp(db, isbnId, true);
+            markIsbnLookedUp(db, isbnId, bookInfo.id);
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
@@ -111,16 +114,16 @@ public class IsbnServices {
     /**
      * Mark an ISBN as looked up.
      *
-     * @param db               SQLiteDatabase.
-     * @param isbnId           Id of the ISBN.
-     * @param searchSuccessFul True if the search returned a result, false otherwise.
+     * @param db     SQLiteDatabase.
+     * @param isbnId Id of the ISBN.
+     * @param bookId Id of the book that has been found (may be null if the search was not successful).
      */
-    public static void markIsbnLookedUp(SQLiteDatabase db, long isbnId, boolean searchSuccessFul) {
+    public static void markIsbnLookedUp(SQLiteDatabase db, long isbnId, Long bookId) {
         db.beginTransaction();
         try {
             ContentValues contentValues = new ContentValues();
             contentValues.put(Isbn.Cols.ISB_LOOKED_UP, 1L);
-            contentValues.put(Isbn.Cols.ISB_SEARCH_SUCCESSFUL, searchSuccessFul ? 1L : 0L);
+            contentValues.put(Isbn.Cols.BOO_ID, bookId);
 
             String whereClause = Isbn.Cols.ISB_ID + " = ?";
             String[] whereArgs = new String[]{String.valueOf(isbnId)};

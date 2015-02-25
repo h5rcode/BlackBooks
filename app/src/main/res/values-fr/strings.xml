@@ -41,6 +41,7 @@
     <string name="action_mark_book_as_to_read">Ajouter aux livres à lire</string>
     <string name="button_add_author">Ajouter</string>
     <string name="button_add_category">Ajouter</string>
+    <string name="button_cancel_add_isbn">Annuler</string>
     <string name="button_cancel_edit_author">Annuler</string>
     <string name="button_cancel_edit_category">Annuler</string>
     <string name="button_cancel_scanner_install">Annuler</string>
@@ -52,6 +53,7 @@
     <string name="button_remove_category">X</string>
     <string name="button_save_author">Enregistrer</string>
     <string name="button_save_category">Enregistrer</string>
+    <string name="button_save_isbn">Ajouter</string>
     <string name="button_send_log">Envoyer le rapport d\'erreur</string>
     <string name="error_connection_problem">Problème de connexion. Vérifiez que l\'appareil est connecté à Internet.</string>
     <string name="field_invalid_date">Date invalide.</string>
@@ -405,6 +407,7 @@
     <string name="title_activity_book_search">Résultats pour \"%s\"</string>
     <string name="title_activity_book_search_default">Résultats de recherche</string>
     <string name="title_activity_summary">Résumé</string>
+    <string name="title_dialog_add_isbn">Ajouter un ISBN</string>
     <string name="title_dialog_column_separator_picker">Choisissez un séparateur de colonnes</string>
     <string name="title_dialog_delete_book">Supprimer un livre</string>
     <string name="title_dialog_delete_category">Supprimer une catégorie</string>

@@ -10,6 +10,8 @@ public final class VariableUtils {
 
     private boolean mReloadBookGroupList;
     private boolean mReloadBookList;
+    private boolean mReloadIsbnListLookedUp;
+    private boolean mReloadIsbnListPending;
     private boolean mBulkSearchRunning;
 
     /**
@@ -79,6 +81,60 @@ public final class VariableUtils {
             if (reloadBookList) {
                 mReloadBookGroupList = reloadBookList;
             }
+        }
+    }
+
+    /**
+     * Set the values indicating that the ISBN lists should be reloaded.
+     */
+    public void setReloadIsbnLists() {
+        synchronized (LOCK) {
+            mReloadIsbnListLookedUp = true;
+            mReloadIsbnListPending = true;
+        }
+    }
+
+    /**
+     * Return the value indicating whether the list of ISBNs that have been looked up should be reloaded.
+     *
+     * @return True if the list should be reloaded, false otherwise.
+     */
+    public boolean getReloadIsbnListLookedUp() {
+        synchronized (LOCK) {
+            return mReloadIsbnListLookedUp;
+        }
+    }
+
+    /**
+     * Set the value indicating whether the list of ISBNs that have been looked up should be reloaded.
+     *
+     * @param reloadIsbnListLookedUp True if the list should be reloaded, false otherwise.
+     */
+    public void setReloadIsbnListLookedUp(boolean reloadIsbnListLookedUp) {
+        synchronized (LOCK) {
+            mReloadIsbnListLookedUp = reloadIsbnListLookedUp;
+        }
+    }
+
+    /**
+     * Return the value indicating whether the list of pending ISBNs should be reloaded.
+     *
+     * @return True if the list should be reloaded, false otherwise.
+     */
+    public boolean getReloadIsbnListPending() {
+        synchronized (LOCK) {
+            return mReloadIsbnListPending;
+        }
+    }
+
+    /**
+     * Set the value indicating whether the list pending ISBNs should be reloaded.
+     *
+     * @param reloadIsbnListPending True if the list should be reloaded, false otherwise.
+     */
+    public void setReloadIsbnListPending(boolean reloadIsbnListPending) {
+        synchronized (LOCK) {
+            mReloadIsbnListPending = reloadIsbnListPending;
         }
     }
 

@@ -24,15 +24,14 @@ public class Isbn implements Serializable {
     @Column(name = Cols.ISB_LOOKED_UP, mandatory = true, type = SQLiteDataType.INTEGER, version = 3)
     public Long lookedUp;
 
-    @Column(name = Cols.ISB_SEARCH_SUCCESSFUL, mandatory = true, type = SQLiteDataType.INTEGER, version = 3)
-    public Long searchSuccessful;
+    @Column(name = Cols.BOO_ID, type = SQLiteDataType.INTEGER, referencedType = Book.class, onDeleteCascade = true, version = 3)
+    public Long bookId;
 
     /**
      * Default constructor.
      */
     public Isbn() {
         this.lookedUp = 0L;
-        this.searchSuccessful = 0L;
     }
 
     public static final class Cols {
@@ -40,6 +39,6 @@ public class Isbn implements Serializable {
         public static final String ISB_NUMBER = "ISB_NUMBER";
         public static final String ISB_DATE_ADDED = "ISB_DATE_ADDED";
         public static final String ISB_LOOKED_UP = "ISB_LOOKED_UP";
-        public static final String ISB_SEARCH_SUCCESSFUL = "ISB_SEARCH_SUCCESSFUL";
+        public static final String BOO_ID = "BOO_ID";
     }
 }

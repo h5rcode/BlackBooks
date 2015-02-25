@@ -49,7 +49,7 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
     private static final int ITEM_ADMINISTRATION = 12;
     private static final int ITEM_BACKUP_DB = 13;
 
-    private static final String SCANNER_INSTALL_FRAGMENT = "SCANNER_INSTALL_FRAGMENT";
+    private static final String TAG_SCANNER_INSTALL_FRAGMENT = "TAG_SCANNER_INSTALL_FRAGMENT";
 
     private DrawerLayout mDrawerLayout;
     private ListView mListDrawer;
@@ -265,7 +265,7 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
             if (resolveInfo.isEmpty()) {
                 FragmentManager fm = getSupportFragmentManager();
                 ScannerInstallFragment fragment = new ScannerInstallFragment();
-                fragment.show(fm, SCANNER_INSTALL_FRAGMENT);
+                fragment.show(fm, TAG_SCANNER_INSTALL_FRAGMENT);
             } else {
                 intent = new Intent(AbstractDrawerActivity.this, IsbnLookupActivity.class);
                 intent.putExtra(IsbnLookupActivity.EXTRA_SCAN, true);

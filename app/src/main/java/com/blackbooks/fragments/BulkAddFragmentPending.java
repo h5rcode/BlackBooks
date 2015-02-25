@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,11 +17,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.blackbooks.R;
 import com.blackbooks.adapters.IsbnListAdapter;
 import com.blackbooks.database.SQLiteHelper;
+import com.blackbooks.fragments.dialogs.IsbnAddFragment;
+import com.blackbooks.fragments.dialogs.ScannerInstallFragment;
 import com.blackbooks.model.persistent.Isbn;
 import com.blackbooks.service.BulkSearchService;
 import com.blackbooks.services.IsbnServices;
@@ -31,10 +38,20 @@ import java.util.List;
 /**
  * Bulk add fragment.
  */
-public final class BulkAddFragmentPending extends ListFragment {
+public final class BulkAddFragmentPending extends ListFragment implements IsbnAddFragment.IsbnAddListener {
+
+    private static final int ISBNS_BY_PAGE = 50;
+
+    private static final String TAG_SCANNER_INSTALL_FRAGMENT = "TAG_SCANNER_INSTALL_FRAGMENT";
+    private static final String TAG_ISBN_ADD_FRAGMENT = "TAG_ISBN_ADD_FRAGMENT";
+
+    private boolean mAlreadyLoaded;
+    private int mLastPage = 1;
+    private int mLastItem = -1;
 
     private IsbnListAdapter mIsbnListAdapter;
     private boolean mStartScan;
+    private IsbnListLoadTask mIsbnListLoadTask;
 
     /**
      * Return a new instance of BulkAddFragment.
@@ -53,13 +70,39 @@ public final class BulkAddFragmentPending extends ListFragment {
 
         mIsbnListAdapter = new IsbnListAdapter(getActivity());
         setListAdapter(mIsbnListAdapter);
-
-        new IsbnListLoadTask().execute();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_bulk_add, container, false);
+        View view = inflater.inflate(R.layout.fragment_bulk_add, container, false);
+        ListView listView = (ListView) view.findViewById(android.R.id.list);
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                // Do nothing.
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (totalItemCount == 0) {
+                    return;
+                }
+                switch (view.getId()) {
+                    case android.R.id.list:
+
+                        final int lastItem = firstVisibleItem + visibleItemCount;
+                        if (lastItem == totalItemCount) {
+                            if (mLastItem != lastItem) {
+                                mLastItem = lastItem;
+                                loadMoreIsbns();
+                            }
+                        }
+                }
+            }
+        });
+
+        return view;
     }
 
     @Override
@@ -69,12 +112,27 @@ public final class BulkAddFragmentPending extends ListFragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mIsbnListLoadTask != null) {
+            mIsbnListLoadTask.cancel(true);
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean result;
         Intent i;
         switch (item.getItemId()) {
             case R.id.bulkAddPending_startScanning:
                 startIsbnScan();
+                result = true;
+                break;
+
+            case R.id.bulkAddPending_enterIsbn:
+                IsbnAddFragment isbnAddFragment = new IsbnAddFragment();
+                isbnAddFragment.setTargetFragment(this, 0);
+                isbnAddFragment.show(getFragmentManager(), TAG_ISBN_ADD_FRAGMENT);
                 result = true;
                 break;
 
@@ -109,8 +167,7 @@ public final class BulkAddFragmentPending extends ListFragment {
     private void deleteAll() {
         SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
         IsbnServices.deleteAllPendingIsbns(db);
-        mIsbnListAdapter.clear();
-        mIsbnListAdapter.notifyDataSetChanged();
+        reloadIsbns();
     }
 
     @Override
@@ -119,6 +176,11 @@ public final class BulkAddFragmentPending extends ListFragment {
 
         if (mStartScan) {
             startIsbnScan();
+        }
+
+        if (!mAlreadyLoaded) {
+            mAlreadyLoaded = true;
+            reloadIsbns();
         }
     }
 
@@ -131,8 +193,7 @@ public final class BulkAddFragmentPending extends ListFragment {
 
             String message;
             if (IsbnUtils.isValidIsbn(barCode)) {
-                SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-                IsbnServices.saveIsbn(db, barCode);
+                saveIsbn(barCode);
                 message = getString(R.string.message_isbn_saved, barCode);
             } else {
                 message = getString(R.string.message_invalid_isbn, barCode);
@@ -145,12 +206,51 @@ public final class BulkAddFragmentPending extends ListFragment {
         }
     }
 
+
+    /**
+     * Load more ISBNs.
+     */
+    private void loadMoreIsbns() {
+        mIsbnListLoadTask = new IsbnListLoadTask(ISBNS_BY_PAGE, ISBNS_BY_PAGE * (mLastPage - 1));
+        mIsbnListLoadTask.execute();
+        mLastPage++;
+    }
+
+    /**
+     * Save an ISBN.
+     *
+     * @param isbn ISBN.
+     */
+    private void saveIsbn(String isbn) {
+        SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
+        IsbnServices.saveIsbn(db, isbn);
+
+        reloadIsbns();
+    }
+
+    private void reloadIsbns() {
+        mIsbnListAdapter.clear();
+        mLastItem = -1;
+        mLastPage = 1;
+        loadMoreIsbns();
+    }
+
     /**
      * Launches Pic2Shop to start scanning an ISBN code.
      */
     private void startIsbnScan() {
         Intent intent = new Intent(Pic2ShopUtils.ACTION);
-        startActivityForResult(intent, Pic2ShopUtils.REQUEST_CODE_SCAN);
+
+        PackageManager pm = getActivity().getPackageManager();
+        List<ResolveInfo> resolveInfo = pm.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+
+        if (resolveInfo.isEmpty()) {
+            FragmentManager fm = getFragmentManager();
+            ScannerInstallFragment fragment = new ScannerInstallFragment();
+            fragment.show(fm, TAG_SCANNER_INSTALL_FRAGMENT);
+        } else {
+            startActivityForResult(intent, Pic2ShopUtils.REQUEST_CODE_SCAN);
+        }
     }
 
     /**
@@ -181,15 +281,34 @@ public final class BulkAddFragmentPending extends ListFragment {
                 }).show();
     }
 
+    @Override
+    public void onAddIsbn(String isbn) {
+        saveIsbn(isbn);
+    }
+
     /**
      * A task to load the ISBNs.
      */
     private final class IsbnListLoadTask extends AsyncTask<Void, Void, List<Isbn>> {
 
+        private final int mLimit;
+        private final int mOffset;
+
+        /**
+         * Constructor.
+         *
+         * @param limit  Limit.
+         * @param offset Offset.
+         */
+        public IsbnListLoadTask(int limit, int offset) {
+            mLimit = limit;
+            mOffset = offset;
+        }
+
         @Override
         protected List<Isbn> doInBackground(Void... params) {
             SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-            return IsbnServices.getIsbnListToLookUp(db);
+            return IsbnServices.getIsbnListToLookUp(db, mLimit, mOffset);
         }
 
         @Override

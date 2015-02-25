@@ -14,11 +14,12 @@ public final class Version3 {
      */
     public static void upgrade(SQLiteDatabase db) {
         String createTableIsbn = "CREATE TABLE ISBN  (\n" +
+                "\tBOO_ID INTEGER,\n" +
                 "\tISB_DATE_ADDED INTEGER NOT NULL,\n" +
                 "\tISB_ID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "\tISB_LOOKED_UP INTEGER NOT NULL,\n" +
                 "\tISB_NUMBER TEXT NOT NULL UNIQUE,\n" +
-                "\tISB_SEARCH_SUCCESSFUL INTEGER NOT NULL\n" +
+                "\tFOREIGN KEY (BOO_ID) REFERENCES BOOK(BOO_ID) ON DELETE CASCADE\n" +
                 ");";
         db.execSQL(createTableIsbn);
     }
