@@ -41,12 +41,17 @@ public class IsbnServices {
     /**
      * Get the list of all the ISBNs that have been looked up.
      *
-     * @param db SQLiteDatabase.
+     * @param db     SQLiteDatabase.
+     * @param limit  Limit.
+     * @param offset Offset.
      */
-    public static List<Isbn> getIsbnListLookedUp(SQLiteDatabase db) {
-        Isbn criteria = new Isbn();
-        criteria.lookedUp = 1L;
-        return BrokerManager.getBroker(Isbn.class).getAllByCriteria(db, criteria);
+    public static List<Isbn> getIsbnListLookedUp(SQLiteDatabase db, int limit, int offset) {
+        String sql = "SELECT * FROM " + Isbn.NAME + " WHERE " + Isbn.Cols.ISB_LOOKED_UP + " = 1 ORDER BY " + Isbn.Cols.ISB_DATE_ADDED + " LIMIT ? OFFSET ?;";
+        String[] selectionArgs = new String[]{
+                String.valueOf(limit),
+                String.valueOf(offset)
+        };
+        return BrokerManager.getBroker(Isbn.class).rawSelect(db, sql, selectionArgs);
     }
 
     /**

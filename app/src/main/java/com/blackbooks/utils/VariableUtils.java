@@ -79,18 +79,10 @@ public final class VariableUtils {
         synchronized (LOCK) {
             mReloadBookList = reloadBookList;
             if (reloadBookList) {
-                mReloadBookGroupList = reloadBookList;
+                mReloadBookGroupList = true;
+                mReloadIsbnListLookedUp = true;
+                mReloadIsbnListPending = true;
             }
-        }
-    }
-
-    /**
-     * Set the values indicating that the ISBN lists should be reloaded.
-     */
-    public void setReloadIsbnLists() {
-        synchronized (LOCK) {
-            mReloadIsbnListLookedUp = true;
-            mReloadIsbnListPending = true;
         }
     }
 

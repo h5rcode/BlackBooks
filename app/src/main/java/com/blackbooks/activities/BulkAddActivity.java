@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.blackbooks.R;
 import com.blackbooks.fragments.BulkAddFragmentLookedUp;
 import com.blackbooks.fragments.BulkAddFragmentPending;
+import com.blackbooks.utils.VariableUtils;
 
 /**
  * Bulk scan activity.
@@ -23,6 +24,9 @@ public final class BulkAddActivity extends FragmentActivity implements ViewPager
     private static final int TAB_PENDING = 0;
     private static final int TAB_LOOKED_UP = 1;
 
+    private final VariableUtils mVariableUtils = VariableUtils.getInstance();
+
+    private PagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
 
     @Override
@@ -30,9 +34,9 @@ public final class BulkAddActivity extends FragmentActivity implements ViewPager
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bulk_add);
 
-        PagerAdapter pagerAdapter = new BulkAddPagerAdapter(getSupportFragmentManager());
+        mPagerAdapter = new BulkAddPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.bulkAdd_viewPager);
-        mViewPager.setAdapter(pagerAdapter);
+        mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setOnPageChangeListener(this);
 
         ActionBar actionBar = getActionBar();
@@ -41,7 +45,6 @@ public final class BulkAddActivity extends FragmentActivity implements ViewPager
         actionBar.addTab(actionBar.newTab().setText(getString(R.string.title_tab_bulk_add_pending)).setTabListener(this));
         actionBar.addTab(actionBar.newTab().setText(getString(R.string.title_tab_bulk_add_looked_up)).setTabListener(this));
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -63,7 +66,12 @@ public final class BulkAddActivity extends FragmentActivity implements ViewPager
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-        mViewPager.setCurrentItem(tab.getPosition());
+        int tabPosition = tab.getPosition();
+        mViewPager.setCurrentItem(tabPosition);
+
+        if ((tabPosition == TAB_PENDING && mVariableUtils.getReloadIsbnListPending()) || (tabPosition == TAB_LOOKED_UP && mVariableUtils.getReloadIsbnListLookedUp())) {
+            mPagerAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -122,6 +130,17 @@ public final class BulkAddActivity extends FragmentActivity implements ViewPager
         @Override
         public int getCount() {
             return 2;
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            int itemPosition = super.getItemPosition(object);
+            if (object instanceof BulkAddFragmentPending && mVariableUtils.getReloadIsbnListPending()) {
+                itemPosition = POSITION_NONE;
+            } else if (object instanceof BulkAddFragmentLookedUp && mVariableUtils.getReloadIsbnListLookedUp()) {
+                itemPosition = POSITION_NONE;
+            }
+            return itemPosition;
         }
     }
 }

@@ -95,7 +95,6 @@ public final class BulkSearchService extends IntentService {
                 } else {
                     Log.d(LogUtils.TAG, String.format("Result: %s", bookInfo.title));
                     IsbnServices.saveBookInfo(db, bookInfo, isbn.id);
-                    VariableUtils.getInstance().setReloadIsbnLists();
                     VariableUtils.getInstance().setReloadBookList(true);
                 }
 

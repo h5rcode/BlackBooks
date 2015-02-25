@@ -2,19 +2,27 @@ package com.blackbooks.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.ListView;
 
 import com.blackbooks.R;
-import com.blackbooks.adapters.IsbnListAdapter;
+import com.blackbooks.activities.BookDisplayActivity;
+import com.blackbooks.adapters.LookedUpIsbnListAdapter;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.persistent.Isbn;
 import com.blackbooks.services.IsbnServices;
+import com.blackbooks.utils.VariableUtils;
 
 import java.util.List;
 
@@ -23,7 +31,14 @@ import java.util.List;
  */
 public final class BulkAddFragmentLookedUp extends ListFragment {
 
-    private IsbnListAdapter mIsbnListAdapter;
+    private static final int ISBNS_BY_PAGE = 50;
+
+    private boolean mAlreadyLoaded;
+    private int mLastPage = 1;
+    private int mLastItem = -1;
+
+    private LookedUpIsbnListAdapter mLookedUpIsbnListAdapter;
+    private IsbnListLookedUpLoadTask mIsbnListLookedUpLoadTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,16 +46,66 @@ public final class BulkAddFragmentLookedUp extends ListFragment {
         setRetainInstance(true);
         setHasOptionsMenu(true);
 
-        mIsbnListAdapter = new IsbnListAdapter(getActivity());
-        setListAdapter(mIsbnListAdapter);
+        mLookedUpIsbnListAdapter = new LookedUpIsbnListAdapter(getActivity());
+        setListAdapter(mLookedUpIsbnListAdapter);
+    }
 
-        new IsbnListLookedUpLoadTask().execute();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        ListView listView = (ListView) view.findViewById(android.R.id.list);
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                // Do nothing.
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (totalItemCount == 0) {
+                    return;
+                }
+                switch (view.getId()) {
+                    case android.R.id.list:
+
+                        final int lastItem = firstVisibleItem + visibleItemCount;
+                        if (lastItem == totalItemCount) {
+                            if (mLastItem != lastItem) {
+                                mLastItem = lastItem;
+                                loadMoreIsbns();
+                            }
+                        }
+                }
+            }
+        });
+
+        return view;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.bulk_add_looked_up, menu);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (!mAlreadyLoaded || VariableUtils.getInstance().getReloadIsbnListLookedUp()) {
+            mAlreadyLoaded = true;
+            VariableUtils.getInstance().setReloadIsbnListLookedUp(false);
+            reloadIsbns();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mIsbnListLookedUpLoadTask != null) {
+            mIsbnListLookedUpLoadTask.cancel(true);
+        }
     }
 
     @Override
@@ -61,14 +126,43 @@ public final class BulkAddFragmentLookedUp extends ListFragment {
         return result;
     }
 
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        Isbn isbn = (Isbn) getListAdapter().getItem(position);
+        if (isbn.bookId != null) {
+            Intent i = new Intent(this.getActivity(), BookDisplayActivity.class);
+            i.putExtra(BookDisplayActivity.EXTRA_BOOK_ID, isbn.bookId);
+            this.startActivity(i);
+        }
+    }
+
     /**
      * Delete al the ISBNs.
      */
     private void deleteAll() {
         SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
         IsbnServices.deleteAllLookedUpIsbns(db);
-        mIsbnListAdapter.clear();
-        mIsbnListAdapter.notifyDataSetChanged();
+        mLookedUpIsbnListAdapter.clear();
+        mLookedUpIsbnListAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Load more ISBNs.
+     */
+    private void loadMoreIsbns() {
+        mIsbnListLookedUpLoadTask = new IsbnListLookedUpLoadTask(ISBNS_BY_PAGE, ISBNS_BY_PAGE * (mLastPage - 1));
+        mIsbnListLookedUpLoadTask.execute();
+        mLastPage++;
+    }
+
+    /**
+     * Reload the list of ISBNs from the first page.
+     */
+    private void reloadIsbns() {
+        mLookedUpIsbnListAdapter.clear();
+        mLastItem = -1;
+        mLastPage = 1;
+        loadMoreIsbns();
     }
 
     /**
@@ -100,17 +194,31 @@ public final class BulkAddFragmentLookedUp extends ListFragment {
      */
     private final class IsbnListLookedUpLoadTask extends AsyncTask<Void, Void, List<Isbn>> {
 
+        private final int mLimit;
+        private final int mOffset;
+
+        /**
+         * Constructor.
+         *
+         * @param limit  Limit.
+         * @param offset Offset.
+         */
+        public IsbnListLookedUpLoadTask(int limit, int offset) {
+            mLimit = limit;
+            mOffset = offset;
+        }
+
         @Override
         protected List<Isbn> doInBackground(Void... params) {
             SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-            return IsbnServices.getIsbnListLookedUp(db);
+            return IsbnServices.getIsbnListLookedUp(db, mLimit, mOffset);
         }
 
         @Override
         protected void onPostExecute(List<Isbn> isbns) {
             super.onPostExecute(isbns);
-            mIsbnListAdapter.addAll(isbns);
-            mIsbnListAdapter.notifyDataSetChanged();
+            mLookedUpIsbnListAdapter.addAll(isbns);
+            mLookedUpIsbnListAdapter.notifyDataSetChanged();
         }
     }
 }

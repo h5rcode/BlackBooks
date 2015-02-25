@@ -14,14 +14,14 @@ import java.text.DateFormat;
 import java.util.Locale;
 
 /**
- * ISBN list adapter.
+ * Pending sISBN list adapter.
  */
-public final class IsbnListAdapter extends ArrayAdapter<Isbn> {
+public final class PendingIsbnListAdapter extends ArrayAdapter<Isbn> {
 
     private final DateFormat mDateFormat = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT, Locale.getDefault());
     private final LayoutInflater mLayoutInflater;
 
-    public IsbnListAdapter(Context context) {
+    public PendingIsbnListAdapter(Context context) {
         super(context, 0);
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -29,13 +29,13 @@ public final class IsbnListAdapter extends ArrayAdapter<Isbn> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = mLayoutInflater.inflate(R.layout.list_isbns_item_isbn, parent, false);
+            convertView = mLayoutInflater.inflate(R.layout.list_pending_isbns_item_isbn, parent, false);
         }
 
         Isbn isbn = getItem(position);
 
-        TextView textViewIsbn = (TextView) convertView.findViewById(R.id.isbns_item_isbn_number);
-        TextView textViewDateAdded = (TextView) convertView.findViewById(R.id.isbns_item_isbn_date_added);
+        TextView textViewIsbn = (TextView) convertView.findViewById(R.id.pending_isbns_item_isbn_number);
+        TextView textViewDateAdded = (TextView) convertView.findViewById(R.id.pending_isbns_item_isbn_date_added);
 
         textViewIsbn.setText(isbn.number);
         textViewDateAdded.setText(mDateFormat.format(isbn.dateAdded));

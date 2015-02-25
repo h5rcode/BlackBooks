@@ -22,7 +22,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.blackbooks.R;
-import com.blackbooks.adapters.IsbnListAdapter;
+import com.blackbooks.adapters.PendingIsbnListAdapter;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.dialogs.IsbnAddFragment;
 import com.blackbooks.fragments.dialogs.ScannerInstallFragment;
@@ -49,7 +49,7 @@ public final class BulkAddFragmentPending extends ListFragment implements IsbnAd
     private int mLastPage = 1;
     private int mLastItem = -1;
 
-    private IsbnListAdapter mIsbnListAdapter;
+    private PendingIsbnListAdapter mPendingIsbnListAdapter;
     private boolean mStartScan;
     private IsbnListLoadTask mIsbnListLoadTask;
 
@@ -68,8 +68,8 @@ public final class BulkAddFragmentPending extends ListFragment implements IsbnAd
         setRetainInstance(true);
         setHasOptionsMenu(true);
 
-        mIsbnListAdapter = new IsbnListAdapter(getActivity());
-        setListAdapter(mIsbnListAdapter);
+        mPendingIsbnListAdapter = new PendingIsbnListAdapter(getActivity());
+        setListAdapter(mPendingIsbnListAdapter);
     }
 
     @Override
@@ -178,8 +178,9 @@ public final class BulkAddFragmentPending extends ListFragment implements IsbnAd
             startIsbnScan();
         }
 
-        if (!mAlreadyLoaded) {
+        if (!mAlreadyLoaded || VariableUtils.getInstance().getReloadIsbnListPending()) {
             mAlreadyLoaded = true;
+            VariableUtils.getInstance().setReloadIsbnListPending(false);
             reloadIsbns();
         }
     }
@@ -228,8 +229,11 @@ public final class BulkAddFragmentPending extends ListFragment implements IsbnAd
         reloadIsbns();
     }
 
+    /**
+     * Reload the list of ISBNs from the first page.
+     */
     private void reloadIsbns() {
-        mIsbnListAdapter.clear();
+        mPendingIsbnListAdapter.clear();
         mLastItem = -1;
         mLastPage = 1;
         loadMoreIsbns();
@@ -314,8 +318,8 @@ public final class BulkAddFragmentPending extends ListFragment implements IsbnAd
         @Override
         protected void onPostExecute(List<Isbn> isbns) {
             super.onPostExecute(isbns);
-            mIsbnListAdapter.addAll(isbns);
-            mIsbnListAdapter.notifyDataSetChanged();
+            mPendingIsbnListAdapter.addAll(isbns);
+            mPendingIsbnListAdapter.notifyDataSetChanged();
         }
     }
 }
