@@ -19,6 +19,7 @@ import com.blackbooks.utils.StringUtils;
  * An adapter handling instances of ListItem representing either a book location
  * or a book.
  */
+@Deprecated
 public class BooksByBookLocationAdapter extends ArrayAdapter<ListItem> {
 
     private final LayoutInflater mInflater;

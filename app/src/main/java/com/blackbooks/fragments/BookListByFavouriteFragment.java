@@ -19,7 +19,10 @@ import java.util.List;
 /**
  * Implements {@link AbstractBookListFragment}. A fragment that lists books in
  * two groups: "Favourites" or "Other books".
+ *
+ * @deprecated Replaced by BookListFavouriteFragment.
  */
+@Deprecated
 public class BookListByFavouriteFragment extends AbstractBookListFragment {
 
     private String mFooterText;

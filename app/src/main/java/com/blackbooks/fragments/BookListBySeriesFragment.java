@@ -20,7 +20,10 @@ import java.util.List;
 /**
  * Implements {@link AbstractBookListFragment}. A fragment that lists books by
  * series.
+ *
+ * @deprecated Replaced by BookListBySeriesFragment2.
  */
+@Deprecated
 public class BookListBySeriesFragment extends AbstractBookListFragment {
 
     private String mFooterText;

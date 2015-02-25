@@ -19,7 +19,10 @@ import java.util.List;
 /**
  * Implements {@link AbstractBookListFragment}. A fragment that lists books by
  * the first letter of their title.
+ *
+ * @deprecated Replaced by BookListByFirstLetterFragment2.
  */
+@Deprecated
 public class BookListByFirstLetterFragment extends AbstractBookListFragment {
 
     private String mFooterText;

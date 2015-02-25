@@ -19,6 +19,7 @@ import com.blackbooks.utils.StringUtils;
  * An adapter handling instances of ListItem representing either the language of
  * a book or a book.
  */
+@Deprecated
 public class BooksByLanguageAdapter extends ArrayAdapter<ListItem> {
 
     private final LayoutInflater mInflater;

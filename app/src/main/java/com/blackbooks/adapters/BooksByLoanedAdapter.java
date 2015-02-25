@@ -24,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * An adapter to render a list of books grouped by "To read" or "Read".
  */
+@Deprecated
 public class BooksByLoanedAdapter extends ArrayAdapter<ListItem> {
 
     private final LayoutInflater mInflater;

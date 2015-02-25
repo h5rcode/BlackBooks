@@ -20,7 +20,10 @@ import java.util.List;
 /**
  * Implements {@link AbstractBookListFragment}. A fragment that lists books by
  * language.
+ *
+ * @deprecated Replaced by BookListByLanguageFragment2.
  */
+@Deprecated
 public class BookListByLanguageFragment extends AbstractBookListFragment {
 
     private String mFooterText;

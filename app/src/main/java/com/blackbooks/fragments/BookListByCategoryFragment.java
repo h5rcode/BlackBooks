@@ -33,7 +33,10 @@ import java.util.List;
 /**
  * Implements {@link AbstractBookListFragment}. A fragment that lists books by
  * categories.
+ *
+ * @deprecated Replaced by BookListByCategoryFragment2.
  */
+@Deprecated
 public class BookListByCategoryFragment extends AbstractBookListFragment implements CategoryEditListener, CategoryDeleteListener {
 
     private static final String CATEGORY_DELETE_FRAGMENT_TAG = "CATEGORY_DELETE_FRAGMENT_TAG";

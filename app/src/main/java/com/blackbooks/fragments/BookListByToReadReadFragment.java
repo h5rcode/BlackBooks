@@ -19,7 +19,10 @@ import java.util.List;
 /**
  * Implements {@link AbstractBookListFragment}. A fragment that lists books in
  * two groups: "To read" or "Read".
+ *
+ * @deprecated Replaced by BookListToReadFragment.
  */
+@Deprecated
 public class BookListByToReadReadFragment extends AbstractBookListFragment {
 
     private String mFooterText;

@@ -26,7 +26,10 @@ import com.blackbooks.fragments.BookListByToReadReadFragment;
 /**
  * The book list activity. It hosts an AbstractBookListFragment used to display
  * list in various orders.
+ *
+ * @deprecated This activity is replaced by BookListActivity2.
  */
+@Deprecated
 public class BookListActivity extends AbstractDrawerActivity {
 
     public static final String PREFERENCES = "PREFERENCES";

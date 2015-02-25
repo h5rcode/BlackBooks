@@ -21,6 +21,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * @deprecated Replaced by BookListByLoanedFragment2.
+ */
+@Deprecated
 public class BookListByLoanedFragment extends AbstractBookListFragment {
 
     private String mFooterText;

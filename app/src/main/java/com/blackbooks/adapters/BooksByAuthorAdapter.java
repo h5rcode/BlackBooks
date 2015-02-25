@@ -25,6 +25,7 @@ import java.util.TreeMap;
  * An adapter handling instances of ListItem representing either an author or a
  * book.
  */
+@Deprecated
 public class BooksByAuthorAdapter extends ArrayAdapter<ListItem> implements SectionIndexer {
 
     private final LayoutInflater mInflater;

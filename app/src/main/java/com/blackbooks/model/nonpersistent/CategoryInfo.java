@@ -22,7 +22,7 @@ public class CategoryInfo extends Category implements Serializable {
     /**
      * Copy constructor.
      *
-     * @param category
+     * @param category Category.
      */
     public CategoryInfo(Category category) {
         super(category);

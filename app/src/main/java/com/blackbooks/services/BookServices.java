@@ -344,6 +344,7 @@ public class BookServices {
      * @param offset   Offset.
      * @return List of BookInfo.
      */
+    @Deprecated
     public static List<BookInfo> getBookInfoListByAuthor(SQLiteDatabase db, long authorId, int limit, int offset) {
         String[] selectedColumnList = new String[]{
                 "boo." + Book.Cols.BOO_ID,
@@ -374,6 +375,7 @@ public class BookServices {
      * @param offset         Offset.
      * @return List of BookInfo.
      */
+    @Deprecated
     public static List<BookInfo> getBookInfoListByBookLocation(SQLiteDatabase db, long bookLocationId, int limit, int offset) {
         String[] selectedColumnList = new String[]{
                 "boo." + Book.Cols.BOO_ID,
@@ -404,6 +406,7 @@ public class BookServices {
      * @param offset     Offset.
      * @return List of BookInfo.
      */
+    @Deprecated
     public static List<BookInfo> getBookInfoListByCategory(SQLiteDatabase db, long categoryId, int limit, int offset) {
         String[] selectedColumnList = new String[]{
                 "boo." + Book.Cols.BOO_ID,
@@ -434,6 +437,7 @@ public class BookServices {
      * @param offset      Offset.
      * @return List of BookInfo.
      */
+    @Deprecated
     public static List<BookInfo> getBookInfoListByFirstLetter(SQLiteDatabase db, String firstLetter, int limit, int offset) {
         String[] selectedColumnList = new String[]{
                 "boo." + Book.Cols.BOO_ID,
@@ -464,6 +468,7 @@ public class BookServices {
      * @param offset       Offset.
      * @return List of BookInfo.
      */
+    @Deprecated
     public static List<BookInfo> getBookInfoListByLanguage(SQLiteDatabase db, String languageCode, int limit, int offset) {
         String[] selectedColumnList = new String[]{
                 "boo." + Book.Cols.BOO_ID,
@@ -494,6 +499,7 @@ public class BookServices {
      * @param offset   Offset.
      * @return List of BookInfo.
      */
+    @Deprecated
     public static List<BookInfo> getBookInfoListByLoanedTo(SQLiteDatabase db, String loanedTo, int limit, int offset) {
         String[] selectedColumnList = new String[]{
                 "boo." + Book.Cols.BOO_ID,
@@ -524,6 +530,7 @@ public class BookServices {
      * @param offset   Offset.
      * @return List of BookInfo.
      */
+    @Deprecated
     public static List<BookInfo> getBookInfoListBySeries(SQLiteDatabase db, long seriesId, int limit, int offset) {
         String[] selectedColumnList = new String[]{
                 "boo." + Book.Cols.BOO_ID,
@@ -553,6 +560,7 @@ public class BookServices {
      * @param offset Offset.
      * @return List of BookInfo.
      */
+    @Deprecated
     public static List<BookInfo> getBookInfoListFavourite(SQLiteDatabase db, int limit, int offset) {
         String[] selectedColumnList = new String[]{
                 "boo." + Book.Cols.BOO_ID,
@@ -582,6 +590,7 @@ public class BookServices {
      * @param offset Offset.
      * @return List of BookInfo.
      */
+    @Deprecated
     public static List<BookInfo> getBookInfoListToRead(SQLiteDatabase db, int limit, int offset) {
         String[] selectedColumnList = new String[]{
                 "boo." + Book.Cols.BOO_ID,

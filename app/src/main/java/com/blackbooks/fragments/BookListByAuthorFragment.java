@@ -23,7 +23,10 @@ import java.util.List;
 /**
  * Implements {@link AbstractBookListFragment}. A fragment that lists books by
  * author.
+ *
+ * @deprecated Replaced by BookListByAuthorFragment2.
  */
+@Deprecated
 public class BookListByAuthorFragment extends AbstractBookListFragment {
 
     private String mFooterText;

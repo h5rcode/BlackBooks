@@ -24,6 +24,7 @@ import java.util.TreeMap;
  * An adapter handling instances of ListItem representing either the first
  * letter of a book or a book.
  */
+@Deprecated
 public class BooksByFirstLetterAdapter extends ArrayAdapter<ListItem> implements SectionIndexer {
 
     private final LayoutInflater mInflater;

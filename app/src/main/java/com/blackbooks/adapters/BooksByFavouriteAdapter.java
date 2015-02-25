@@ -18,6 +18,7 @@ import com.blackbooks.utils.StringUtils;
  * An adapter to render a list of books grouped by "Favourites" or
  * "Other books".
  */
+@Deprecated
 public class BooksByFavouriteAdapter extends ArrayAdapter<ListItem> {
 
     private final LayoutInflater mInflater;

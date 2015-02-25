@@ -40,7 +40,10 @@ import java.util.List;
 
 /**
  * Abstract book list fragment.
+ *
+ * @deprecated This fragment is replaced by AbstractBookListFragment2.
  */
+@Deprecated
 public abstract class AbstractBookListFragment extends ListFragment {
 
     private static final String AMAZON_SEARCH_RESULT_URL = "http://www.amazon.com/gp/search?ie=UTF8&index=books&keywords=%s&tag=h5rcode-20";
