@@ -19,7 +19,7 @@ public final class BeanUtils {
     }
 
     public static boolean areBooksEqual(BookInfo b1, BookInfo b2) {
-        boolean areEqual = false;
+        boolean areEqual;
         if (b1 == null && b2 == null) {
             areEqual = true;
         } else if (b1 == null) {
@@ -79,7 +79,7 @@ public final class BeanUtils {
     }
 
     public static boolean areAuthorsEqual(Author a1, Author a2) {
-        boolean areEqual = false;
+        boolean areEqual;
         if (a1 == null && a2 == null) {
             areEqual = true;
         } else if (a1 == null) {
@@ -93,7 +93,7 @@ public final class BeanUtils {
     }
 
     public static boolean areBookLocationsEqual(BookLocation b1, BookLocation b2) {
-        boolean areEqual = false;
+        boolean areEqual;
         if (b1 == null && b2 == null) {
             areEqual = true;
         } else if (b1 == null) {
@@ -107,7 +107,7 @@ public final class BeanUtils {
     }
 
     public static boolean areCategoriesEqual(Category c1, Category c2) {
-        boolean areEqual = false;
+        boolean areEqual;
         if (c1 == null && c2 == null) {
             areEqual = true;
         } else if (c1 == null) {
@@ -121,7 +121,7 @@ public final class BeanUtils {
     }
 
     public static boolean arePublishersEqual(Publisher p1, Publisher p2) {
-        boolean areEqual = false;
+        boolean areEqual;
         if (p1 == null && p2 == null) {
             areEqual = true;
         } else if (p1 == null) {
@@ -135,7 +135,7 @@ public final class BeanUtils {
     }
 
     public static boolean areSeriesEqual(Series s1, Series s2) {
-        boolean areEqual = false;
+        boolean areEqual;
         if (s1 == null && s2 == null) {
             areEqual = true;
         } else if (s1 == null) {
