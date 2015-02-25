@@ -28,10 +28,11 @@ public final class IsbnListAdapter extends ArrayAdapter<Isbn> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            convertView = mLayoutInflater.inflate(R.layout.list_isbns_item_isbn, parent, false);
+        }
 
         Isbn isbn = getItem(position);
-
-        convertView = mLayoutInflater.inflate(R.layout.list_isbns_item_isbn, parent, false);
 
         TextView textViewIsbn = (TextView) convertView.findViewById(R.id.isbns_item_isbn_number);
         TextView textViewDateAdded = (TextView) convertView.findViewById(R.id.isbns_item_isbn_date_added);

@@ -137,45 +137,44 @@ public class BookSearchResultsAdapter extends ArrayAdapter<BookInfo> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
 
         BookInfo bookInfo = this.getItem(position);
 
-        if (bookInfo != null) {
-            view = mInflater.inflate(R.layout.search_results_item_book, parent, false);
-
-            ImageView imageView = (ImageView) view.findViewById(R.id.search_results_item_book_small_thumbnail);
-            ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.search_results_item_book_progressBar);
-            TextView textTitle = (TextView) view.findViewById(R.id.search_results_item_book_title);
-            TextView textSubtitle = (TextView) view.findViewById(R.id.search_results_item_book_subtitle);
-            LinearLayout layoutDescription = (LinearLayout) view.findViewById(R.id.search_results_item_book_description_layout);
-            TextView textDescriptionStart = (TextView) view.findViewById(R.id.search_results_item_book_description_start);
-            TextView textDescriptionEnd = (TextView) view.findViewById(R.id.search_results_item_book_description_end);
-            TextView textAuthor = (TextView) view.findViewById(R.id.search_results_item_book_author);
-
-            mThumbnailManager.drawSmallThumbnail(bookInfo.id, getContext(), imageView, progressBar);
-            textTitle.setText(highlight(mQuery, bookInfo.title));
-            if (bookInfo.subtitle == null) {
-                textSubtitle.setVisibility(View.GONE);
-            } else {
-                textSubtitle.setText(highlight(mQuery, bookInfo.subtitle));
-            }
-            if (bookInfo.description == null) {
-                layoutDescription.setVisibility(View.GONE);
-            } else {
-                highlightDescription(mQuery, bookInfo.description, textDescriptionStart, textDescriptionEnd);
-            }
-
-            List<Author> authorList = bookInfo.authors;
-            String authors;
-            if (authorList.size() > 0) {
-                authors = StringUtils.joinAuthorNameList(bookInfo.authors, ", ");
-            } else {
-                authors = getContext().getString(R.string.label_unspecified_author);
-            }
-            textAuthor.setText(authors);
+        if (convertView == null) {
+            convertView = mInflater.inflate(R.layout.search_results_item_book, parent, false);
         }
 
-        return view;
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.search_results_item_book_small_thumbnail);
+        ProgressBar progressBar = (ProgressBar) convertView.findViewById(R.id.search_results_item_book_progressBar);
+        TextView textTitle = (TextView) convertView.findViewById(R.id.search_results_item_book_title);
+        TextView textSubtitle = (TextView) convertView.findViewById(R.id.search_results_item_book_subtitle);
+        LinearLayout layoutDescription = (LinearLayout) convertView.findViewById(R.id.search_results_item_book_description_layout);
+        TextView textDescriptionStart = (TextView) convertView.findViewById(R.id.search_results_item_book_description_start);
+        TextView textDescriptionEnd = (TextView) convertView.findViewById(R.id.search_results_item_book_description_end);
+        TextView textAuthor = (TextView) convertView.findViewById(R.id.search_results_item_book_author);
+
+        mThumbnailManager.drawSmallThumbnail(bookInfo.id, getContext(), imageView, progressBar);
+        textTitle.setText(highlight(mQuery, bookInfo.title));
+        if (bookInfo.subtitle == null) {
+            textSubtitle.setVisibility(View.GONE);
+        } else {
+            textSubtitle.setText(highlight(mQuery, bookInfo.subtitle));
+        }
+        if (bookInfo.description == null) {
+            layoutDescription.setVisibility(View.GONE);
+        } else {
+            highlightDescription(mQuery, bookInfo.description, textDescriptionStart, textDescriptionEnd);
+        }
+
+        List<Author> authorList = bookInfo.authors;
+        String authors;
+        if (authorList.size() > 0) {
+            authors = StringUtils.joinAuthorNameList(bookInfo.authors, ", ");
+        } else {
+            authors = getContext().getString(R.string.label_unspecified_author);
+        }
+        textAuthor.setText(authors);
+
+        return convertView;
     }
 }

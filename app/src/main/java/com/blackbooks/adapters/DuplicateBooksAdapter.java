@@ -31,9 +31,11 @@ public class DuplicateBooksAdapter extends ArrayAdapter<Book> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Book book = getItem(position);
+        if (convertView == null) {
+            convertView = mLayoutInflater.inflate(R.layout.list_duplicate_books_item_book, parent, false);
+        }
 
-        convertView = mLayoutInflater.inflate(R.layout.list_duplicate_books_item_book, parent, false);
+        Book book = getItem(position);
 
         TextView textView = (TextView) convertView.findViewById(R.id.duplicate_books_item_book_title);
         ImageView imageView = (ImageView) convertView.findViewById(R.id.duplicate_books_item_book_small_thumbnail);

@@ -37,7 +37,9 @@ public final class BookListAdapter extends ArrayAdapter<BookInfo> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        convertView = mLayoutInflater.inflate(R.layout.list_books_item, parent, false);
+        if (convertView == null) {
+            convertView = mLayoutInflater.inflate(R.layout.list_books_item, parent, false);
+        }
         BookInfo book = getItem(position);
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.books_item_book_small_thumbnail);

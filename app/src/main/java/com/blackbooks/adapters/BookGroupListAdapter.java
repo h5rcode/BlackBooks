@@ -29,7 +29,9 @@ public final class BookGroupListAdapter extends ArrayAdapter<BookGroup> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = mLayoutInflater.inflate(R.layout.list_book_groups_item, parent, false);
+        if (convertView == null) {
+            convertView = mLayoutInflater.inflate(R.layout.list_book_groups_item, parent, false);
+        }
 
         TextView textViewName = (TextView) convertView.findViewById(R.id.book_groups_item_name);
         TextView textViewCount = (TextView) convertView.findViewById(R.id.book_groups_item_count);
