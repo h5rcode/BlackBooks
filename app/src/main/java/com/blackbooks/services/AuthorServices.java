@@ -1,21 +1,11 @@
 package com.blackbooks.services;
 
-import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.blackbooks.comparators.BookComparatorNumber;
-import com.blackbooks.model.nonpersistent.AuthorInfo;
-import com.blackbooks.model.nonpersistent.BookInfo;
-import com.blackbooks.model.nonpersistent.SeriesInfo;
 import com.blackbooks.model.persistent.Author;
-import com.blackbooks.model.persistent.Book;
 import com.blackbooks.model.persistent.BookAuthor;
-import com.blackbooks.model.persistent.Series;
 import com.blackbooks.sql.BrokerManager;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -60,59 +50,6 @@ public class AuthorServices {
     }
 
     /**
-     * Get the info of all the authors in the database.
-     *
-     * @param db SQLiteDatabase.
-     * @return List of AuthorInfo.
-     */
-    @SuppressLint("UseSparseArrays")
-    public static List<AuthorInfo> getAuthorInfoList(SQLiteDatabase db) {
-
-        List<Author> authorList = BrokerManager.getBroker(Author.class).getAll(db, null, new String[]{Author.Cols.AUT_NAME});
-
-        HashMap<Long, List<BookAuthor>> authorBookMap = new HashMap<Long, List<BookAuthor>>();
-        HashMap<Long, List<BookAuthor>> bookAuthorMap = new HashMap<Long, List<BookAuthor>>();
-        HashMap<Long, Book> bookMap = new HashMap<Long, Book>();
-        HashMap<Long, Series> seriesMap = new HashMap<Long, Series>();
-        List<Book> booksWithoutAuthor = new ArrayList<Book>();
-
-        buildMaps(db, authorBookMap, bookAuthorMap, bookMap, seriesMap, booksWithoutAuthor);
-
-        List<AuthorInfo> authorInfoList = new ArrayList<AuthorInfo>();
-        BookComparatorNumber bookComparatorNumber = new BookComparatorNumber();
-        if (booksWithoutAuthor.size() > 0) {
-            AuthorInfo unspecifiedAuthor = new AuthorInfo();
-            HashMap<Long, SeriesInfo> seriesInfoMap = new HashMap<Long, SeriesInfo>();
-
-            for (Book book : booksWithoutAuthor) {
-                fillSeriesInfoMap(book, seriesMap, seriesInfoMap);
-                unspecifiedAuthor.books.add(book);
-            }
-
-            addSeries(bookComparatorNumber, unspecifiedAuthor, seriesInfoMap);
-            authorInfoList.add(unspecifiedAuthor);
-        }
-
-        for (Author author : authorList) {
-            AuthorInfo authorInfo = new AuthorInfo(author);
-            List<BookAuthor> baList = authorBookMap.get(author.id);
-
-            HashMap<Long, SeriesInfo> seriesInfoMap = new HashMap<Long, SeriesInfo>();
-            for (BookAuthor bookAuthor : baList) {
-                Book book = bookMap.get(bookAuthor.bookId);
-                fillSeriesInfoMap(book, seriesMap, seriesInfoMap);
-                authorInfo.books.add(book);
-            }
-
-            addSeries(bookComparatorNumber, authorInfo, seriesInfoMap);
-
-            authorInfoList.add(authorInfo);
-        }
-
-        return authorInfoList;
-    }
-
-    /**
      * Get the list of authors whose name contains a given text.
      *
      * @param db   SQLiteDatabase.
@@ -135,84 +72,5 @@ public class AuthorServices {
      */
     public static long saveAuthor(SQLiteDatabase db, Author author) {
         return BrokerManager.getBroker(Author.class).save(db, author);
-    }
-
-    /**
-     * Add SeriesInfo to an AuthorInfo. The books of each SeriesInfo are also
-     * sorted.
-     *
-     * @param bookComparatorNumber Comparator used to sort the books.
-     * @param authorInfo           AuthorInfo.
-     * @param seriesInfoMap        A map containing SeriesInfo.
-     */
-    private static void addSeries(BookComparatorNumber bookComparatorNumber, AuthorInfo authorInfo,
-                                  HashMap<Long, SeriesInfo> seriesInfoMap) {
-        for (SeriesInfo series : seriesInfoMap.values()) {
-            Collections.sort(series.books, bookComparatorNumber);
-            authorInfo.series.add(series);
-        }
-    }
-
-    /**
-     * Build the maps that will be used to build a list of books, grouped by
-     * author and by series.
-     *
-     * @param db                 SQLiteDatabase.
-     * @param authorBookMap      The map of {@link Author}.
-     * @param bookAuthorMap      The map of {@link BookAuthor}.
-     * @param bookMap            The map of {@link Book}.
-     * @param seriesMap          The map of {@link Series}.
-     * @param booksWithoutAuthor The list of {@link Book} that don't have an author.
-     */
-    private static void buildMaps(SQLiteDatabase db, HashMap<Long, List<BookAuthor>> authorBookMap,
-                                  HashMap<Long, List<BookAuthor>> bookAuthorMap, HashMap<Long, Book> bookMap, HashMap<Long, Series> seriesMap,
-                                  List<Book> booksWithoutAuthor) {
-
-        List<BookAuthor> bookAuthorList = BrokerManager.getBroker(BookAuthor.class).getAll(db);
-        List<Series> seriesList = BrokerManager.getBroker(Series.class).getAll(db);
-
-        for (BookAuthor bookAuthor : bookAuthorList) {
-            if (!authorBookMap.containsKey(bookAuthor.authorId)) {
-                authorBookMap.put(bookAuthor.authorId, new ArrayList<BookAuthor>());
-            }
-            List<BookAuthor> abList = authorBookMap.get(bookAuthor.authorId);
-            abList.add(bookAuthor);
-
-            if (!bookAuthorMap.containsKey(bookAuthor.bookId)) {
-                bookAuthorMap.put(bookAuthor.bookId, new ArrayList<BookAuthor>());
-            }
-            List<BookAuthor> baList = bookAuthorMap.get(bookAuthor.bookId);
-            baList.add(bookAuthor);
-        }
-
-        List<Book> bookList = BookServices.getBookList(db);
-        for (Book book : bookList) {
-            bookMap.put(book.id, book);
-            if (!bookAuthorMap.containsKey(book.id)) {
-                booksWithoutAuthor.add(book);
-            }
-        }
-
-        seriesMap.put(null, new Series());
-        for (Series series : seriesList) {
-            seriesMap.put(series.id, series);
-        }
-    }
-
-    /**
-     * Fill a map of {@link SeriesInfo}.
-     *
-     * @param book          Book.
-     * @param seriesMap     Map of {@link Series}.
-     * @param seriesInfoMap The map of {@link SeriesInfo}.
-     */
-    private static void fillSeriesInfoMap(Book book, HashMap<Long, Series> seriesMap, HashMap<Long, SeriesInfo> seriesInfoMap) {
-        SeriesInfo seriesInfo = seriesInfoMap.get(book.seriesId);
-        if (seriesInfo == null) {
-            Series series = seriesMap.get(book.seriesId);
-            seriesInfo = new SeriesInfo(series);
-            seriesInfoMap.put(series.id, seriesInfo);
-        }
-        seriesInfoMap.get(book.seriesId).books.add(new BookInfo(book));
     }
 }

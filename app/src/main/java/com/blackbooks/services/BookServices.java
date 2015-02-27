@@ -311,17 +311,6 @@ public class BookServices {
     }
 
     /**
-     * Get the info of all the books in the database.
-     *
-     * @param db SQLiteDatabase.
-     * @return List of BookInfo.
-     */
-    public static List<BookInfo> getBookInfoList(SQLiteDatabase db) {
-        List<Book> bookList = getBookList(db);
-        return getBookInfoListFromBookList(db, bookList);
-    }
-
-    /**
      * Return the list of books of a given author.
      *
      * @param db       SQLiteDatabase.

@@ -1,15 +1,11 @@
 package com.blackbooks.services;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v4.util.LongSparseArray;
 
-import com.blackbooks.model.nonpersistent.BookInfo;
-import com.blackbooks.model.nonpersistent.CategoryInfo;
 import com.blackbooks.model.persistent.BookCategory;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.sql.BrokerManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,16 +24,6 @@ public class CategoryServices {
                 + BookCategory.Cols.CAT_ID + " = cat." + Category.Cols.CAT_ID + " WHERE bca." + BookCategory.Cols.BCA_ID
                 + " IS NULL)";
         db.execSQL(sql);
-    }
-
-    /**
-     * Delete a category.
-     *
-     * @param db         SQLiteDatabase.
-     * @param categoryId Id of a category.
-     */
-    public static void deleteCategory(SQLiteDatabase db, long categoryId) {
-        BrokerManager.getBroker(Category.class).delete(db, categoryId);
     }
 
     /**
@@ -61,59 +47,6 @@ public class CategoryServices {
      */
     public static Category getCategoryByCriteria(SQLiteDatabase db, Category criteria) {
         return BrokerManager.getBroker(Category.class).getByCriteria(db, criteria);
-    }
-
-    /**
-     * Get the info of all the categories in the database.
-     *
-     * @param db SQLiteDatabase.
-     * @return List of CategoryInfo.
-     */
-    public static List<CategoryInfo> getCategoryInfoList(SQLiteDatabase db) {
-
-        List<BookInfo> bookInfoList = BookServices.getBookInfoList(db);
-        List<BookCategory> bcList = BrokerManager.getBroker(BookCategory.class).getAll(db);
-        List<Category> categoryList = BrokerManager.getBroker(Category.class).getAll(db, null,
-                new String[]{Category.Cols.CAT_NAME});
-
-        LongSparseArray<CategoryInfo> categoryMap = new LongSparseArray<CategoryInfo>();
-        LongSparseArray<List<Long>> bcMap = new LongSparseArray<List<Long>>();
-
-        List<CategoryInfo> categoryInfoList = new ArrayList<CategoryInfo>();
-        for (Category category : categoryList) {
-            CategoryInfo categoryInfo = new CategoryInfo(category);
-            categoryInfoList.add(categoryInfo);
-            categoryMap.put(categoryInfo.id, categoryInfo);
-        }
-        for (BookCategory bookCategory : bcList) {
-            List<Long> cList = bcMap.get(bookCategory.bookId);
-            if (cList == null) {
-                cList = new ArrayList<Long>();
-                bcMap.put(bookCategory.bookId, cList);
-            }
-            cList.add(bookCategory.categoryId);
-        }
-
-        CategoryInfo categoryWithoutBooks = null;
-        for (BookInfo bookInfo : bookInfoList) {
-            List<Long> cList = bcMap.get(bookInfo.id);
-            if (cList == null) {
-                if (categoryWithoutBooks == null) {
-                    categoryWithoutBooks = new CategoryInfo();
-                }
-                categoryWithoutBooks.books.add(bookInfo);
-            } else {
-                for (Long c : cList) {
-                    CategoryInfo category = categoryMap.get(c);
-                    category.books.add(bookInfo);
-                }
-            }
-        }
-        if (categoryWithoutBooks != null) {
-            categoryInfoList.add(0, categoryWithoutBooks);
-        }
-
-        return categoryInfoList;
     }
 
     /**

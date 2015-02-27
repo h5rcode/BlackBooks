@@ -1,15 +1,11 @@
 package com.blackbooks.services;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v4.util.LongSparseArray;
 
-import com.blackbooks.model.nonpersistent.BookInfo;
-import com.blackbooks.model.nonpersistent.SeriesInfo;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.model.persistent.Series;
 import com.blackbooks.sql.BrokerManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,41 +36,6 @@ public class SeriesServices {
      */
     public static Series getSeriesByCriteria(SQLiteDatabase db, Series criteria) {
         return BrokerManager.getBroker(Series.class).getByCriteria(db, criteria);
-    }
-
-    /**
-     * Get the info of all the series in the database.
-     *
-     * @param db SQLiteDatabase.
-     * @return List of SeriesInfo.
-     */
-    public static List<SeriesInfo> getSeriesInfoList(SQLiteDatabase db) {
-        List<Series> seriesList = BrokerManager.getBroker(Series.class).getAll(db, null, new String[]{Series.Cols.SER_NAME});
-        List<BookInfo> bookInfoList = BookServices.getBookInfoList(db);
-        LongSparseArray<SeriesInfo> seriesMap = new LongSparseArray<SeriesInfo>();
-
-        List<SeriesInfo> seriesInfoList = new ArrayList<SeriesInfo>();
-        for (Series series : seriesList) {
-            SeriesInfo seriesInfo = new SeriesInfo(series);
-            seriesMap.put(series.id, seriesInfo);
-            seriesInfoList.add(seriesInfo);
-        }
-
-        SeriesInfo unspecifiedSeries = new SeriesInfo();
-        for (BookInfo bookInfo : bookInfoList) {
-            if (bookInfo.seriesId == null) {
-                unspecifiedSeries.books.add(bookInfo);
-            } else {
-                SeriesInfo seriesInfo = seriesMap.get(bookInfo.seriesId);
-                seriesInfo.books.add(bookInfo);
-            }
-        }
-
-        if (!unspecifiedSeries.books.isEmpty()) {
-            seriesInfoList.add(unspecifiedSeries);
-        }
-
-        return seriesInfoList;
     }
 
     /**

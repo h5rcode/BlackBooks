@@ -1,15 +1,11 @@
 package com.blackbooks.services;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v4.util.LongSparseArray;
 
-import com.blackbooks.model.nonpersistent.BookInfo;
-import com.blackbooks.model.nonpersistent.BookLocationInfo;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.model.persistent.BookLocation;
 import com.blackbooks.sql.BrokerManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,41 +47,6 @@ public class BookLocationServices {
      */
     public static BookLocation getBookLocationByCriteria(SQLiteDatabase db, BookLocation criteria) {
         return BrokerManager.getBroker(BookLocation.class).getByCriteria(db, criteria);
-    }
-
-    /**
-     * Get the info of all the book locations in the database.
-     *
-     * @param db SQLiteDatabase.
-     * @return List of BookLocationInfo.
-     */
-    public static List<BookLocationInfo> getBookLocationInfoList(SQLiteDatabase db) {
-        List<BookLocation> bookLocationList = BrokerManager.getBroker(BookLocation.class).getAll(db, null, new String[]{BookLocation.Cols.BKL_NAME});
-        List<BookInfo> bookInfoList = BookServices.getBookInfoList(db);
-        LongSparseArray<BookLocationInfo> bookLocationMap = new LongSparseArray<BookLocationInfo>();
-
-        List<BookLocationInfo> bookLocationInfoList = new ArrayList<BookLocationInfo>();
-        for (BookLocation bookLocation : bookLocationList) {
-            BookLocationInfo bookLocationInfo = new BookLocationInfo(bookLocation);
-            bookLocationMap.put(bookLocation.id, bookLocationInfo);
-            bookLocationInfoList.add(bookLocationInfo);
-        }
-
-        BookLocationInfo unspecifiedBookLocation = new BookLocationInfo();
-        for (BookInfo bookInfo : bookInfoList) {
-            if (bookInfo.bookLocationId == null) {
-                unspecifiedBookLocation.books.add(bookInfo);
-            } else {
-                BookLocationInfo bookLocationInfo = bookLocationMap.get(bookInfo.bookLocationId);
-                bookLocationInfo.books.add(bookInfo);
-            }
-        }
-
-        if (!unspecifiedBookLocation.books.isEmpty()) {
-            bookLocationInfoList.add(unspecifiedBookLocation);
-        }
-
-        return bookLocationInfoList;
     }
 
     /**
