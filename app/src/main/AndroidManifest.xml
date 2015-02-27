@@ -76,7 +76,11 @@
             android:label="@string/title_activity_book_export" />
         <activity
             android:name=".activities.BulkAddActivity"
-            android:label="@string/title_activity_bulk_add" />
+            android:label="@string/title_activity_bulk_add">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.blackbooks.activities.SummaryActivity" />
+        </activity>
         <activity android:name="com.blackbooks.activities.ReportErrorActivity">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
