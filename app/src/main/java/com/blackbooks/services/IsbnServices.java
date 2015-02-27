@@ -48,7 +48,7 @@ public class IsbnServices {
      * @return List of looked up ISBNs.
      */
     public static List<Isbn> getIsbnListLookedUp(SQLiteDatabase db, int limit, int offset) {
-        String sql = "SELECT * FROM " + Isbn.NAME + " WHERE " + Isbn.Cols.ISB_LOOKED_UP + " = 1 ORDER BY " + Isbn.Cols.ISB_DATE_ADDED + " LIMIT ? OFFSET ?;";
+        String sql = "SELECT * FROM " + Isbn.NAME + " WHERE " + Isbn.Cols.ISB_LOOKED_UP + " = 1 ORDER BY " + Isbn.Cols.ISB_DATE_ADDED + " DESC LIMIT ? OFFSET ?;";
         String[] selectionArgs = new String[]{
                 String.valueOf(limit),
                 String.valueOf(offset)
@@ -78,7 +78,7 @@ public class IsbnServices {
      * @return List of ISBNs to look up.
      */
     public static List<Isbn> getIsbnListToLookUp(SQLiteDatabase db, int limit, int offset) {
-        String sql = "SELECT * FROM " + Isbn.NAME + " WHERE " + Isbn.Cols.ISB_LOOKED_UP + " = 0 ORDER BY " + Isbn.Cols.ISB_DATE_ADDED + " LIMIT ? OFFSET ?;";
+        String sql = "SELECT * FROM " + Isbn.NAME + " WHERE " + Isbn.Cols.ISB_LOOKED_UP + " = 0 ORDER BY " + Isbn.Cols.ISB_DATE_ADDED + " DESC LIMIT ? OFFSET ?;";
         String[] selectionArgs = new String[]{
                 String.valueOf(limit),
                 String.valueOf(offset)
@@ -122,6 +122,8 @@ public class IsbnServices {
                 isbn.number = number;
             }
             isbn.dateAdded = new Date();
+            isbn.lookedUp = 0L;
+            isbn.bookId = null;
 
             broker.save(db, isbn);
 
