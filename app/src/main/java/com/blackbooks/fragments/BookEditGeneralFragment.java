@@ -258,8 +258,7 @@ public class BookEditGeneralFragment extends Fragment implements DatePickerListe
             @Override
             public List<Publisher> search(CharSequence constraint) {
                 SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-                List<Publisher> publisherList = PublisherServices.getPublisherListByText(db, constraint.toString());
-                return publisherList;
+                return PublisherServices.getPublisherListByText(db, constraint.toString());
             }
 
             @Override
@@ -285,8 +284,7 @@ public class BookEditGeneralFragment extends Fragment implements DatePickerListe
             @Override
             public List<Series> search(CharSequence constraint) {
                 SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-                List<Series> seriesList = SeriesServices.getSeriesListByText(db, constraint.toString());
-                return seriesList;
+                return SeriesServices.getSeriesListByText(db, constraint.toString());
             }
 
             @Override

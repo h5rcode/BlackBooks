@@ -66,8 +66,7 @@ public class CategoryEditFragment extends DialogFragment {
                         @Override
                         public List<Category> search(CharSequence constraint) {
                             SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-                            List<Category> categoryList = CategoryServices.getCategoryListByText(db, constraint.toString());
-                            return categoryList;
+                            return CategoryServices.getCategoryListByText(db, constraint.toString());
                         }
 
                         @Override

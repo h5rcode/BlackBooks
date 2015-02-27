@@ -274,30 +274,6 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
         }
 
         /**
-         * Start {@link BookListActivity}.
-         */
-        private void startBookListActivity() {
-            closeDrawer();
-            if (getDrawerActivity() != DrawerActivity.BOOK_LIST) {
-                Intent i = new Intent(AbstractDrawerActivity.this, BookListActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(i);
-            }
-        }
-
-        /**
-         * Start {@link SummaryActivity}.
-         */
-        private void startSummaryActivity() {
-            closeDrawer();
-            if (getDrawerActivity() != DrawerActivity.SUMMARY) {
-                Intent i = new Intent(AbstractDrawerActivity.this, SummaryActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(i);
-            }
-        }
-
-        /**
          * Start {@link BookImportActivity}.
          */
         private void startBookImportActivity() {

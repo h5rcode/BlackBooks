@@ -8,10 +8,8 @@
     <string name="action_bulk_add">Ajouter en masse</string>
     <string name="action_bulk_scan">Scanner en masse</string>
     <string name="action_delete_book">Supprimer le livre</string>
-    <string name="action_delete_category">Supprimer la catégorie</string>
     <string name="action_delete_isbns">Tout supprimer</string>
     <string name="action_edit_book">Modifier le livre</string>
-    <string name="action_edit_category">Modifier la catégorie</string>
     <string name="action_enter_isbn">Entrer un ISBN</string>
     <string name="action_export_books">Exporter les livres</string>
     <string name="action_loan_book">Prêter le livre</string>
@@ -25,15 +23,6 @@
     <string name="action_save_book">Enregistrer</string>
     <string name="action_scan_isbn">Scanner un ISBN</string>
     <string name="action_search_author_on_amazon">Livres de l\'auteur sur Amazon</string>
-    <string name="action_sort_by_author">Par auteur</string>
-    <string name="action_sort_by_book_location">Par emplacement</string>
-    <string name="action_sort_by_category">Par catégorie</string>
-    <string name="action_sort_by_favourite">Favoris/autres livres</string>
-    <string name="action_sort_by_first_letter">Par première lettre du titre</string>
-    <string name="action_sort_by_language">Par langue</string>
-    <string name="action_sort_by_loaned">Prêtés/disponibles</string>
-    <string name="action_sort_by_series">Par série</string>
-    <string name="action_sort_by_to_read_read">À lire/lus</string>
     <string name="action_start_background_search">Lancer la recherche</string>
     <string name="action_stop_background_search">Arrêter la recherche</string>
     <string name="action_take_picture">Prendre une photo</string>
@@ -95,12 +84,6 @@
         <item quantity="one">%1$s ISBN sur %2$s</item>
         <item quantity="other">%1$s ISBNs sur %2$s</item>
     </plurals>
-    <string name="header_available">Disponibles</string>
-    <string name="header_favourite">Favoris</string>
-    <string name="header_loaned">Prêtés</string>
-    <string name="header_other_books">Autres livres</string>
-    <string name="header_read">Lus</string>
-    <string name="header_to_read">À lire</string>
     <string name="hint_search">Rechercher des livres</string>
     <string name="image_thumbnail">Couverture</string>
     <string name="label_author">Auteur</string>
@@ -124,65 +107,9 @@
     <string name="label_favourite">Ce livre est un favori</string>
     <string name="label_first_row_contains_header">La première colonne contient des en-têtes</string>
 
-    <plurals name="label_footer_authors">
-        <item quantity="one">%d auteur</item>
-        <item quantity="other">%d auteurs</item>
-    </plurals>
-    <plurals name="label_footer_available">
-        <item quantity="one">%d disponible</item>
-        <item quantity="other">%d disponibles</item>
-    </plurals>
-    <plurals name="label_footer_book_locations">
-        <item quantity="one">%d emplacement</item>
-        <item quantity="other">%d emplacements</item>
-    </plurals>
-    <plurals name="label_footer_books">
-        <item quantity="one">%d livre</item>
-        <item quantity="other">%d livres</item>
-    </plurals>
-    <plurals name="label_footer_categories">
-        <item quantity="one">%d catégorie</item>
-        <item quantity="other">%d catégories</item>
-    </plurals>
-    <plurals name="label_footer_favourite">
-        <item quantity="one">%d favori</item>
-        <item quantity="other">%d favoris</item>
-    </plurals>
-    <plurals name="label_footer_language">
-        <item quantity="one">%d langue</item>
-        <item quantity="other">%d langues</item>
-    </plurals>
-    <plurals name="label_footer_loaned">
-        <item quantity="one">%d prêté</item>
-        <item quantity="other">%d prêtés</item>
-    </plurals>
-    <plurals name="label_footer_read">
-        <item quantity="one">%d lu</item>
-        <item quantity="other">%d lus</item>
-    </plurals>
     <plurals name="label_footer_search">
         <item quantity="one">%1$d résultat sur %2$d</item>
         <item quantity="other">%1$d résultats sur %2$d</item>
-    </plurals>
-    <plurals name="label_footer_series">
-        <item quantity="one">%d série</item>
-        <item quantity="other">%d série</item>
-    </plurals>
-    <plurals name="label_footer_to_read">
-        <item quantity="one">%d à lire</item>
-        <item quantity="other">%d à lire</item>
-    </plurals>
-    <plurals name="label_n_days_ago">
-        <item quantity="one">Il y a %d jour</item>
-        <item quantity="other">Il y a %d jours</item>
-    </plurals>
-    <plurals name="label_n_months_ago">
-        <item quantity="one">Il y a %d mois</item>
-        <item quantity="other">Il y a %d mois</item>
-    </plurals>
-    <plurals name="label_n_years_ago">
-        <item quantity="one">Il y a %d an</item>
-        <item quantity="other">Il y a %d ans</item>
     </plurals>
 
     <string name="label_image">Image</string>
@@ -294,27 +221,16 @@
     <string name="label_text_qualifier_double_quote">Guillemets doubles (\")</string>
     <string name="label_text_qualifier_single_quote">Guillemets simples (\')</string>
     <string name="label_title">Titre</string>
-    <string name="label_today">Aujourd\'hui</string>
     <string name="label_unexpected_error">Erreur inattendue</string>
     <string name="label_unspecified_author">(Auteur inconnu)</string>
-    <string name="label_unspecified_book_location">(Emplacement inconnu)</string>
-    <string name="label_unspecified_category">(Sans catégorie)</string>
-    <string name="label_unspecified_language">(Langue inconnue)</string>
-    <string name="label_unspecified_series">(Sans série)</string>
     <string name="menu_add_books">Ajouter des livres</string>
     <string name="menu_administration">Administration</string>
     <string name="menu_backup_db">Sauvegarder la base</string>
-    <string name="menu_books">Livres</string>
-    <string name="menu_book_list">Liste des livres</string>
-    <string name="menu_book_list_summary">Résumé</string>
     <string name="menu_delete_book">Supprimer</string>
     <string name="menu_edit_book">Modifier</string>
     <string name="menu_export">Exporter au format CSV</string>
-    <string name="menu_import">Importer depuis un fichier CSV</string>
-    <string name="menu_import_export">Import/Export</string>
     <string name="menu_options">Options</string>
     <string name="menu_search">Rechercher des livres</string>
-    <string name="menu_sort">Trier</string>
     <string name="message_author_added">\"%s\" a été ajouté à la liste des auteurs.</string>
     <string name="message_author_already_present">\"%s\" est déjà dans la liste des auteurs.</string>
     <string name="message_author_missing">Veuillez entrer un nom.</string>
@@ -327,14 +243,9 @@
     <string name="message_book_modifed">\"%s\" a été modifié avec succès.</string>
     <string name="message_book_returned">\"%s\" a été rendu.</string>
     <string name="message_book_unmarked_as_favourite">\"%s\" a été retiré des favoris.</string>
-    <string name="message_cant_read_selected_image">Impossible de lire l\'image sélectionnée.</string>
     <string name="message_category_added">\"%s\" a été ajouté à la liste des catégories.</string>
-    <string name="message_category_already_exists">Cette catégorie existe déjà.</string>
     <string name="message_category_already_present">\"%s\" est déjà dans la liste des catégories.</string>
-    <string name="message_category_deleted">La catégorie \"%s\" a été supprimée avec succès.</string>
-    <string name="message_category_identical_name">Veuillez entrer un nouveau nom.</string>
     <string name="message_category_missing">Veuillez entrer une catégorie.</string>
-    <string name="message_category_modified">La catégorie \"%1$s\" a été renommée \"%2$s\".</string>
     <string name="message_confirm_delete_book">Voulez-vous vraiment supprimer \"%s\" ?</string>
     <string name="message_confirm_delete_book_cancel">Non</string>
     <string name="message_confirm_delete_book_confirm">Oui</string>
@@ -407,14 +318,12 @@
     <string name="title_activity_books_by_first_letter">Lettre %s</string>
     <string name="title_activity_books_by_language">Livres en %s</string>
     <string name="title_activity_books_by_loaned">Livres prêtés à %s</string>
-    <string name="title_activity_books_by_series">Série \"%s\"</string>
     <string name="title_activity_books_favourites">Livres favoris</string>
     <string name="title_activity_books_to_read">Livres à lire</string>
     <string name="title_activity_bulk_add">Ajouter des livres en masse</string>
     <string name="title_activity_isbn_lookup">Recherche par ISBN</string>
     <string name="title_activity_book_search">Résultats pour \"%s\"</string>
     <string name="title_activity_book_search_default">Résultats de recherche</string>
-    <string name="title_activity_summary">Résumé</string>
     <string name="title_dialog_add_isbn">Ajouter un ISBN</string>
     <string name="title_dialog_column_separator_picker">Choisissez un séparateur de colonnes</string>
     <string name="title_dialog_delete_book">Supprimer un livre</string>

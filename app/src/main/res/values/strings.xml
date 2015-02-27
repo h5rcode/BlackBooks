@@ -9,10 +9,8 @@
     <string name="action_bulk_add">Bulk add</string>
     <string name="action_bulk_scan">Bulk scan</string>
     <string name="action_delete_book">Delete book</string>
-    <string name="action_delete_category">Delete category</string>
     <string name="action_delete_isbns">Delete all</string>
     <string name="action_edit_book">Edit book</string>
-    <string name="action_edit_category">Edit category</string>
     <string name="action_enter_isbn">Enter ISBN</string>
     <string name="action_export_books">Export books</string>
     <string name="action_loan_book">Loan book</string>
@@ -26,15 +24,6 @@
     <string name="action_save_book">Save</string>
     <string name="action_scan_isbn">Scan ISBN</string>
     <string name="action_search_author_on_amazon">Books of the author on Amazon</string>
-    <string name="action_sort_by_author">By author</string>
-    <string name="action_sort_by_book_location">By location</string>
-    <string name="action_sort_by_category">By category</string>
-    <string name="action_sort_by_favourite">Favourites/other books</string>
-    <string name="action_sort_by_first_letter">By first letter of the title</string>
-    <string name="action_sort_by_language">By language</string>
-    <string name="action_sort_by_loaned">Loaned/available</string>
-    <string name="action_sort_by_to_read_read">To read/read</string>
-    <string name="action_sort_by_series">By series</string>
     <string name="action_start_background_search">Start background search</string>
     <string name="action_stop_background_search">Stop background search</string>
     <string name="action_take_picture">Take a picture</string>
@@ -96,21 +85,6 @@
         <item quantity="one">%1$s ISBN out of %2$s</item>
         <item quantity="other">%1$s ISBNs out of %2$s</item>
     </plurals>
-    <string name="footer_fragment_books_by_author" translatable="false">%1$s, %2$s</string>
-    <string name="footer_fragment_books_by_book_location" translatable="false">%1$s, %2$s</string>
-    <string name="footer_fragment_books_by_category" translatable="false">%1$s, %2$s</string>
-    <string name="footer_fragment_books_by_favourite" translatable="false">%1$s, %2$s</string>
-    <string name="footer_fragment_books_by_first_letter" translatable="false">%s</string>
-    <string name="footer_fragment_books_by_language" translatable="false">%1$s, %2$s</string>
-    <string name="footer_fragment_books_by_loaned" translatable="false">%1$s, %2$s/%3$s</string>
-    <string name="footer_fragment_books_by_to_read_read" translatable="false">%1$s, %2$s/%3$s</string>
-    <string name="footer_fragment_books_by_series" translatable="false">%1$s, %2$s</string>
-    <string name="header_available">Available</string>
-    <string name="header_favourite">Favourites</string>
-    <string name="header_loaned">Loaned</string>
-    <string name="header_other_books">Other books</string>
-    <string name="header_read">Read</string>
-    <string name="header_to_read">To read</string>
     <string name="hint_search">Search books</string>
     <string name="image_thumbnail">Thumbnail</string>
     <string name="label_author">Author</string>
@@ -134,65 +108,9 @@
     <string name="label_favourite">This is a favourite book</string>
     <string name="label_first_row_contains_header">First row contains headers</string>
 
-    <plurals name="label_footer_authors">
-        <item quantity="one">%d author</item>
-        <item quantity="other">%d authors</item>
-    </plurals>
-    <plurals name="label_footer_available">
-        <item quantity="one">%d available</item>
-        <item quantity="other">%d available</item>
-    </plurals>
-    <plurals name="label_footer_book_locations">
-        <item quantity="one">%d location</item>
-        <item quantity="other">%d locations</item>
-    </plurals>
-    <plurals name="label_footer_books">
-        <item quantity="one">%d book</item>
-        <item quantity="other">%d books</item>
-    </plurals>
-    <plurals name="label_footer_categories">
-        <item quantity="one">%d category</item>
-        <item quantity="other">%d categories</item>
-    </plurals>
-    <plurals name="label_footer_favourite">
-        <item quantity="one">%d favourite</item>
-        <item quantity="other">%d favourites</item>
-    </plurals>
-    <plurals name="label_footer_language">
-        <item quantity="one">%d language</item>
-        <item quantity="other">%d languages</item>
-    </plurals>
-    <plurals name="label_footer_loaned">
-        <item quantity="one">%d loaned</item>
-        <item quantity="other">%d loaned</item>
-    </plurals>
-    <plurals name="label_footer_read">
-        <item quantity="one">%d read</item>
-        <item quantity="other">%d read</item>
-    </plurals>
     <plurals name="label_footer_search">
         <item quantity="one">%1$d result out of %2$d</item>
         <item quantity="other">%1$d results out of %2$d</item>
-    </plurals>
-    <plurals name="label_footer_series">
-        <item quantity="one">%d series</item>
-        <item quantity="other">%d series</item>
-    </plurals>
-    <plurals name="label_footer_to_read">
-        <item quantity="one">%d to read</item>
-        <item quantity="other">%d to read</item>
-    </plurals>
-    <plurals name="label_n_days_ago">
-        <item quantity="one">%d day ago</item>
-        <item quantity="other">%d days ago</item>
-    </plurals>
-    <plurals name="label_n_months_ago">
-        <item quantity="one">%d month ago</item>
-        <item quantity="other">%d months ago</item>
-    </plurals>
-    <plurals name="label_n_years_ago">
-        <item quantity="one">%d year ago</item>
-        <item quantity="other">%d years ago</item>
     </plurals>
 
     <string name="label_image">Image</string>
@@ -207,7 +125,6 @@
     <string name="label_loan_book_to">Loan the book to</string>
     <string name="label_loan_book_to_hint">Enter a name</string>
     <string name="label_loaned_to">This book has been loaned to</string>
-    <string name="label_loan_date_format" translatable="false">%1$s (%2$s)</string>
     <string name="label_no_language">(No language set)</string>
     <string name="label_page_count">Page count</string>
     <string name="label_page_count_format">%d pages</string>
@@ -306,28 +223,16 @@
     <string name="label_text_qualifier_double_quote">Double quote (\")</string>
     <string name="label_text_qualifier_single_quote">Single quote (\')</string>
     <string name="label_title">Title</string>
-    <string name="label_today">Today</string>
-    <string name="label_total" translatable="false">(%d)</string>
     <string name="label_unexpected_error">Unexpected error</string>
     <string name="label_unspecified_author">(Unspecified author)</string>
-    <string name="label_unspecified_book_location">(Unspecified location)</string>
-    <string name="label_unspecified_category">(Unspecified category)</string>
-    <string name="label_unspecified_language">(Unspecified language)</string>
-    <string name="label_unspecified_series">(Unspecified series)</string>
     <string name="menu_add_books">Add books</string>
     <string name="menu_administration">Administration</string>
     <string name="menu_backup_db">Backup DB</string>
-    <string name="menu_books">Books</string>
-    <string name="menu_book_list">Book list</string>
-    <string name="menu_book_list_summary">Summary</string>
     <string name="menu_delete_book">Delete</string>
     <string name="menu_edit_book">Edit</string>
     <string name="menu_export">Export to CSV</string>
-    <string name="menu_import">Import from CSV</string>
-    <string name="menu_import_export">Import/Export</string>
     <string name="menu_options">Options</string>
     <string name="menu_search">Search books</string>
-    <string name="menu_sort">Sort</string>
     <string name="message_author_added">\"%s\" was added to the list of authors.</string>
     <string name="message_author_already_present">\"%s\" is already in the list of authors.</string>
     <string name="message_author_missing">Please enter a name.</string>
@@ -340,14 +245,9 @@
     <string name="message_book_modifed">\"%s\" was successfully modified.</string>
     <string name="message_book_returned">\"%s\" has been returned.</string>
     <string name="message_book_unmarked_as_favourite">\"%s\" removed from the favourites.</string>
-    <string name="message_cant_read_selected_image">Could not read selected image.</string>
     <string name="message_category_added">\"%s\" was added to the list of categories.</string>
-    <string name="message_category_already_exists">There is already a category with this name.</string>
     <string name="message_category_already_present">\"%s\" is already in the list of categories.</string>
-    <string name="message_category_deleted">Category \"%s\" was successfully deleted.</string>
-    <string name="message_category_identical_name">Please enter a different name.</string>
     <string name="message_category_missing">Please enter a category.</string>
-    <string name="message_category_modified">Category \"%1$s\" was successfully renamed to \"%2$s\".</string>
     <string name="message_confirm_delete_book">Do you really want to delete \"%s\"?</string>
     <string name="message_confirm_delete_book_cancel">No</string>
     <string name="message_confirm_delete_book_confirm">Yes</string>
@@ -420,14 +320,12 @@
     <string name="title_activity_books_by_first_letter">Letter %s</string>
     <string name="title_activity_books_by_language">Books in %s</string>
     <string name="title_activity_books_by_loaned">Books loaned to %s</string>
-    <string name="title_activity_books_by_series">Series \"%s\"</string>
     <string name="title_activity_books_favourites">Favourite books</string>
     <string name="title_activity_books_to_read">Books to read</string>
     <string name="title_activity_bulk_add">Bulk add books</string>
     <string name="title_activity_isbn_lookup">ISBN lookup</string>
     <string name="title_activity_book_search">Search results for \"%s\"</string>
     <string name="title_activity_book_search_default">Search results</string>
-    <string name="title_activity_summary">Summary</string>
     <string name="title_dialog_add_isbn">Add isbn</string>
     <string name="title_dialog_column_separator_picker">Choose a column separator</string>
     <string name="title_dialog_delete_book">Delete book</string>

@@ -76,8 +76,7 @@ public class BookEditPersonalFragment extends Fragment {
             @Override
             public List<BookLocation> search(CharSequence constraint) {
                 SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-                List<BookLocation> bookLocationList = BookLocationServices.getBookLocationListByText(db, constraint.toString());
-                return bookLocationList;
+                return BookLocationServices.getBookLocationListByText(db, constraint.toString());
             }
 
             @Override

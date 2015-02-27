@@ -73,8 +73,7 @@ public final class BitmapUtils {
         activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
         int maxHeight = Math.min(MAX_THUMBNAIL_HEIGHT, Math.max(metrics.widthPixels, metrics.heightPixels) / 3);
-        Bitmap result = resize(bitmap, maxHeight);
-        return result;
+        return resize(bitmap, maxHeight);
     }
 
     /**

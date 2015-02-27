@@ -226,8 +226,7 @@ public final class BookCategoriesEditActivity extends Activity {
             @Override
             public List<Category> search(CharSequence constraint) {
                 SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-                List<Category> categoryList = CategoryServices.getCategoryListByText(db, constraint.toString());
-                return categoryList;
+                return CategoryServices.getCategoryListByText(db, constraint.toString());
             }
 
             @Override
@@ -271,8 +270,7 @@ public final class BookCategoriesEditActivity extends Activity {
 
     private Category getCategoryByCriteria(Category criteria) {
         SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-        Category category = CategoryServices.getCategoryByCriteria(db, criteria);
-        return category;
+        return CategoryServices.getCategoryByCriteria(db, criteria);
     }
 
     /**

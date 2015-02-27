@@ -69,8 +69,7 @@ public class AmazonSearcher implements Callable<BookSearchResult> {
      */
     private static String getAmazonUrl(String isbn) throws URISyntaxException, IOException {
         String url = String.format(URI_FORMAT_STRING, isbn);
-        String amazonUrl = HttpUtils.getText(url);
-        return amazonUrl;
+        return HttpUtils.getText(url);
     }
 
     /**
