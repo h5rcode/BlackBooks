@@ -295,7 +295,7 @@ public class BookServices {
         } else if (IsbnUtils.isValidIsbn13(isbn)) {
             testedColumn = Book.Cols.BOO_ISBN_13;
         } else {
-            throw new InvalidParameterException("number");
+            throw new InvalidParameterException("isbn");
         }
 
         String[] selectedColumns = new String[]{

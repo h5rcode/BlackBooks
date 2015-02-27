@@ -6,11 +6,6 @@ package com.blackbooks.activities;
 public enum DrawerActivity {
 
     /**
-     * {@link BookListActivity}.
-     */
-    BOOK_LIST,
-
-    /**
      * {@link SummaryActivity}.
      */
     SUMMARY,
