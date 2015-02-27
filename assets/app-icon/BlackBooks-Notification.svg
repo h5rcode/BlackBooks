@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="360"
+   height="360"
+   id="svg1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="BlackBooks-Notification.svg"
+   inkscape:export-xdpi="36"
+   inkscape:export-ydpi="36">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1366"
+     inkscape:window-height="706"
+     id="namedview3001"
+     showgrid="false"
+     inkscape:snap-bbox="true"
+     inkscape:zoom="1.0194123"
+     inkscape:cx="162.33008"
+     inkscape:cy="114.30896"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <metadata
+     id="metadata3">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title></dc:title>
+        <dc:description />
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>hash</rdf:li>
+            <rdf:li>literature</rdf:li>
+            <rdf:li />
+            <rdf:li>cut</rdf:li>
+            <rdf:li>education</rdf:li>
+            <rdf:li>wood</rdf:li>
+            <rdf:li>book</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://www.openclipart.org">
+            <dc:title>Joshua Warren (jwasheville@yahoo.com)</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Joshua Warren (jwasheville@yahoo.com)</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>Joshua Warren (jwasheville@yahoo.com)</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:date />
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://web.resource.org/cc/PublicDomain" />
+        <dc:language>en</dc:language>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://web.resource.org/cc/PublicDomain">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3" />
+  <path
+     style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0"
+     d="m 110.37667,110.85266 c 3.92313,-12.995624 10.23715,-18.553254 18.19615,-24.394844 8.77016,-6.436947 19.43811,-8.322597 29.79371,-9.597972 9.94494,-1.224798 20.00746,2.822913 29.99366,1.999578 9.28081,-0.765178 15.11372,-1.553522 23.59501,-5.398859 7.31082,-3.314657 15.60252,-10.270947 23.39506,-12.197422 5.7467,-1.420701 6.93385,-1.912551 13.76301,-0.699852 5.42043,8.064828 12.59734,31.893259 12.59734,31.893259 0,0 21.94423,60.131182 32.39315,90.380892 2.90629,8.41373 7.93617,20.92593 7.93617,20.92593 0,0 -2.26413,4.21856 -5.39321,5.85317 -13.47171,7.03751 -28.01638,11.85857 -42.39104,16.79645 -13.92363,4.78294 -29.06441,8.12028 -42.39104,14.37686 -6.2585,2.93824 -12.08022,5.49972 -17.19637,9.61807 -6.1055,4.91474 -11.29529,11.04421 -15.5967,17.59628 -3.63294,5.53383 -6.58137,11.63063 -8.39823,17.9962 -0.92123,3.22764 -1.19974,9.99788 -1.19974,9.99788 0,0 -42.72541,-131.22405 -59.09693,-185.14562 z"
+     id="path3770"
+     inkscape:connector-curvature="0"
+     sodipodi:nodetypes="csssssccscsssssscc"
+     inkscape:export-filename="D:\Projets\BlackBooks\app\src\main\res\drawable-xxhdpi\ic_notify_2.png"
+     inkscape:export-xdpi="17.513325"
+     inkscape:export-ydpi="17.513325" />
+  <path
+     style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0"
+     d="m 262.83561,64.86238 11.8436,0.765524 17.70609,58.059396 33.81439,91.28062 -15.6369,-9.36371 z"
+     id="path3772"
+     inkscape:connector-curvature="0"
+     sodipodi:nodetypes="cccccc"
+     inkscape:export-filename="D:\Projets\BlackBooks\app\src\main\res\drawable-xxhdpi\ic_notify_2.png"
+     inkscape:export-xdpi="17.513325"
+     inkscape:export-ydpi="17.513325" />
+  <path
+     style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0"
+     d="m 178.18756,301.46393 c 6.87065,-1.52728 12.13766,-5.23066 16.61558,-10.46297 2.00841,-9.45067 3.68333,-15.99998 9.08336,-21.4915 10.01525,-10.18493 19.4145,-12.43062 32.39113,-18.40099 19.11004,-8.79227 62.4725,-22.56234 62.4725,-22.56234 l 23.68467,-8.61947 -14.13428,-7.79835 -29.96524,15.26541 -38.98586,13.43147 -26.59439,9.19806 c 0,0 -10.9167,5.82339 -14.79687,9.59797 -4.64903,4.52251 -9.9977,8.55521 -13.19722,14.197 -2.1631,3.81424 -5.7737,7.734 -6.79855,11.99746 -0.59707,2.48387 -2.82966,9.65969 -1.79963,11.99746 0.85658,1.94411 0.0655,3.51611 2.0248,3.65079 z"
+     id="path3776"
+     inkscape:connector-curvature="0"
+     sodipodi:nodetypes="ccssccccccssssc"
+     inkscape:export-filename="D:\Projets\BlackBooks\app\src\main\res\drawable-xxhdpi\ic_notify_2.png"
+     inkscape:export-xdpi="17.513325"
+     inkscape:export-ydpi="17.513325" />
+  <path
+     style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0"
+     d="m 97.445153,117.09189 c -3.559729,-3.35634 -5.499839,-5.89312 -11.098516,-6.33211 -14.931116,-1.13803 -18.722397,4.08984 -26.816074,9.79966 -7.408664,5.22656 -19.450304,25.73669 -19.450304,25.73669 0,0 -13.880779,16.47606 -25.683302,28.54301 -7.3360325,7.50039 -18.6637818,12.05568 -25.994506,23.16667 8.9436802,44.77413 21.923288,81.93415 21.923288,81.93415 L 35.93555,375.34234 62.386813,352.80152 93.208727,322.9049 c 0,0 17.145093,-22.33035 29.165413,-28.89095 6.44519,-3.51774 9.24035,-4.44784 16.19657,-6.79857 5.15933,-1.7435 12.69254,-2.34866 12.69254,-2.34866 l -6.9677,-25.1738 -16.45682,-52.22013 c 0,0 -25.6799,-85.93653 -30.393577,-90.3809 z"
+     id="path3778"
+     inkscape:connector-curvature="0"
+     sodipodi:nodetypes="scscscccccsscccs"
+     inkscape:export-filename="D:\Projets\BlackBooks\app\src\main\res\drawable-xxhdpi\ic_notify_2.png"
+     inkscape:export-xdpi="17.513325"
+     inkscape:export-ydpi="17.513325" />
+  <path
+     style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0"
+     d="m 149.83045,292.49563 7.14996,9.21815 -3.86193,6.49569 -18.35592,-2.028 -22.80171,21.25578 -14.535355,15.66926 -29.213924,25.18981 -30.959142,26.3057 -0.22594,-13.94365 43.328101,-36.55795 21.27363,-20.00805 14.50314,-17.73073 17.70247,-12.26635 z"
+     id="path3780"
+     inkscape:connector-curvature="0"
+     sodipodi:nodetypes="cccccccccccccc"
+     inkscape:export-filename="D:\Projets\BlackBooks\app\src\main\res\drawable-xxhdpi\ic_notify_2.png"
+     inkscape:export-xdpi="17.513325"
+     inkscape:export-ydpi="17.513325" />
+  <path
+     style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0"
+     d="m 284.59468,69.957353 12.72523,-0.565566 19.51203,63.626163 17.53254,45.24527 8.112,20.67991 8.35803,22.81183 -23.71006,11.02459 -22.56722,10.71388 -73.80635,28.2783 -23.54607,23.26811 -3.67618,11.31131 -15.27028,13.2908 -20.64315,7.91792 -16.11863,-0.84835 -21.98198,3.87905 -33.368389,36.76179 -45.810837,44.6797 -12.44245,11.31132 -58.253286,-204.73485 5.938442,-12.72523 44.962488,173.91151 5.655659,22.62263 54.294325,-44.6797 34.499518,-33.93396 c 0,0 11.98693,-6.67849 20.02914,-8.7878 5.84672,-1.53348 13.78513,1.38685 19.69777,0.13134 4.78402,-1.01585 9.4881,-3.38643 14.0078,-5.58704 5.17704,-2.52067 12.03152,-5.55271 16.13285,-10.48307 3.10873,-3.73713 3.20356,-7.58212 5.57462,-11.78965 2.27849,-4.04325 13.08857,-18.11248 16.6255,-20.81178 18.86852,-14.4 57.64164,-23.21662 57.64164,-23.21662 L 334.93005,217.85284 297.6027,114.35428 z"
+     id="path3782"
+     inkscape:connector-curvature="0"
+     sodipodi:nodetypes="ccccccccccccccccccccccccsssssscccc"
+     inkscape:export-filename="D:\Projets\BlackBooks\app\src\main\res\drawable-xxhdpi\ic_notify_2.png"
+     inkscape:export-xdpi="17.513325"
+     inkscape:export-ydpi="17.513325" />
+</svg>
