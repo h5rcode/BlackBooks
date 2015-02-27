@@ -58,6 +58,7 @@ public final class BulkSearchService extends IntentService {
         String text = res.getQuantityString(R.plurals.notification_bulk_search_running_text, isbnCount, isbnCount);
 
         Intent resultIntent = new Intent(this, BulkAddActivity.class);
+        resultIntent.putExtra(BulkAddActivity.EXTRA_SELECTED_TAB, BulkAddActivity.TAB_LOOKED_UP);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(BulkAddActivity.class);
         stackBuilder.addNextIntent(resultIntent);

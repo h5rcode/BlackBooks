@@ -2,6 +2,7 @@ package com.blackbooks.activities;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -21,8 +22,20 @@ import com.blackbooks.utils.VariableUtils;
  */
 public final class BulkAddActivity extends FragmentActivity implements ViewPager.OnPageChangeListener, ActionBar.TabListener {
 
-    private static final int TAB_PENDING = 0;
-    private static final int TAB_LOOKED_UP = 1;
+    /**
+     * The tab to select when displaying the activity.
+     */
+    public static final String EXTRA_SELECTED_TAB = "EXTRA_SELECTED_TAB";
+
+    /**
+     * Index of the tab "Pending ISBNs".
+     */
+    public static final int TAB_PENDING = 0;
+
+    /**
+     * Index of the tab "Looked up ISBNs".
+     */
+    public static final int TAB_LOOKED_UP = 1;
 
     private final VariableUtils mVariableUtils = VariableUtils.getInstance();
 
@@ -44,6 +57,23 @@ public final class BulkAddActivity extends FragmentActivity implements ViewPager
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.addTab(actionBar.newTab().setText(getString(R.string.title_tab_bulk_add_pending)).setTabListener(this));
         actionBar.addTab(actionBar.newTab().setText(getString(R.string.title_tab_bulk_add_looked_up)).setTabListener(this));
+
+        Intent i = getIntent();
+        if (i.hasExtra(EXTRA_SELECTED_TAB)) {
+            int selectedTab = i.getIntExtra(EXTRA_SELECTED_TAB, -1);
+            switch (selectedTab) {
+                case TAB_LOOKED_UP:
+                    mViewPager.setCurrentItem(TAB_LOOKED_UP);
+                    break;
+
+                case TAB_PENDING:
+                    mViewPager.setCurrentItem(TAB_PENDING);
+                    break;
+
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
     }
 
     @Override
