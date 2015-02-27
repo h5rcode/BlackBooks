@@ -7,14 +7,15 @@ Black Books helps you make an inventory of your books and manage them!
 
 * Make a list of your books: add them manually or simply scan their ISBN (Pic2Shop required).
 * Automatically get book details (including thumbnails) from Amazon, Google Books and Open Library.
+* Bulk add books: scan or enter a list of ISBNs and start a background search.
 * Edit your books: thumbnail, authors, categories, series, language, page count, etc.
-* List your books by author, category, series, language.
+* Have a quick overview of your library directly from the home screen.
+* Browse your books by author, category, series, language.
 * Search your library using the simple full-text search feature.
 * Keep track of the books to read.
 * Mark your favourite books.
 * Don't lose your books anymore by indicating their location.
 * Manage your loans: to whom and when?
-* Have a quick overview of your library thanks to the "Summary" perspective.
 * Export your library as a Spreadsheet compatible text file.
 
 ## Implementation

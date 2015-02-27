@@ -1,5 +1,13 @@
-# Version 1.0.2 (TODO)
+# Version 1.1.0 (27/02/2015)
+New organization:
+* The Summary is now the home screen of the app.
+* Clicking a tile of the summary displays the list of the corresponding book group (authors, categories,
+  languages, locations, series).
+* Groups of books (authors, categories, languages, locations, series) as well as book lists are
+  displayed by groupes of 50 items at most to avoid long database operations.
+
 New feature:
+* Books can now be added in bulk. Scan or enter a list of ISBNs and start a background search.
 * When adding a book using its ISBN, check for duplicates and display a dialog if there are any.
 
 Bug fix:
