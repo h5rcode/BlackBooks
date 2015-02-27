@@ -91,6 +91,10 @@
         <item quantity="one">%1$s livre sur %2$s</item>
         <item quantity="other">%1$s livres sur %2$s</item>
     </plurals>
+    <plurals name="footer_fragment_bulk_add">
+        <item quantity="one">%1$s ISBN sur %2$s</item>
+        <item quantity="other">%1$s ISBNs sur %2$s</item>
+    </plurals>
     <string name="header_available">Disponibles</string>
     <string name="header_favourite">Favoris</string>
     <string name="header_loaned">Prêtés</string>
@@ -276,6 +280,10 @@
     <plurals name="message_duplicate_books">
         <item quantity="one">%d livre de la bibliothèque correspond à cet ISBN.</item>
         <item quantity="other">%d livres de la bibliothèque correspondent à cet ISBN.</item>
+    </plurals>
+    <plurals name="message_isbns_loaded">
+        <item quantity="one">%d ISBN supplémentaire chargé</item>
+        <item quantity="other">%d ISBNs supplémentaires chargés</item>
     </plurals>
     <plurals name="message_results_loaded">
         <item quantity="one">%d résultat supplémentaire chargé</item>

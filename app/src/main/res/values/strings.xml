@@ -92,6 +92,10 @@
         <item quantity="one">%1$s book out of %2$s</item>
         <item quantity="other">%1$s books out of %2$s</item>
     </plurals>
+    <plurals name="footer_fragment_bulk_add">
+        <item quantity="one">%1$s ISBN out of %2$s</item>
+        <item quantity="other">%1$s ISBNs out of %2$s</item>
+    </plurals>
     <string name="footer_fragment_books_by_author" translatable="false">%1$s, %2$s</string>
     <string name="footer_fragment_books_by_book_location" translatable="false">%1$s, %2$s</string>
     <string name="footer_fragment_books_by_category" translatable="false">%1$s, %2$s</string>
@@ -288,6 +292,10 @@
     <plurals name="message_duplicate_books">
         <item quantity="one">%d book in the library corresponds to this ISBN.</item>
         <item quantity="other">%d books in the library correspond to this ISBN.</item>
+    </plurals>
+    <plurals name="message_isbns_loaded">
+        <item quantity="one">%d more ISBN loaded</item>
+        <item quantity="other">%d more ISBNs loaded</item>
     </plurals>
     <plurals name="message_results_loaded">
         <item quantity="one">%d more result loaded</item>

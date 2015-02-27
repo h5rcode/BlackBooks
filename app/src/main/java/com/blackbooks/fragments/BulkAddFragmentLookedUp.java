@@ -3,9 +3,11 @@ package com.blackbooks.fragments;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blackbooks.R;
 import com.blackbooks.activities.BookDisplayActivity;
@@ -33,11 +37,13 @@ public final class BulkAddFragmentLookedUp extends ListFragment {
 
     private static final int ISBNS_BY_PAGE = 50;
 
+    private Integer mIsbnCount;
     private boolean mAlreadyLoaded;
     private int mLastPage = 1;
     private int mLastItem = -1;
 
     private LookedUpIsbnListAdapter mLookedUpIsbnListAdapter;
+    private TextView mTextViewFooter;
     private IsbnListLookedUpLoadTask mIsbnListLookedUpLoadTask;
 
     @Override
@@ -52,9 +58,11 @@ public final class BulkAddFragmentLookedUp extends ListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_bulk_add, container, false);
 
         ListView listView = (ListView) view.findViewById(android.R.id.list);
+        mTextViewFooter = (TextView) view.findViewById(R.id.bulkAdd_textFooter);
+
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -87,6 +95,12 @@ public final class BulkAddFragmentLookedUp extends ListFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.bulk_add_looked_up, menu);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setFooterText();
     }
 
     @Override
@@ -142,8 +156,7 @@ public final class BulkAddFragmentLookedUp extends ListFragment {
     private void deleteAll() {
         SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
         IsbnServices.deleteAllLookedUpIsbns(db);
-        mLookedUpIsbnListAdapter.clear();
-        mLookedUpIsbnListAdapter.notifyDataSetChanged();
+        reloadIsbns();
     }
 
     /**
@@ -163,6 +176,22 @@ public final class BulkAddFragmentLookedUp extends ListFragment {
         mLastItem = -1;
         mLastPage = 1;
         loadMoreIsbns();
+    }
+
+
+    /**
+     * Set the footer text.
+     */
+    private void setFooterText() {
+        if (mIsbnCount != null) {
+
+            int displayedIsbnCount = mLookedUpIsbnListAdapter.getCount();
+
+            Resources res = getResources();
+            String footerText = res.getQuantityString(R.plurals.footer_fragment_bulk_add, displayedIsbnCount, displayedIsbnCount, mIsbnCount);
+
+            mTextViewFooter.setText(footerText);
+        }
     }
 
     /**
@@ -211,14 +240,26 @@ public final class BulkAddFragmentLookedUp extends ListFragment {
         @Override
         protected List<Isbn> doInBackground(Void... params) {
             SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
+            mIsbnCount = IsbnServices.getIsbnListLookedUpCount(db);
             return IsbnServices.getIsbnListLookedUp(db, mLimit, mOffset);
         }
 
         @Override
         protected void onPostExecute(List<Isbn> isbns) {
             super.onPostExecute(isbns);
+
+            int initialIsbnCount = mLookedUpIsbnListAdapter.getCount();
+
             mLookedUpIsbnListAdapter.addAll(isbns);
             mLookedUpIsbnListAdapter.notifyDataSetChanged();
+
+            int isbnCont = isbns.size();
+            if (isbnCont > 0 && initialIsbnCount > 0) {
+                Resources res = getResources();
+                String message = res.getQuantityString(R.plurals.message_isbns_loaded, isbnCont, isbnCont);
+                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+            }
+            setFooterText();
         }
     }
 }

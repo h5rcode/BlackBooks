@@ -6,9 +6,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blackbooks.R;
@@ -45,11 +48,13 @@ public final class BulkAddFragmentPending extends ListFragment implements IsbnAd
     private static final String TAG_SCANNER_INSTALL_FRAGMENT = "TAG_SCANNER_INSTALL_FRAGMENT";
     private static final String TAG_ISBN_ADD_FRAGMENT = "TAG_ISBN_ADD_FRAGMENT";
 
+    private Integer mIsbnCount;
     private boolean mAlreadyLoaded;
     private int mLastPage = 1;
     private int mLastItem = -1;
 
     private PendingIsbnListAdapter mPendingIsbnListAdapter;
+    private TextView mTextViewFooter;
     private boolean mStartScan;
     private IsbnListLoadTask mIsbnListLoadTask;
 
@@ -77,6 +82,8 @@ public final class BulkAddFragmentPending extends ListFragment implements IsbnAd
         View view = inflater.inflate(R.layout.fragment_bulk_add, container, false);
         ListView listView = (ListView) view.findViewById(android.R.id.list);
 
+        mTextViewFooter = (TextView) view.findViewById(R.id.bulkAdd_textFooter);
+
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -103,6 +110,12 @@ public final class BulkAddFragmentPending extends ListFragment implements IsbnAd
         });
 
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setFooterText();
     }
 
     @Override
@@ -240,6 +253,21 @@ public final class BulkAddFragmentPending extends ListFragment implements IsbnAd
     }
 
     /**
+     * Set the footer text.
+     */
+    private void setFooterText() {
+        if (mIsbnCount != null) {
+
+            int displayedIsbnCount = mPendingIsbnListAdapter.getCount();
+
+            Resources res = getResources();
+            String footerText = res.getQuantityString(R.plurals.footer_fragment_bulk_add, displayedIsbnCount, displayedIsbnCount, mIsbnCount);
+
+            mTextViewFooter.setText(footerText);
+        }
+    }
+
+    /**
      * Launches Pic2Shop to start scanning an ISBN code.
      */
     private void startIsbnScan() {
@@ -312,14 +340,26 @@ public final class BulkAddFragmentPending extends ListFragment implements IsbnAd
         @Override
         protected List<Isbn> doInBackground(Void... params) {
             SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
+            mIsbnCount = IsbnServices.getIsbnListToLookUpCount(db);
             return IsbnServices.getIsbnListToLookUp(db, mLimit, mOffset);
         }
 
         @Override
         protected void onPostExecute(List<Isbn> isbns) {
             super.onPostExecute(isbns);
+
+            int initialIsbnCount = mPendingIsbnListAdapter.getCount();
+
             mPendingIsbnListAdapter.addAll(isbns);
             mPendingIsbnListAdapter.notifyDataSetChanged();
+
+            int isbnCont = isbns.size();
+            if (isbnCont > 0 && initialIsbnCount > 0) {
+                Resources res = getResources();
+                String message = res.getQuantityString(R.plurals.message_isbns_loaded, isbnCont, isbnCont);
+                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+            }
+            setFooterText();
         }
     }
 }

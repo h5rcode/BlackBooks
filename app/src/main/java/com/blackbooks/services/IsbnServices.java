@@ -1,6 +1,7 @@
 package com.blackbooks.services;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.blackbooks.model.nonpersistent.BookInfo;
@@ -44,6 +45,7 @@ public class IsbnServices {
      * @param db     SQLiteDatabase.
      * @param limit  Limit.
      * @param offset Offset.
+     * @return List of looked up ISBNs.
      */
     public static List<Isbn> getIsbnListLookedUp(SQLiteDatabase db, int limit, int offset) {
         String sql = "SELECT * FROM " + Isbn.NAME + " WHERE " + Isbn.Cols.ISB_LOOKED_UP + " = 1 ORDER BY " + Isbn.Cols.ISB_DATE_ADDED + " LIMIT ? OFFSET ?;";
@@ -55,9 +57,25 @@ public class IsbnServices {
     }
 
     /**
+     * Get the count of all the ISBNs that have been looked up.
+     *
+     * @param db SQLiteDatabase.
+     * @return Looked up ISBN count.
+     */
+    public static int getIsbnListLookedUpCount(SQLiteDatabase db) {
+        String sql = "SELECT COUNT(*) FROM " + Isbn.NAME + " WHERE " + Isbn.Cols.ISB_LOOKED_UP + " = 1";
+        Cursor cursor = db.rawQuery(sql, null);
+        cursor.moveToNext();
+        int count = cursor.getInt(0);
+        cursor.close();
+        return count;
+    }
+
+    /**
      * Get the list of all the ISBNs to look up.
      *
      * @param db SQLiteDatabase.
+     * @return List of ISBNs to look up.
      */
     public static List<Isbn> getIsbnListToLookUp(SQLiteDatabase db, int limit, int offset) {
         String sql = "SELECT * FROM " + Isbn.NAME + " WHERE " + Isbn.Cols.ISB_LOOKED_UP + " = 0 ORDER BY " + Isbn.Cols.ISB_DATE_ADDED + " LIMIT ? OFFSET ?;";
@@ -66,6 +84,21 @@ public class IsbnServices {
                 String.valueOf(offset)
         };
         return BrokerManager.getBroker(Isbn.class).rawSelect(db, sql, selectionArgs);
+    }
+
+    /**
+     * Get the list of all the ISBNs to look up.
+     *
+     * @param db SQLiteDatabase.
+     * @return ISBN to look up count.
+     */
+    public static int getIsbnListToLookUpCount(SQLiteDatabase db) {
+        String sql = "SELECT COUNT(*) FROM " + Isbn.NAME + " WHERE " + Isbn.Cols.ISB_LOOKED_UP + " = 0";
+        Cursor cursor = db.rawQuery(sql, null);
+        cursor.moveToNext();
+        int count = cursor.getInt(0);
+        cursor.close();
+        return count;
     }
 
     /**

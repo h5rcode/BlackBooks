@@ -49,7 +49,7 @@ public final class IsbnAddFragment extends DialogFragment {
                     dismiss();
                     mIsbnAddListener.onAddIsbn(isbn);
                 } else {
-                    textIsbn.setError("Invalid ISBN.");
+                    textIsbn.setError(getString(R.string.message_isbn_search_invalid_format));
                 }
             }
         });
