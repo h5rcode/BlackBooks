@@ -67,8 +67,10 @@ public class BookEditGeneralFragment extends Fragment implements DatePickerListe
     private static final String TAG_DATE_PICKER_FRAGMENT = "TAG_DATE_PICKER_FRAGMENT";
 
     private static final int ITEM_THUMBNAIL_REMOVE = 1;
-    private static final int ITEM_TAKE_PICTURE = 2;
-    private static final int ITEM_PICK_IMAGE = 3;
+    private static final int ITEM_ROTATE_LEFT = 2;
+    private static final int ITEM_ROTATE_RIGHT = 3;
+    private static final int ITEM_TAKE_PICTURE = 4;
+    private static final int ITEM_PICK_IMAGE = 5;
 
     private static final int REQUEST_EDIT_AUTHORS = 1;
     private static final int REQUEST_EDIT_CATEGORIES = 2;
@@ -123,6 +125,8 @@ public class BookEditGeneralFragment extends Fragment implements DatePickerListe
 
         menu.setHeaderTitle(R.string.title_menu_edit_thumbnail);
         if (mBookInfo.thumbnail != null) {
+            menu.add(Menu.NONE, ITEM_ROTATE_LEFT, Menu.NONE, R.string.action_rotate_left);
+            menu.add(Menu.NONE, ITEM_ROTATE_RIGHT, Menu.NONE, R.string.action_rotate_right);
             menu.add(Menu.NONE, ITEM_THUMBNAIL_REMOVE, Menu.NONE, R.string.action_remove_thumbnail);
         }
         menu.add(Menu.NONE, ITEM_TAKE_PICTURE, Menu.NONE, R.string.action_take_picture);
@@ -138,6 +142,20 @@ public class BookEditGeneralFragment extends Fragment implements DatePickerListe
             case ITEM_THUMBNAIL_REMOVE:
                 mBookInfo.thumbnail = null;
                 mBookInfo.smallThumbnail = null;
+                setImageThumbnail();
+                result = true;
+                break;
+
+            case ITEM_ROTATE_LEFT:
+                mBookInfo.thumbnail = BitmapUtils.rotate90(mBookInfo.thumbnail, -1);
+                mBookInfo.smallThumbnail = BitmapUtils.rotate90(mBookInfo.smallThumbnail, -1);
+                setImageThumbnail();
+                result = true;
+                break;
+
+            case ITEM_ROTATE_RIGHT:
+                mBookInfo.thumbnail = BitmapUtils.rotate90(mBookInfo.thumbnail, 1);
+                mBookInfo.smallThumbnail = BitmapUtils.rotate90(mBookInfo.smallThumbnail, 1);
                 setImageThumbnail();
                 result = true;
                 break;

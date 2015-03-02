@@ -20,6 +20,8 @@
     <string name="action_mark_book_as_read">Mark as read</string>
     <string name="action_pick_image">Pick an image</string>
     <string name="action_remove_thumbnail">Remove thumbnail</string>
+    <string name="action_rotate_left">Rotate left</string>
+    <string name="action_rotate_right">Rotate right</string>
     <string name="action_return_book">Return book</string>
     <string name="action_save_book">Save</string>
     <string name="action_scan_isbn">Scan ISBN</string>

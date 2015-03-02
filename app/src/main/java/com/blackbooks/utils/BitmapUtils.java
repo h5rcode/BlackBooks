@@ -5,9 +5,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.util.DisplayMetrics;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -74,6 +76,28 @@ public final class BitmapUtils {
 
         int maxHeight = Math.min(MAX_THUMBNAIL_HEIGHT, Math.max(metrics.widthPixels, metrics.heightPixels) / 3);
         return resize(bitmap, maxHeight);
+    }
+
+    /**
+     * Rotate a bitmap by +90 or -90 degrees.
+     *
+     * @param bytes Content of the bitmap.
+     * @param sign  A positive value will rotate the bitmap to the right, a negative value will rotate
+     *              it to the left. Zero is not permitted.
+     * @return Content of the rotated bitmap.
+     */
+    public static byte[] rotate90(byte[] bytes, int sign) {
+        if (sign == 0) {
+            throw new IllegalArgumentException("Parameter 'sign' must be different from zero.");
+        }
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        Matrix matrix = new Matrix();
+        matrix.postRotate(sign * 90 / Math.abs(sign));
+        Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        rotatedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
     }
 
     /**
