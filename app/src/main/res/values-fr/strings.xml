@@ -7,8 +7,10 @@
     <string name="action_add_manually">Ajouter manuellement</string>
     <string name="action_bulk_add">Ajouter en masse</string>
     <string name="action_bulk_scan">Scanner en masse</string>
+    <string name="action_delete_author">Supprimer l\'auteur</string>
     <string name="action_delete_book">Supprimer le livre</string>
     <string name="action_delete_isbns">Tout supprimer</string>
+    <string name="action_edit_author">Modifier l\'auteur</string>
     <string name="action_edit_book">Modifier le livre</string>
     <string name="action_enter_isbn">Entrer un ISBN</string>
     <string name="action_export_books">Exporter les livres</string>
@@ -236,6 +238,7 @@
     <string name="message_author_added">\"%s\" a été ajouté à la liste des auteurs.</string>
     <string name="message_author_already_present">\"%s\" est déjà dans la liste des auteurs.</string>
     <string name="message_author_missing">Veuillez entrer un nom.</string>
+    <string name="message_author_modifed">\"%s\" a été modifié avec succès.</string>
     <string name="message_book_added">\"%s\" a été ajouté avec succès.</string>
     <string name="message_book_deleted">\"%s\" a été supprimé avec succès.</string>
     <string name="message_book_loaned">\"%1$s\" est à présent prêté à %2$s.</string>
@@ -251,6 +254,9 @@
     <string name="message_confirm_delete_book">Voulez-vous vraiment supprimer \"%s\" ?</string>
     <string name="message_confirm_delete_book_cancel">Non</string>
     <string name="message_confirm_delete_book_confirm">Oui</string>
+    <string name="message_confirm_delete_author">Voulez-vous vraiment supprimer l\'auteur \"%s\" ?\n\nLes livres associés ne seront pas supprimés.</string>
+    <string name="message_confirm_delete_author_cancel">Non</string>
+    <string name="message_confirm_delete_author_confirm">Oui</string>
     <string name="message_confirm_delete_category">Voulez-vous vraiment supprimer la catégorie \"%s\" ?\n\nLes livres associés ne seront pas supprimés.</string>
     <string name="message_confirm_delete_category_cancel">Non</string>
     <string name="message_confirm_delete_category_confirm">Oui</string>
@@ -328,6 +334,7 @@
     <string name="title_activity_book_search_default">Résultats de recherche</string>
     <string name="title_dialog_add_isbn">Ajouter un ISBN</string>
     <string name="title_dialog_column_separator_picker">Choisissez un séparateur de colonnes</string>
+    <string name="title_dialog_delete_author">Supprimer un auteur</string>
     <string name="title_dialog_delete_book">Supprimer un livre</string>
     <string name="title_dialog_delete_category">Supprimer une catégorie</string>
     <string name="title_dialog_delete_isbns">Supprimer les ISBNs</string>

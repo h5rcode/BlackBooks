@@ -55,6 +55,7 @@ public abstract class AbstractBookGroupListFragment extends ListFragment {
         View view = inflater.inflate(R.layout.abstract_book_group_list_fragment, container, false);
 
         ListView listView = (ListView) view.findViewById(android.R.id.list);
+        registerForContextMenu(listView);
 
         mTextViewFooter = (TextView) view.findViewById(R.id.abstractBookGroupList_textFooter);
 
@@ -99,11 +100,7 @@ public abstract class AbstractBookGroupListFragment extends ListFragment {
 
         if (!mAlreadyLoaded || VariableUtils.getInstance().getReloadBookGroupList()) {
             mAlreadyLoaded = true;
-            VariableUtils.getInstance().setReloadBookGroupListToFalse();
-            mLastItem = -1;
-            mLastPage = 1;
-            mBookGroupListAdapter.clear();
-            loadMoreBookGroups();
+            reloadBookGroups();
         }
     }
 
@@ -163,6 +160,17 @@ public abstract class AbstractBookGroupListFragment extends ListFragment {
     }
 
     /**
+     * Reload the book groups.
+     */
+    protected final void reloadBookGroups() {
+        VariableUtils.getInstance().setReloadBookGroupListToFalse();
+        mLastItem = -1;
+        mLastPage = 1;
+        mBookGroupListAdapter.clear();
+        loadMoreBookGroups();
+    }
+
+    /**
      * Set the footer text.
      */
     private void setFooterText() {
@@ -187,6 +195,18 @@ public abstract class AbstractBookGroupListFragment extends ListFragment {
      * @return Text.
      */
     protected abstract String getMoreGroupsLoadedText(int bookGroupCount);
+
+    /**
+     * Remove a bookGroup from the list adapter.
+     *
+     * @param bookGroup BookGroup.
+     */
+    protected final void removeBookGroupFromAdapter(BookGroup bookGroup) {
+        VariableUtils.getInstance().setReloadBookList(true);
+        mBookGroupCount--;
+        mBookGroupListAdapter.remove(bookGroup);
+        mBookGroupListAdapter.notifyDataSetChanged();
+    }
 
     /**
      * A task to load book groups.

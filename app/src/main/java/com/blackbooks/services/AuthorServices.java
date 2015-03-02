@@ -1,5 +1,6 @@
 package com.blackbooks.services;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.blackbooks.model.persistent.Author;
@@ -12,6 +13,15 @@ import java.util.List;
  * Author services.
  */
 public class AuthorServices {
+
+    /**
+     * Delete an author.
+     *
+     * @param db SQLiteDatabase.
+     */
+    public static void deleteAuthor(SQLiteDatabase db, long authorId) {
+        BrokerManager.getBroker(Author.class).delete(db, authorId);
+    }
 
     /**
      * Delete the authors that are not referred by any books in the database.
@@ -72,5 +82,20 @@ public class AuthorServices {
      */
     public static long saveAuthor(SQLiteDatabase db, Author author) {
         return BrokerManager.getBroker(Author.class).save(db, author);
+    }
+
+    /**
+     * Update and author.
+     *
+     * @param db       SQLiteDatabase.
+     * @param authorId Id of the author.
+     * @param newName  New name of the author.
+     */
+    public static void updateAuthor(SQLiteDatabase db, long authorId, String newName) {
+        ContentValues values = new ContentValues();
+        values.put(Author.Cols.AUT_NAME, newName);
+        String whereClause = Author.Cols.AUT_ID + " = ?";
+        String[] whereArgs = new String[]{String.valueOf(authorId)};
+        db.updateWithOnConflict(Author.NAME, values, whereClause, whereArgs, SQLiteDatabase.CONFLICT_ROLLBACK);
     }
 }

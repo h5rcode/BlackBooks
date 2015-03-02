@@ -8,8 +8,10 @@
     <string name="action_add_manually">Add manually</string>
     <string name="action_bulk_add">Bulk add</string>
     <string name="action_bulk_scan">Bulk scan</string>
+    <string name="action_delete_author">Delete author</string>
     <string name="action_delete_book">Delete book</string>
     <string name="action_delete_isbns">Delete all</string>
+    <string name="action_edit_author">Edit author</string>
     <string name="action_edit_book">Edit book</string>
     <string name="action_enter_isbn">Enter ISBN</string>
     <string name="action_export_books">Export books</string>
@@ -237,7 +239,9 @@
     <string name="menu_search">Search books</string>
     <string name="message_author_added">\"%s\" was added to the list of authors.</string>
     <string name="message_author_already_present">\"%s\" is already in the list of authors.</string>
+    <string name="message_author_deleted">\"%s\" was deleted.</string>
     <string name="message_author_missing">Please enter a name.</string>
+    <string name="message_author_modifed">\"%s\" was successfully modified.</string>
     <string name="message_book_added">\"%s\" was successfully added.</string>
     <string name="message_book_deleted">\"%s\" was successfully deleted.</string>
     <string name="message_book_loaned">\"%1$s\" is now loaned to %2$s.</string>
@@ -250,6 +254,9 @@
     <string name="message_category_added">\"%s\" was added to the list of categories.</string>
     <string name="message_category_already_present">\"%s\" is already in the list of categories.</string>
     <string name="message_category_missing">Please enter a category.</string>
+    <string name="message_confirm_delete_author">Do you really want to remove author \"%s\"?\n\nThe related books will not be deleted.</string>
+    <string name="message_confirm_delete_author_cancel">No</string>
+    <string name="message_confirm_delete_author_confirm">Yes</string>
     <string name="message_confirm_delete_book">Do you really want to delete \"%s\"?</string>
     <string name="message_confirm_delete_book_cancel">No</string>
     <string name="message_confirm_delete_book_confirm">Yes</string>
@@ -330,6 +337,7 @@
     <string name="title_activity_book_search_default">Search results</string>
     <string name="title_dialog_add_isbn">Add isbn</string>
     <string name="title_dialog_column_separator_picker">Choose a column separator</string>
+    <string name="title_dialog_delete_author">Delete author</string>
     <string name="title_dialog_delete_book">Delete book</string>
     <string name="title_dialog_delete_category">Delete category</string>
     <string name="title_dialog_delete_isbns">Delete ISBNs</string>

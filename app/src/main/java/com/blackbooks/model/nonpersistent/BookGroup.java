@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * A book group.
  */
-public final class BookGroup {
+public final class BookGroup implements Serializable {
 
     public Serializable id;
     public String name;
