@@ -1,6 +1,7 @@
 package com.blackbooks.fragments.dialogs;
 
 import android.app.Dialog;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -10,7 +11,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 import com.blackbooks.R;
+import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookGroup;
+import com.blackbooks.model.persistent.Author;
+import com.blackbooks.services.AuthorServices;
 
 /**
  * A dialog fragment to edit a category.
@@ -67,9 +71,18 @@ public final class AuthorEditFragment extends DialogFragment {
 
                 String errorMessage = null;
                 if (newName == null || newName.trim().isEmpty()) {
-                    errorMessage = "Enter a name";
+                    errorMessage = getString(R.string.message_author_missing);
                 } else {
                     newName = newName.trim();
+
+                    SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
+                    Author author = new Author();
+                    author.name = newName;
+                    Author authorDb = AuthorServices.getAuthorByCriteria(db, author);
+
+                    if (authorDb != null) {
+                        errorMessage = getString(R.string.message_author_already_present, newName);
+                    }
                 }
 
                 if (errorMessage == null) {
