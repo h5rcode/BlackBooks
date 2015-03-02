@@ -1,5 +1,6 @@
 package com.blackbooks.services;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.blackbooks.model.persistent.BookCategory;
@@ -12,6 +13,16 @@ import java.util.List;
  * Services related to the Category class.
  */
 public class CategoryServices {
+
+    /**
+     * Delete a category.
+     *
+     * @param db         SQLiteDatabase.
+     * @param categoryId Id of the category.
+     */
+    public static void deleteCategory(SQLiteDatabase db, long categoryId) {
+        BrokerManager.getBroker(Category.class).delete(db, categoryId);
+    }
 
     /**
      * Delete the categories that are not referred by any books in the database.
@@ -72,5 +83,20 @@ public class CategoryServices {
      */
     public static long saveCategory(SQLiteDatabase db, Category category) {
         return BrokerManager.getBroker(Category.class).save(db, category);
+    }
+
+    /**
+     * Update a category.
+     *
+     * @param db         SQLiteDatabase.
+     * @param categoryId Id of the category.
+     * @param newName    New name.
+     */
+    public static void updateCategory(SQLiteDatabase db, long categoryId, String newName) {
+        ContentValues values = new ContentValues();
+        values.put(Category.Cols.CAT_NAME, newName);
+        String whereClause = Category.Cols.CAT_ID + " = ?";
+        String[] whereArgs = new String[]{String.valueOf(categoryId)};
+        db.updateWithOnConflict(Category.NAME, values, whereClause, whereArgs, SQLiteDatabase.CONFLICT_ROLLBACK);
     }
 }

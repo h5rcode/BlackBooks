@@ -10,9 +10,11 @@
     <string name="action_bulk_scan">Bulk scan</string>
     <string name="action_delete_author">Delete author</string>
     <string name="action_delete_book">Delete book</string>
+    <string name="action_delete_category">Delete category</string>
     <string name="action_delete_isbns">Delete all</string>
     <string name="action_edit_author">Edit author</string>
     <string name="action_edit_book">Edit book</string>
+    <string name="action_edit_category">Edit category</string>
     <string name="action_enter_isbn">Enter ISBN</string>
     <string name="action_export_books">Export books</string>
     <string name="action_loan_book">Loan book</string>
@@ -253,7 +255,9 @@
     <string name="message_book_unmarked_as_favourite">\"%s\" removed from the favourites.</string>
     <string name="message_category_added">\"%s\" was added to the list of categories.</string>
     <string name="message_category_already_present">\"%s\" is already in the list of categories.</string>
+    <string name="message_category_deleted">Category \"%s\" was deleted.</string>
     <string name="message_category_missing">Please enter a category.</string>
+    <string name="message_category_modified">Category \"%s\" was successfully modified.</string>
     <string name="message_confirm_delete_author">Do you really want to remove author \"%s\"?\n\nThe related books will not be deleted.</string>
     <string name="message_confirm_delete_author_cancel">No</string>
     <string name="message_confirm_delete_author_confirm">Yes</string>

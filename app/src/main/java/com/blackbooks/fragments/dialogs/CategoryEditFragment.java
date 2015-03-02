@@ -11,40 +11,33 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 import com.blackbooks.R;
-import com.blackbooks.adapters.AutoCompleteAdapter;
-import com.blackbooks.adapters.AutoCompleteAdapter.AutoCompleteSearcher;
 import com.blackbooks.database.SQLiteHelper;
+import com.blackbooks.model.nonpersistent.BookGroup;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.services.CategoryServices;
-
-import java.util.List;
 
 /**
  * A dialog fragment to edit a category.
  */
-public class CategoryEditFragment extends DialogFragment {
+public final class CategoryEditFragment extends DialogFragment {
 
     private static final String ARG_CATEGORY = "ARG_CATEGORY";
-    private static final String ARG_ENABLE_AUTOCOMPLETE = "ARG_ENABLE_AUTOCOMPLETE";
 
     private CategoryEditListener mCategoryEditListener;
-    private AutoCompleteAdapter<Category> mAutoCompleteAdapter;
 
-    private Category mCategory;
+    private BookGroup mCategory;
 
     /**
      * Return a new instance of CategoryEditFragment that is initialized to edit
      * a category.
      *
-     * @param category           Category.
-     * @param enableAutoComplete True to enable category auto-completion, false otherwise.
+     * @param bookGroup BookGroup.
      * @return CategoryEditFragment.
      */
-    public static CategoryEditFragment newInstance(Category category, boolean enableAutoComplete) {
+    public static CategoryEditFragment newInstance(BookGroup bookGroup) {
         CategoryEditFragment fragment = new CategoryEditFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_CATEGORY, category);
-        args.putBoolean(ARG_ENABLE_AUTOCOMPLETE, enableAutoComplete);
+        args.putSerializable(ARG_CATEGORY, bookGroup);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,27 +47,8 @@ public class CategoryEditFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
 
-        mCategory = (Category) args.getSerializable(ARG_CATEGORY);
-        boolean enableAutoComplete = args.getBoolean(ARG_ENABLE_AUTOCOMPLETE);
-
+        mCategory = (BookGroup) args.getSerializable(ARG_CATEGORY);
         mCategoryEditListener = (CategoryEditListener) getTargetFragment();
-
-        if (enableAutoComplete) {
-            mAutoCompleteAdapter = new AutoCompleteAdapter<Category>(getActivity(), android.R.layout.simple_list_item_1,
-                    new AutoCompleteSearcher<Category>() {
-
-                        @Override
-                        public List<Category> search(CharSequence constraint) {
-                            SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-                            return CategoryServices.getCategoryListByText(db, constraint.toString());
-                        }
-
-                        @Override
-                        public String getDisplayLabel(Category item) {
-                            return item.name;
-                        }
-                    });
-        }
     }
 
     @SuppressLint("InflateParams")
@@ -86,7 +60,6 @@ public class CategoryEditFragment extends DialogFragment {
 
         final AutoCompleteTextView textCategory = (AutoCompleteTextView) dialog.findViewById(R.id.editCategory_textCategory);
         textCategory.setText(mCategory.name);
-        textCategory.setAdapter(mAutoCompleteAdapter);
 
         Button saveButton = (Button) dialog.findViewById(R.id.editCategory_confirm);
         Button cancelButton = (Button) dialog.findViewById(R.id.editCategory_cancel);
@@ -96,7 +69,24 @@ public class CategoryEditFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 String newName = textCategory.getText().toString();
-                String errorMessage = mCategoryEditListener.checkNewName(mCategory, newName);
+                String errorMessage = null;
+
+                if (newName == null || newName.trim().isEmpty()) {
+                    errorMessage = getString(R.string.message_category_missing);
+                } else {
+                    newName = newName.trim();
+
+                    Category category = new Category();
+                    category.name = newName;
+
+                    SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
+                    Category categoryDb = CategoryServices.getCategoryByCriteria(db, category);
+
+                    if (categoryDb != null) {
+                        errorMessage = getString(R.string.message_category_already_present, newName);
+                    }
+                }
+
                 if (errorMessage == null) {
                     textCategory.setText(null);
                     textCategory.setError(null);
@@ -125,22 +115,11 @@ public class CategoryEditFragment extends DialogFragment {
     public interface CategoryEditListener {
 
         /**
-         * Called when a new category name has been entered.
-         *
-         * @param category The edited category.
-         * @param newName  The new name of the category.
-         * @return An error message that should be displayed in the text box.
-         * Null if everything went well and the dialog should be
-         * dismissed.
-         */
-        String checkNewName(Category category, String newName);
-
-        /**
          * Called when the category is edited.
          *
-         * @param category The edited category.
-         * @param newName  The new name of the category.
+         * @param bookGroup BookGroup.
+         * @param newName   The new name of the category.
          */
-        void onCategoryEdit(Category category, String newName);
+        void onCategoryEdit(BookGroup bookGroup, String newName);
     }
 }

@@ -9,9 +9,11 @@
     <string name="action_bulk_scan">Scanner en masse</string>
     <string name="action_delete_author">Supprimer l\'auteur</string>
     <string name="action_delete_book">Supprimer le livre</string>
+    <string name="action_delete_category">Supprimer la catégorie</string>
     <string name="action_delete_isbns">Tout supprimer</string>
     <string name="action_edit_author">Modifier l\'auteur</string>
     <string name="action_edit_book">Modifier le livre</string>
+    <string name="action_edit_category">Modifier la catégorie</string>
     <string name="action_enter_isbn">Entrer un ISBN</string>
     <string name="action_export_books">Exporter les livres</string>
     <string name="action_loan_book">Prêter le livre</string>
@@ -250,7 +252,9 @@
     <string name="message_book_unmarked_as_favourite">\"%s\" a été retiré des favoris.</string>
     <string name="message_category_added">\"%s\" a été ajouté à la liste des catégories.</string>
     <string name="message_category_already_present">\"%s\" est déjà dans la liste des catégories.</string>
+    <string name="message_category_deleted">La catégorie \"%s\" a été supprimée.</string>
     <string name="message_category_missing">Veuillez entrer une catégorie.</string>
+    <string name="message_category_modified">La catégorie \"%s\" a été modifiée avec succès.</string>
     <string name="message_confirm_delete_book">Voulez-vous vraiment supprimer \"%s\" ?</string>
     <string name="message_confirm_delete_book_cancel">Non</string>
     <string name="message_confirm_delete_book_confirm">Oui</string>

@@ -4,32 +4,33 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 
 import com.blackbooks.R;
-import com.blackbooks.model.persistent.Category;
+import com.blackbooks.model.nonpersistent.BookGroup;
 
 /**
  * A fragment dialog to delete a category.
  */
-public class CategoryDeleteFragment extends DialogFragment {
+public final class CategoryDeleteFragment extends DialogFragment {
 
     private static final String ARG_CATEGORY = "ARG_CATEGORY";
 
-    private Category mCategory;
+    private BookGroup mCategory;
     private CategoryDeleteListener mCategoryDeleteListener;
 
     /**
      * Return a new instance of CategoryRemoveFragment that is initialized to
      * remove a category.
      *
-     * @param category Category.
+     * @param bookGroup BookGroup.
      * @return CategoryRemoveFragment.
      */
-    public static CategoryDeleteFragment newInstance(Category category) {
+    public static CategoryDeleteFragment newInstance(BookGroup bookGroup) {
         CategoryDeleteFragment fragment = new CategoryDeleteFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_CATEGORY, category);
+        args.putSerializable(ARG_CATEGORY, bookGroup);
         fragment.setArguments(args);
         return fragment;
     }
@@ -37,10 +38,11 @@ public class CategoryDeleteFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCategory = (Category) getArguments().getSerializable(ARG_CATEGORY);
+        mCategory = (BookGroup) getArguments().getSerializable(ARG_CATEGORY);
         mCategoryDeleteListener = (CategoryDeleteListener) getTargetFragment();
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -75,8 +77,8 @@ public class CategoryDeleteFragment extends DialogFragment {
         /**
          * Called when the category is deleted.
          *
-         * @param category Category.
+         * @param bookGroup BookGroup.
          */
-        public void onCategoryDeleted(Category category);
+        public void onCategoryDeleted(BookGroup bookGroup);
     }
 }
