@@ -1,3 +1,8 @@
+# Version 1.1.1 (03/03/2015)
+New features:
+* Book edit: the cover can now be rotated left or right.
+* Authors, categories, book locations and series can now be edited or removed directly in their respective list.
+
 # Version 1.1.0 (27/02/2015)
 New organization:
 * The Summary is now the home screen of the app.
