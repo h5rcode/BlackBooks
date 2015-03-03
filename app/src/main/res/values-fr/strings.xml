@@ -12,10 +12,12 @@
     <string name="action_delete_book_location">Supprimer l\'emplacement</string>
     <string name="action_delete_category">Supprimer la catégorie</string>
     <string name="action_delete_isbns">Tout supprimer</string>
+    <string name="action_delete_series">Supprimer la série</string>
     <string name="action_edit_author">Modifier l\'auteur</string>
     <string name="action_edit_book">Modifier le livre</string>
     <string name="action_edit_book_location">Modifier l\'emplacement</string>
     <string name="action_edit_category">Modifier la catégorie</string>
+    <string name="action_edit_series">Modifier la série</string>
     <string name="action_enter_isbn">Entrer un ISBN</string>
     <string name="action_export_books">Exporter les livres</string>
     <string name="action_loan_book">Prêter le livre</string>
@@ -42,6 +44,7 @@
     <string name="button_cancel_edit_author">Annuler</string>
     <string name="button_cancel_edit_book_location">Annuler</string>
     <string name="button_cancel_edit_category">Annuler</string>
+    <string name="button_cancel_edit_series">Annuler</string>
     <string name="button_cancel_scanner_install">Annuler</string>
     <string name="button_cancel_send_log">Fermer</string>
     <string name="button_edit_authors">Ajouter des auteurs</string>
@@ -53,6 +56,7 @@
     <string name="button_save_book_location">Enregistrer</string>
     <string name="button_save_category">Enregistrer</string>
     <string name="button_save_isbn">Ajouter</string>
+    <string name="button_save_series">Enregistrer</string>
     <string name="button_send_log">Envoyer le rapport d\'erreur</string>
     <string name="error_connection_problem">Problème de connexion. Vérifiez que l\'appareil est connecté à Internet.</string>
     <string name="field_invalid_date">Date invalide.</string>
@@ -243,6 +247,7 @@
     <string name="menu_search">Rechercher des livres</string>
     <string name="message_author_added">\"%s\" a été ajouté à la liste des auteurs.</string>
     <string name="message_author_already_present">\"%s\" est déjà dans la liste des auteurs.</string>
+    <string name="message_author_deleted">\"%s\" a été supprimé.</string>
     <string name="message_author_missing">Veuillez entrer un nom.</string>
     <string name="message_author_modifed">\"%s\" a été modifié avec succès.</string>
     <string name="message_book_added">\"%s\" a été ajouté avec succès.</string>
@@ -258,6 +263,7 @@
     <string name="message_book_modifed">\"%s\" a été modifié avec succès.</string>
     <string name="message_book_returned">\"%s\" a été rendu.</string>
     <string name="message_book_unmarked_as_favourite">\"%s\" a été retiré des favoris.</string>
+    <string name="message_cannot_delete_isbns">Une recherche est en cours, les ISBNs ne peuvent pas être supprimés.</string>
     <string name="message_category_added">\"%s\" a été ajouté à la liste des catégories.</string>
     <string name="message_category_already_present">\"%s\" est déjà dans la liste des catégories.</string>
     <string name="message_category_deleted">La catégorie \"%s\" a été supprimée.</string>
@@ -281,6 +287,9 @@
     <string name="message_confirm_delete_pending_isbns">Voulez-vous vraiment supprimer tous les ISBNs en attente ?</string>
     <string name="message_confirm_delete_pending_isbns_cancel">Non</string>
     <string name="message_confirm_delete_pending_isbns_confirm">Oui</string>
+    <string name="message_confirm_delete_series">Voulez-vous vraiment supprimer la série \"%s\" ?\n\nLes livres associés ne seront pas supprimés.</string>
+    <string name="message_confirm_delete_series_cancel">Non</string>
+    <string name="message_confirm_delete_series_confirm">Oui</string>
     <string name="message_confirm_return_book">Rendre \"%s\" ?</string>
     <string name="message_confirm_return_book_cancel">Non</string>
     <string name="message_confirm_return_book_confirm">Oui</string>
@@ -295,6 +304,8 @@
     <string name="message_isbn_search_invalid_isbn13">ISBN-13 invalide</string>
     <string name="message_isbn_search_too_short">Trop court</string>
     <string name="message_no_result">La recherche n\'a retourné aucun résultat.</string>
+    <string name="message_series_missing">Veuillez entrer une série</string>
+    <string name="message_series_modifed">La série \"%s\" a été modifiée avec succès.</string>
     <string name="message_unsaved_changes">Voulez-vous enregistrer les modifications en cours ?</string>
     <string name="message_unsaved_changes_negative">Ne pas enregistrer</string>
     <string name="message_unsaved_changes_neutral">Annuler</string>
@@ -302,6 +313,8 @@
     <string name="message_isbn_saved">ISBN %s enregistré.</string>
     <string name="message_scanner_install">Black Books utilise l\'application Pic2shop pour scanner les codes ISBN. Cliquez sur OK pour être redirigé vers sa page Google Play.</string>
     <string name="message_send_log">Black Books a rencontré une erreur inattendue.\n\nPour nous aider à corriger le problème, cliquez sur \"Envoyer le rapport d\'erreur\" afin de nous transférer un journal d\'erreur. N\'hésitez pas à détailler ce que vous êtiez en train de faire lorsque l\'erreur est survenue.\n\nMerci.</string>
+    <string name="message_series_already_present">\"%s\" est déjà dans la liste des séries.</string>
+    <string name="message_series_deleted">La série \"%s\" a été supprimée.</string>
     <string name="notification_bulk_search_finished_title">Recherche de livres terminées</string>
     <string name="notification_bulk_search_finished_text">Cliquez pour voir les résultats.</string>
     <string name="notification_bulk_search_running_title">Recherche de livres en cours</string>
@@ -357,6 +370,7 @@
     <string name="title_dialog_edit_author">Modifier un auteur</string>
     <string name="title_dialog_edit_book_location">Modifier un emplacement</string>
     <string name="title_dialog_edit_category">Modifier une catégorie</string>
+    <string name="title_dialog_edit_series">Modifier une série</string>
     <string name="title_dialog_duplicate_books">Livre en double</string>
     <string name="title_dialog_install_scanner">Installer un scanner de code-barres</string>
     <string name="title_dialog_return_book">Rendre un livre</string>
@@ -369,7 +383,5 @@
     <string name="title_tab_book_edit_personal">Personnel</string>
     <string name="title_tab_bulk_add_pending">En attente</string>
     <string name="title_tab_bulk_add_looked_up">Terminés</string>
-    <string name="message_cannot_delete_isbns">Une recherche est en cours, les ISBNs ne peuvent pas être supprimés.</string>
-    <string name="message_author_deleted">\"%s\" a été supprimé.</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.blackbooks.services;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.blackbooks.model.persistent.Book;
@@ -12,6 +13,28 @@ import java.util.List;
  * Series services.
  */
 public class SeriesServices {
+
+    /**
+     * Delete a series.
+     *
+     * @param db       SQLiteDatabase.
+     * @param seriesId Id of the series.
+     */
+    public static void deleteSeries(SQLiteDatabase db, long seriesId) {
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(Book.Cols.SER_ID, (String) null);
+            String whereClause = Book.Cols.SER_ID + " = ?";
+            String[] whereArgs = new String[]{String.valueOf(seriesId)};
+            db.updateWithOnConflict(Book.NAME, values, whereClause, whereArgs, SQLiteDatabase.CONFLICT_ROLLBACK);
+
+            BrokerManager.getBroker(Series.class).delete(db, seriesId);
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
 
     /**
      * Delete the publishers that are not referred by any books in the database.
@@ -72,5 +95,20 @@ public class SeriesServices {
      */
     public static Series getSeries(SQLiteDatabase db, long serId) {
         return BrokerManager.getBroker(Series.class).get(db, serId);
+    }
+
+    /**
+     * Update a series.
+     *
+     * @param db       SQLiteDatabase.
+     * @param seriesId Id of the series.
+     * @param newName  New name.
+     */
+    public static void updateSeries(SQLiteDatabase db, long seriesId, String newName) {
+        ContentValues values = new ContentValues();
+        values.put(Series.Cols.SER_NAME, newName);
+        String whereClause = Series.Cols.SER_ID + " = ?";
+        String[] whereArgs = new String[]{String.valueOf(seriesId)};
+        db.updateWithOnConflict(Series.NAME, values, whereClause, whereArgs, SQLiteDatabase.CONFLICT_ROLLBACK);
     }
 }
