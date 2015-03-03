@@ -7,34 +7,34 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.blackbooks.R;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookGroup;
-import com.blackbooks.model.persistent.Author;
-import com.blackbooks.services.AuthorServices;
+import com.blackbooks.model.persistent.BookLocation;
+import com.blackbooks.services.BookLocationServices;
 
 /**
- * A dialog fragment to edit an author.
+ * A dialog fragment to edit a book location.
  */
-public final class AuthorEditFragment extends DialogFragment {
+public final class BookLocationEditFragment extends DialogFragment {
 
     private static final String ARG_BOOK_GROUP = "ARG_BOOK_GROUP";
 
-    private AuthorEditListener mAuthorEditListener;
+    private BookLocationEditListener mBookLocationEditListener;
     private BookGroup mBookGroup;
 
     /**
-     * Return a new instance of AuthorEditFragment that is initialized to edit
-     * a category.
+     * Return a new instance of BookLocationEditFragment that is initialized to edit
+     * a book location.
      *
      * @param bookGroup BookGroup.
-     * @return CategoryEditFragment.
+     * @return BookLocationEditFragment.
      */
-    public static AuthorEditFragment newInstance(BookGroup bookGroup) {
-        AuthorEditFragment fragment = new AuthorEditFragment();
+    public static BookLocationEditFragment newInstance(BookGroup bookGroup) {
+        BookLocationEditFragment fragment = new BookLocationEditFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_BOOK_GROUP, bookGroup);
         fragment.setArguments(args);
@@ -47,21 +47,21 @@ public final class AuthorEditFragment extends DialogFragment {
         Bundle args = getArguments();
 
         mBookGroup = (BookGroup) args.getSerializable(ARG_BOOK_GROUP);
-        mAuthorEditListener = (AuthorEditListener) getTargetFragment();
+        mBookLocationEditListener = (BookLocationEditListener) getTargetFragment();
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.dialog_edit_author);
-        dialog.setTitle(R.string.title_dialog_edit_author);
+        dialog.setContentView(R.layout.dialog_edit_book_location);
+        dialog.setTitle(R.string.title_dialog_edit_book_location);
 
-        final AutoCompleteTextView textAuthor = (AutoCompleteTextView) dialog.findViewById(R.id.editAuthor_textAuthor);
+        final EditText textAuthor = (EditText) dialog.findViewById(R.id.editBookLocation_textBookLocation);
         textAuthor.setText(mBookGroup.name);
 
-        Button saveButton = (Button) dialog.findViewById(R.id.editAuthor_confirm);
-        Button cancelButton = (Button) dialog.findViewById(R.id.editAuthor_cancel);
+        Button saveButton = (Button) dialog.findViewById(R.id.editBookLocation_confirm);
+        Button cancelButton = (Button) dialog.findViewById(R.id.editBookLocation_cancel);
 
         saveButton.setOnClickListener(new OnClickListener() {
 
@@ -71,17 +71,17 @@ public final class AuthorEditFragment extends DialogFragment {
 
                 String errorMessage = null;
                 if (newName == null || newName.trim().isEmpty()) {
-                    errorMessage = getString(R.string.message_author_missing);
+                    errorMessage = getString(R.string.message_book_location_missing);
                 } else {
                     newName = newName.trim();
 
                     SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-                    Author author = new Author();
-                    author.name = newName;
-                    Author authorDb = AuthorServices.getAuthorByCriteria(db, author);
+                    BookLocation bookLocation = new BookLocation();
+                    bookLocation.name = newName;
+                    BookLocation bookLocationDb = BookLocationServices.getBookLocationByCriteria(db, bookLocation);
 
-                    if (authorDb != null) {
-                        errorMessage = getString(R.string.message_author_already_present, newName);
+                    if (bookLocationDb != null) {
+                        errorMessage = getString(R.string.message_book_location_already_present, newName);
                     }
                 }
 
@@ -89,7 +89,7 @@ public final class AuthorEditFragment extends DialogFragment {
                     textAuthor.setText(null);
                     textAuthor.setError(null);
                     dismiss();
-                    mAuthorEditListener.onAuthorEdit(mBookGroup, newName);
+                    mBookLocationEditListener.onBookLocationEdit(mBookGroup, newName);
                 } else {
                     textAuthor.setError(errorMessage);
                 }
@@ -107,17 +107,17 @@ public final class AuthorEditFragment extends DialogFragment {
     }
 
     /**
-     * Activities hosting a {@link com.blackbooks.fragments.dialogs.AuthorEditFragment} should implement this
-     * interface to be notified when the author is edited.
+     * Activities hosting a {@link com.blackbooks.fragments.dialogs.BookLocationEditFragment} should implement this
+     * interface to be notified when the book location is edited.
      */
-    public interface AuthorEditListener {
+    public interface BookLocationEditListener {
 
         /**
-         * Called when the author is edited.
+         * Called when the book location is edited.
          *
-         * @param bookGroup The edited author.
+         * @param bookGroup The edited book location.
          * @param newName   The new name of the author.
          */
-        void onAuthorEdit(BookGroup bookGroup, String newName);
+        void onBookLocationEdit(BookGroup bookGroup, String newName);
     }
 }

@@ -9,10 +9,12 @@
     <string name="action_bulk_scan">Scanner en masse</string>
     <string name="action_delete_author">Supprimer l\'auteur</string>
     <string name="action_delete_book">Supprimer le livre</string>
+    <string name="action_delete_book_location">Supprimer l\'emplacement</string>
     <string name="action_delete_category">Supprimer la catégorie</string>
     <string name="action_delete_isbns">Tout supprimer</string>
     <string name="action_edit_author">Modifier l\'auteur</string>
     <string name="action_edit_book">Modifier le livre</string>
+    <string name="action_edit_book_location">Modifier l\'emplacement</string>
     <string name="action_edit_category">Modifier la catégorie</string>
     <string name="action_enter_isbn">Entrer un ISBN</string>
     <string name="action_export_books">Exporter les livres</string>
@@ -38,6 +40,7 @@
     <string name="button_add_category">Ajouter</string>
     <string name="button_cancel_add_isbn">Annuler</string>
     <string name="button_cancel_edit_author">Annuler</string>
+    <string name="button_cancel_edit_book_location">Annuler</string>
     <string name="button_cancel_edit_category">Annuler</string>
     <string name="button_cancel_scanner_install">Annuler</string>
     <string name="button_cancel_send_log">Fermer</string>
@@ -47,6 +50,7 @@
     <string name="button_remove_author">X</string>
     <string name="button_remove_category">X</string>
     <string name="button_save_author">Enregistrer</string>
+    <string name="button_save_book_location">Enregistrer</string>
     <string name="button_save_category">Enregistrer</string>
     <string name="button_save_isbn">Ajouter</string>
     <string name="button_send_log">Envoyer le rapport d\'erreur</string>
@@ -244,6 +248,10 @@
     <string name="message_book_added">\"%s\" a été ajouté avec succès.</string>
     <string name="message_book_deleted">\"%s\" a été supprimé avec succès.</string>
     <string name="message_book_loaned">\"%1$s\" est à présent prêté à %2$s.</string>
+    <string name="message_book_location_deleted">L\'emplacement \"%s\" a été supprimé.</string>
+    <string name="message_book_location_missing">Veuillez entrer un emplacement.</string>
+    <string name="message_book_location_modifed">\"%s\" a été modifié avec succès.</string>
+    <string name="message_book_location_already_present">\"%s\" est déjà dans la liste des emplacements.</string>
     <string name="message_book_marked_as_favourite">\"%s\" a été ajouté aux favoris.</string>
     <string name="message_book_marked_as_read">\"%s\" a été marqué comme lu.</string>
     <string name="message_book_marked_as_to_read">\"%s\" a été ajouté aux livres à lire.</string>
@@ -258,6 +266,9 @@
     <string name="message_confirm_delete_book">Voulez-vous vraiment supprimer \"%s\" ?</string>
     <string name="message_confirm_delete_book_cancel">Non</string>
     <string name="message_confirm_delete_book_confirm">Oui</string>
+    <string name="message_confirm_delete_book_location">Voulez-vous vraiment supprimer l\'emplacement \"%s\" ?\n\nLes livres associés ne seront pas supprimés.</string>
+    <string name="message_confirm_delete_book_location_cancel">Non</string>
+    <string name="message_confirm_delete_book_location_confirm">Oui</string>
     <string name="message_confirm_delete_author">Voulez-vous vraiment supprimer l\'auteur \"%s\" ?\n\nLes livres associés ne seront pas supprimés.</string>
     <string name="message_confirm_delete_author_cancel">Non</string>
     <string name="message_confirm_delete_author_confirm">Oui</string>
@@ -340,9 +351,11 @@
     <string name="title_dialog_column_separator_picker">Choisissez un séparateur de colonnes</string>
     <string name="title_dialog_delete_author">Supprimer un auteur</string>
     <string name="title_dialog_delete_book">Supprimer un livre</string>
+    <string name="title_dialog_delete_book_location">Supprimer un emplacement</string>
     <string name="title_dialog_delete_category">Supprimer une catégorie</string>
     <string name="title_dialog_delete_isbns">Supprimer les ISBNs</string>
     <string name="title_dialog_edit_author">Modifier un auteur</string>
+    <string name="title_dialog_edit_book_location">Modifier un emplacement</string>
     <string name="title_dialog_edit_category">Modifier une catégorie</string>
     <string name="title_dialog_duplicate_books">Livre en double</string>
     <string name="title_dialog_install_scanner">Installer un scanner de code-barres</string>
@@ -357,5 +370,6 @@
     <string name="title_tab_bulk_add_pending">En attente</string>
     <string name="title_tab_bulk_add_looked_up">Terminés</string>
     <string name="message_cannot_delete_isbns">Une recherche est en cours, les ISBNs ne peuvent pas être supprimés.</string>
+    <string name="message_author_deleted">\"%s\" a été supprimé.</string>
 
 </resources>

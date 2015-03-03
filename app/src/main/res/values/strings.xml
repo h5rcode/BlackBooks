@@ -10,10 +10,12 @@
     <string name="action_bulk_scan">Bulk scan</string>
     <string name="action_delete_author">Delete author</string>
     <string name="action_delete_book">Delete book</string>
+    <string name="action_delete_book_location">Delete book location</string>
     <string name="action_delete_category">Delete category</string>
     <string name="action_delete_isbns">Delete all</string>
     <string name="action_edit_author">Edit author</string>
     <string name="action_edit_book">Edit book</string>
+    <string name="action_edit_book_location">Edit book location</string>
     <string name="action_edit_category">Edit category</string>
     <string name="action_enter_isbn">Enter ISBN</string>
     <string name="action_export_books">Export books</string>
@@ -39,6 +41,7 @@
     <string name="button_add_category">Add</string>
     <string name="button_cancel_add_isbn">Cancel</string>
     <string name="button_cancel_edit_author">Cancel</string>
+    <string name="button_cancel_edit_book_location">Cancel</string>
     <string name="button_cancel_edit_category">Cancel</string>
     <string name="button_cancel_scanner_install">Cancel</string>
     <string name="button_cancel_send_log">Close</string>
@@ -48,6 +51,7 @@
     <string name="button_remove_author">X</string>
     <string name="button_remove_category">X</string>
     <string name="button_save_author">Save</string>
+    <string name="button_save_book_location">Save</string>
     <string name="button_save_category">Save</string>
     <string name="button_save_isbn">Save</string>
     <string name="button_send_log">Send error report</string>
@@ -247,6 +251,10 @@
     <string name="message_book_added">\"%s\" was successfully added.</string>
     <string name="message_book_deleted">\"%s\" was successfully deleted.</string>
     <string name="message_book_loaned">\"%1$s\" is now loaned to %2$s.</string>
+    <string name="message_book_location_deleted">Book location \"%s\" was deleted.</string>
+    <string name="message_book_location_missing">Please enter a book location.</string>
+    <string name="message_book_location_modifed">\"%s\" was successfully modified.</string>
+    <string name="message_book_location_already_present">\"%s\" is already in the list of book locations.</string>
     <string name="message_book_marked_as_favourite">\"%s\" added to the favourites.</string>
     <string name="message_book_marked_as_read">\"%s\" marked as read.</string>
     <string name="message_book_marked_as_to_read">\"%s\" added to the books to read.</string>
@@ -264,6 +272,9 @@
     <string name="message_confirm_delete_book">Do you really want to delete \"%s\"?</string>
     <string name="message_confirm_delete_book_cancel">No</string>
     <string name="message_confirm_delete_book_confirm">Yes</string>
+    <string name="message_confirm_delete_book_location">Do you really want to remove the location \"%s\"?\n\nThe related books will not be deleted.</string>
+    <string name="message_confirm_delete_book_location_cancel">No</string>
+    <string name="message_confirm_delete_book_location_confirm">Yes</string>
     <string name="message_confirm_delete_category">Do you really want to remove the category \"%s\"?\n\nThe related books will not be deleted.</string>
     <string name="message_confirm_delete_category_cancel">No</string>
     <string name="message_confirm_delete_category_confirm">Yes</string>
@@ -343,9 +354,11 @@
     <string name="title_dialog_column_separator_picker">Choose a column separator</string>
     <string name="title_dialog_delete_author">Delete author</string>
     <string name="title_dialog_delete_book">Delete book</string>
+    <string name="title_dialog_delete_book_location">Delete book location</string>
     <string name="title_dialog_delete_category">Delete category</string>
     <string name="title_dialog_delete_isbns">Delete ISBNs</string>
     <string name="title_dialog_edit_author">Edit author</string>
+    <string name="title_dialog_edit_book_location">Edit book location</string>
     <string name="title_dialog_edit_category">Edit category</string>
     <string name="title_dialog_duplicate_books">Duplicate book</string>
     <string name="title_dialog_install_scanner">Install a bar code scanner</string>

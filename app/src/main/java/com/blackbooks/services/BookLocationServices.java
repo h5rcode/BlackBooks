@@ -1,5 +1,6 @@
 package com.blackbooks.services;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.blackbooks.model.persistent.Book;
@@ -12,6 +13,28 @@ import java.util.List;
  * Book location services.
  */
 public class BookLocationServices {
+
+    /**
+     * Delete a book location.
+     *
+     * @param db             SQLiteDatabase.
+     * @param bookLocationId Id of the book location.
+     */
+    public static void deleteBookLocation(SQLiteDatabase db, long bookLocationId) {
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(Book.Cols.BKL_ID, (String) null);
+            String whereClause = Book.Cols.BKL_ID + " = ?";
+            String[] whereArgs = new String[]{String.valueOf(bookLocationId)};
+            db.updateWithOnConflict(Book.NAME, values, whereClause, whereArgs, SQLiteDatabase.CONFLICT_ROLLBACK);
+
+            BrokerManager.getBroker(BookLocation.class).delete(db, bookLocationId);
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
 
     /**
      * Delete the book locations that are not referred by any books in the
@@ -72,5 +95,20 @@ public class BookLocationServices {
      */
     public static long saveBookLocation(SQLiteDatabase db, BookLocation bookLocation) {
         return BrokerManager.getBroker(BookLocation.class).save(db, bookLocation);
+    }
+
+    /**
+     * Update a book location.
+     *
+     * @param db             SQLiteDatabase.
+     * @param bookLocationId Id of the book location.
+     * @param newName        New name.
+     */
+    public static void updateBookLocation(SQLiteDatabase db, long bookLocationId, String newName) {
+        ContentValues values = new ContentValues();
+        values.put(BookLocation.Cols.BKL_NAME, newName);
+        String whereClause = BookLocation.Cols.BKL_ID + " = ?";
+        String[] whereArgs = new String[]{String.valueOf(bookLocationId)};
+        db.update(BookLocation.NAME, values, whereClause, whereArgs);
     }
 }
