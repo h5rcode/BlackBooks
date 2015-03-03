@@ -30,7 +30,7 @@ public final class Database {
      * <strong>Remark:</strong> this version is completely independent from the application version.
      * </p>
      */
-    public static final int VERSION = 3;
+    public static final int VERSION = 4;
 
     private static final Database mInstance = new Database();
     private static List<Class<?>> mTables;
