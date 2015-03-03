@@ -14,7 +14,7 @@ import java.util.Locale;
 /**
  * The result of a book search using the Open Library API.
  */
-public class OpenLibraryBook implements BookSearchResult {
+public final class OpenLibraryBook implements BookSearchResult {
 
     private static final String FORMAT_YEAR_MONTH_DAY = "MMM dd, yyyy";
     private static final String FORMAT_YEAR_MONTH = "MMM yyyy";

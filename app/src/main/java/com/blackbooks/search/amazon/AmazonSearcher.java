@@ -13,7 +13,7 @@ import java.util.concurrent.Callable;
 /**
  * Class that searches books using the Amazon Product Advertising API.
  */
-public class AmazonSearcher implements Callable<BookSearchResult> {
+public final class AmazonSearcher implements Callable<BookSearchResult> {
 
     private static final String URI_FORMAT_STRING = "http://isbnlookup-h5rcode.rhcloud.com/api/v1/aws/book/%s/Large";
 

@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Full-Text-Search services.
  */
-public class FullTextSearchServices {
+public final class FullTextSearchServices {
 
     /**
      * Return the number of books matching a query.

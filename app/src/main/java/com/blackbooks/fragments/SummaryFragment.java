@@ -23,7 +23,7 @@ import com.blackbooks.services.SummaryServices;
 /**
  * A fragment displaying statistics of the library.
  */
-public class SummaryFragment extends Fragment {
+public final class SummaryFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

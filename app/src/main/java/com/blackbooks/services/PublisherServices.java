@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Publisher services.
  */
-public class PublisherServices {
+public final class PublisherServices {
 
     /**
      * Delete the publishers that are not referred by any books in the database.

@@ -14,7 +14,7 @@ import java.util.Locale;
 /**
  * A class used to store the info of a book returned by the Google Books API.
  */
-public class GoogleBook implements BookSearchResult {
+public final class GoogleBook implements BookSearchResult {
 
     private static final String FORMAT_YEAR_MONTH_DAY = "yyyy-MM-dd";
     private static final String FORMAT_YEAR_MONTH = "yyyy-MM";

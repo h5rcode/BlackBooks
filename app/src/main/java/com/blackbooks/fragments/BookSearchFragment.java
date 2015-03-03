@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * Book search fragment.
  */
-public class BookSearchFragment extends ListFragment {
+public final class BookSearchFragment extends ListFragment {
 
     private static final String ARGS_QUERY = "ARGS_QUERY";
 

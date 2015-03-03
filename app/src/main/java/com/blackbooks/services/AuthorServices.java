@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Author services.
  */
-public class AuthorServices {
+public final class AuthorServices {
 
     /**
      * Delete an author.

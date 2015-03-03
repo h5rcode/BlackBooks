@@ -40,7 +40,7 @@ import java.util.Date;
 /**
  * A fragment to loan a book.
  */
-public class BookLoanFragment extends Fragment implements DatePickerListener {
+public final class BookLoanFragment extends Fragment implements DatePickerListener {
 
     private static final String ARG_BOOK_ID = "ARG_BOOK_ID";
     private static final String TAG_DATE_PICKER_FRAGMENT = "TAG_DATE_PICKER_FRAGMENT";

@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Export services.
  */
-public class ExportServices {
+public final class ExportServices {
 
     /**
      * Export the list of all the books in the database to a CSV file.

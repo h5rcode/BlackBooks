@@ -3,7 +3,7 @@ package com.blackbooks.utils;
 /**
  * Pic2Shop app utility class.
  */
-public class Pic2ShopUtils {
+public final class Pic2ShopUtils {
 
     /**
      * Scan request code.

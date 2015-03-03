@@ -19,7 +19,7 @@ import java.net.UnknownHostException;
 /**
  * Fragment without user interface used to search book information.
  */
-public class IsbnLookupFragment extends Fragment {
+public final class IsbnLookupFragment extends Fragment {
 
     private static final String ARG_ISBN = "ARG_ISBN";
 

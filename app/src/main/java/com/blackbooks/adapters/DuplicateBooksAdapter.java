@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Adapter used to display duplicate books.
  */
-public class DuplicateBooksAdapter extends ArrayAdapter<Book> {
+public final class DuplicateBooksAdapter extends ArrayAdapter<Book> {
 
     private final LayoutInflater mLayoutInflater;
     private final ThumbnailManager mThumbnailManager;

@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Services related to the BookAuthor class.
  */
-public class BookAuthorServices {
+public final class BookAuthorServices {
 
     /**
      * Delete all the BookAuthor relationships involving a given book.

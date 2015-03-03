@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Fragment to edit the information concerning the owner of the book.
  */
-public class BookEditPersonalFragment extends Fragment {
+public final class BookEditPersonalFragment extends Fragment {
 
     private static final String ARG_BOOK = "ARG_BOOK";
 

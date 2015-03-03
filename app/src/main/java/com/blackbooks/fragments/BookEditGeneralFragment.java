@@ -60,7 +60,7 @@ import java.util.List;
 /**
  * Fragment to edit the general information of a book.
  */
-public class BookEditGeneralFragment extends Fragment implements DatePickerListener {
+public final class BookEditGeneralFragment extends Fragment implements DatePickerListener {
 
     private static final String ARG_BOOK = "ARG_BOOK";
     private static final String TAG_IMAGE_DISPLAY_FRAGMENT = "TAG_IMAGE_DISPLAY_FRAGMENT";

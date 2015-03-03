@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Services related to the Category class.
  */
-public class CategoryServices {
+public final class CategoryServices {
 
     /**
      * Delete a category.

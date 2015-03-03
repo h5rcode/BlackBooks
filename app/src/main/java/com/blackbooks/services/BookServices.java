@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Book services.
  */
-public class BookServices {
+public final class BookServices {
 
     /**
      * Delete a book, and its links to its authors. If the deleted book was the
@@ -119,33 +119,6 @@ public class BookServices {
         }
 
         return bookInfo;
-    }
-
-    /**
-     * Get all the books in the database.
-     *
-     * @param db SQLiteDatabase.
-     * @return List of BookInfo.
-     */
-    public static List<Book> getBookList(SQLiteDatabase db) {
-        String[] selectedColumns = new String[]{
-                Book.Cols.BOO_ID,
-                Book.Cols.BOO_TITLE,
-                Book.Cols.BOO_DESCRIPTION,
-                Book.Cols.SER_ID,
-                Book.Cols.BOO_NUMBER,
-                Book.Cols.BOO_IS_READ,
-                Book.Cols.BOO_IS_FAVOURITE,
-                Book.Cols.BOO_LOANED_TO,
-                Book.Cols.BOO_LOAN_DATE,
-                Book.Cols.BOO_LANGUAGE_CODE,
-                Book.Cols.BKL_ID
-        };
-
-        String select = StringUtils.join(selectedColumns, ", ");
-        String sql = "SELECT " + select + " FROM " + Book.NAME + " ORDER BY " + Book.Cols.BOO_TITLE + " COLLATE NOCASE";
-
-        return BrokerManager.getBroker(Book.class).rawSelect(db, sql, null);
     }
 
     /**

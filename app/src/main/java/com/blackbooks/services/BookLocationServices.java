@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Book location services.
  */
-public class BookLocationServices {
+public final class BookLocationServices {
 
     /**
      * Delete a book location.

@@ -38,7 +38,7 @@ import java.util.Locale;
 /**
  * Fragment to display the information of a book.
  */
-public class BookDisplayDetailFragment extends Fragment {
+public final class BookDisplayDetailFragment extends Fragment {
 
     private static final String ARG_BOOK_ID = "ARG_BOOK_ID";
     private static final String IMAGE_DISPLAY_FRAGMENT_TAG = "IMAGE_DISPLAY_FRAGMENT_TAG";

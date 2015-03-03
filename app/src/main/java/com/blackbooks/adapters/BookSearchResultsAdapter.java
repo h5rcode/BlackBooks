@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
  * An adapter that displays the results of a book search. The matching text
  * inside the books' title is highlighted.
  */
-public class BookSearchResultsAdapter extends ArrayAdapter<BookInfo> {
+public final class BookSearchResultsAdapter extends ArrayAdapter<BookInfo> {
 
     private static final Pattern PATTERN = Pattern.compile("[^\\s\\p{Punct}]+");
     private final String mQuery;

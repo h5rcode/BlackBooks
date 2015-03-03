@@ -10,7 +10,7 @@ import com.blackbooks.utils.IsbnUtils;
  * A class used to store the info of a book returned by the Amazon Product
  * Advertising API.
  */
-public class AmazonBook implements BookSearchResult {
+public final class AmazonBook implements BookSearchResult {
 
     public String title;
     public String author;

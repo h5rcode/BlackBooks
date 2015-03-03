@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * ISBN services.
  */
-public class IsbnServices {
+public final class IsbnServices {
 
     /**
      * Delete all the looked up ISBNs.

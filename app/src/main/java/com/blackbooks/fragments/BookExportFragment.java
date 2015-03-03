@@ -37,7 +37,7 @@ import java.io.IOException;
 /**
  * Fragment where the user can export the list of books as a CSV file.
  */
-public class BookExportFragment extends Fragment implements TextQualifierPickerListener, ColumnSeparatorPickerListener {
+public final class BookExportFragment extends Fragment implements TextQualifierPickerListener, ColumnSeparatorPickerListener {
 
     private static final String TAG_TEXT_QUALIFIER_PICKER = "TAG_TEXT_QUALIFIER_PICKER";
     private static final String TAG_COLUMN_SEPARATOR_PICKER = "TAG_COLUMN_SEPARATOR_PICKER";

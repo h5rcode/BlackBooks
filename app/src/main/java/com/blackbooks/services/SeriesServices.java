@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Series services.
  */
-public class SeriesServices {
+public final class SeriesServices {
 
     /**
      * Delete a series.
