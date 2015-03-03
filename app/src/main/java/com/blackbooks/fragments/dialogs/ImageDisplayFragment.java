@@ -16,7 +16,7 @@ import com.blackbooks.R;
 /**
  * A fragment that displays an image.
  */
-public class ImageDisplayFragment extends DialogFragment {
+public final class ImageDisplayFragment extends DialogFragment {
 
     private static final String ARG_IMAGE = "ARG_IMAGE";
 

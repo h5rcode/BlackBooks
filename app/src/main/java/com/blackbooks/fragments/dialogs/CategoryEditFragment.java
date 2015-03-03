@@ -1,9 +1,9 @@
 package com.blackbooks.fragments.dialogs;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,7 +51,7 @@ public final class CategoryEditFragment extends DialogFragment {
         mCategoryEditListener = (CategoryEditListener) getTargetFragment();
     }
 
-    @SuppressLint("InflateParams")
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Dialog dialog = new Dialog(getActivity());

@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * A dialog used to display books that correspond to a given ISBN.
  */
-public class DuplicateBooksDialog extends DialogFragment {
+public final class DuplicateBooksDialog extends DialogFragment {
 
     private static final String ARG_ISBN = "ARG_ISBN";
     private static final String ARG_BOOK_LIST = "ARG_BOOK_LIST";

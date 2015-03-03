@@ -3,6 +3,7 @@ package com.blackbooks.fragments.dialogs;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 
@@ -12,7 +13,7 @@ import java.util.Date;
 /**
  * A date picker fragment.
  */
-public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+public final class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     private DatePickerListener mDatePickerListener;
 
@@ -22,6 +23,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         mDatePickerListener = (DatePickerListener) getTargetFragment();
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Calendar c = Calendar.getInstance();
