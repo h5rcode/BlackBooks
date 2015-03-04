@@ -12,7 +12,7 @@ public final class Version4 {
      *
      * @param db SQLiteDatabase.
      */
-    public static void upgrage(SQLiteDatabase db) {
+    public static void upgrade(SQLiteDatabase db) {
         String renameSeries = "ALTER TABLE SERIES RENAME TO SERIES_TMP;";
         String renameBookLocation = "ALTER TABLE BOOK_LOCATION RENAME TO BOOK_LOCATION_TMP;";
         String renamePublisher = "ALTER TABLE PUBLISHER RENAME TO PUBLISHER_TMP;";

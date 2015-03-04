@@ -297,7 +297,8 @@ public final class BookServices {
                 "boo." + Book.Cols.BOO_ID,
                 "boo." + Book.Cols.BOO_TITLE,
                 "boo." + Book.Cols.BOO_IS_READ,
-                "boo." + Book.Cols.BOO_IS_FAVOURITE
+                "boo." + Book.Cols.BOO_IS_FAVOURITE,
+                "boo." + Book.Cols.BOO_LOANED_TO
         };
 
         String selectedColumns = StringUtils.join(selectedColumnList, ", ");
@@ -327,7 +328,8 @@ public final class BookServices {
                 "boo." + Book.Cols.BOO_ID,
                 "boo." + Book.Cols.BOO_TITLE,
                 "boo." + Book.Cols.BOO_IS_READ,
-                "boo." + Book.Cols.BOO_IS_FAVOURITE
+                "boo." + Book.Cols.BOO_IS_FAVOURITE,
+                "boo." + Book.Cols.BOO_LOANED_TO
         };
 
         String selectedColumns = StringUtils.join(selectedColumnList, ", ");
@@ -357,7 +359,8 @@ public final class BookServices {
                 "boo." + Book.Cols.BOO_ID,
                 "boo." + Book.Cols.BOO_TITLE,
                 "boo." + Book.Cols.BOO_IS_READ,
-                "boo." + Book.Cols.BOO_IS_FAVOURITE
+                "boo." + Book.Cols.BOO_IS_FAVOURITE,
+                "boo." + Book.Cols.BOO_LOANED_TO
         };
 
         String selectedColumns = StringUtils.join(selectedColumnList, ", ");
@@ -387,7 +390,8 @@ public final class BookServices {
                 "boo." + Book.Cols.BOO_ID,
                 "boo." + Book.Cols.BOO_TITLE,
                 "boo." + Book.Cols.BOO_IS_READ,
-                "boo." + Book.Cols.BOO_IS_FAVOURITE
+                "boo." + Book.Cols.BOO_IS_FAVOURITE,
+                "boo." + Book.Cols.BOO_LOANED_TO
         };
 
         String selectedColumns = StringUtils.join(selectedColumnList, ", ");
@@ -417,7 +421,8 @@ public final class BookServices {
                 "boo." + Book.Cols.BOO_ID,
                 "boo." + Book.Cols.BOO_TITLE,
                 "boo." + Book.Cols.BOO_IS_READ,
-                "boo." + Book.Cols.BOO_IS_FAVOURITE
+                "boo." + Book.Cols.BOO_IS_FAVOURITE,
+                "boo." + Book.Cols.BOO_LOANED_TO
         };
 
         String selectedColumns = StringUtils.join(selectedColumnList, ", ");
@@ -447,7 +452,8 @@ public final class BookServices {
                 "boo." + Book.Cols.BOO_ID,
                 "boo." + Book.Cols.BOO_TITLE,
                 "boo." + Book.Cols.BOO_IS_READ,
-                "boo." + Book.Cols.BOO_IS_FAVOURITE
+                "boo." + Book.Cols.BOO_IS_FAVOURITE,
+                "boo." + Book.Cols.BOO_LOANED_TO
         };
 
         String selectedColumns = StringUtils.join(selectedColumnList, ", ");
@@ -477,7 +483,8 @@ public final class BookServices {
                 "boo." + Book.Cols.BOO_ID,
                 "boo." + Book.Cols.BOO_TITLE,
                 "boo." + Book.Cols.BOO_IS_READ,
-                "boo." + Book.Cols.BOO_IS_FAVOURITE
+                "boo." + Book.Cols.BOO_IS_FAVOURITE,
+                "boo." + Book.Cols.BOO_LOANED_TO
         };
 
         String selectedColumns = StringUtils.join(selectedColumnList, ", ");
@@ -506,7 +513,8 @@ public final class BookServices {
                 "boo." + Book.Cols.BOO_ID,
                 "boo." + Book.Cols.BOO_TITLE,
                 "boo." + Book.Cols.BOO_IS_READ,
-                "boo." + Book.Cols.BOO_IS_FAVOURITE
+                "boo." + Book.Cols.BOO_IS_FAVOURITE,
+                "boo." + Book.Cols.BOO_LOANED_TO
         };
 
         String selectedColumns = StringUtils.join(selectedColumnList, ", ");
@@ -535,7 +543,8 @@ public final class BookServices {
                 "boo." + Book.Cols.BOO_ID,
                 "boo." + Book.Cols.BOO_TITLE,
                 "boo." + Book.Cols.BOO_IS_READ,
-                "boo." + Book.Cols.BOO_IS_FAVOURITE
+                "boo." + Book.Cols.BOO_IS_FAVOURITE,
+                "boo." + Book.Cols.BOO_LOANED_TO
         };
 
         String selectedColumns = StringUtils.join(selectedColumnList, ", ");

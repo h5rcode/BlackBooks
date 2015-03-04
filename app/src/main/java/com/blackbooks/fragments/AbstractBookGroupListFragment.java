@@ -163,7 +163,7 @@ public abstract class AbstractBookGroupListFragment extends ListFragment {
      * Reload the book groups.
      */
     protected final void reloadBookGroups() {
-        VariableUtils.getInstance().setReloadBookGroupListToFalse();
+        VariableUtils.getInstance().setReloadBookGroupList(false);
         mLastItem = -1;
         mLastPage = 1;
         mBookGroupListAdapter.clear();

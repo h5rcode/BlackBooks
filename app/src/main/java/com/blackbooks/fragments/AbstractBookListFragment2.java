@@ -337,6 +337,8 @@ public abstract class AbstractBookListFragment2 extends ListFragment {
         String message = getString(R.string.message_book_returned, book.title);
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
 
+        VariableUtils.getInstance().setReloadBookGroupList(true);
+
         book.loanedTo = null;
         mBookListAdapter.notifyDataSetChanged();
     }

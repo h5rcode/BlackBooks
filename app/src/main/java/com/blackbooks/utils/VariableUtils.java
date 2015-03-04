@@ -49,10 +49,11 @@ public final class VariableUtils {
 
     /**
      * Set the value indicating if the book group list should be reloaded.
+     * @param reloadBookGroupList True if the list of book groups should be reloaded.
      */
-    public void setReloadBookGroupListToFalse() {
+    public void setReloadBookGroupList(boolean reloadBookGroupList) {
         synchronized (LOCK) {
-            mReloadBookGroupList = false;
+            mReloadBookGroupList = reloadBookGroupList;
         }
     }
 

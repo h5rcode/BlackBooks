@@ -97,7 +97,7 @@ public final class SQLiteHelper extends SQLiteOpenHelper {
             Version3.upgrade(db);
         }
         if (oldVersion < 4) {
-            Version4.upgrage(db);
+            Version4.upgrade(db);
         }
     }
 }

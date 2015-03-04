@@ -1,3 +1,7 @@
+# Version 1.1.2 (04/03/2015)
+New feature:
+* In book lists, loaned books are marked with an icon.
+
 # Version 1.1.1 (03/03/2015)
 New features:
 * Book edit: the cover can now be rotated left or right.
