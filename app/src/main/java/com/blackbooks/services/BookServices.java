@@ -13,6 +13,7 @@ import com.blackbooks.model.persistent.BookCategory;
 import com.blackbooks.model.persistent.BookLocation;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Publisher;
+import com.blackbooks.model.persistent.Series;
 import com.blackbooks.model.persistent.fts.BookFTS;
 import com.blackbooks.sql.BrokerManager;
 import com.blackbooks.sql.FTSBroker;
@@ -739,8 +740,20 @@ public final class BookServices {
             }
 
             if (bookInfo.series.name != null) {
-                SeriesServices.saveSeries(db, bookInfo.series);
-                bookInfo.seriesId = bookInfo.series.id;
+                Series criteria = new Series();
+                criteria.name = bookInfo.series.name;
+
+                Series seriesDb = SeriesServices.getSeriesByCriteria(db, criteria);
+
+                long seriesId;
+                if (seriesDb != null) {
+                    seriesId = seriesDb.id;
+                } else {
+                    SeriesServices.saveSeries(db, bookInfo.series);
+                    seriesId = bookInfo.series.id;
+                }
+
+                bookInfo.seriesId = seriesId;
             } else {
                 bookInfo.seriesId = null;
             }
