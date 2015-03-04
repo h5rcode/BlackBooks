@@ -17,7 +17,7 @@ public class ReturnBookTest extends AbstractDatabaseTest {
     /**
      * Test of returnBook.
      */
-    public void returnBookTest() {
+    public void testReturnBook() {
         BookInfo bookInfo = new BookInfo();
         bookInfo.title = Books.THE_VOYNICH_MANUSCRIPT;
         bookInfo.loanedTo = Authors.RENE_GOSCINNY;
