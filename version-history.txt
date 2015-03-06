@@ -17,7 +17,7 @@ New organization:
 * Clicking a tile of the summary displays the list of the corresponding book groups (authors, categories,
   languages, locations, series).
 * Groups of books (authors, categories, languages, locations, series) as well as book lists are
-  displayed by groupes of 50 items at most to avoid long database operations.
+  displayed by groups of 50 items at most to avoid long database operations.
 
 New features:
 * Books can now be added in bulk. Scan or enter a list of ISBNs and start a background search.
