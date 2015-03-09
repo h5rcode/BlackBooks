@@ -18,6 +18,18 @@ Black Books helps you make an inventory of your books and manage them!
 * Manage your loans: to whom and when?
 * Export your library as a Spreadsheet compatible text file.
 
+## Permissions
+
+Black Books requires the following permissions:
+
+* Camera: this feature allows you to take pictures of your book covers and import them directly into the app.
+* Internet: this is necessary in order to retrieve the book details.
+* Read contacts: when loaning a book, you can pick one of your contacts as the loanee. Only the name of the contact is stored in the app as long as the book is marked as loaned. The app does not send the contacts to any other party.
+* Read logs: if an unexpected error occurs, the app offers the possibility to send us the log file, which will help us figure out what went wrong.
+* Write external storage: the app needs to write the external storage when:
+	* Exporting the library as a Spreadsheet compatible text file.
+	* Saving a backup of the app database.
+
 ## Implementation
 ### Data storage
 Black Books creates a SQLite database on the user's device to store all the information about the books (including thumbnails).
