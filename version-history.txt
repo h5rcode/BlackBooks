@@ -1,3 +1,6 @@
+# Version 1.1.5 (10/03/2015)
+App renamed to "Black Books"
+
 # Version 1.1.4 (09/03/2015)
 App renamed to "Dark Books"
 
