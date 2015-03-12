@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="footer_fragment_book_groups_authors">
+        <item quantity="one">%1$s auteur sur %2$s</item>
+        <item quantity="other">%1$s auteurs sur %2$s</item>
+    </plurals>
+    <plurals name="footer_fragment_book_groups_book_locations">
+        <item quantity="one">%1$s emplacement sur %2$s</item>
+        <item quantity="other">%1$s emplacements sur %2$s</item>
+    </plurals>
+    <plurals name="footer_fragment_book_groups_categories">
+        <item quantity="one">%1$s catégorie sur %2$s</item>
+        <item quantity="other">%1$s catégories sur %2$s</item>
+    </plurals>
+    <plurals name="footer_fragment_book_groups_first_letters">
+        <item quantity="one">%1$s lettre sur %2$s</item>
+        <item quantity="other">%1$s lettres sur %2$s</item>
+    </plurals>
+    <plurals name="footer_fragment_book_groups_languages">
+        <item quantity="one">%1$s langues sur %2$s</item>
+        <item quantity="other">%1$s langues sur %2$s</item>
+    </plurals>
+    <plurals name="footer_fragment_book_groups_loans">
+        <item quantity="one">%1$s prêt sur %2$s</item>
+        <item quantity="other">%1$s prêts sur %2$s</item>
+    </plurals>
+    <plurals name="footer_fragment_book_groups_series">
+        <item quantity="one">%1$s série sur %2$s</item>
+        <item quantity="other">%1$s séries sur %2$s</item>
+    </plurals>
+    <plurals name="footer_fragment_books">
+        <item quantity="one">%1$s livre sur %2$s</item>
+        <item quantity="other">%1$s livres sur %2$s</item>
+    </plurals>
+    <plurals name="footer_fragment_bulk_add">
+        <item quantity="one">%1$s ISBN sur %2$s</item>
+        <item quantity="other">%1$s ISBNs sur %2$s</item>
+    </plurals>
+    <plurals name="label_footer_search">
+        <item quantity="one">%1$d résultat sur %2$d</item>
+        <item quantity="other">%1$d résultats sur %2$d</item>
+    </plurals>
+    <plurals name="label_summary_authors">
+        <item quantity="one">auteur</item>
+        <item quantity="other">auteurs</item>
+    </plurals>
+    <plurals name="label_summary_books">
+        <item quantity="one">livre</item>
+        <item quantity="other">livres</item>
+    </plurals>
+    <plurals name="label_summary_categories">
+        <item quantity="one">catégorie</item>
+        <item quantity="other">catégories</item>
+    </plurals>
+    <plurals name="label_summary_favourites">
+        <item quantity="one">favori</item>
+        <item quantity="other">favoris</item>
+    </plurals>
+    <plurals name="label_summary_languages">
+        <item quantity="one">langue</item>
+        <item quantity="other">langues</item>
+    </plurals>
+    <plurals name="label_summary_loans">
+        <item quantity="one">prêt</item>
+        <item quantity="other">prêts</item>
+    </plurals>
+    <plurals name="label_summary_locations">
+        <item quantity="one">emplacement</item>
+        <item quantity="other">emplacements</item>
+    </plurals>
+    <plurals name="label_summary_to_read">
+        <item quantity="one">à lire</item>
+        <item quantity="other">à lire</item>
+    </plurals>
+    <plurals name="label_summary_series">
+        <item quantity="one">série</item>
+        <item quantity="other">séries</item>
+    </plurals>
+    <plurals name="message_book_groups_loaded_authors">
+        <item quantity="one">%d auteur supplémentaire chargé</item>
+        <item quantity="other">%d auteurs supplémentaires chargés</item>
+    </plurals>
+    <plurals name="message_book_groups_loaded_book_locations">
+        <item quantity="one">%d emplacement supplémentaire chargé</item>
+        <item quantity="other">%d emplacements supplémentaires chargés</item>
+    </plurals>
+    <plurals name="message_book_groups_loaded_categories">
+        <item quantity="one">%d catégorie supplémentaire chargée</item>
+        <item quantity="other">%d catégories supplémentaires chargées</item>
+    </plurals>
+    <plurals name="message_book_groups_loaded_first_letter">
+        <item quantity="one">%d lettre supplémentaire chargée</item>
+        <item quantity="other">%d lettres supplémentaires chargées</item>
+    </plurals>
+    <plurals name="message_book_groups_loaded_languages">
+        <item quantity="one">%d langue supplémentaire chargée</item>
+        <item quantity="other">%d langues supplémentaires chargées</item>
+    </plurals>
+    <plurals name="message_book_groups_loaded_loans">
+        <item quantity="one">%d prêt supplémentaire chargé</item>
+        <item quantity="other">%d prêts supplémentaires chargés</item>
+    </plurals>
+    <plurals name="message_book_groups_loaded_series">
+        <item quantity="one">%d série supplémentaire chargée</item>
+        <item quantity="other">%d séries supplémentaires chargées</item>
+    </plurals>
+    <plurals name="message_books_loaded">
+        <item quantity="one">%d livre supplémentaire chargé</item>
+        <item quantity="other">%d livres supplémentaires chargés</item>
+    </plurals>
+    <plurals name="message_duplicate_books">
+        <item quantity="one">%d livre de la bibliothèque correspond à cet ISBN.</item>
+        <item quantity="other">%d livres de la bibliothèque correspondent à cet ISBN.</item>
+    </plurals>
+    <plurals name="message_isbns_loaded">
+        <item quantity="one">%d ISBN supplémentaire chargé</item>
+        <item quantity="other">%d ISBNs supplémentaires chargés</item>
+    </plurals>
+    <plurals name="message_results_loaded">
+        <item quantity="one">%d résultat supplémentaire chargé</item>
+        <item quantity="other">%d résultats supplémentaires chargés</item>
+    </plurals>
+    <plurals name="notification_bulk_search_running_text">
+        <item quantity="one">Récupération de %d livre.</item>
+        <item quantity="other">Récupération de %d livres.</item>
+    </plurals>
+</resources>
