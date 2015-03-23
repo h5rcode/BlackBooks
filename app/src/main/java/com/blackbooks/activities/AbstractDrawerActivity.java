@@ -23,7 +23,6 @@ import com.blackbooks.adapters.DrawerAdapter.DrawerItemType;
 import com.blackbooks.database.Database;
 import com.blackbooks.fragments.dialogs.ScannerInstallFragment;
 import com.blackbooks.utils.FileUtils;
-import com.blackbooks.utils.IsbnUtils;
 import com.blackbooks.utils.Pic2ShopUtils;
 
 import java.io.File;
@@ -146,25 +145,6 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Pic2ShopUtils.REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
-            String barCode = data.getStringExtra(Pic2ShopUtils.BARCODE);
-
-            if (IsbnUtils.isValidIsbn(barCode)) {
-                Intent i = new Intent(this, BookEditActivity.class);
-                i.putExtra(BookEditActivity.EXTRA_MODE, BookEditActivity.MODE_ADD);
-                i.putExtra(BookEditActivity.EXTRA_ISBN, barCode);
-                this.startActivity(i);
-            } else {
-                String message = getString(R.string.message_invalid_isbn);
-                message = String.format(message, barCode);
-                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-            }
-        }
     }
 
     /**
