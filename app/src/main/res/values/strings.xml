@@ -99,7 +99,6 @@
     <string name="label_loaned_to">This book has been loaned to</string>
     <string name="label_no_language">(No language set)</string>
     <string name="label_page_count">Page count</string>
-    <string name="label_page_count_format">%d pages</string>
     <string name="label_pick_published_date">Pick a published date</string>
     <string name="label_publisher">Publisher</string>
     <string name="label_published_date">Published date</string>

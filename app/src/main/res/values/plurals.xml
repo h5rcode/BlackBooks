@@ -40,6 +40,10 @@
         <item quantity="one">%1$d result out of %2$d</item>
         <item quantity="other">%1$d results out of %2$d</item>
     </plurals>
+    <plurals name="label_page_count_format">
+        <item quantity="one">%d page</item>
+        <item quantity="other">%d pages</item>
+    </plurals>
     <plurals name="label_summary_authors">
         <item quantity="one">author</item>
         <item quantity="other">authors</item>

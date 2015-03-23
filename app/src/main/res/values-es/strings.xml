@@ -63,7 +63,7 @@
     <string name="image_thumbnail">Cubierta</string>
     <string name="label_author">Autor</string>
     <string name="label_authors">Autor(es)</string>
-    <string name="label_authors_format">de %s</string>
+    <string name="label_authors_format">por %s</string>
     <string name="label_book_location">Ubicacíon</string>
     <string name="label_categories">Categorías</string>
     <string name="label_category">Categoría</string>
@@ -95,7 +95,6 @@
     <string name="label_loaned_to">Este libro fue prestado a </string>
     <string name="label_no_language">(Idioma desconocida)</string>
     <string name="label_page_count">Número de páginas</string>
-    <string name="label_page_count_format">%d páginas</string>
     <string name="label_pick_published_date">Seleccionar una fecha de publicacíon</string>
     <string name="label_published_date">Fecha de publicacíon</string>
     <string name="label_published_date_hint">dd/mm/aaaa</string>

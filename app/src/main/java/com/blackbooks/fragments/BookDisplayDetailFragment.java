@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -326,9 +327,10 @@ public final class BookDisplayDetailFragment extends Fragment {
         // Page count, language, publisher and published date.
         if (showGroupInfo) {
             if (hasPageCount) {
-                String pageCount = getString(R.string.label_page_count_format);
-                pageCount = String.format(pageCount, mBookInfo.pageCount);
-                mTextPageCount.setText(pageCount);
+                Resources res = getResources();
+                int pageCount = mBookInfo.pageCount.intValue();
+                String pageCountString = res.getQuantityString(R.plurals.label_page_count_format, pageCount, pageCount);
+                mTextPageCount.setText(pageCountString);
                 mGroup1PageCount.setVisibility(View.VISIBLE);
             } else {
                 mGroup1PageCount.setVisibility(View.GONE);

@@ -96,7 +96,6 @@
     <string name="label_loaned_to">Ce livre a été prêté à</string>
     <string name="label_no_language">(Langue inconnue)</string>
     <string name="label_page_count">Nombre de pages</string>
-    <string name="label_page_count_format">%d pages</string>
     <string name="label_pick_published_date">Sélectionnez une date de publication</string>
     <string name="label_publisher">Editeur</string>
     <string name="label_published_date">Date de publication</string>
