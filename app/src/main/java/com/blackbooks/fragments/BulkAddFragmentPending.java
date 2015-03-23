@@ -55,7 +55,7 @@ public final class BulkAddFragmentPending extends ListFragment implements IsbnAd
 
     private PendingIsbnListAdapter mPendingIsbnListAdapter;
     private TextView mTextViewFooter;
-    private boolean mStartScan;
+    private String mBulkScanMessage;
     private IsbnListLoadTask mIsbnListLoadTask;
 
     /**
@@ -187,14 +187,33 @@ public final class BulkAddFragmentPending extends ListFragment implements IsbnAd
     public void onResume() {
         super.onResume();
 
-        if (mStartScan) {
-            startIsbnScan();
-        }
-
         if (!mAlreadyLoaded || VariableUtils.getInstance().getReloadIsbnListPending()) {
             mAlreadyLoaded = true;
             VariableUtils.getInstance().setReloadIsbnListPending(false);
             reloadIsbns();
+        }
+
+        if (mBulkScanMessage != null) {
+
+            String message = getString(R.string.message_confirm_bulk_scan, mBulkScanMessage);
+
+            new AlertDialog.Builder(this.getActivity()) //
+                    .setTitle(R.string.title_dialog_bulk_scan) //
+                    .setMessage(message) //
+                    .setPositiveButton(R.string.message_confirm_bulk_scan_confirm, new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startIsbnScan();
+                        }
+                    }) //
+                    .setNegativeButton(R.string.message_confirm_bulk_scan_cancel, new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Do nothing.
+                        }
+                    }).show();
         }
     }
 
@@ -202,21 +221,21 @@ public final class BulkAddFragmentPending extends ListFragment implements IsbnAd
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == Pic2ShopUtils.REQUEST_CODE_SCAN && resultCode == Activity.RESULT_OK) {
-            String barCode = data.getStringExtra(Pic2ShopUtils.BARCODE);
+        if (requestCode == Pic2ShopUtils.REQUEST_CODE_SCAN) {
+            if (resultCode == Activity.RESULT_OK) {
+                String barCode = data.getStringExtra(Pic2ShopUtils.BARCODE);
 
-            String message;
-            if (IsbnUtils.isValidIsbn(barCode)) {
-                saveIsbn(barCode);
-                message = getString(R.string.message_isbn_saved, barCode);
+                String message;
+                if (IsbnUtils.isValidIsbn(barCode)) {
+                    saveIsbn(barCode);
+                    message = getString(R.string.message_isbn_saved, barCode);
+                } else {
+                    message = getString(R.string.message_invalid_isbn, barCode);
+                }
+                mBulkScanMessage = message;
             } else {
-                message = getString(R.string.message_invalid_isbn, barCode);
+                mBulkScanMessage = null;
             }
-            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-
-            mStartScan = true;
-        } else {
-            mStartScan = false;
         }
     }
 

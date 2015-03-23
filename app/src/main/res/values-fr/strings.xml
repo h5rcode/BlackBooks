@@ -142,6 +142,9 @@
     <string name="message_category_deleted">La catégorie \"%s\" a été supprimée.</string>
     <string name="message_category_missing">Veuillez entrer une catégorie.</string>
     <string name="message_category_modified">La catégorie \"%s\" a été modifiée avec succès.</string>
+    <string name="message_confirm_bulk_scan">%s\nContinuer à scanner?</string>
+    <string name="message_confirm_bulk_scan_cancel">Non</string>
+    <string name="message_confirm_bulk_scan_confirm">Oui</string>
     <string name="message_confirm_delete_book">Voulez-vous vraiment supprimer \"%s\" ?</string>
     <string name="message_confirm_delete_book_cancel">Non</string>
     <string name="message_confirm_delete_book_confirm">Oui</string>
@@ -230,6 +233,7 @@
     <string name="title_activity_book_search">Résultats pour \"%s\"</string>
     <string name="title_activity_book_search_default">Résultats de recherche</string>
     <string name="title_dialog_add_isbn">Ajouter un ISBN</string>
+    <string name="title_dialog_bulk_scan">Scanner en masse</string>
     <string name="title_dialog_column_separator_picker">Choisissez un séparateur de colonnes</string>
     <string name="title_dialog_delete_author">Supprimer un auteur</string>
     <string name="title_dialog_delete_book">Supprimer un livre</string>
