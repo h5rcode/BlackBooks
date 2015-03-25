@@ -194,6 +194,7 @@ public final class BulkAddFragmentPending extends ListFragment implements IsbnAd
         }
 
         if (mBulkScanMessage != null) {
+            mBulkScanMessage = null;
 
             String message = getString(R.string.message_confirm_bulk_scan, mBulkScanMessage);
 
