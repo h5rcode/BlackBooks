@@ -1,3 +1,6 @@
+# Version 1.1.8 (03/04/2015)
+Fixed crashes when displaying the lists of books by series, of favourite books, of books to read.
+
 # Version 1.1.7 (25/03/2015)
 Bulk scan: display a dialog between two scans.
 

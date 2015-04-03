@@ -40,7 +40,7 @@ import java.util.List;
  */
 public abstract class AbstractBookListFragment2 extends ListFragment {
 
-    private static final String AMAZON_SEARCH_RESULT_URL = "http://www.amazon.com/gp/search?ie=UTF8&index=books&keywords=%s&tag=h5rcode-20";
+    private static final String AMAZON_SEARCH_RESULT_URL = "http://www.amazon.com/gp/search?ie=UTF8&index=books&keywords=%s&tag=blaboo0c-20";
 
     private static final int BOOKS_BY_PAGE = 50;
 

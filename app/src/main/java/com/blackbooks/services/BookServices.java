@@ -489,7 +489,7 @@ public final class BookServices {
         };
 
         String selectedColumns = StringUtils.join(selectedColumnList, ", ");
-        String sql = "SELECT boo." + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.SER_ID + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " COLLATE NOCASE LIMIT ? OFFSET ?;";
+        String sql = "SELECT " + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.SER_ID + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " COLLATE NOCASE LIMIT ? OFFSET ?;";
 
         String[] selectionArgs = new String[]{
                 String.valueOf(seriesId),
@@ -519,7 +519,7 @@ public final class BookServices {
         };
 
         String selectedColumns = StringUtils.join(selectedColumnList, ", ");
-        String sql = "SELECT boo." + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.BOO_IS_FAVOURITE + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " COLLATE NOCASE LIMIT ? OFFSET ?;";
+        String sql = "SELECT " + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.BOO_IS_FAVOURITE + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " COLLATE NOCASE LIMIT ? OFFSET ?;";
 
         String[] selectionArgs = new String[]{
                 String.valueOf(1L),
@@ -549,7 +549,7 @@ public final class BookServices {
         };
 
         String selectedColumns = StringUtils.join(selectedColumnList, ", ");
-        String sql = "SELECT boo." + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.BOO_IS_READ + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " COLLATE NOCASE LIMIT ? OFFSET ?;";
+        String sql = "SELECT " + selectedColumns + " FROM " + Book.NAME + " boo WHERE boo." + Book.Cols.BOO_IS_READ + " = ? ORDER BY boo." + Book.Cols.BOO_TITLE + " COLLATE NOCASE LIMIT ? OFFSET ?;";
 
         String[] selectionArgs = new String[]{
                 String.valueOf(0L),
