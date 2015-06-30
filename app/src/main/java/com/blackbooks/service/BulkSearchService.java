@@ -22,8 +22,6 @@ import com.blackbooks.services.IsbnServices;
 import com.blackbooks.utils.LogUtils;
 import com.blackbooks.utils.VariableUtils;
 
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.List;
 
 /**
@@ -33,7 +31,7 @@ public final class BulkSearchService extends IntentService {
 
     private static final int NOTIFICATION_ID = 1;
 
-    private static final int MAX_CONNECTION_ERRORS = 5;
+    private static final int MAX_CONSECUTIVE_ERRORS = 5;
 
     private boolean mStop;
 
@@ -76,12 +74,12 @@ public final class BulkSearchService extends IntentService {
         notificationManager.notify(NOTIFICATION_ID, builder.build());
         builder.setTicker(null);
 
-        int connectionErrors = 0;
+        int consecutiveErrors = 0;
         for (int i = 0; i < isbnCount; i++) {
             if (mStop) {
                 break;
             }
-            if (connectionErrors > MAX_CONNECTION_ERRORS) {
+            if (consecutiveErrors > MAX_CONSECUTIVE_ERRORS) {
                 break;
             }
             Isbn isbn = isbnList.get(i);
@@ -99,20 +97,13 @@ public final class BulkSearchService extends IntentService {
                     VariableUtils.getInstance().setReloadBookList(true);
                 }
 
-                connectionErrors = 0;
-
-            } catch (SocketException e) {
-                Log.w(LogUtils.TAG, "SocketException.", e);
-                connectionErrors++;
-            } catch (UnknownHostException e) {
-                Log.w(LogUtils.TAG, "Host name could not be resolved.", e);
-                connectionErrors++;
+                consecutiveErrors = 0;
             } catch (InterruptedException e) {
                 Log.i(LogUtils.TAG, "Service interrupted.");
                 break;
             } catch (Exception e) {
+                consecutiveErrors++;
                 Log.e(LogUtils.TAG, "An exception occurred during the background search.", e);
-                break;
             }
 
             builder.setProgress(isbnCount, i, false);
@@ -120,7 +111,6 @@ public final class BulkSearchService extends IntentService {
             notification.flags |= Notification.FLAG_NO_CLEAR;
             notificationManager.notify(NOTIFICATION_ID, notification);
         }
-
 
         builder.setContentTitle(getString(R.string.notification_bulk_search_finished_title));
         builder.setContentText(getString(R.string.notification_bulk_search_finished_text));
