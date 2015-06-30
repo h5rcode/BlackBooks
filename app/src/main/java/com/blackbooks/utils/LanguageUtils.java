@@ -30,6 +30,9 @@ public final class LanguageUtils {
                 }
             }
         }
+        if (displayName == null) {
+            displayName = languageCode;
+        }
         return displayName;
     }
 
