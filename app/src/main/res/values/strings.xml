@@ -63,6 +63,7 @@
     <string name="field_invalid_date">Invalid date.</string>
     <string name="field_invalid_loan_date">The date must be before today\'s date.</string>
     <string name="field_mandatory">This field is mandatory.</string>
+    <string name="hint_filter_languages">Filter languages</string>
     <string name="hint_search">Search books</string>
     <string name="image_thumbnail">Thumbnail</string>
     <string name="label_author">Author</string>
@@ -97,7 +98,7 @@
     <string name="label_loan_book_to">Loan the book to</string>
     <string name="label_loan_book_to_hint">Enter a name</string>
     <string name="label_loaned_to">This book has been loaned to</string>
-    <string name="label_no_language">(No language set)</string>
+    <string name="label_no_language">(Language unknown)</string>
     <string name="label_page_count">Page count</string>
     <string name="label_pick_published_date">Pick a published date</string>
     <string name="label_publisher">Publisher</string>
@@ -249,6 +250,7 @@
     <string name="title_dialog_edit_series">Edit series</string>
     <string name="title_dialog_duplicate_books">Duplicate book</string>
     <string name="title_dialog_install_scanner">Install a bar code scanner</string>
+    <string name="title_dialog_language_picker">Set language</string>
     <string name="title_dialog_return_book">Return book</string>
     <string name="title_dialog_unsaved_changes">Unsaved changes</string>
     <string name="title_dialog_text_qualifier_picker">Choose a text qualifier</string>

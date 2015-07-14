@@ -18,25 +18,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Spinner;
 
 import com.blackbooks.R;
 import com.blackbooks.activities.BookAuthorsEditActivity;
 import com.blackbooks.activities.BookCategoriesEditActivity;
 import com.blackbooks.adapters.AutoCompleteAdapter;
 import com.blackbooks.adapters.AutoCompleteAdapter.AutoCompleteSearcher;
-import com.blackbooks.adapters.LanguagesAdapter;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.dialogs.DatePickerFragment;
 import com.blackbooks.fragments.dialogs.DatePickerFragment.DatePickerListener;
 import com.blackbooks.fragments.dialogs.ImageDisplayFragment;
+import com.blackbooks.fragments.dialogs.LanguagePickerFragment;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.nonpersistent.Language;
 import com.blackbooks.model.persistent.Author;
@@ -50,6 +47,7 @@ import com.blackbooks.services.SeriesServices;
 import com.blackbooks.utils.BitmapUtils;
 import com.blackbooks.utils.DateUtils;
 import com.blackbooks.utils.IsbnUtils;
+import com.blackbooks.utils.LanguageUtils;
 import com.blackbooks.utils.StringUtils;
 
 import java.text.ParseException;
@@ -60,11 +58,12 @@ import java.util.List;
 /**
  * Fragment to edit the general information of a book.
  */
-public final class BookEditGeneralFragment extends Fragment implements DatePickerListener {
+public final class BookEditGeneralFragment extends Fragment implements DatePickerListener, LanguagePickerFragment.LanguagePickerListener {
 
     private static final String ARG_BOOK = "ARG_BOOK";
     private static final String TAG_IMAGE_DISPLAY_FRAGMENT = "TAG_IMAGE_DISPLAY_FRAGMENT";
     private static final String TAG_DATE_PICKER_FRAGMENT = "TAG_DATE_PICKER_FRAGMENT";
+    private static final String TAG_LANGUAGE_PICKER_FRAGMENT = "TAG_LANGUAGE_PICKER_FRAGMENT";
 
     private static final int ITEM_THUMBNAIL_REMOVE = 1;
     private static final int ITEM_ROTATE_LEFT = 2;
@@ -80,7 +79,7 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
     private ImageView mImageThumbnail;
     private EditText mTextTitle;
     private EditText mTextSubtitle;
-    private Spinner mSpinnerLanguage;
+    private Button mButtonEditLanguage;
     private Button mButtonEditAuthors;
     private EditText mTextIsbn10;
     private EditText mTextIsbn13;
@@ -92,8 +91,6 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
     private ImageButton mButtonPublishedDate;
     private Button mButtonEditCategories;
     private EditText mTextDescription;
-
-    private LanguagesAdapter mLanguagesAdapter;
 
     private BookInfo mBookInfo;
 
@@ -249,24 +246,12 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
 
             }
         });
-        mLanguagesAdapter = new LanguagesAdapter(this.getActivity());
-        mSpinnerLanguage.setAdapter(mLanguagesAdapter);
-        mSpinnerLanguage.setOnItemSelectedListener(new OnItemSelectedListener() {
-
+        mButtonEditLanguage.setOnClickListener(new OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String languageCode;
-                if (view == null) {
-                    languageCode = null;
-                } else {
-                    languageCode = (String) view.getTag();
-                }
-                mBookInfo.languageCode = languageCode;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Do nothing.
+            public void onClick(View v) {
+                LanguagePickerFragment languagePickerFragment = new LanguagePickerFragment();
+                languagePickerFragment.setTargetFragment(BookEditGeneralFragment.this, 0);
+                languagePickerFragment.show(getFragmentManager(), TAG_LANGUAGE_PICKER_FRAGMENT);
             }
         });
 
@@ -322,6 +307,13 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
         mTextPublishedDate.setText(DateUtils.DEFAULT_DATE_FORMAT.format(date));
     }
 
+
+    @Override
+    public void onLanguagePicked(Language language) {
+        mBookInfo.languageCode = language.getCode();
+        setButtonEditLanguageText();
+    }
+
     /**
      * Validate the user input and read the book info from the view.
      *
@@ -360,7 +352,6 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
         bookInfo.subtitle = subtitle;
         bookInfo.isbn10 = isbn10;
         bookInfo.isbn13 = isbn13;
-        bookInfo.languageCode = ((Language) mSpinnerLanguage.getSelectedItem()).getCode();
         if (pageCountString != null && StringUtils.isInteger(pageCountString)) {
             bookInfo.pageCount = Long.valueOf(pageCountString);
         } else {
@@ -463,7 +454,7 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
         mImageThumbnail = (ImageView) view.findViewById(R.id.bookEditGeneral_buttonThumbnail);
         mTextTitle = (EditText) view.findViewById(R.id.bookEditGeneral_textTitle);
         mTextSubtitle = (EditText) view.findViewById(R.id.bookEditGeneral_textSubtitle);
-        mSpinnerLanguage = (Spinner) view.findViewById(R.id.bookEditGeneral_spinnerLanguage);
+        mButtonEditLanguage = (Button) view.findViewById(R.id.bookEditGeneral_buttonEditLanguage);
         mButtonEditAuthors = (Button) view.findViewById(R.id.bookEditGeneral_buttonEditAuthors);
         mTextIsbn10 = (EditText) view.findViewById(R.id.bookEditGeneral_textIsbn10);
         mTextIsbn13 = (EditText) view.findViewById(R.id.bookEditGeneral_textIsbn13);
@@ -519,12 +510,7 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
         mTextSubtitle.setText(mBookInfo.subtitle);
         mTextIsbn10.setText(mBookInfo.isbn10);
         mTextIsbn13.setText(mBookInfo.isbn13);
-        int languageToSelect = mLanguagesAdapter.getPosition(mBookInfo.languageCode);
-        if (languageToSelect < 0) {
-            languageToSelect = 0;
-        }
-        mSpinnerLanguage.setSelection(languageToSelect);
-
+        setButtonEditLanguageText();
         setButtonEditAuthorsText();
         if (mBookInfo.pageCount != null) {
             mTextPageCount.setText(mBookInfo.pageCount.toString());
@@ -562,6 +548,20 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
         } else {
             String categories = StringUtils.joinCategoryNameList(mBookInfo.categories, ", ");
             mButtonEditCategories.setText(categories);
+        }
+    }
+
+    /**
+     * Set the text of the "Edit language" button.
+     */
+    private void setButtonEditLanguageText() {
+        String languageCode = mBookInfo.languageCode;
+        if (languageCode == null) {
+            mButtonEditLanguage.setText(R.string.label_no_language);
+        } else {
+            String displayLanguage = LanguageUtils.getDisplayLanguage(languageCode);
+            displayLanguage = StringUtils.capitalize(displayLanguage);
+            mButtonEditLanguage.setText(displayLanguage);
         }
     }
 

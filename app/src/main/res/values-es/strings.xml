@@ -59,6 +59,7 @@
     <string name="field_invalid_date">Fecha inválida.</string>
     <string name="field_invalid_loan_date">La fecha debe estar antes de hoy.</string>
     <string name="field_mandatory">Esta caja es obligatoria.</string>
+    <string name="hint_filter_languages">Filtrar idiomas</string>
     <string name="hint_search">Buscar libros</string>
     <string name="image_thumbnail">Cubierta</string>
     <string name="label_author">Autor</string>
@@ -245,6 +246,7 @@
     <string name="title_dialog_edit_category">Modificar una categoría</string>
     <string name="title_dialog_edit_series">Modificar una serie</string>
     <string name="title_dialog_install_scanner">Instalar un escáner de código de barras</string>
+    <string name="title_dialog_language_picker">Establecer idioma</string>
     <string name="title_dialog_return_book">Devolver un libro</string>
     <string name="title_dialog_text_qualifier_picker">Selecciona un calificador de texto</string>
     <string name="title_dialog_unsaved_changes">Cambios pendientes</string>

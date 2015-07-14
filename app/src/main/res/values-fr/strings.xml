@@ -60,6 +60,7 @@
     <string name="field_invalid_date">Date invalide.</string>
     <string name="field_invalid_loan_date">La date doit être antérieure à la date du jour.</string>
     <string name="field_mandatory">Ce champ est obligatoire.</string>
+    <string name="hint_filter_languages">Filtrer les langues</string>
     <string name="hint_search">Rechercher des livres</string>
     <string name="image_thumbnail">Couverture</string>
     <string name="label_author">Auteur</string>
@@ -246,6 +247,7 @@
     <string name="title_dialog_edit_series">Modifier une série</string>
     <string name="title_dialog_duplicate_books">Livre en double</string>
     <string name="title_dialog_install_scanner">Installer un scanner de code-barres</string>
+    <string name="title_dialog_language_picker">Définir la langue</string>
     <string name="title_dialog_return_book">Rendre un livre</string>
     <string name="title_dialog_text_qualifier_picker">Choisissez un délimiteur de texte</string>
     <string name="title_dialog_unsaved_changes">Modifications en cours</string>

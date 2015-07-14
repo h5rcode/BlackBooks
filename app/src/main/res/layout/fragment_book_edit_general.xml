@@ -163,10 +163,11 @@
             android:layout_height="wrap_content"
             android:text="@string/label_language" />
 
-        <Spinner
-            android:id="@+id/bookEditGeneral_spinnerLanguage"
+        <Button
+            android:id="@+id/bookEditGeneral_buttonEditLanguage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/label_no_language" />
 
         <TextView
             android:layout_width="match_parent"
