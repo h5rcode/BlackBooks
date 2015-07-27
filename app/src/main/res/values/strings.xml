@@ -85,6 +85,7 @@
     <string name="label_drawer_close">Close drawer</string>
     <string name="label_export_preview">Export preview (5 first books)</string>
     <string name="label_favourite">This is a favourite book</string>
+    <string name="label_file">File</string>
     <string name="label_first_row_contains_header">First row contains headers</string>
     <string name="label_image">Image</string>
     <string name="label_isbn">ISBN</string>
@@ -121,6 +122,7 @@
     <string name="menu_delete_book">Delete</string>
     <string name="menu_edit_book">Edit</string>
     <string name="menu_export">Export to CSV</string>
+    <string name="menu_import">Import from CSV</string>
     <string name="menu_options">Options</string>
     <string name="menu_search">Search books</string>
     <string name="message_author_added">\"%s\" was added to the list of authors.</string>

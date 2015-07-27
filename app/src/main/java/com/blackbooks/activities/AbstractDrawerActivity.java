@@ -34,15 +34,11 @@ import java.util.List;
  */
 public abstract class AbstractDrawerActivity extends FragmentActivity {
 
-    //private static final int ITEM_BOOKS = 1;
-    //private static final int ITEM_SUMMARY = 2;
-    //private static final int ITEM_BOOK_LIST = 3;
     private static final int ITEM_ADD_BOOK = 4;
     private static final int ITEM_SCAN_ISBN = 5;
     private static final int ITEM_ENTER_ISBN = 6;
     private static final int ITEM_ADD_MANUALLY = 7;
     private static final int ITEM_BULK_ADD = 8;
-    // private static final int ITEM_IMPORT_EXPORT_BOOKS = 9;
     private static final int ITEM_IMPORT_BOOKS = 10;
     private static final int ITEM_EXPORT_BOOKS = 11;
     private static final int ITEM_ADMINISTRATION = 12;
@@ -73,29 +69,12 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Books.
-        //DrawerItem groupBooks = new DrawerItem(ITEM_BOOKS, getString(R.string.menu_books), null, DrawerItemType.GROUP);
-        //DrawerItem itemSummary = new DrawerItem(ITEM_SUMMARY, getString(R.string.menu_book_list_summary), R.drawable.ic_action_summary, DrawerItemType.ITEM);
-        //DrawerItem itemBookList = new DrawerItem(ITEM_BOOK_LIST, getString(R.string.menu_book_list), R.drawable.ic_action_book_list, DrawerItemType.ITEM);
-
         // Add books.
         DrawerItem groupAddBook = new DrawerItem(ITEM_ADD_BOOK, getString(R.string.menu_add_books), null, DrawerItemType.GROUP);
         DrawerItem itemScanIsbn = new DrawerItem(ITEM_SCAN_ISBN, getString(R.string.action_scan_isbn), R.drawable.ic_action_camera, DrawerItemType.ITEM);
         DrawerItem itemEnterIsbn = new DrawerItem(ITEM_ENTER_ISBN, getString(R.string.action_enter_isbn), R.drawable.ic_action_dial_pad, DrawerItemType.ITEM);
         DrawerItem itemAddManually = new DrawerItem(ITEM_ADD_MANUALLY, getString(R.string.action_add_manually), R.drawable.ic_action_keyboard, DrawerItemType.ITEM);
         DrawerItem itemBulkAdd = new DrawerItem(ITEM_BULK_ADD, getString(R.string.action_bulk_add), R.drawable.ic_action_add_to_queue, DrawerItemType.ITEM);
-
-        // Import/Export.
-        // DrawerItem groupImportExportBooks = new
-        // DrawerItem(ITEM_IMPORT_EXPORT_BOOKS,
-        // getString(R.string.menu_import_export),
-        // null, DrawerItemType.GROUP);
-        // DrawerItem itemImportBooks = new DrawerItem(ITEM_IMPORT_BOOKS,
-        // getString(R.string.menu_import),
-        // R.drawable.ic_action_import, DrawerItemType.ITEM);
-        // DrawerItem itemExportBooks = new DrawerItem(ITEM_EXPORT_BOOKS,
-        // getString(R.string.menu_export),
-        // R.drawable.ic_action_export, DrawerItemType.ITEM);
 
         // Administration.
         DrawerItem groupAdministration = new DrawerItem(ITEM_ADMINISTRATION, getString(R.string.menu_administration), null,
@@ -104,21 +83,20 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
         DrawerItem itemExportBooks = new DrawerItem(ITEM_EXPORT_BOOKS, getString(R.string.menu_export),
                 R.drawable.ic_action_export, DrawerItemType.ITEM);
 
+
+        DrawerItem itemImportBooks = new DrawerItem(ITEM_IMPORT_BOOKS, getString(R.string.menu_import),
+                R.drawable.ic_action_upload, DrawerItemType.ITEM);
+
         DrawerItem itemBackupDb = new DrawerItem(ITEM_BACKUP_DB, getString(R.string.menu_backup_db), R.drawable.ic_action_save,
                 DrawerItemType.ITEM);
 
         List<DrawerItem> list = new ArrayList<DrawerItem>();
-        // list.add(groupBooks);
-        // list.add(itemBookList);
-        // list.add(itemSummary);
         list.add(groupAddBook);
         list.add(itemScanIsbn);
         list.add(itemEnterIsbn);
         list.add(itemAddManually);
         list.add(itemBulkAdd);
-        // list.add(groupImportExportBooks);
-        // list.add(itemImportBooks);
-        // list.add(itemExportBooks);
+        list.add(itemImportBooks);
         list.add(groupAdministration);
         list.add(itemExportBooks);
         list.add(itemBackupDb);
@@ -165,14 +143,6 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
             DrawerItem drawerItem = (DrawerItem) mListDrawer.getAdapter().getItem(position);
 
             switch (drawerItem.getId()) {
-                //case ITEM_BOOK_LIST:
-                //  startBookListActivity();
-                //break;
-
-                //case ITEM_SUMMARY:
-                //  startSummaryActivity();
-                //break;
-
                 case ITEM_SCAN_ISBN:
                     mDrawerLayout.closeDrawer(mListDrawer);
                     startIsbnScan();

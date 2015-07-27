@@ -3,6 +3,7 @@ package com.blackbooks.activities;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.view.MenuItem;
 
 import com.blackbooks.R;
 import com.blackbooks.fragments.BookImportFragment;
@@ -30,5 +31,23 @@ public final class BookImportActivity extends FragmentActivity {
                     .add(R.id.fragmentActivity_frameLayout, bookImportFragment, BOOK_IMPORT_FRAGMENT_TAG) //
                     .commit();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        boolean result;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                result = true;
+                finish();
+                break;
+
+            default:
+                result = super.onOptionsItemSelected(item);
+                break;
+        }
+
+        return result;
     }
 }

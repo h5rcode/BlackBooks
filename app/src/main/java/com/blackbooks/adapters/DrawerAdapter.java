@@ -60,7 +60,7 @@ public final class DrawerAdapter extends ArrayAdapter<DrawerItem> {
     /**
      * Type of drawer item.
      */
-    public static enum DrawerItemType {
+    public enum DrawerItemType {
 
         /**
          * Group.

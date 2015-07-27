@@ -81,6 +81,7 @@
     <string name="label_drawer_open">Abrir el menú</string>
     <string name="label_export_preview">Vista preliminar (5 primeros libros)</string>
     <string name="label_favourite">Esto libro es un favorito</string>
+    <string name="label_file">Archivo</string>
     <string name="label_first_row_contains_header">La primera línea contiene membretes</string>
     <string name="label_image">Imagen</string>
     <string name="label_isbn">ISBN</string>
@@ -116,6 +117,7 @@
     <string name="menu_delete_book">Eliminar</string>
     <string name="menu_edit_book">Modificar</string>
     <string name="menu_export">Exportar en formato CSV</string>
+    <string name="menu_import">Importar desde formato CSV</string>
     <string name="menu_options">Opciones</string>
     <string name="menu_search">Buscar libros</string>
     <string name="message_author_added">\"%s\" fue añadido a la lista de los autores.</string>
