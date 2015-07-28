@@ -25,6 +25,7 @@
     <string name="action_mark_book_as_favourite">Añadir a los favoritos</string>
     <string name="action_mark_book_as_read">Marcar como leído</string>
     <string name="action_mark_book_as_to_read">Añadir a los libros que leer</string>
+    <string name="action_next">Siguiente</string>
     <string name="action_pick_image">Seleccionar una imagen</string>
     <string name="action_remove_thumbnail">Eliminar cubierta</string>
     <string name="action_return_book">Devolver libro</string>

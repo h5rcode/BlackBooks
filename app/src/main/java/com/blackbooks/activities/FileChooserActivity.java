@@ -1,5 +1,6 @@
 package com.blackbooks.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +15,7 @@ import java.io.File;
  */
 public final class FileChooserActivity extends FragmentActivity implements FileChooserFragment.FileChooserListener {
 
+    public static final String EXTRA_CHOSEN_FILE = "EXTRA_CHOSEN_FILE";
     private static final String FILE_CHOOSER_FRAGMENT_TAG = "FILE_CHOOSER_FRAGMENT_TAG";
 
     @Override
@@ -34,6 +36,9 @@ public final class FileChooserActivity extends FragmentActivity implements FileC
 
     @Override
     public void onFileChosen(File file) {
-        // TODO Return the file to the calling activity.
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_CHOSEN_FILE, file);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }

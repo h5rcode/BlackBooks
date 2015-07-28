@@ -16,6 +16,8 @@ import com.blackbooks.R;
 import com.blackbooks.adapters.FileListAdapter;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * A fragment to choose a file.
@@ -23,6 +25,7 @@ import java.io.File;
 public final class FileChooserFragment extends ListFragment {
 
     private static final File EXTERNAL_STORAGE_DIRECTORY = Environment.getExternalStorageDirectory();
+    private static final String CURRENT_DIRECTORY = "CURRENT_DIRECTORY";
 
     private FileChooserListener mFileChooserListener;
     private File mCurrentDirectory;
@@ -43,7 +46,7 @@ public final class FileChooserFragment extends ListFragment {
         mAdapter = new FileListAdapter(getActivity());
         setListAdapter(mAdapter);
         mCurrentDirectory = EXTERNAL_STORAGE_DIRECTORY;
-        File[] files = mCurrentDirectory.listFiles();
+        File[] files = listFiles(mCurrentDirectory);
         mAdapter.addAll(files);
         mAdapter.notifyDataSetChanged();
     }
@@ -51,6 +54,12 @@ public final class FileChooserFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_file_chooser, container, false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateHomeButton();
     }
 
     @Override
@@ -68,17 +77,46 @@ public final class FileChooserFragment extends ListFragment {
     private void enterDirectory(File selectedFile) {
         mCurrentDirectory = selectedFile;
 
-        File[] files = selectedFile.listFiles();
         mAdapter.clear();
-        mAdapter.addAll(files);
+        File[] files = listFiles(selectedFile);
+        if (files != null) {
+            mAdapter.addAll(files);
+        }
         mAdapter.notifyDataSetChanged();
 
+        updateHomeButton();
+    }
+
+    private void updateHomeButton() {
         FragmentActivity activity = getActivity();
         ActionBar actionBar = activity.getActionBar();
         if (actionBar != null) {
             boolean isExternalDirectory = EXTERNAL_STORAGE_DIRECTORY.equals(mCurrentDirectory);
             actionBar.setDisplayHomeAsUpEnabled(!isExternalDirectory);
         }
+    }
+
+    private File[] listFiles(File selectedFile) {
+        File[] files = selectedFile.listFiles();
+        if (files != null) {
+            Arrays.sort(files, new Comparator<File>() {
+                @Override
+                public int compare(File f1, File f2) {
+                    int result;
+                    if (f1.isFile() && f2.isFile() || f1.isDirectory() && f2.isDirectory()) {
+                        String name1 = f1.getName();
+                        String name2 = f2.getName();
+                        result = name1.compareToIgnoreCase(name2);
+                    } else if (f1.isDirectory()) {
+                        result = -1;
+                    } else {
+                        result = 1;
+                    }
+                    return result;
+                }
+            });
+        }
+        return files;
     }
 
     @Override

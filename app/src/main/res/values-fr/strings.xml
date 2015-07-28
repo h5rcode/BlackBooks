@@ -25,6 +25,7 @@
     <string name="action_manage_search">Gérer la recherche</string>
     <string name="action_mark_book_as_favourite">Ajouter aux favoris</string>
     <string name="action_mark_book_as_read">Marquer comme lu</string>
+    <string name="action_next">Suivant</string>
     <string name="action_pick_image">Sélectionner une image</string>
     <string name="action_rotate_left">Pivoter vers la gauche</string>
     <string name="action_rotate_right">Pivoter vers la droite</string>

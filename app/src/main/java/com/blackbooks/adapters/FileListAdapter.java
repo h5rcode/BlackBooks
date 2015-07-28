@@ -5,7 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.blackbooks.R;
 
 import java.io.File;
 
@@ -30,12 +33,18 @@ public final class FileListAdapter extends ArrayAdapter<File> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
-            convertView = mLayoutInflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+            convertView = mLayoutInflater.inflate(R.layout.list_files_item, parent, false);
         }
         File file = getItem(position);
 
-        TextView textView = (TextView) convertView.findViewById(android.R.id.text1);
-        textView.setText(file.getAbsolutePath());
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.files_item_icon);
+        if (file.isDirectory()) {
+            imageView.setImageResource(R.drawable.ic_folder_open_black);
+        } else {
+            imageView.setImageResource(R.drawable.ic_description_black);
+        }
+        TextView textView = (TextView) convertView.findViewById(R.id.files_item_fileName);
+        textView.setText(file.getName());
 
         return convertView;
     }

@@ -26,6 +26,7 @@
     <string name="action_manage_search">Manage search</string>
     <string name="action_mark_book_as_favourite">Mark as favourite</string>
     <string name="action_mark_book_as_read">Mark as read</string>
+    <string name="action_next">Next</string>
     <string name="action_pick_image">Pick an image</string>
     <string name="action_remove_thumbnail">Remove thumbnail</string>
     <string name="action_rotate_left">Rotate left</string>
