@@ -72,6 +72,9 @@
             android:name="com.blackbooks.activities.BookImportActivity"
             android:label="@string/title_activity_book_import" />
         <activity
+            android:name="com.blackbooks.activities.BookImportColumnMappingActivity"
+            android:label="@string/title_activity_book_import_column_mapping" />
+        <activity
             android:name="com.blackbooks.activities.BookExportActivity"
             android:label="@string/title_activity_book_export" />
         <activity

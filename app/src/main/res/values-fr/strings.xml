@@ -70,6 +70,7 @@
     <string name="label_book_location">Emplacement</string>
     <string name="label_category">Catégorie</string>
     <string name="label_categories">Catégories</string>
+    <string name="label_column">Colonne %d</string>
     <string name="label_column_separator">Séparateur des colonnes</string>
     <string name="label_column_separator_comma">Virgule (,)</string>
     <string name="label_column_separator_pipe">Pipe (|)</string>
@@ -224,6 +225,7 @@
     <string name="title_activity_book_group_loaned">Prêts</string>
     <string name="title_activity_book_group_series">Séries</string>
     <string name="title_activity_book_import">Importer depuis un fichier CSV</string>
+    <string name="title_activity_book_import_column_mapping">Association des colonnes</string>
     <string name="title_activity_books_by_author">Livres de %s</string>
     <string name="title_activity_books_by_book_location">Emplacement \"%s\"</string>
     <string name="title_activity_books_by_category">Catégorie \"%s\"</string>

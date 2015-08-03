@@ -2,6 +2,8 @@ package com.blackbooks.utils;
 
 import android.util.Log;
 
+import com.blackbooks.model.nonpersistent.CsvColumn;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -29,8 +31,8 @@ public final class CsvUtils {
      * @param textQualifier   The text qualifier character.
      * @return The list of columns in the CSV file.
      */
-    public static List<String> getCsvFileColumns(File file, char columnSeparator, char textQualifier) {
-        List<String> result = new ArrayList<String>();
+    public static List<CsvColumn> getCsvFileColumns(File file, char columnSeparator, char textQualifier) {
+        List<CsvColumn> result = new ArrayList<CsvColumn>();
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(file));
@@ -43,9 +45,8 @@ public final class CsvUtils {
                 for (int i = 0; i < nbColumns; i++) {
                     String column = columns[i].trim();
                     column = column.replace(textQualifierString, "");
-                    if (i < nbColumns - 1 || !column.isEmpty()) {
-                        result.add(column);
-                    }
+                    CsvColumn csvColumn = new CsvColumn(i, column);
+                    result.add(csvColumn);
                 }
             }
         } catch (IOException e) {

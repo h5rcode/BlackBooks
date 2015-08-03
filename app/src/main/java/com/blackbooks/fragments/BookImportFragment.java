@@ -16,16 +16,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blackbooks.R;
+import com.blackbooks.activities.BookImportColumnMappingActivity;
 import com.blackbooks.activities.FileChooserActivity;
 import com.blackbooks.fragments.dialogs.ColumnSeparator;
 import com.blackbooks.fragments.dialogs.ColumnSeparatorPicker;
 import com.blackbooks.fragments.dialogs.TextQualifier;
 import com.blackbooks.fragments.dialogs.TextQualifierPicker;
 import com.blackbooks.utils.Commons;
-import com.blackbooks.utils.CsvUtils;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * Fragment where the user can import a list of books from a CSV file.
@@ -44,8 +43,9 @@ public final class BookImportFragment extends Fragment implements TextQualifierP
     private TextView mTextViewSeparator;
     private CheckBox mCheckBoxFirstRowContainsHeaders;
     private File mFile;
-    private char mTextQualifier;
-    private char mColumnSeparator;
+
+    private TextQualifier mTextQualifier;
+    private ColumnSeparator mColumnSeparator;
     private boolean mFirstRowContainsHeader = true;
 
     /**
@@ -82,11 +82,11 @@ public final class BookImportFragment extends Fragment implements TextQualifierP
 
         mTextViewQualifier = (TextView) view.findViewById(R.id.bookImport_textQualifier);
         mTextViewQualifier.setText(mTextQualifierPicker.getSelectedTextQualifier().getResourceId());
-        mTextQualifier = mTextQualifierPicker.getSelectedTextQualifier().getCharacter();
+        mTextQualifier = mTextQualifierPicker.getSelectedTextQualifier();
 
         mTextViewSeparator = (TextView) view.findViewById(R.id.bookImport_textSeparator);
         mTextViewSeparator.setText(mColumnSeparatorPicker.getSelectedColumnSeparator().getResourceId());
-        mColumnSeparator = mColumnSeparatorPicker.getSelectedColumnSeparator().getCharacter();
+        mColumnSeparator = mColumnSeparatorPicker.getSelectedColumnSeparator();
 
         layoutFile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,7 +138,12 @@ public final class BookImportFragment extends Fragment implements TextQualifierP
         boolean result;
         switch (item.getItemId()) {
             case R.id.bookImport_actionNextStep:
-                List<String> columns = CsvUtils.getCsvFileColumns(mFile, mColumnSeparator, mTextQualifier);
+                Intent i = new Intent(getActivity(), BookImportColumnMappingActivity.class);
+                i.putExtra(BookImportColumnMappingActivity.EXTRA_FILE, mFile);
+                i.putExtra(BookImportColumnMappingActivity.EXTRA_COLUMN_SEPARATOR, mColumnSeparator);
+                i.putExtra(BookImportColumnMappingActivity.EXTRA_TEXT_QUALIFIER, mTextQualifier);
+                i.putExtra(BookImportColumnMappingActivity.EXTRA_FIRST_ROW_CONTAINS_HEADER, mFirstRowContainsHeader);
+                startActivity(i);
                 result = true;
                 break;
 
@@ -163,13 +168,13 @@ public final class BookImportFragment extends Fragment implements TextQualifierP
 
     @Override
     public void onTextQualifierPicked(TextQualifier textQualifier) {
-        mTextQualifier = textQualifier.getCharacter();
+        mTextQualifier = textQualifier;
         mTextViewQualifier.setText(textQualifier.getResourceId());
     }
 
     @Override
     public void onColumnSeparatorPicked(ColumnSeparator columnSeparator) {
-        mColumnSeparator = columnSeparator.getCharacter();
+        mColumnSeparator = columnSeparator;
         mTextViewSeparator.setText(columnSeparator.getResourceId());
     }
 
