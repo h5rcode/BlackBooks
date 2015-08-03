@@ -24,9 +24,6 @@ import java.util.Comparator;
  */
 public final class FileChooserFragment extends ListFragment {
 
-    private static final File EXTERNAL_STORAGE_DIRECTORY = Environment.getExternalStorageDirectory();
-    private static final String CURRENT_DIRECTORY = "CURRENT_DIRECTORY";
-
     private FileChooserListener mFileChooserListener;
     private File mCurrentDirectory;
     private FileListAdapter mAdapter;
@@ -45,7 +42,7 @@ public final class FileChooserFragment extends ListFragment {
 
         mAdapter = new FileListAdapter(getActivity());
         setListAdapter(mAdapter);
-        mCurrentDirectory = EXTERNAL_STORAGE_DIRECTORY;
+        mCurrentDirectory = Environment.getExternalStorageDirectory();
         File[] files = listFiles(mCurrentDirectory);
         mAdapter.addAll(files);
         mAdapter.notifyDataSetChanged();
@@ -91,8 +88,8 @@ public final class FileChooserFragment extends ListFragment {
         FragmentActivity activity = getActivity();
         ActionBar actionBar = activity.getActionBar();
         if (actionBar != null) {
-            boolean isExternalDirectory = EXTERNAL_STORAGE_DIRECTORY.equals(mCurrentDirectory);
-            actionBar.setDisplayHomeAsUpEnabled(!isExternalDirectory);
+            boolean rootDirectory = mCurrentDirectory.getParent() == null;
+            actionBar.setDisplayHomeAsUpEnabled(!rootDirectory);
         }
     }
 
@@ -106,7 +103,7 @@ public final class FileChooserFragment extends ListFragment {
                     if (f1.isFile() && f2.isFile() || f1.isDirectory() && f2.isDirectory()) {
                         String name1 = f1.getName();
                         String name2 = f2.getName();
-                        result = name1.compareToIgnoreCase(name2);
+                        result = name1.compareTo(name2);
                     } else if (f1.isDirectory()) {
                         result = -1;
                     } else {
