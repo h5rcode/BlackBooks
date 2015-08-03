@@ -1,9 +1,11 @@
 package com.blackbooks.fragments.dialogs;
 
+import java.io.Serializable;
+
 /**
  * Text qualifier.
  */
-public final class TextQualifier {
+public final class TextQualifier implements Serializable {
 
     private final char mCharacter;
     private final int mResourceId;

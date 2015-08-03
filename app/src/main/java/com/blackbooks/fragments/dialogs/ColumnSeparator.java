@@ -1,9 +1,11 @@
 package com.blackbooks.fragments.dialogs;
 
+import java.io.Serializable;
+
 /**
  * Column separator.
  */
-public final class ColumnSeparator {
+public final class ColumnSeparator implements Serializable {
 
     private final char mCharacter;
     private final int mResourceId;
