@@ -67,6 +67,7 @@
     <string name="label_author">Auteur</string>
     <string name="label_authors_format">de %s</string>
     <string name="label_authors">Auteur(s)</string>
+    <string name="label_book_id">Id du livre</string>
     <string name="label_book_location">Emplacement</string>
     <string name="label_category">Catégorie</string>
     <string name="label_categories">Catégories</string>
@@ -77,6 +78,7 @@
     <string name="label_column_separator_semicolon">Point-virgule (;)</string>
     <string name="label_column_separator_space">Espace</string>
     <string name="label_column_separator_tab">Tabulation</string>
+    <string name="label_columns">Colonnes</string>
     <string name="label_comment">Commentaire</string>
     <string name="label_description">Description</string>
     <string name="label_drawer_item">Elément du menu</string>
@@ -99,6 +101,7 @@
     <string name="label_loan_book_to_hint">Entrez un nom</string>
     <string name="label_loaned_to">Ce livre a été prêté à</string>
     <string name="label_no_language">(Langue inconnue)</string>
+    <string name="label_none">(Aucune)</string>
     <string name="label_page_count">Nombre de pages</string>
     <string name="label_pick_published_date">Sélectionnez une date de publication</string>
     <string name="label_publisher">Editeur</string>
@@ -133,12 +136,14 @@
     <string name="message_book_loaned">\"%1$s\" est à présent prêté à %2$s.</string>
     <string name="message_book_location_deleted">L\'emplacement \"%s\" a été supprimé.</string>
     <string name="message_book_location_missing">Veuillez entrer un emplacement.</string>
-    <string name="message_book_location_modifed">\"%s\" a été modifié avec succès.</string>
+    <string name="message_book_location_modified">\"%s\" a été modifié avec succès.</string>
     <string name="message_book_location_already_present">\"%s\" est déjà dans la liste des emplacements.</string>
     <string name="message_book_marked_as_favourite">\"%s\" a été ajouté aux favoris.</string>
     <string name="message_book_marked_as_read">\"%s\" a été marqué comme lu.</string>
     <string name="message_book_marked_as_to_read">\"%s\" a été ajouté aux livres à lire.</string>
-    <string name="message_book_modifed">\"%s\" a été modifié avec succès.</string>
+    <string name="message_book_modified">\"%s\" a été modifié avec succès.</string>
+    <string name="message_book_property_mapped_multiple_times">La propriété \"%s\" est associée plus d\'une fois.</string>
+    <string name="message_book_property_not_mapped">Une colonne doit être associé à la propriété \"%s\".</string>
     <string name="message_book_returned">\"%s\" a été rendu.</string>
     <string name="message_book_unmarked_as_favourite">\"%s\" a été retiré des favoris.</string>
     <string name="message_cannot_delete_isbns">Une recherche est en cours, les ISBNs ne peuvent pas être supprimés.</string>
@@ -147,6 +152,7 @@
     <string name="message_category_deleted">La catégorie \"%s\" a été supprimée.</string>
     <string name="message_category_missing">Veuillez entrer une catégorie.</string>
     <string name="message_category_modified">La catégorie \"%s\" a été modifiée avec succès.</string>
+    <string name="message_column_mapping">Associez les colonnes aux propriétés de livre</string>
     <string name="message_confirm_bulk_scan">%s\nContinuer à scanner?</string>
     <string name="message_confirm_bulk_scan_cancel">Non</string>
     <string name="message_confirm_bulk_scan_confirm">Oui</string>

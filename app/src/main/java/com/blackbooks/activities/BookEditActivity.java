@@ -374,7 +374,7 @@ public final class BookEditActivity extends FragmentActivity implements IsbnLook
                         break;
 
                     case MODE_EDIT:
-                        message = String.format(getString(R.string.message_book_modifed), title);
+                        message = String.format(getString(R.string.message_book_modified), title);
                         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
                         setResult(RESULT_OK);
                         finish();

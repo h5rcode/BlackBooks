@@ -70,6 +70,7 @@
     <string name="label_author">Author</string>
     <string name="label_authors_format">by %s</string>
     <string name="label_authors">Author(s)</string>
+    <string name="label_book_id">Book id</string>
     <string name="label_book_location">Location</string>
     <string name="label_category">Category</string>
     <string name="label_categories">Categories</string>
@@ -80,6 +81,7 @@
     <string name="label_column_separator_semicolon">Semicolon (;)</string>
     <string name="label_column_separator_space">Space</string>
     <string name="label_column_separator_tab">Tab</string>
+    <string name="label_columns">Columns</string>
     <string name="label_comment">Comment</string>
     <string name="label_description">Description</string>
     <string name="label_drawer_item">Drawer item</string>
@@ -102,6 +104,7 @@
     <string name="label_loan_book_to_hint">Enter a name</string>
     <string name="label_loaned_to">This book has been loaned to</string>
     <string name="label_no_language">(Language unknown)</string>
+    <string name="label_none">(None)</string>
     <string name="label_page_count">Page count</string>
     <string name="label_pick_published_date">Pick a published date</string>
     <string name="label_publisher">Publisher</string>
@@ -137,12 +140,13 @@
     <string name="message_book_loaned">\"%1$s\" is now loaned to %2$s.</string>
     <string name="message_book_location_deleted">Book location \"%s\" was deleted.</string>
     <string name="message_book_location_missing">Please enter a book location.</string>
-    <string name="message_book_location_modifed">\"%s\" was successfully modified.</string>
+    <string name="message_book_location_modified">\"%s\" was successfully modified.</string>
     <string name="message_book_location_already_present">\"%s\" is already in the list of book locations.</string>
     <string name="message_book_marked_as_favourite">\"%s\" added to the favourites.</string>
     <string name="message_book_marked_as_read">\"%s\" marked as read.</string>
     <string name="message_book_marked_as_to_read">\"%s\" added to the books to read.</string>
-    <string name="message_book_modifed">\"%s\" was successfully modified.</string>
+    <string name="message_book_modified">\"%s\" was successfully modified.</string>
+    <string name="message_book_property_not_mapped">A column must be associated to the property  \"%s\".</string>
     <string name="message_book_returned">\"%s\" has been returned.</string>
     <string name="message_book_unmarked_as_favourite">\"%s\" removed from the favourites.</string>
     <string name="message_category_added">\"%s\" was added to the list of categories.</string>
@@ -150,6 +154,8 @@
     <string name="message_category_deleted">Category \"%s\" was deleted.</string>
     <string name="message_category_missing">Please enter a category.</string>
     <string name="message_category_modified">Category \"%s\" was successfully modified.</string>
+    <string name="message_book_property_mapped_multiple_times">Property \"%s\" is mapped to more than one column.</string>
+    <string name="message_column_mapping">Map columns to book properties</string>
     <string name="message_confirm_bulk_scan">%s\nKeep scanning?</string>
     <string name="message_confirm_bulk_scan_cancel">No</string>
     <string name="message_confirm_bulk_scan_confirm">Yes</string>

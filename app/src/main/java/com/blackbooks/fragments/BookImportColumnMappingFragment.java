@@ -3,11 +3,15 @@ package com.blackbooks.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blackbooks.R;
 import com.blackbooks.adapters.CsvColumnListAdapter;
@@ -17,6 +21,7 @@ import com.blackbooks.model.nonpersistent.CsvColumn;
 import com.blackbooks.utils.CsvUtils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +38,7 @@ public final class BookImportColumnMappingFragment extends Fragment {
     private ColumnSeparator mColumnSeparator;
     private TextQualifier mTextQualifier;
     private boolean mFirstRowContainsHeader;
-    private List<CsvColumn> mColumns;
+    private List<CsvColumn> mCsvColumns;
 
     /**
      * Constructor.
@@ -57,6 +62,7 @@ public final class BookImportColumnMappingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        setHasOptionsMenu(true);
 
         Bundle arguments = getArguments();
 
@@ -64,9 +70,7 @@ public final class BookImportColumnMappingFragment extends Fragment {
         mColumnSeparator = (ColumnSeparator) arguments.getSerializable(ARG_COLUMN_SEPARATOR);
         mTextQualifier = (TextQualifier) arguments.getSerializable(ARG_TEXT_QUALIFIER);
         mFirstRowContainsHeader = arguments.getBoolean(ARG_FIRST_ROW_CONTAINS_HEADER);
-        mColumns = CsvUtils.getCsvFileColumns(mFile, mColumnSeparator.getCharacter(), mTextQualifier.getCharacter());
-
-        int a = 3;
+        mCsvColumns = CsvUtils.getCsvFileColumns(mFile, mColumnSeparator.getCharacter(), mTextQualifier.getCharacter());
     }
 
     @Override
@@ -85,11 +89,79 @@ public final class BookImportColumnMappingFragment extends Fragment {
         ListView listViewColumns = (ListView) view.findViewById(R.id.bookImportColumnMapping_listColumns);
         CsvColumnListAdapter adapter = new CsvColumnListAdapter(getActivity());
         listViewColumns.setAdapter(adapter);
-        adapter.addAll(mColumns);
+        adapter.addAll(mCsvColumns);
 
         CheckBox checkBoxFirstRowContainsHeader = (CheckBox) view.findViewById(R.id.bookImportColumnMapping_checkBoxFirstRowContainsHeaders);
         checkBoxFirstRowContainsHeader.setChecked(mFirstRowContainsHeader);
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.book_import, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean result;
+        switch (item.getItemId()) {
+            case R.id.bookImport_actionNextStep:
+                result = true;
+
+                checkMappings();
+
+                break;
+
+            default:
+                result = super.onOptionsItemSelected(item);
+                break;
+        }
+
+        return result;
+    }
+
+    /**
+     * Check if the CSV column mappings settings are correct.
+     *
+     * @return True if the column mappings settings are correct, false otherwise.
+     */
+    private boolean checkMappings() {
+        boolean titleMapped = false;
+        CsvColumn.BookProperty propertyMappedMultipleTimes = null;
+
+        List<CsvColumn.BookProperty> mappedProperties = new ArrayList<CsvColumn.BookProperty>();
+        for (CsvColumn csvColumn : mCsvColumns) {
+            CsvColumn.BookProperty bookProperty = csvColumn.getBookProperty();
+            if (bookProperty == CsvColumn.BookProperty.NONE) {
+                continue;
+            }
+            if (bookProperty == CsvColumn.BookProperty.TITLE) {
+                titleMapped = true;
+            }
+            if (mappedProperties.contains(bookProperty)) {
+                propertyMappedMultipleTimes = bookProperty;
+                break;
+            } else {
+                mappedProperties.add(bookProperty);
+            }
+        }
+
+        boolean ok = true;
+        if (!titleMapped) {
+            ok = false;
+            String bookPropertyDisplayName = getString(CsvUtils.getBookPropertyResourceId(CsvColumn.BookProperty.TITLE));
+            String message = getString(R.string.message_book_property_not_mapped, bookPropertyDisplayName);
+            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        }
+        if (propertyMappedMultipleTimes != null) {
+            ok = false;
+            String bookPropertyDisplayName = getString(CsvUtils.getBookPropertyResourceId(propertyMappedMultipleTimes));
+            String message = getString(R.string.message_book_property_mapped_multiple_times, bookPropertyDisplayName);
+            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        }
+
+        return ok;
     }
 }

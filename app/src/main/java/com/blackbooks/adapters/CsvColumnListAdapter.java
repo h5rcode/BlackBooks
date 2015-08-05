@@ -4,7 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.blackbooks.R;
@@ -33,18 +35,44 @@ public final class CsvColumnListAdapter extends ArrayAdapter<CsvColumn> {
         if (convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.list_csv_columns_item_column, parent, false);
         }
-        TextView textViewIndex = (TextView) convertView.findViewById(R.id.csv_columns_item_column_index);
-        TextView textViewName = (TextView) convertView.findViewById(R.id.csv_columns_item_column_name);
 
-        CsvColumn csvColumn = getItem(position);
+        final CsvColumn csvColumn = getItem(position);
+
+        final TextView textViewIndex = (TextView) convertView.findViewById(R.id.csv_columns_item_column_index);
+        final TextView textViewName = (TextView) convertView.findViewById(R.id.csv_columns_item_column_name);
+
+        final Spinner spinnerProperty = (Spinner) convertView.findViewById(R.id.csv_columns_item_property);
+        final BookPropertiesAdapter spinnerAdapter = new BookPropertiesAdapter(getContext());
+        spinnerProperty.setAdapter(spinnerAdapter);
+        spinnerProperty.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                CsvColumn.BookProperty bookProperty;
+                if (view == null) {
+                    bookProperty = null;
+                } else {
+                    bookProperty = (CsvColumn.BookProperty) view.getTag();
+                }
+                csvColumn.setBookProperty(bookProperty);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // Do nothing.
+            }
+        });
 
         textViewIndex.setText(getContext().getString(R.string.label_column, csvColumn.getIndex()));
-        String csvColumnName = csvColumn.getName();
+        final String csvColumnName = csvColumn.getName();
         if (csvColumnName == null) {
             textViewName.setVisibility(View.GONE);
         } else {
             textViewName.setText(String.valueOf(csvColumnName));
         }
+        CsvColumn.BookProperty bookProperty = csvColumn.getBookProperty();
+        final int bookPropertyPosition = spinnerAdapter.getPosition(bookProperty);
+        spinnerProperty.setSelection(bookPropertyPosition);
 
         return convertView;
     }

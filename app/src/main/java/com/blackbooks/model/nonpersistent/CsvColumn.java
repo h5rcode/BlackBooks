@@ -9,7 +9,7 @@ public final class CsvColumn implements Serializable {
 
     private final int mIndex;
     private final String mName;
-    private BookProperty mAssociatedProperty;
+    private BookProperty mBookProperty;
 
     /**
      * Constructor.
@@ -27,8 +27,8 @@ public final class CsvColumn implements Serializable {
      *
      * @return BookProperty.
      */
-    public BookProperty getAssociatedProperty() {
-        return mAssociatedProperty;
+    public BookProperty getBookProperty() {
+        return mBookProperty;
     }
 
     /**
@@ -55,7 +55,7 @@ public final class CsvColumn implements Serializable {
      * @param associatedProperty Associated field.
      */
     public void setBookProperty(BookProperty associatedProperty) {
-        mAssociatedProperty = associatedProperty;
+        mBookProperty = associatedProperty;
     }
 
     /**
@@ -64,19 +64,24 @@ public final class CsvColumn implements Serializable {
     public enum BookProperty {
 
         /**
+         * No book property.
+         */
+        NONE,
+
+        /**
          * Id of the book in the SQLite database.
          */
         ID,
 
         /**
-         * Subtitle of the book.
-         */
-        SUBTITLE,
-
-        /**
          * Title of the book.
          */
         TITLE,
+
+        /**
+         * Subtitle of the book.
+         */
+        SUBTITLE,
 
         /**
          * The authors of the book.
