@@ -75,7 +75,10 @@ public final class BookEditActivity extends FragmentActivity implements IsbnLook
         mProgressBar = (ProgressBar) findViewById(R.id.bookEdit_progressBar);
         mViewPager = (ViewPager) findViewById(R.id.bookEdit_viewPager);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         if (savedInstanceState != null) {
             restoreState(savedInstanceState);
@@ -171,7 +174,10 @@ public final class BookEditActivity extends FragmentActivity implements IsbnLook
 
     @Override
     public void onPageSelected(int position) {
-        getActionBar().setSelectedNavigationItem(position);
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setSelectedNavigationItem(position);
+        }
     }
 
     @Override
@@ -226,9 +232,11 @@ public final class BookEditActivity extends FragmentActivity implements IsbnLook
      */
     private void createTabs() {
         ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        actionBar.addTab(actionBar.newTab().setText(getString(R.string.title_tab_book_edit_general)).setTabListener(this));
-        actionBar.addTab(actionBar.newTab().setText(getString(R.string.title_tab_book_edit_personal)).setTabListener(this));
+        if (actionBar != null) {
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+            actionBar.addTab(actionBar.newTab().setText(getString(R.string.title_tab_book_edit_general)).setTabListener(this));
+            actionBar.addTab(actionBar.newTab().setText(getString(R.string.title_tab_book_edit_personal)).setTabListener(this));
+        }
 
         mPagerAdapter = new BookEditPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mPagerAdapter);
@@ -349,11 +357,14 @@ public final class BookEditActivity extends FragmentActivity implements IsbnLook
             boolean isValid = mBookEditGeneralFragment.readBookInfo(mBookInfo);
 
             if (!isValid) {
-                getActionBar().setSelectedNavigationItem(TAB_GENERAL);
+                ActionBar actionBar = getActionBar();
+                if (actionBar != null) {
+                    actionBar.setSelectedNavigationItem(TAB_GENERAL);
+                }
                 return;
             }
 
-            isValid = isValid && mBookEditPersonalFragment.readBookInfo(mBookInfo);
+            isValid = mBookEditPersonalFragment.readBookInfo(mBookInfo);
 
             if (isValid) {
                 SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
