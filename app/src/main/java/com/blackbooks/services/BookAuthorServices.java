@@ -14,6 +14,12 @@ import java.util.List;
 public final class BookAuthorServices {
 
     /**
+     * Private constructor.
+     */
+    private BookAuthorServices() {
+    }
+
+    /**
      * Delete all the BookAuthor relationships involving a given book.
      *
      * @param db     SQLiteDatabase.

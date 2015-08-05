@@ -14,6 +14,12 @@ import java.util.List;
 public final class PublisherServices {
 
     /**
+     * Private constructor.
+     */
+    private PublisherServices() {
+    }
+
+    /**
      * Delete the publishers that are not referred by any books in the database.
      *
      * @param db SQLiteDatabase.

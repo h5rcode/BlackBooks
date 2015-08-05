@@ -26,6 +26,12 @@ import java.util.List;
 public final class ExportServices {
 
     /**
+     * Private constructor.
+     */
+    private ExportServices() {
+    }
+
+    /**
      * Export the list of all the books in the database to a CSV file.
      *
      * @param db                      SQLiteDatabase.

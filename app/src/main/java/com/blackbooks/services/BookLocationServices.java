@@ -15,6 +15,12 @@ import java.util.List;
 public final class BookLocationServices {
 
     /**
+     * Private constructor.
+     */
+    private BookLocationServices() {
+    }
+
+    /**
      * Delete a book location.
      *
      * @param db             SQLiteDatabase.

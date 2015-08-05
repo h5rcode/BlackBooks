@@ -15,6 +15,12 @@ import java.util.List;
 public final class AuthorServices {
 
     /**
+     * Private constructor.
+     */
+    private AuthorServices() {
+    }
+
+    /**
      * Delete an author.
      *
      * @param db SQLiteDatabase.

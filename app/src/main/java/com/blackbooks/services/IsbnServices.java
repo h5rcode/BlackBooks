@@ -18,6 +18,12 @@ import java.util.List;
 public final class IsbnServices {
 
     /**
+     * Private constructor.
+     */
+    private IsbnServices() {
+    }
+
+    /**
      * Delete all the looked up ISBNs.
      *
      * @param db SQLiteDatabase.

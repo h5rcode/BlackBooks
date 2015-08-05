@@ -13,6 +13,12 @@ import java.util.List;
 public class BookCategoryServices {
 
     /**
+     * Private constructor.
+     */
+    private BookCategoryServices() {
+    }
+
+    /**
      * Delete all the BookCategory relationships involving a given book.
      *
      * @param db     SQLiteDatabase.

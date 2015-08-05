@@ -25,6 +25,12 @@ import java.util.TreeMap;
 public final class BookGroupServices {
 
     /**
+     * Private constructor.
+     */
+    private BookGroupServices() {
+    }
+
+    /**
      * Load the list of authors.
      *
      * @param db     SQLiteDatabase

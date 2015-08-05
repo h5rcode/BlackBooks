@@ -16,6 +16,12 @@ import java.util.List;
 public final class FullTextSearchServices {
 
     /**
+     * Private constructor.
+     */
+    private FullTextSearchServices() {
+    }
+
+    /**
      * Return the number of books matching a query.
      *
      * @param db    SQLiteDatabase.

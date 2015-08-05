@@ -15,6 +15,12 @@ import java.util.List;
 public final class CategoryServices {
 
     /**
+     * Private constructor.
+     */
+    private CategoryServices() {
+    }
+
+    /**
      * Delete a category.
      *
      * @param db         SQLiteDatabase.

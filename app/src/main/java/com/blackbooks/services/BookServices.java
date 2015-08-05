@@ -31,6 +31,12 @@ import java.util.List;
 public final class BookServices {
 
     /**
+     * Private constructor.
+     */
+    private BookServices() {
+    }
+
+    /**
      * Delete a book, and its links to its authors. If the deleted book was the
      * only book of its author(s) in the database, the author(s) is (are) also
      * deleted.

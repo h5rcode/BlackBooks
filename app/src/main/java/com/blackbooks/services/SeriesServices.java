@@ -15,6 +15,12 @@ import java.util.List;
 public final class SeriesServices {
 
     /**
+     * Private constructor.
+     */
+    private SeriesServices() {
+    }
+
+    /**
      * Delete a series.
      *
      * @param db       SQLiteDatabase.

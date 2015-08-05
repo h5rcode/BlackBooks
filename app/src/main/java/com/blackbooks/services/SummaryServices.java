@@ -15,6 +15,12 @@ import com.blackbooks.model.persistent.Series;
  */
 public final class SummaryServices {
 
+    /**
+     * Private constructor.
+     */
+    private SummaryServices() {
+    }
+
     public static Summary getSummary(SQLiteDatabase db) {
         Summary summary = new Summary();
 
