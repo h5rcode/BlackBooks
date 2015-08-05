@@ -1,5 +1,6 @@
 package com.blackbooks.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blackbooks.R;
+import com.blackbooks.activities.BookImportFileParsingActivity;
 import com.blackbooks.adapters.CsvColumnListAdapter;
 import com.blackbooks.fragments.dialogs.ColumnSeparator;
 import com.blackbooks.fragments.dialogs.TextQualifier;
@@ -21,6 +23,7 @@ import com.blackbooks.model.nonpersistent.CsvColumn;
 import com.blackbooks.utils.CsvUtils;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,11 +46,13 @@ public final class BookImportColumnMappingFragment extends Fragment {
     /**
      * Constructor.
      *
-     * @param file            The CSV file.
-     * @param columnSeparator The column separator character.
-     * @param textQualifier   The text qualifier character.
+     * @param file                   The CSV file.
+     * @param columnSeparator        The column separator character.
+     * @param textQualifier          The text qualifier character.
+     * @param firstRowContainsHeader Boolean indicating if the first row of the file contains column headers.
      */
-    public static BookImportColumnMappingFragment newInstance(File file, ColumnSeparator columnSeparator, TextQualifier textQualifier, boolean firstRowContainsHeader) {
+    public static BookImportColumnMappingFragment newInstance(
+            File file, ColumnSeparator columnSeparator, TextQualifier textQualifier, boolean firstRowContainsHeader) {
         BookImportColumnMappingFragment fragment = new BookImportColumnMappingFragment();
         Bundle arguments = new Bundle();
         arguments.putSerializable(ARG_FILE, file);
@@ -110,7 +115,16 @@ public final class BookImportColumnMappingFragment extends Fragment {
             case R.id.bookImport_actionNextStep:
                 result = true;
 
-                checkMappings();
+                boolean ok = checkMappings();
+                if (ok) {
+                    Intent i = new Intent(getActivity(), BookImportFileParsingActivity.class);
+                    i.putExtra(BookImportFileParsingActivity.EXTRA_COLUMN_SEPARATOR, mColumnSeparator);
+                    i.putExtra(BookImportFileParsingActivity.EXTRA_CSV_COLUMNS, (Serializable) mCsvColumns);
+                    i.putExtra(BookImportFileParsingActivity.EXTRA_FILE, mFile);
+                    i.putExtra(BookImportFileParsingActivity.EXTRA_FIRST_ROW_CONTAINS_HEADER, mFirstRowContainsHeader);
+                    i.putExtra(BookImportFileParsingActivity.EXTRA_TEXT_QUALIFIER, mTextQualifier);
+                    startActivity(i);
+                }
 
                 break;
 

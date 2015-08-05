@@ -231,6 +231,7 @@
     <string name="title_activity_book_group_series">Series</string>
     <string name="title_activity_book_import">Importar un archivo CSV</string>
     <string name="title_activity_book_import_column_mapping">Asociación de columnas</string>
+    <string name="title_activity_book_import_file_parsing">Resultados de la lectura</string>
     <string name="title_activity_book_search">Resultados para \"%s\"</string>
     <string name="title_activity_book_search_default">Resultados de búsqueda</string>
     <string name="title_activity_books_by_author">Libros de %s</string>

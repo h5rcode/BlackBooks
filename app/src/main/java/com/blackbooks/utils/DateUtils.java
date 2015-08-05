@@ -23,15 +23,19 @@ public final class DateUtils {
     }
 
     /**
-     * Tries to parse a date in three different formats :<br />
+     * <p>
+     * Tries to parse a date in three different formats :
      * <ol>
      * <li>A format where the date contains a year, a month a day.</li>
      * <li>A format where the date contains a year and a month.</li>
      * <li>A format where the date contains only a year.</li>
      * </ol>
+     * </p>
+     * <p>
      * The method returns the first date that was successfully parsed, and
      * throws an {@link IllegalArgumentException} if none of the three parsing
      * attempts succeeded.
+     * </p>
      *
      * @param dateString         The string value to parse.
      * @param formatYearMonthDay The format containing the year, the month and the day.

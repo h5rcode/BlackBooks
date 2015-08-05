@@ -235,6 +235,7 @@
     <string name="title_activity_book_group_series">Series</string>
     <string name="title_activity_book_import">Import from CSV</string>
     <string name="title_activity_book_import_column_mapping">Column mapping</string>
+    <string name="title_activity_book_import_file_parsing">Parsing results</string>
     <string name="title_activity_books_by_author">Books by %s</string>
     <string name="title_activity_books_by_book_location">Location \"%s\"</string>
     <string name="title_activity_books_by_category">Category \"%s\"</string>
