@@ -141,10 +141,11 @@ public final class CsvUtils {
      * @param firstRowContainsHeader A boolean indicating whether the first row of the file contains a header or not.
      * @param csvColumns             The CSV column mapping settings.
      * @return A list of BookInfo instances.
+     * @throws InterruptedException if the parsing is interrupted.
      */
     public static List<BookInfo> parseCsvFile(
             File file, char columnSeparator, char textQualifier,
-            boolean firstRowContainsHeader, List<CsvColumn> csvColumns) {
+            boolean firstRowContainsHeader, List<CsvColumn> csvColumns) throws InterruptedException {
 
         final List<BookInfo> books = new ArrayList<BookInfo>();
 
@@ -158,6 +159,11 @@ public final class CsvUtils {
             String line;
             int lineNumber = 0;
             while ((line = reader.readLine()) != null) {
+
+                if (Thread.interrupted()) {
+                    throw new InterruptedException();
+                }
+
                 lineNumber++;
                 if (lineNumber == 1 && firstRowContainsHeader) {
                     continue;
@@ -332,11 +338,16 @@ public final class CsvUtils {
 
     /**
      * Split a string value.
+     * TODO Make the separator a parameter.
      *
      * @param value The string value.
      * @return The sub-values.
      */
     private static String[] parseStringArray(String value) {
-        return value.split(",");
+        String[] strings = value.split(",");
+        for (int i = 0; i < strings.length; i++) {
+            strings[i] = strings[i].trim();
+        }
+        return strings;
     }
 }
