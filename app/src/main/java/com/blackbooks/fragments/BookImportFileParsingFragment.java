@@ -1,6 +1,7 @@
 package com.blackbooks.fragments;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -87,6 +88,13 @@ public final class BookImportFileParsingFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        cancelAsyncTasks();
+    }
+
+    /**
+     * Cancel the asynchronous tasks.
+     */
+    private void cancelAsyncTasks() {
         if (mCsvParsingTask != null) {
             mCsvParsingTask.cancel(true);
         }
@@ -115,6 +123,12 @@ public final class BookImportFileParsingFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             mProgressDialog = new ProgressDialog(BookImportFileParsingFragment.this.getActivity());
+            mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
+                    BookImportFileParsingFragment.this.cancelAsyncTasks();
+                }
+            });
             mProgressDialog.setTitle("Saving in progress...");
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -123,7 +137,7 @@ public final class BookImportFileParsingFragment extends Fragment {
         }
 
         @Override
-        protected Void doInBackground(Void... lists) {
+        protected Void doInBackground(Void... voids) {
 
             if (!mBookInfos.isEmpty()) {
                 final SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
