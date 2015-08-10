@@ -20,6 +20,7 @@
     <string name="action_edit_series">Modifier la série</string>
     <string name="action_enter_isbn">Entrer un ISBN</string>
     <string name="action_export_books">Exporter les livres</string>
+    <string name="action_import">Importer</string>
     <string name="action_loan_book">Prêter le livre</string>
     <string name="action_lookup_isbn">Rechercher</string>
     <string name="action_manage_search">Gérer la recherche</string>
@@ -191,6 +192,7 @@
     <string name="message_isbn_search_invalid_isbn13">ISBN-13 invalide</string>
     <string name="message_isbn_search_too_short">Trop court</string>
     <string name="message_no_result">La recherche n\'a retourné aucun résultat.</string>
+    <string name="message_save_parsed_books">Import des livres en cours.\nFermez la fenêtre pour annuler le processus.</string>
     <string name="message_series_missing">Veuillez entrer une série</string>
     <string name="message_series_modifed">La série \"%s\" a été modifiée avec succès.</string>
     <string name="message_unsaved_changes">Voulez-vous enregistrer les modifications en cours ?</string>

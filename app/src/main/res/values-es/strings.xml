@@ -19,6 +19,7 @@
     <string name="action_edit_series">Modificar serie</string>
     <string name="action_enter_isbn">Introducir ISBN</string>
     <string name="action_export_books">Exportar libros</string>
+    <string name="action_import">Importar</string>
     <string name="action_loan_book">Prestar libro</string>
     <string name="action_lookup_isbn">Buscar</string>
     <string name="action_manage_search">Administrar búsqueda</string>
@@ -191,6 +192,7 @@
     <string name="message_isbn_search_invalid_isbn13">ISBN-13 inválido.</string>
     <string name="message_isbn_search_too_short">Demasiado corto</string>
     <string name="message_no_result">La búsqueda no ha generado resultados.</string>
+    <string name="message_save_parsed_books">Importando libros.\nCierra la ventana de diálogo para cancelar el proceso.</string>
     <string name="message_scanner_install">Black Books necesita Pic2shop para escanear ISBN códigos. Has clic sobre OK para acceder a su página Google Play.</string>
     <string name="message_send_log">Black Books encontró un error inesperado.\n\nPara ayudar a nosotros a corregir el problema, haz clic sobre \"Envia el informe de errores\" para enviar un registro de los acontecimientos a nosotros. Por favor, describe lo que estaba haciendo cuando se ocurrió la error.\n\nMuchas gracias. </string>
     <string name="message_series_already_present">\"%s\" ya está en la lista de series.</string>
