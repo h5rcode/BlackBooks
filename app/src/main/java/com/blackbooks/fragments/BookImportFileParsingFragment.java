@@ -1,14 +1,16 @@
 package com.blackbooks.fragments;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
+import com.blackbooks.R;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.dialogs.ColumnSeparator;
+import com.blackbooks.fragments.dialogs.ProgressDialogFragment;
 import com.blackbooks.fragments.dialogs.TextQualifier;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.nonpersistent.CsvColumn;
@@ -32,12 +34,13 @@ public final class BookImportFileParsingFragment extends Fragment {
     private static final String ARG_FIRST_ROW_CONTAINS_HEADER = "ARG_FIRST_ROW_CONTAINS_HEADER";
     private static final String ARG_CSV_COLUMNS = "ARG_CSV_COLUMNS";
 
+    private static final String TAG_PROGRESS_DIALOG_FRAGMENT = "TAG_PROGRESS_DIALOG_FRAGMENT";
+
     private List<BookInfo> mBookInfos;
 
     private CsvParsingTask mCsvParsingTask;
     private BookSavingTask mBookSavingTask;
 
-    private ProgressDialog mProgressDialog;
 
     /**
      * Constructor.
@@ -109,6 +112,7 @@ public final class BookImportFileParsingFragment extends Fragment {
     private final class BookSavingTask extends AsyncTask<Void, Integer, Void> {
 
         private final List<BookInfo> mBookInfos;
+        private final ProgressDialogFragment mProgressDialogFragment;
 
         /**
          * Constructor.
@@ -117,23 +121,22 @@ public final class BookImportFileParsingFragment extends Fragment {
          */
         public BookSavingTask(List<BookInfo> bookInfos) {
             mBookInfos = bookInfos;
+            mProgressDialogFragment = new ProgressDialogFragment();
+            mProgressDialogFragment.setTitle(R.string.title_dialog_save_parsed_books);
+            mProgressDialogFragment.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
+                    cancelAsyncTasks();
+                }
+            });
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mProgressDialog = new ProgressDialog(BookImportFileParsingFragment.this.getActivity());
-            mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialogInterface) {
-                    BookImportFileParsingFragment.this.cancelAsyncTasks();
-                }
-            });
-            mProgressDialog.setTitle("Saving in progress...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            mProgressDialog.setMax(mBookInfos.size());
-            mProgressDialog.show();
+            mProgressDialogFragment.setMax(mBookInfos.size());
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            mProgressDialogFragment.show(fm, TAG_PROGRESS_DIALOG_FRAGMENT);
         }
 
         @Override
@@ -161,13 +164,13 @@ public final class BookImportFileParsingFragment extends Fragment {
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
             int progress = values[0];
-            mProgressDialog.setProgress(progress);
+            mProgressDialogFragment.setProgress(progress);
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            mProgressDialog.hide();
+            mProgressDialogFragment.dismiss();
         }
     }
 

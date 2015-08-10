@@ -264,6 +264,7 @@
     <string name="title_dialog_install_scanner">Install a bar code scanner</string>
     <string name="title_dialog_language_picker">Set language</string>
     <string name="title_dialog_return_book">Return book</string>
+    <string name="title_dialog_save_parsed_books">Saving in progress</string>
     <string name="title_dialog_unsaved_changes">Unsaved changes</string>
     <string name="title_dialog_text_qualifier_picker">Choose a text qualifier</string>
     <string name="title_menu_edit_thumbnail">Edit thumbnail</string>

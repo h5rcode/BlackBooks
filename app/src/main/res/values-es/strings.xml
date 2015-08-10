@@ -260,6 +260,7 @@
     <string name="title_dialog_install_scanner">Instalar un escáner de código de barras</string>
     <string name="title_dialog_language_picker">Establecer idioma</string>
     <string name="title_dialog_return_book">Devolver un libro</string>
+    <string name="title_dialog_save_parsed_books">Copia en progreso</string>
     <string name="title_dialog_text_qualifier_picker">Selecciona un calificador de texto</string>
     <string name="title_dialog_unsaved_changes">Cambios pendientes</string>
     <string name="title_menu_edit_thumbnail">Modificar una cubierta</string>

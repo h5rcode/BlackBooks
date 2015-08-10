@@ -261,6 +261,7 @@
     <string name="title_dialog_install_scanner">Installer un scanner de code-barres</string>
     <string name="title_dialog_language_picker">Définir la langue</string>
     <string name="title_dialog_return_book">Rendre un livre</string>
+    <string name="title_dialog_save_parsed_books">Sauvegarde en cours</string>
     <string name="title_dialog_text_qualifier_picker">Choisissez un délimiteur de texte</string>
     <string name="title_dialog_unsaved_changes">Modifications en cours</string>
     <string name="title_menu_edit_thumbnail">Modifier une couverture</string>
