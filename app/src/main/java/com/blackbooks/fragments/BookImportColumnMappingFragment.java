@@ -27,6 +27,7 @@ import com.blackbooks.fragments.dialogs.ProgressDialogFragment;
 import com.blackbooks.fragments.dialogs.TextQualifier;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.nonpersistent.CsvColumn;
+import com.blackbooks.model.persistent.Book;
 import com.blackbooks.services.BookServices;
 import com.blackbooks.utils.CsvUtils;
 import com.blackbooks.utils.LogUtils;
@@ -53,7 +54,6 @@ public final class BookImportColumnMappingFragment extends Fragment implements P
     private List<CsvColumn> mCsvColumns;
 
     private CsvParsingTask mCsvParsingTask;
-    private BookSavingTask mBookSavingTask;
 
     /**
      * Constructor.
@@ -117,7 +117,7 @@ public final class BookImportColumnMappingFragment extends Fragment implements P
     @Override
     public void onDestroy() {
         super.onDestroy();
-        cancelAsyncTasks();
+        cancelAsyncTask();
     }
 
     @Override
@@ -153,18 +153,15 @@ public final class BookImportColumnMappingFragment extends Fragment implements P
 
     @Override
     public void onCancel() {
-        cancelAsyncTasks();
+        cancelAsyncTask();
     }
 
     /**
-     * Cancel the asynchronous tasks.
+     * Cancel the asynchronous task.
      */
-    private void cancelAsyncTasks() {
+    private void cancelAsyncTask() {
         if (mCsvParsingTask != null) {
             mCsvParsingTask.cancel(true);
-        }
-        if (mBookSavingTask != null) {
-            mBookSavingTask.cancel(true);
         }
     }
 
@@ -207,106 +204,22 @@ public final class BookImportColumnMappingFragment extends Fragment implements P
             String message = getString(R.string.message_book_property_mapped_multiple_times, bookPropertyDisplayName);
             Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
         }
-
         return ok;
     }
 
     /**
-     * The asynchronous task responsible for saving a list of books to the database.
+     * The asynchronous task that will parse the CSV file and save the list of books read from it.
      */
-    private final class BookSavingTask extends AsyncTask<Void, Integer, Void> {
-
-        private final List<BookInfo> mBookInfos;
-        private final ProgressDialogFragment mProgressDialogFragment;
-
-        /**
-         * Constructor.
-         *
-         * @param bookInfos The books to save.
-         */
-        public BookSavingTask(List<BookInfo> bookInfos) {
-            mBookInfos = bookInfos;
-            mProgressDialogFragment = new ProgressDialogFragment();
-            mProgressDialogFragment.setTargetFragment(BookImportColumnMappingFragment.this, 0);
-            mProgressDialogFragment.setTitle(R.string.title_dialog_save_parsed_books);
-            mProgressDialogFragment.setMessage(R.string.message_save_parsed_books);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mProgressDialogFragment.setMax(mBookInfos.size());
-            FragmentManager fm = getActivity().getSupportFragmentManager();
-            mProgressDialogFragment.show(fm, TAG_PROGRESS_DIALOG_FRAGMENT);
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-
-            if (!mBookInfos.isEmpty()) {
-                final SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-
-                db.beginTransaction();
-                try {
-                    int i = 0;
-                    boolean isCancelled = false;
-                    for (final BookInfo bookInfo : mBookInfos) {
-
-                        if (isCancelled = isCancelled()) {
-                            break;
-                        }
-
-                        try {
-                            BookServices.saveBookInfo(db, bookInfo);
-                        } catch (Exception e) {
-                            final String msg = String.format("Error when saving the book %s.", bookInfo.title);
-                            Log.e(LogUtils.TAG, msg, e);
-                            throw new RuntimeException(e);
-                        }
-
-                        i++;
-                        publishProgress(i);
-                    }
-
-                    if (!isCancelled) {
-                        db.setTransactionSuccessful();
-                    }
-                } finally {
-                    db.endTransaction();
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            int progress = values[0];
-            mProgressDialogFragment.setProgress(progress);
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
-            mProgressDialogFragment.dismiss();
-
-            Intent i = new Intent(getActivity(), SummaryActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(i);
-        }
-    }
-
-    /**
-     * The asynchronous task that will parse the CSV file and return the list of books read from it.
-     */
-    private final class CsvParsingTask extends AsyncTask<Void, Void, List<BookInfo>> {
+    private final class CsvParsingTask extends AsyncTask<Void, Integer, Void> {
 
         private final File mFile;
         private final char mColumnSeparator;
         private final char mTextQualifier;
         private final boolean mFirstRowContainsHeader;
         private final List<CsvColumn> mCsvColumns;
+
+        private final ProgressDialogFragment mProgressDialogFragment;
+
 
         /**
          * Constructor.
@@ -326,28 +239,93 @@ public final class BookImportColumnMappingFragment extends Fragment implements P
             mTextQualifier = textQualifier;
             mFirstRowContainsHeader = firstRowContainsHeader;
             mCsvColumns = csvColumns;
+
+            mProgressDialogFragment = new ProgressDialogFragment();
+            mProgressDialogFragment.setTargetFragment(BookImportColumnMappingFragment.this, 0);
+            mProgressDialogFragment.setTitle(R.string.title_dialog_save_parsed_books);
+            mProgressDialogFragment.setMessage(R.string.message_save_parsed_books);
         }
 
         @Override
-        protected List<BookInfo> doInBackground(Void... voids) {
-            List<BookInfo> bookInfos = null;
+        protected Void doInBackground(Void... voids) {
+            List<BookInfo> bookInfoList;
             try {
-                bookInfos = CsvUtils.parseCsvFile(mFile, mColumnSeparator, mTextQualifier, mFirstRowContainsHeader, mCsvColumns);
+                bookInfoList = CsvUtils.parseCsvFile(mFile, mColumnSeparator, mTextQualifier, mFirstRowContainsHeader, mCsvColumns);
             } catch (InterruptedException e) {
-                // Do nothing. The method will terminate and return an empty list of books.
-            } finally {
-                if (bookInfos == null) {
-                    bookInfos = new ArrayList<BookInfo>();
+                return null;
+            }
+
+            if (!bookInfoList.isEmpty()) {
+
+                mProgressDialogFragment.setMax(bookInfoList.size());
+                final FragmentManager fm = getActivity().getSupportFragmentManager();
+                mProgressDialogFragment.show(fm, TAG_PROGRESS_DIALOG_FRAGMENT);
+
+                final SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
+                db.beginTransaction();
+                try {
+                    int i = 0;
+                    boolean isCancelled = false;
+                    for (final BookInfo bookInfo : bookInfoList) {
+                        if (isCancelled = isCancelled()) {
+                            break;
+                        }
+
+                        processBookInfo(db, bookInfo);
+                        i++;
+                        publishProgress(i);
+                    }
+
+                    if (!isCancelled) {
+                        db.setTransactionSuccessful();
+                    }
+                } finally {
+                    db.endTransaction();
                 }
             }
-            return bookInfos;
+
+            return null;
+        }
+
+        /**
+         * Process a parsed book and save it in the database if everything is fine.
+         *
+         * @param db       SQLiteDatabase.
+         * @param bookInfo The book.
+         */
+        private void processBookInfo(SQLiteDatabase db, BookInfo bookInfo) {
+            boolean ok = true;
+            if (bookInfo.id != null) {
+                final Book book = BookServices.getBook(db, bookInfo.id);
+                if (book == null) {
+                    ok = false;
+                    final String msg = String.format(
+                            "Book %s cannot be updated because there is no row in table %s with the id %d.",
+                            bookInfo.title, Book.NAME, bookInfo.id);
+                    Log.w(LogUtils.TAG, msg);
+                }
+            }
+
+            if (ok) {
+                BookServices.saveBookInfo(db, bookInfo);
+            }
         }
 
         @Override
-        protected void onPostExecute(List<BookInfo> result) {
-            super.onPostExecute(result);
-            mBookSavingTask = new BookSavingTask(result);
-            mBookSavingTask.execute();
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            int progress = values[0];
+            mProgressDialogFragment.setProgress(progress);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            mProgressDialogFragment.dismiss();
+
+            Intent i = new Intent(getActivity(), SummaryActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
         }
     }
 }
