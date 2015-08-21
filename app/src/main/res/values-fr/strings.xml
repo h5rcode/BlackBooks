@@ -144,7 +144,7 @@
     <string name="message_book_marked_as_to_read">\"%s\" a été ajouté aux livres à lire.</string>
     <string name="message_book_modified">\"%s\" a été modifié avec succès.</string>
     <string name="message_book_property_mapped_multiple_times">La propriété \"%s\" est associée plus d\'une fois.</string>
-    <string name="message_book_property_not_mapped">Une colonne doit être associé à la propriété \"%s\".</string>
+    <string name="message_book_property_not_mapped">Une colonne doit être associée à la propriété \"%s\".</string>
     <string name="message_book_returned">\"%s\" a été rendu.</string>
     <string name="message_book_unmarked_as_favourite">\"%s\" a été retiré des favoris.</string>
     <string name="message_cannot_delete_isbns">Une recherche est en cours, les ISBNs ne peuvent pas être supprimés.</string>
