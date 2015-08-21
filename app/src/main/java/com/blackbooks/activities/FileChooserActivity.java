@@ -1,9 +1,11 @@
 package com.blackbooks.activities;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.view.MenuItem;
 
 import com.blackbooks.R;
 import com.blackbooks.fragments.FileChooserFragment;
@@ -22,6 +24,10 @@ public final class FileChooserActivity extends FragmentActivity implements FileC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_activity);
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         FragmentManager fm = getSupportFragmentManager();
         FileChooserFragment fileChooserFragment = (FileChooserFragment) fm.findFragmentByTag(FILE_CHOOSER_FRAGMENT_TAG);
@@ -32,6 +38,23 @@ public final class FileChooserActivity extends FragmentActivity implements FileC
                     .add(R.id.fragmentActivity_frameLayout, fileChooserFragment, FILE_CHOOSER_FRAGMENT_TAG) //
                     .commit();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean result;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                result = true;
+                finish();
+                break;
+
+            default:
+                result = super.onOptionsItemSelected(item);
+                break;
+        }
+
+        return result;
     }
 
     @Override

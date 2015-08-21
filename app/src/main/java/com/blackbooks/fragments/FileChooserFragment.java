@@ -1,32 +1,34 @@
 package com.blackbooks.fragments;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.blackbooks.R;
 import com.blackbooks.adapters.FileListAdapter;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * A fragment to choose a file.
  */
 public final class FileChooserFragment extends ListFragment {
 
+    private final File mParentDirectoryShortcut = new File((String) null, "..");
     private FileChooserListener mFileChooserListener;
     private File mCurrentDirectory;
     private FileListAdapter mAdapter;
+    private TextView mTextCurrentDirectory;
 
     @Override
     public void onAttach(Activity activity) {
@@ -38,63 +40,71 @@ public final class FileChooserFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        setHasOptionsMenu(true);
 
         mAdapter = new FileListAdapter(getActivity());
         setListAdapter(mAdapter);
         mCurrentDirectory = Environment.getExternalStorageDirectory();
-        File[] files = listFiles(mCurrentDirectory);
+        final List<File> files = listFiles(mCurrentDirectory);
         mAdapter.addAll(files);
         mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_file_chooser, container, false);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateHomeButton();
+        final View view = inflater.inflate(R.layout.fragment_file_chooser, container, false);
+        mTextCurrentDirectory = (TextView) view.findViewById(R.id.fileChooser_textFooter);
+        mTextCurrentDirectory.setText(mCurrentDirectory.getAbsolutePath());
+        return view;
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        File selectedFile = mAdapter.getItem(position);
+        final File selectedFile = mAdapter.getItem(position);
 
-        if (selectedFile.isDirectory()) {
+        if (selectedFile == mParentDirectoryShortcut) {
+            final File parentFile = mCurrentDirectory.getParentFile();
+            enterDirectory(parentFile);
+        } else if (selectedFile.isDirectory()) {
             enterDirectory(selectedFile);
         } else if (selectedFile.isFile()) {
             mFileChooserListener.onFileChosen(selectedFile);
         }
     }
 
-    private void enterDirectory(File selectedFile) {
-        mCurrentDirectory = selectedFile;
+    /**
+     * Sets the current directory to a given directory and list its content.
+     *
+     * @param selectedDirectory The directory to enter.
+     */
+    private void enterDirectory(File selectedDirectory) {
+        mCurrentDirectory = selectedDirectory;
+        mTextCurrentDirectory.setText(selectedDirectory.getAbsolutePath());
 
         mAdapter.clear();
-        File[] files = listFiles(selectedFile);
+        final List<File> files = listFiles(selectedDirectory);
         if (files != null) {
             mAdapter.addAll(files);
         }
         mAdapter.notifyDataSetChanged();
-
-        updateHomeButton();
     }
 
-    private void updateHomeButton() {
-        FragmentActivity activity = getActivity();
-        ActionBar actionBar = activity.getActionBar();
-        if (actionBar != null) {
-            boolean rootDirectory = mCurrentDirectory.getParent() == null;
-            actionBar.setDisplayHomeAsUpEnabled(!rootDirectory);
+    /**
+     * List the files contained in the selected folder.
+     *
+     * @param selectedFolder The selected folder.
+     * @return The list of files in the selected folder plus a shortcut to its parent directory if
+     * it has one.
+     */
+    private List<File> listFiles(File selectedFolder) {
+        final List<File> sortedFiles = new ArrayList<File>();
+
+        final File parent = selectedFolder.getParentFile();
+        if (parent != null) {
+            sortedFiles.add(0, mParentDirectoryShortcut);
         }
-    }
 
-    private File[] listFiles(File selectedFile) {
-        File[] files = selectedFile.listFiles();
+        final File[] files = selectedFolder.listFiles();
         if (files != null) {
             Arrays.sort(files, new Comparator<File>() {
                 @Override
@@ -112,31 +122,9 @@ public final class FileChooserFragment extends ListFragment {
                     return result;
                 }
             });
+            sortedFiles.addAll(Arrays.asList(files));
         }
-        return files;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        boolean result;
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                result = true;
-                File parentDirectory = mCurrentDirectory.getParentFile();
-                if (parentDirectory == null) {
-                    Activity activity = getActivity();
-                    activity.finish();
-                } else {
-                    enterDirectory(parentDirectory);
-                }
-                break;
-
-            default:
-                result = super.onOptionsItemSelected(item);
-                break;
-        }
-
-        return result;
+        return sortedFiles;
     }
 
     /**
