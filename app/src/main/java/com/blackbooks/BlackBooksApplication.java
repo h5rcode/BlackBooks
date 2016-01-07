@@ -15,6 +15,7 @@ public final class BlackBooksApplication extends Application {
 
     @Override
     public void onCreate() {
+        super.onCreate();
         SQLiteHelper.initialize(getApplicationContext());
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {

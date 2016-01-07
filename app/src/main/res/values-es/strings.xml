@@ -150,7 +150,7 @@
     <string name="message_category_already_present">\"%s\" ya está en la lista de categorías.</string>
     <string name="message_category_deleted">La categoría \"%s\" fue eliminada.</string>
     <string name="message_category_missing">Introduce una categoría.</string>
-    <string name="message_category_modified">La categoría \"%\" fue modificada.</string>
+    <string name="message_category_modified">La categoría \"%s\" fue modificada.</string>
     <string name="message_book_property_mapped_multiple_times">La propiedad \"%s\" está asociada a más de una columna.</string>
     <string name="message_column_mapping">Asocia las columnas a las propiedades de libro</string>
     <string name="message_confirm_bulk_scan">%s\n¿Seguir escaneando?</string>
