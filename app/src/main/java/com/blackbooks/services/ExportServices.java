@@ -11,12 +11,7 @@ import com.blackbooks.model.persistent.BookCategory;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Publisher;
 import com.blackbooks.model.persistent.Series;
-import com.blackbooks.utils.FileUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,22 +24,6 @@ public final class ExportServices {
      * Private constructor.
      */
     private ExportServices() {
-    }
-
-    /**
-     * Export the list of all the books in the database to a CSV file.
-     *
-     * @param db                      SQLiteDatabase.
-     * @param file                    The target CSV file.
-     * @param textQualifier           Text qualifier.
-     * @param columnSeparator         Column separator.
-     * @param firstRowContainsHeaders True if the first row should contain the column headers.
-     * @throws IOException If the file could not be written.
-     */
-    public static void exportBookList(SQLiteDatabase db, File file, char textQualifier, char columnSeparator,
-                                      boolean firstRowContainsHeaders) throws IOException {
-        List<BookExport> bookExportList = getBookExportList(db, null);
-        saveBookExportListToCsv(bookExportList, file, textQualifier, columnSeparator, firstRowContainsHeaders);
     }
 
     /**
@@ -200,34 +179,6 @@ public final class ExportServices {
      */
     private static String getString(Cursor cursor, int index) {
         return cursor.isNull(index) ? null : cursor.getString(index);
-    }
-
-    /**
-     * Save a list of BookExport to as CSV file.
-     *
-     * @param bookExportList         List of {@link BookExport}.
-     * @param file                   The target file.
-     * @param qualifier              The text qualifier.
-     * @param separator              The column separator.
-     * @param firstRowContainsHeader True if the first row should contain the column headers.
-     * @throws IOException If the file could not be written.
-     */
-    private static void saveBookExportListToCsv(List<BookExport> bookExportList, File file, char qualifier, char separator,
-                                                boolean firstRowContainsHeader) throws IOException {
-        FileOutputStream output = new FileOutputStream(file);
-        OutputStreamWriter writer = new OutputStreamWriter(output, "UTF-8");
-
-        writer.append(FileUtils.UTF8_BOM);
-        if (firstRowContainsHeader) {
-            writer.append(BookExport.getCsvHeader(qualifier, separator));
-            writer.append('\n');
-        }
-
-        for (BookExport bookExport : bookExportList) {
-            writer.append(bookExport.toCsv(qualifier, separator));
-            writer.append('\n');
-        }
-        writer.close();
     }
 
     /**

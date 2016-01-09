@@ -513,7 +513,7 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
         setButtonEditLanguageText();
         setButtonEditAuthorsText();
         if (mBookInfo.pageCount != null) {
-            mTextPageCount.setText(mBookInfo.pageCount.toString());
+            mTextPageCount.setText( mBookInfo.pageCount.toString());
         }
         mTextPublisher.setText(mBookInfo.publisher.name);
         if (mBookInfo.publishedDate != null) {

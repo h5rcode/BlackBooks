@@ -182,6 +182,7 @@
     <string name="message_confirm_return_book">¿Devolver \"%s\"?</string>
     <string name="message_duplicate_books_negative">Cancelar</string>
     <string name="message_duplicate_books_positive">Continuar</string>
+    <string name="message_export_books">Exportando libros.\nCierra la ventana de diálogo para cancelar el proceso.</string>
     <string name="message_file_not_saved">Imposible grabar el archivo.</string>
     <string name="message_file_saved">El archivo \"%1$s\" fue grabado en la carpeta \"%2$s\".</string>
     <string name="message_invalid_isbn">%s no es un número ISBN válido.</string>
@@ -259,10 +260,11 @@
     <string name="title_dialog_edit_book_location">Modificar una ubicacíon</string>
     <string name="title_dialog_edit_category">Modificar una categoría</string>
     <string name="title_dialog_edit_series">Modificar una serie</string>
+    <string name="title_dialog_export_books">Exportación en curso</string>
     <string name="title_dialog_install_scanner">Instalar un escáner de código de barras</string>
     <string name="title_dialog_language_picker">Establecer idioma</string>
     <string name="title_dialog_return_book">Devolver un libro</string>
-    <string name="title_dialog_save_parsed_books">Copia en progreso</string>
+    <string name="title_dialog_save_parsed_books">Copia en curso</string>
     <string name="title_dialog_text_qualifier_picker">Selecciona un calificador de texto</string>
     <string name="title_dialog_unsaved_changes">Cambios pendientes</string>
     <string name="title_menu_edit_thumbnail">Modificar una cubierta</string>

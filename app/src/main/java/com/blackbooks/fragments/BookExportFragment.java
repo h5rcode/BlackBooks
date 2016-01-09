@@ -2,8 +2,10 @@ package com.blackbooks.fragments;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaScannerConnection;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,23 +26,30 @@ import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.dialogs.ColumnSeparator;
 import com.blackbooks.fragments.dialogs.ColumnSeparatorPicker;
 import com.blackbooks.fragments.dialogs.ColumnSeparatorPicker.ColumnSeparatorPickerListener;
+import com.blackbooks.fragments.dialogs.ProgressDialogFragment;
 import com.blackbooks.fragments.dialogs.TextQualifier;
 import com.blackbooks.fragments.dialogs.TextQualifierPicker;
 import com.blackbooks.fragments.dialogs.TextQualifierPicker.TextQualifierPickerListener;
+import com.blackbooks.model.nonpersistent.BookExport;
 import com.blackbooks.services.ExportServices;
 import com.blackbooks.utils.FileUtils;
 import com.blackbooks.utils.LogUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.List;
 
 /**
  * Fragment where the user can export the list of books as a CSV file.
  */
-public final class BookExportFragment extends Fragment implements TextQualifierPickerListener, ColumnSeparatorPickerListener {
+public final class BookExportFragment extends Fragment implements TextQualifierPickerListener, ColumnSeparatorPickerListener, ProgressDialogFragment.OnProgressDialogListener {
 
     private static final String TAG_TEXT_QUALIFIER_PICKER = "TAG_TEXT_QUALIFIER_PICKER";
     private static final String TAG_COLUMN_SEPARATOR_PICKER = "TAG_COLUMN_SEPARATOR_PICKER";
+    private static final String TAG_PROGRESS_DIALOG_FRAGMENT = "TAG_PROGRESS_DIALOG_FRAGMENT";
+
     private final TextQualifierPicker mTextQualifierPicker;
     private final ColumnSeparatorPicker mColumnSeparatorPicker;
     private LinearLayout mLayoutQualifier;
@@ -52,6 +61,8 @@ public final class BookExportFragment extends Fragment implements TextQualifierP
     private char mTextQualifier;
     private char mColumnSeparator;
     private boolean mFirstRowContainsHeader = true;
+
+    private CsvExportTask mCsvExportTask;
 
     public BookExportFragment() {
         super();
@@ -128,11 +139,18 @@ public final class BookExportFragment extends Fragment implements TextQualifierP
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        cancelAsyncTask();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean result;
         switch (item.getItemId()) {
             case R.id.bookExport_actionExport:
-                exportBooks();
+                mCsvExportTask = new CsvExportTask();
+                mCsvExportTask.execute();
                 result = true;
                 break;
 
@@ -145,21 +163,11 @@ public final class BookExportFragment extends Fragment implements TextQualifierP
     }
 
     /**
-     * Export the books as a CSV file using the current parameters.
+     * Cancel the asynchronous task.
      */
-    private void exportBooks() {
-        try {
-            SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-            File exportFile = FileUtils.createFileInAppDir("Export.csv");
-            ExportServices.exportBookList(db, exportFile, mTextQualifier, mColumnSeparator, mFirstRowContainsHeader);
-
-            MediaScannerConnection.scanFile(getActivity(), new String[]{exportFile.getAbsolutePath()}, null, null);
-            String message = String.format(getString(R.string.message_file_saved), exportFile.getName(), exportFile
-                    .getParentFile().getName());
-            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            Log.e(LogUtils.TAG, e.getMessage(), e);
-            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+    private void cancelAsyncTask() {
+        if (mCsvExportTask != null) {
+            mCsvExportTask.cancel(true);
         }
     }
 
@@ -185,5 +193,103 @@ public final class BookExportFragment extends Fragment implements TextQualifierP
         mColumnSeparator = columnSeparator.getCharacter();
         mTextViewSeparator.setText(columnSeparator.getResourceId());
         renderPreview();
+    }
+
+    @Override
+    public void onCancel() {
+        cancelAsyncTask();
+    }
+
+    /**
+     * The asynchronous task that will export the book list to a CSV file.
+     */
+    private final class CsvExportTask extends AsyncTask<Void, Integer, String> {
+
+        private final File mExportFile;
+        private final ProgressDialogFragment mProgressDialogFragment;
+
+        /**
+         * Constructor.
+         */
+        public CsvExportTask() {
+            mExportFile = FileUtils.createFileInAppDir("Export.csv");
+
+            mProgressDialogFragment = new ProgressDialogFragment();
+            mProgressDialogFragment.setTargetFragment(BookExportFragment.this, 0);
+            mProgressDialogFragment.setTitle(R.string.title_dialog_export_books);
+            mProgressDialogFragment.setMessage(R.string.message_export_books);
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String errorMessage = null;
+
+            OutputStreamWriter writer = null;
+            try {
+                SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
+
+                List<BookExport> bookExportList = ExportServices.getBookExportList(db, null);
+
+                mProgressDialogFragment.setMax(bookExportList.size());
+                final FragmentManager fm = getActivity().getSupportFragmentManager();
+                mProgressDialogFragment.show(fm, TAG_PROGRESS_DIALOG_FRAGMENT);
+
+                writer = new OutputStreamWriter(new FileOutputStream(mExportFile), "UTF-8");
+
+                writer.append(FileUtils.UTF8_BOM);
+                if (mFirstRowContainsHeader) {
+                    writer.append(BookExport.getCsvHeader(mTextQualifier, mColumnSeparator));
+                    writer.append('\n');
+                }
+
+                int i = 0;
+                for (BookExport bookExport : bookExportList) {
+                    if (isCancelled()) {
+                        break;
+                    }
+
+                    writer.append(bookExport.toCsv(mTextQualifier, mColumnSeparator));
+                    writer.append('\n');
+
+                    i++;
+                    publishProgress(i);
+                }
+            } catch (IOException e) {
+                Log.e(LogUtils.TAG, e.getMessage(), e);
+                errorMessage = e.getMessage();
+            } finally {
+                if (writer != null) {
+                    try {
+                        writer.close();
+                    } catch (IOException e) {
+                        Log.e(LogUtils.TAG, "Error closing the file.", e);
+                    }
+                }
+
+                MediaScannerConnection.scanFile(getActivity(), new String[]{mExportFile.getAbsolutePath()}, null, null);
+            }
+            return errorMessage;
+        }
+
+        @Override
+        protected void onPostExecute(String errorMessage) {
+            super.onPostExecute(errorMessage);
+            mProgressDialogFragment.dismiss();
+
+            if (errorMessage == null) {
+                String message = String.format(getString(R.string.message_file_saved), mExportFile.getName(), mExportFile
+                        .getParentFile().getName());
+                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_LONG).show();
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            int progress = values[0];
+            mProgressDialogFragment.setProgress(progress);
+        }
     }
 }

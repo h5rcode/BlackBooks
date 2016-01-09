@@ -187,6 +187,7 @@
     <string name="message_confirm_return_book_confirm">Yes</string>
     <string name="message_duplicate_books_negative">Cancel</string>
     <string name="message_duplicate_books_positive">Continue</string>
+    <string name="message_export_books">The books are being exported.\nDismiss this dialog to cancel the whole process.</string>
     <string name="message_file_not_saved">File could not be written.</string>
     <string name="message_file_saved">File \"%1$s\" saved in folder \"%2$s\".</string>
     <string name="message_invalid_isbn">%s is not a valid ISBN number.</string>
@@ -263,6 +264,7 @@
     <string name="title_dialog_edit_book_location">Edit book location</string>
     <string name="title_dialog_edit_category">Edit category</string>
     <string name="title_dialog_edit_series">Edit series</string>
+    <string name="title_dialog_export_books">Export in progress</string>
     <string name="title_dialog_duplicate_books">Duplicate book</string>
     <string name="title_dialog_install_scanner">Install a bar code scanner</string>
     <string name="title_dialog_language_picker">Set language</string>

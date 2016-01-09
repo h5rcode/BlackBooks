@@ -183,6 +183,7 @@
     <string name="message_confirm_return_book_confirm">Oui</string>
     <string name="message_duplicate_books_negative">Annuler</string>
     <string name="message_duplicate_books_positive">Continuer</string>
+    <string name="message_export_books">Export des livres en cours.\nFermez la fenêtre pour annuler le processus.</string>
     <string name="message_file_not_saved">Impossible d\'écrire le fichier.</string>
     <string name="message_file_saved">Le fichier \"%1$s\" a été enregistré dans le dossier \"%2$s\".</string>
     <string name="message_invalid_isbn">%s n\'est pas un numéro ISBN valide.</string>
@@ -259,6 +260,7 @@
     <string name="title_dialog_edit_book_location">Modifier un emplacement</string>
     <string name="title_dialog_edit_category">Modifier une catégorie</string>
     <string name="title_dialog_edit_series">Modifier une série</string>
+    <string name="title_dialog_export_books">Export en cours</string>
     <string name="title_dialog_duplicate_books">Livre en double</string>
     <string name="title_dialog_install_scanner">Installer un scanner de code-barres</string>
     <string name="title_dialog_language_picker">Définir la langue</string>
