@@ -107,6 +107,9 @@ public final class CsvUtils {
             reader = new BufferedReader(new FileReader(file));
             String line = reader.readLine();
             if (line != null) {
+                if (line.startsWith(FileUtils.UTF8_BOM)) {
+                    line = line.substring(1);
+                }
                 String regex = new String(new char[]{columnSeparator});
                 String textQualifierString = new String(new char[]{textQualifier});
                 String[] columns = line.split(regex);
@@ -165,8 +168,13 @@ public final class CsvUtils {
                 }
 
                 lineNumber++;
-                if (lineNumber == 1 && firstRowContainsHeader) {
-                    continue;
+                if (lineNumber == 1) {
+                    if (firstRowContainsHeader) {
+                        continue;
+                    }
+                    if (line.startsWith(FileUtils.UTF8_BOM)) {
+                        line = line.substring(1);
+                    }
                 }
 
                 BookInfo bookInfo = parseLine(csvColumns, regexColumnSeparator, textQualifierString, line, lineNumber);
