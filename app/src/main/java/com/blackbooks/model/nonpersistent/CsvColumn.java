@@ -58,6 +58,11 @@ public final class CsvColumn implements Serializable {
         mBookProperty = associatedProperty;
     }
 
+    @Override
+    public String toString() {
+        return String.format("Column %d (%s) => %s", mIndex, mName, mBookProperty);
+    }
+
     /**
      * The enumeration of the different properties of a book that a CSV column can be mapped to.
      */

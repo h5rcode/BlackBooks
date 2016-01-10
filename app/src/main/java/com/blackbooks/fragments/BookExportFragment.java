@@ -226,9 +226,12 @@ public final class BookExportFragment extends Fragment implements TextQualifierP
 
             OutputStreamWriter writer = null;
             try {
-                SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
+                Log.d(LogUtils.TAG, "Exporting books to CSV.");
 
+                SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
                 List<BookExport> bookExportList = ExportServices.getBookExportList(db, null);
+
+                Log.d(LogUtils.TAG, String.format("%d books to export.", bookExportList.size()));
 
                 mProgressDialogFragment.setMax(bookExportList.size());
                 final FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -245,6 +248,7 @@ public final class BookExportFragment extends Fragment implements TextQualifierP
                 int i = 0;
                 for (BookExport bookExport : bookExportList) {
                     if (isCancelled()) {
+                        Log.d(LogUtils.TAG, "CSV export task cancelled, aborting.");
                         break;
                     }
 
@@ -254,6 +258,8 @@ public final class BookExportFragment extends Fragment implements TextQualifierP
                     i++;
                     publishProgress(i);
                 }
+
+                Log.d(LogUtils.TAG, "Export finished successfully.");
             } catch (IOException e) {
                 Log.e(LogUtils.TAG, e.getMessage(), e);
                 errorMessage = e.getMessage();

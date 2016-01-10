@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.blackbooks.R;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.search.BookSearcher;
+import com.blackbooks.utils.LogUtils;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.conn.HttpHostConnectException;
@@ -98,6 +100,9 @@ public final class IsbnLookupFragment extends Fragment {
         @Override
         protected BookInfo doInBackground(String... params) {
             String barCode = params[0];
+
+            Log.d(LogUtils.TAG, String.format("Searching results for ISBN %s.", barCode));
+
             BookInfo book = null;
             try {
                 book = BookSearcher.search(barCode);
@@ -122,8 +127,11 @@ public final class IsbnLookupFragment extends Fragment {
                 if (errorMessageId != null) {
                     Toast.makeText(getActivity(), errorMessageId, Toast.LENGTH_LONG).show();
                 } else {
+                    Log.d(LogUtils.TAG, "Search finished successfully but returned no results.");
                     Toast.makeText(getActivity(), getString(R.string.message_no_result), Toast.LENGTH_LONG).show();
                 }
+            } else {
+                Log.d(LogUtils.TAG, String.format("Search finished successfully. Result: %s", result.title));
             }
             if (mIsbnLookupListener != null) {
                 mIsbnLookupListener.onLookupFinished(result);
