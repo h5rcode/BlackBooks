@@ -79,6 +79,7 @@
     <string name="label_column_separator_space">Espacio</string>
     <string name="label_column_separator_tab">Tabulacíon</string>
     <string name="label_comment">Commentario</string>
+    <string name="label_contact">Contacto</string>
     <string name="label_description">Descripcíon</string>
     <string name="label_drawer_close">Cerrar el menú</string>
     <string name="label_drawer_item">Item del menú</string>
@@ -109,6 +110,7 @@
     <string name="label_read">Yo leí este libro</string>
     <string name="label_series">Serie</string>
     <string name="label_series_number">#</string>
+    <string name="label_source_code">Código fuente</string>
     <string name="label_subtitle">Subtítulo</string>
     <string name="label_text_qualifier">Calificador de texto</string>
     <string name="label_text_qualifier_double_quote">Comillas altas (\")</string>
@@ -116,12 +118,15 @@
     <string name="label_title">Título</string>
     <string name="label_unexpected_error">Error inesperado</string>
     <string name="label_unspecified_author">(Autor desconocido)</string>
+    <string name="label_version">Versión %s</string>
     <string name="menu_add_books">Añadir libros</string>
+    <string name="menu_about">Acerca de Black Books</string>
     <string name="menu_administration">Administracíon</string>
     <string name="menu_backup_db">Grabar la base de datos</string>
     <string name="menu_delete_book">Eliminar</string>
     <string name="menu_edit_book">Modificar</string>
     <string name="menu_export">Exportar en formato CSV</string>
+    <string name="menu_help">Ayuda</string>
     <string name="menu_import">Importar desde formato CSV</string>
     <string name="menu_import_export">Importar / Exportar</string>
     <string name="menu_options">Opciones</string>
@@ -219,6 +224,7 @@
     <string name="text_info_no_books_1">¡Todavía no libro!</string>
     <string name="text_info_no_books_2">Tu biblioteca está bastante vacía&#8230; Para empezar a llenarla, toca el lado izquierdo de la pantalla o haz clic sobre el icono de la aplicacíon para abrir el menú. Después, selecciona una de la opciones del grupo \"Añadir libros\".</string>
     <string name="text_info_no_categories">Este libro todavía no tiene categorías. Introduce el nombre de una categoría y haz clic sobre \"Añadir\".</string>
+    <string name="title_activity_about">Acerca de Black Books</string>
     <string name="title_activity_book_authors_edit">Modificar los autores</string>
     <string name="title_activity_book_categories_edit">Modificar las categorías</string>
     <string name="title_activity_book_display">Detalle de un libro</string>

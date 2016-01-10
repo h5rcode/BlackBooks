@@ -80,6 +80,7 @@
     <string name="label_column_separator_space">Espace</string>
     <string name="label_column_separator_tab">Tabulation</string>
     <string name="label_comment">Commentaire</string>
+    <string name="label_contact">Contact</string>
     <string name="label_description">Description</string>
     <string name="label_drawer_item">Elément du menu</string>
     <string name="label_drawer_open">Ouvrir le menu</string>
@@ -110,6 +111,7 @@
     <string name="label_read">J\'ai lu ce livre</string>
     <string name="label_series">Série</string>
     <string name="label_series_number">#</string>
+    <string name="label_source_code">Code source</string>
     <string name="label_subtitle">Sous-titre</string>
     <string name="label_text_qualifier">Délimiteur de texte</string>
     <string name="label_text_qualifier_double_quote">Guillemets doubles (\")</string>
@@ -117,12 +119,15 @@
     <string name="label_title">Titre</string>
     <string name="label_unexpected_error">Erreur inattendue</string>
     <string name="label_unspecified_author">(Auteur inconnu)</string>
+    <string name="label_version">Version %s</string>
+    <string name="menu_about">À propos</string>
     <string name="menu_add_books">Ajouter des livres</string>
     <string name="menu_administration">Administration</string>
     <string name="menu_backup_db">Sauvegarder la base</string>
     <string name="menu_delete_book">Supprimer</string>
     <string name="menu_edit_book">Modifier</string>
     <string name="menu_export">Exporter au format CSV</string>
+    <string name="menu_help">Aide</string>
     <string name="menu_import">Importer depuis un fichier CSV</string>
     <string name="menu_import_export">Import / Export</string>
     <string name="menu_options">Options</string>
@@ -220,6 +225,7 @@
     <string name="text_info_no_books_1">Aucun livre pour l\'instant !</string>
     <string name="text_info_no_books_2">Votre bibliothèque est plutôt vide&#8230; Pour commencer à la remplir, touchez le bord gauche de l\'écran ou cliquez sur l\'icône de l\'application pour afficher le menu. Sélectionnez ensuite une option du groupe \"Ajouter des livres\".</string>
     <string name="text_info_no_categories">Ce livre n\'a pas encore de catégorie renseignée. Entrez le nom d\'une catégorie et cliquez sur \"Ajouter\".</string>
+    <string name="title_activity_about">À propos</string>
     <string name="title_activity_book_authors_edit">Modifier les auteurs</string>
     <string name="title_activity_book_categories_edit">Modifier les catégories</string>
     <string name="title_activity_book_display">Détail d\'un livre</string>

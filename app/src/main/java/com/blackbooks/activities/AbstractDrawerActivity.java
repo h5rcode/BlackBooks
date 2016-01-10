@@ -49,6 +49,8 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
     private static final int ITEM_ADMINISTRATION = 12;
     private static final int ITEM_BACKUP_DB = 13;
     private static final int ITEM_SAVE_LOG_FILE = 14;
+    private static final int ITEM_HELP = 15;
+    private static final int ITEM_ABOUT = 16;
 
     private static final String TAG_SCANNER_INSTALL_FRAGMENT = "TAG_SCANNER_INSTALL_FRAGMENT";
 
@@ -108,6 +110,13 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
         DrawerItem itemWriteLogToFile = new DrawerItem(ITEM_SAVE_LOG_FILE, getString(R.string.menu_save_log_file), R.drawable.ic_action_paste,
                 DrawerItemType.ITEM);
 
+        // Help.
+        DrawerItem groupHelp = new DrawerItem(ITEM_HELP, getString(R.string.menu_help), null,
+                DrawerItemType.GROUP);
+
+        DrawerItem itemAbout = new DrawerItem(ITEM_ABOUT, getString(R.string.menu_about), R.drawable.ic_action_help,
+                DrawerItemType.ITEM);
+
         List<DrawerItem> list = new ArrayList<DrawerItem>();
         list.add(groupAddBook);
         list.add(itemScanIsbn);
@@ -120,6 +129,8 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
         list.add(groupAdministration);
         list.add(itemBackupDb);
         list.add(itemWriteLogToFile);
+        list.add(groupHelp);
+        list.add(itemAbout);
 
         mListDrawer.setAdapter(new DrawerAdapter(this, list));
         mListDrawer.setOnItemClickListener(new DrawerItemClickListener());
@@ -215,6 +226,9 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
                     mLogSavingTask = new LogSavingTask();
                     mLogSavingTask.execute();
                     break;
+
+                case ITEM_ABOUT:
+                    startAboutActivity();
             }
         }
 
@@ -289,6 +303,16 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
                 i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(i);
             }
+        }
+
+        /**
+         * Start {@link AboutActivity}.
+         */
+        private void startAboutActivity() {
+            closeDrawer();
+            Intent i = new Intent(AbstractDrawerActivity.this, AboutActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(i);
         }
     }
 
