@@ -51,6 +51,7 @@ public final class DuplicateBooksDialog extends DialogFragment {
         return fragment;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
