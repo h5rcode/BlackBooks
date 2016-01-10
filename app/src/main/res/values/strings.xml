@@ -123,7 +123,7 @@
     <string name="label_unspecified_author">(Unspecified author)</string>
     <string name="menu_add_books">Add books</string>
     <string name="menu_administration">Administration</string>
-    <string name="menu_backup_db">Backup DB</string>
+    <string name="menu_backup_db">Backup database</string>
     <string name="menu_delete_book">Delete</string>
     <string name="menu_edit_book">Edit</string>
     <string name="menu_export">Export to CSV</string>
