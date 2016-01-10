@@ -22,7 +22,7 @@ public final class BlackBooksApplication extends Application {
 
             @Override
             public void uncaughtException(Thread thread, Throwable e) {
-                handleUncaughtException(thread, e);
+                handleUncaughtException(e);
             }
         });
     }
@@ -30,10 +30,9 @@ public final class BlackBooksApplication extends Application {
     /**
      * Handle uncaught exception.
      *
-     * @param thread The thread that has an uncaught exception.
-     * @param e      The exception that was thrown.
+     * @param e The exception that was thrown.
      */
-    public void handleUncaughtException(Thread thread, Throwable e) {
+    public void handleUncaughtException(Throwable e) {
         Log.e(LogUtils.TAG, "Uncaught exception.", e);
 
         Intent intent = new Intent(getApplicationContext(), ReportErrorActivity.class);
