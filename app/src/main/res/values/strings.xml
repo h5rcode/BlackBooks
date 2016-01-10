@@ -82,7 +82,6 @@
     <string name="label_column_separator_semicolon">Semicolon (;)</string>
     <string name="label_column_separator_space">Space</string>
     <string name="label_column_separator_tab">Tab</string>
-    <string name="label_columns">Columns</string>
     <string name="label_comment">Comment</string>
     <string name="label_description">Description</string>
     <string name="label_drawer_item">Drawer item</string>
@@ -143,7 +142,6 @@
     <string name="message_book_loaned">\"%1$s\" is now loaned to %2$s.</string>
     <string name="message_book_location_deleted">Book location \"%s\" was deleted.</string>
     <string name="message_book_location_missing">Please enter a book location.</string>
-    <string name="message_book_location_modified">\"%s\" was successfully modified.</string>
     <string name="message_book_location_already_present">\"%s\" is already in the list of book locations.</string>
     <string name="message_book_marked_as_favourite">\"%s\" added to the favourites.</string>
     <string name="message_book_marked_as_read">\"%s\" marked as read.</string>
@@ -241,7 +239,6 @@
     <string name="title_activity_book_group_series">Series</string>
     <string name="title_activity_book_import">Import from CSV</string>
     <string name="title_activity_book_import_column_mapping">Column mapping</string>
-    <string name="title_activity_book_import_file_parsing">Parsing results</string>
     <string name="title_activity_books_by_author">Books by %s</string>
     <string name="title_activity_books_by_book_location">Location \"%s\"</string>
     <string name="title_activity_books_by_category">Category \"%s\"</string>

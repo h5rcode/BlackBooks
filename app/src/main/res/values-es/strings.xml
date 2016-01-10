@@ -78,7 +78,6 @@
     <string name="label_column_separator_semicolon">Punto y coma (;)</string>
     <string name="label_column_separator_space">Espacio</string>
     <string name="label_column_separator_tab">Tabulacíon</string>
-    <string name="label_columns">Columnas</string>
     <string name="label_comment">Commentario</string>
     <string name="label_description">Descripcíon</string>
     <string name="label_drawer_close">Cerrar el menú</string>
@@ -139,7 +138,6 @@
     <string name="message_book_location_already_present">\"%s\" ya está en la lista de las ubicaciones.</string>
     <string name="message_book_location_deleted">La ubicacíon \"%s\" fue eliminada.</string>
     <string name="message_book_location_missing">Introduce una ubicacíon.</string>
-    <string name="message_book_location_modified">\"%s\" fue modificado.</string>
     <string name="message_book_marked_as_favourite">\"%s\" fue añadido a los favoritos.</string>
     <string name="message_book_marked_as_read">\"%s\" fue marcado como leído.</string>
     <string name="message_book_marked_as_to_read">\"%s\" fue añadido a los libros que leer.</string>
@@ -236,7 +234,6 @@
     <string name="title_activity_book_group_series">Series</string>
     <string name="title_activity_book_import">Importar un archivo CSV</string>
     <string name="title_activity_book_import_column_mapping">Asociación de columnas</string>
-    <string name="title_activity_book_import_file_parsing">Resultados de la lectura</string>
     <string name="title_activity_book_search">Resultados para \"%s\"</string>
     <string name="title_activity_book_search_default">Resultados de búsqueda</string>
     <string name="title_activity_books_by_author">Libros de %s</string>

@@ -80,10 +80,8 @@ public final class BookCategoriesEditActivity extends Activity {
 
     /**
      * Add the category to the list.
-     *
-     * @param view View.
      */
-    public void addCategory(View view) {
+    public void addCategory() {
         String categoryName = mTextCategory.getText().toString().trim();
 
         if (categoryName.length() == 0) {

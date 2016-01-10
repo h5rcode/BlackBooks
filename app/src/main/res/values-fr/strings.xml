@@ -79,7 +79,6 @@
     <string name="label_column_separator_semicolon">Point-virgule (;)</string>
     <string name="label_column_separator_space">Espace</string>
     <string name="label_column_separator_tab">Tabulation</string>
-    <string name="label_columns">Colonnes</string>
     <string name="label_comment">Commentaire</string>
     <string name="label_description">Description</string>
     <string name="label_drawer_item">Elément du menu</string>
@@ -139,7 +138,6 @@
     <string name="message_book_loaned">\"%1$s\" est à présent prêté à %2$s.</string>
     <string name="message_book_location_deleted">L\'emplacement \"%s\" a été supprimé.</string>
     <string name="message_book_location_missing">Veuillez entrer un emplacement.</string>
-    <string name="message_book_location_modified">\"%s\" a été modifié avec succès.</string>
     <string name="message_book_location_already_present">\"%s\" est déjà dans la liste des emplacements.</string>
     <string name="message_book_marked_as_favourite">\"%s\" a été ajouté aux favoris.</string>
     <string name="message_book_marked_as_read">\"%s\" a été marqué comme lu.</string>
@@ -237,7 +235,6 @@
     <string name="title_activity_book_group_series">Séries</string>
     <string name="title_activity_book_import">Importer depuis un fichier CSV</string>
     <string name="title_activity_book_import_column_mapping">Association des colonnes</string>
-    <string name="title_activity_book_import_file_parsing">Résultats de la lecture</string>
     <string name="title_activity_books_by_author">Livres de %s</string>
     <string name="title_activity_books_by_book_location">Emplacement \"%s\"</string>
     <string name="title_activity_books_by_category">Catégorie \"%s\"</string>

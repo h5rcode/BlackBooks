@@ -77,10 +77,8 @@ public final class BookAuthorsEditActivity extends Activity {
 
     /**
      * Add the author to the list.
-     *
-     * @param view View.
      */
-    public void addAuthor(View view) {
+    public void addAuthor() {
         String authorName = mTextAuthor.getText().toString().trim();
 
         String errorMessage = null;

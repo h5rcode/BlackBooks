@@ -236,14 +236,14 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
 
             @Override
             public void onClick(View v) {
-                BookEditGeneralFragment.this.editAuthors(v);
+                BookEditGeneralFragment.this.editAuthors();
             }
         });
         mButtonEditCategories.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                BookEditGeneralFragment.this.editCategories(v);
+                BookEditGeneralFragment.this.editCategories();
 
             }
         });
@@ -425,10 +425,8 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
 
     /**
      * Start the activity to edit the list of authors.
-     *
-     * @param view View.
      */
-    private void editAuthors(View view) {
+    private void editAuthors() {
         Intent intent = new Intent(this.getActivity(), BookAuthorsEditActivity.class);
         intent.putExtra(BookAuthorsEditActivity.EXTRA_BOOK_TITLE, mTextTitle.getText().toString());
         intent.putExtra(BookAuthorsEditActivity.EXTRA_AUTHOR_LIST, (ArrayList<Author>) mBookInfo.authors);
@@ -437,10 +435,8 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
 
     /**
      * Start the activity to edit the list of categories.
-     *
-     * @param view View.
      */
-    private void editCategories(View view) {
+    private void editCategories() {
         Intent intent = new Intent(this.getActivity(), BookCategoriesEditActivity.class);
         intent.putExtra(BookCategoriesEditActivity.EXTRA_BOOK_TITLE, mTextTitle.getText().toString());
         intent.putExtra(BookCategoriesEditActivity.EXTRA_CATEGORY_LIST, (ArrayList<Category>) mBookInfo.categories);

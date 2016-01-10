@@ -18,21 +18,21 @@ public @interface Column {
      *
      * @return Name.
      */
-    public String name();
+    String name();
 
     /**
      * The type of data the corresponding column can store.
      *
      * @return SQLiteDataType.
      */
-    public SQLiteDataType type();
+    SQLiteDataType type();
 
     /**
      * Indicates if the column is mandatory.
      *
      * @return True if the column does not allow null values.
      */
-    public boolean mandatory() default false;
+    boolean mandatory() default false;
 
     /**
      * This property has a sense only if the referencedType is set. If true,
@@ -42,14 +42,14 @@ public @interface Column {
      * @return True to delete the referencing row if the row referenced by this
      * column is deleted.
      */
-    public boolean onDeleteCascade() default false;
+    boolean onDeleteCascade() default false;
 
     /**
      * Indicates whether the column is the primary key or not.
      *
      * @return True if the column is the primary key of the table.
      */
-    public boolean primaryKey() default false;
+    boolean primaryKey() default false;
 
     /**
      * Represents the type of the table that is referenced by the column. If
@@ -58,27 +58,26 @@ public @interface Column {
      * @return The type of the table referenced by the column. If void.class,
      * then the column does not reference an other table.
      */
-    @SuppressWarnings("rawtypes")
-    public Class referencedType() default void.class;
+    @SuppressWarnings("rawtypes") Class referencedType() default void.class;
 
     /**
      * Indicates whether the column should have a unique constraint.
      *
      * @return True if the column has a unique constraint.
      */
-    public boolean unique() default false;
+    boolean unique() default false;
 
     /**
      * The version of the database when this column was added to it.
      *
      * @return Version.
      */
-    public int version();
+    int version();
 
     /**
      * SQLite data type enumeration.
      */
-    public enum SQLiteDataType {
+    enum SQLiteDataType {
 
         /**
          * The value is a blob of data, stored exactly as it was input.

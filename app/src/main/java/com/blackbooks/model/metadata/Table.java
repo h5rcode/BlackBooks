@@ -17,12 +17,12 @@ public @interface Table {
      *
      * @return Table name.
      */
-    public String name();
+    String name();
 
     /**
      * The version of the database when this table was added to it.
      *
      * @return Version.
      */
-    public int version();
+    int version();
 }

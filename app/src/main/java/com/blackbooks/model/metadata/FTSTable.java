@@ -33,7 +33,7 @@ public @interface FTSTable {
     /**
      * Enumeration of the available SQLITE Full-Text-Search modules.
      */
-    public enum FTSModules {
+    enum FTSModules {
 
         /**
          * FTS3.
