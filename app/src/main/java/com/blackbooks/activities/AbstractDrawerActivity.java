@@ -1,5 +1,6 @@
 package com.blackbooks.activities;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -23,6 +24,7 @@ import com.blackbooks.adapters.DrawerAdapter.DrawerItemType;
 import com.blackbooks.database.Database;
 import com.blackbooks.fragments.dialogs.ScannerInstallFragment;
 import com.blackbooks.utils.FileUtils;
+import com.blackbooks.utils.LogUtils;
 import com.blackbooks.utils.Pic2ShopUtils;
 
 import java.io.File;
@@ -39,10 +41,12 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
     private static final int ITEM_ENTER_ISBN = 6;
     private static final int ITEM_ADD_MANUALLY = 7;
     private static final int ITEM_BULK_ADD = 8;
+    private static final int ITEM_IMPORT_EXPORT = 9;
     private static final int ITEM_IMPORT_BOOKS = 10;
     private static final int ITEM_EXPORT_BOOKS = 11;
     private static final int ITEM_ADMINISTRATION = 12;
     private static final int ITEM_BACKUP_DB = 13;
+    private static final int ITEM_SAVE_LOG_FILE = 14;
 
     private static final String TAG_SCANNER_INSTALL_FRAGMENT = "TAG_SCANNER_INSTALL_FRAGMENT";
 
@@ -67,7 +71,10 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.label_drawer_open,
                 R.string.label_drawer_close);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         // Add books.
         DrawerItem groupAddBook = new DrawerItem(ITEM_ADD_BOOK, getString(R.string.menu_add_books), null, DrawerItemType.GROUP);
@@ -76,18 +83,24 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
         DrawerItem itemAddManually = new DrawerItem(ITEM_ADD_MANUALLY, getString(R.string.action_add_manually), R.drawable.ic_action_keyboard, DrawerItemType.ITEM);
         DrawerItem itemBulkAdd = new DrawerItem(ITEM_BULK_ADD, getString(R.string.action_bulk_add), R.drawable.ic_action_add_to_queue, DrawerItemType.ITEM);
 
-        // Administration.
-        DrawerItem groupAdministration = new DrawerItem(ITEM_ADMINISTRATION, getString(R.string.menu_administration), null,
+        // Import / Export.
+        DrawerItem groupImportExport = new DrawerItem(ITEM_IMPORT_EXPORT, getString(R.string.menu_import_export), null,
                 DrawerItemType.GROUP);
-
-        DrawerItem itemExportBooks = new DrawerItem(ITEM_EXPORT_BOOKS, getString(R.string.menu_export),
-                R.drawable.ic_action_export, DrawerItemType.ITEM);
-
 
         DrawerItem itemImportBooks = new DrawerItem(ITEM_IMPORT_BOOKS, getString(R.string.menu_import),
                 R.drawable.ic_action_upload, DrawerItemType.ITEM);
 
+        DrawerItem itemExportBooks = new DrawerItem(ITEM_EXPORT_BOOKS, getString(R.string.menu_export),
+                R.drawable.ic_action_export, DrawerItemType.ITEM);
+
+        // Administration.
+        DrawerItem groupAdministration = new DrawerItem(ITEM_ADMINISTRATION, getString(R.string.menu_administration), null,
+                DrawerItemType.GROUP);
+
         DrawerItem itemBackupDb = new DrawerItem(ITEM_BACKUP_DB, getString(R.string.menu_backup_db), R.drawable.ic_action_save,
+                DrawerItemType.ITEM);
+
+        DrawerItem itemWriteLogToFile = new DrawerItem(ITEM_SAVE_LOG_FILE, getString(R.string.menu_save_log_file), R.drawable.ic_action_paste,
                 DrawerItemType.ITEM);
 
         List<DrawerItem> list = new ArrayList<DrawerItem>();
@@ -96,10 +109,12 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
         list.add(itemEnterIsbn);
         list.add(itemAddManually);
         list.add(itemBulkAdd);
+        list.add(groupImportExport);
         list.add(itemImportBooks);
-        list.add(groupAdministration);
         list.add(itemExportBooks);
+        list.add(groupAdministration);
         list.add(itemBackupDb);
+        list.add(itemWriteLogToFile);
 
         mListDrawer.setAdapter(new DrawerAdapter(this, list));
         mListDrawer.setOnItemClickListener(new DrawerItemClickListener());
@@ -170,6 +185,10 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 
                 case ITEM_BACKUP_DB:
                     saveDbOnDisk();
+                    break;
+
+                case ITEM_SAVE_LOG_FILE:
+                    saveLogFile();
                     break;
             }
         }
@@ -263,6 +282,22 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
                 MediaScannerConnection.scanFile(AbstractDrawerActivity.this, new String[]{backupDB.getAbsolutePath()}, null,
                         null);
                 String message = String.format(getString(R.string.message_file_saved), backupDB.getName(), backupDB
+                        .getParentFile().getName());
+                Toast.makeText(AbstractDrawerActivity.this, message, Toast.LENGTH_LONG).show();
+                closeDrawer();
+            } else {
+                Toast.makeText(AbstractDrawerActivity.this, R.string.message_file_not_saved, Toast.LENGTH_LONG).show();
+            }
+        }
+
+        /**
+         * Write the logs to a file in the application directory on the external storage drive.
+         */
+        private void saveLogFile() {
+            File file = LogUtils.writeLogToFile(AbstractDrawerActivity.this);
+
+            if (file != null) {
+                String message = String.format(getString(R.string.message_file_saved), file.getName(), file
                         .getParentFile().getName());
                 Toast.makeText(AbstractDrawerActivity.this, message, Toast.LENGTH_LONG).show();
                 closeDrawer();

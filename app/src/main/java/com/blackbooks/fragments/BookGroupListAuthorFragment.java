@@ -100,7 +100,7 @@ public final class BookGroupListAuthorFragment extends AbstractBookGroupListFrag
         SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
         AuthorServices.updateAuthor(db, (Long) bookGroup.id, newName);
 
-        String message = getString(R.string.message_author_modifed, bookGroup.name);
+        String message = getString(R.string.message_author_modified, bookGroup.name);
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
 
         super.reloadBookGroups();

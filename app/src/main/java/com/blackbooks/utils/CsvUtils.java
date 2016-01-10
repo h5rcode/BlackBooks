@@ -321,7 +321,7 @@ public final class CsvUtils {
         try {
             date = dateFormat.parse(value);
         } catch (ParseException e) {
-            String msg = String.format("Could not parse string value %s to date.", value);
+            String msg = String.format("Could not parse string value '%s' to date.", value);
             Log.w(LogUtils.TAG, msg, e);
         }
         return date;
@@ -338,7 +338,7 @@ public final class CsvUtils {
         try {
             longValue = Long.parseLong(value);
         } catch (NumberFormatException e) {
-            String msg = String.format("Could not parse string value %s to long.", value);
+            String msg = String.format("Could not parse string value '%s' to long.", value);
             Log.w(LogUtils.TAG, msg, e);
         }
         return longValue;

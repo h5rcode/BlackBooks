@@ -129,13 +129,15 @@
     <string name="menu_edit_book">Edit</string>
     <string name="menu_export">Export to CSV</string>
     <string name="menu_import">Import from CSV</string>
+    <string name="menu_import_export">Import / Export</string>
     <string name="menu_options">Options</string>
+    <string name="menu_save_log_file">Save log file</string>
     <string name="menu_search">Search books</string>
     <string name="message_author_added">\"%s\" was added to the list of authors.</string>
     <string name="message_author_already_present">\"%s\" is already in the list of authors.</string>
     <string name="message_author_deleted">\"%s\" was deleted.</string>
     <string name="message_author_missing">Please enter a name.</string>
-    <string name="message_author_modifed">\"%s\" was successfully modified.</string>
+    <string name="message_author_modified">\"%s\" was successfully modified.</string>
     <string name="message_book_added">\"%s\" was successfully added.</string>
     <string name="message_book_deleted">\"%s\" was successfully deleted.</string>
     <string name="message_book_loaned">\"%1$s\" is now loaned to %2$s.</string>

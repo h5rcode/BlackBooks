@@ -124,13 +124,15 @@
     <string name="menu_edit_book">Modificar</string>
     <string name="menu_export">Exportar en formato CSV</string>
     <string name="menu_import">Importar desde formato CSV</string>
+    <string name="menu_import_export">Importar / Exportar</string>
     <string name="menu_options">Opciones</string>
+    <string name="menu_save_log_file">Grabar el historial</string>
     <string name="menu_search">Buscar libros</string>
     <string name="message_author_added">\"%s\" fue añadido a la lista de los autores.</string>
     <string name="message_author_already_present">\"%s\" ya está en la lista de los autores.</string>
     <string name="message_author_deleted">\"%s\" fue eliminado.</string>
     <string name="message_author_missing">Introduce un nombre.</string>
-    <string name="message_author_modifed">\"%s\" fue modificado.</string>
+    <string name="message_author_modified">\"%s\" fue modificado.</string>
     <string name="message_book_added">\"%s\" fue añadido.</string>
     <string name="message_book_deleted">\"%s\" fue eliminado.</string>
     <string name="message_book_loaned">\"%1$s\" fue prestado a %2$s.</string>
