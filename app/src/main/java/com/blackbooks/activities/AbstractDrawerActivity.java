@@ -61,13 +61,6 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
     private DatabaseBackupTask mDatabaseBackupTask;
     private LogSavingTask mLogSavingTask;
 
-    /**
-     * Return a value identifying the activity.
-     *
-     * @return DrawerActivity.
-     */
-    protected abstract DrawerActivity getDrawerActivity();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -286,11 +279,9 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
          */
         private void startBookImportActivity() {
             closeDrawer();
-            if (getDrawerActivity() != DrawerActivity.BOOK_IMPORT) {
-                Intent i = new Intent(AbstractDrawerActivity.this, BookImportActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(i);
-            }
+            Intent i = new Intent(AbstractDrawerActivity.this, BookImportActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(i);
         }
 
         /**
@@ -298,11 +289,9 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
          */
         private void startBookExportActivity() {
             closeDrawer();
-            if (getDrawerActivity() != DrawerActivity.BOOK_EXPORT) {
-                Intent i = new Intent(AbstractDrawerActivity.this, BookExportActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(i);
-            }
+            Intent i = new Intent(AbstractDrawerActivity.this, BookExportActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(i);
         }
 
         /**

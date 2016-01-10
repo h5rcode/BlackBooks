@@ -20,11 +20,6 @@ public final class SummaryActivity extends AbstractDrawerActivity {
     private static final String SUMMARY_FRAGMENT_TAG = "SUMMARY_FRAGMENT_TAG";
 
     @Override
-    protected DrawerActivity getDrawerActivity() {
-        return DrawerActivity.SUMMARY;
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
