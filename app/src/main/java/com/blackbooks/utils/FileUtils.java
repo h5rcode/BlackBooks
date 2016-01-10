@@ -38,23 +38,38 @@ public final class FileUtils {
      * @param src File to copy.
      * @param dst Destination of the copy.
      * @return True if the copy succeeded, false otherwise.
+     * @throws InterruptedException If the thread is interrupted during the copy.
      */
-    public static boolean copy(File src, File dst) {
+    public static boolean copy(File src, File dst) throws InterruptedException {
         boolean success = false;
+        InputStream in = null;
+        OutputStream out = null;
         try {
-            InputStream in = new FileInputStream(src);
-            OutputStream out = new FileOutputStream(dst);
+            in = new FileInputStream(src);
+            out = new FileOutputStream(dst);
 
             byte[] buf = new byte[1024];
             int len;
             while ((len = in.read(buf)) > 0) {
+                if (Thread.interrupted()) {
+                    throw new InterruptedException();
+                }
                 out.write(buf, 0, len);
             }
-            in.close();
-            out.close();
             success = true;
         } catch (IOException e) {
             Log.e(LogUtils.TAG, "Could not copy file.", e);
+        } finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                Log.e(LogUtils.TAG, "Failed to close a stream at end of file copy", e);
+            }
         }
         return success;
     }
@@ -66,6 +81,7 @@ public final class FileUtils {
      * @param fileName Name of the file to create.
      * @return File or null if the file could not be created.
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static File createFileInAppDir(String fileName) {
         File file = null;
         if (isExternalStorageWritable()) {

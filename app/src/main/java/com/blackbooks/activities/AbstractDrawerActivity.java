@@ -6,11 +6,13 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.media.MediaScannerConnection;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -53,6 +55,9 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mListDrawer;
     private ActionBarDrawerToggle mDrawerToggle;
+
+    private DatabaseBackupTask mDatabaseBackupTask;
+    private LogSavingTask mLogSavingTask;
 
     /**
      * Return a value identifying the activity.
@@ -140,6 +145,24 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cancelAsyncTasks();
+    }
+
+    /**
+     * Cancel the asynchronous tasks.
+     */
+    private void cancelAsyncTasks() {
+        if (mDatabaseBackupTask != null) {
+            mDatabaseBackupTask.cancel(true);
+        }
+        if (mLogSavingTask != null) {
+            mLogSavingTask.cancel(true);
+        }
+    }
+
     /**
      * Close the navigation drawer.
      */
@@ -184,11 +207,13 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
                     break;
 
                 case ITEM_BACKUP_DB:
-                    saveDbOnDisk();
+                    mDatabaseBackupTask = new DatabaseBackupTask();
+                    mDatabaseBackupTask.execute();
                     break;
 
                 case ITEM_SAVE_LOG_FILE:
-                    saveLogFile();
+                    mLogSavingTask = new LogSavingTask();
+                    mLogSavingTask.execute();
                     break;
             }
         }
@@ -265,43 +290,80 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
                 startActivity(i);
             }
         }
+    }
 
-        /**
-         * Save a copy of the database file in the "Download" folder.
-         */
-        private void saveDbOnDisk() {
-            File backupDB = FileUtils.createFileInAppDir(Database.NAME + ".sqlite");
+    /**
+     * The asynchronous task that will create a backup file of the app's database.
+     * <p/>
+     * TODO : Screen orientation changes terminate the task, solve this problem (use a Fragment).
+     */
+    private final class DatabaseBackupTask extends AsyncTask<Void, Void, Boolean> {
+
+        private File mDatabaseBackup;
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            Log.d(LogUtils.TAG, "Saving a backup of the app's database.");
 
             boolean success = false;
-            if (backupDB != null) {
-                File currentDB = getDatabasePath(Database.NAME);
-                success = FileUtils.copy(currentDB, backupDB);
+            try {
+                mDatabaseBackup = FileUtils.createFileInAppDir(Database.NAME + ".sqlite");
+
+                if (mDatabaseBackup != null) {
+                    File currentDB = getDatabasePath(Database.NAME);
+                    success = FileUtils.copy(currentDB, mDatabaseBackup);
+                }
+            } catch (InterruptedException e) {
+                Log.d(LogUtils.TAG, "Backup interrupted, aborting.");
             }
 
-            if (success) {
-                MediaScannerConnection.scanFile(AbstractDrawerActivity.this, new String[]{backupDB.getAbsolutePath()}, null,
+            return success;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+
+            if (result) {
+                Log.d(LogUtils.TAG, "App's database backup successful.");
+                MediaScannerConnection.scanFile(AbstractDrawerActivity.this, new String[]{mDatabaseBackup.getAbsolutePath()}, null,
                         null);
-                String message = String.format(getString(R.string.message_file_saved), backupDB.getName(), backupDB
+                String message = String.format(getString(R.string.message_file_saved), mDatabaseBackup.getName(), mDatabaseBackup
                         .getParentFile().getName());
                 Toast.makeText(AbstractDrawerActivity.this, message, Toast.LENGTH_LONG).show();
                 closeDrawer();
             } else {
+                Log.d(LogUtils.TAG, "App's database backup failed.");
                 Toast.makeText(AbstractDrawerActivity.this, R.string.message_file_not_saved, Toast.LENGTH_LONG).show();
             }
         }
+    }
 
-        /**
-         * Write the logs to a file in the application directory on the external storage drive.
-         */
-        private void saveLogFile() {
-            File file = LogUtils.writeLogToFile(AbstractDrawerActivity.this);
+    /**
+     * The asynchronous task that will save the logs into a file on the external storage.
+     * <p/>
+     * TODO : Screen orientation changes terminate the task, solve this problem (use a Fragment).
+     */
+    private final class LogSavingTask extends AsyncTask<Void, Void, File> {
+
+        @Override
+        protected File doInBackground(Void... params) {
+            Log.d(LogUtils.TAG, "Saving the logs on the external storage.");
+            return LogUtils.writeLogToFile(AbstractDrawerActivity.this);
+        }
+
+        @Override
+        protected void onPostExecute(File file) {
+            super.onPostExecute(file);
 
             if (file != null) {
+                Log.d(LogUtils.TAG, "Logs successfully saved on the external storage.");
                 String message = String.format(getString(R.string.message_file_saved), file.getName(), file
                         .getParentFile().getName());
                 Toast.makeText(AbstractDrawerActivity.this, message, Toast.LENGTH_LONG).show();
                 closeDrawer();
             } else {
+                Log.d(LogUtils.TAG, "Logs could not be saved on the external storage.");
                 Toast.makeText(AbstractDrawerActivity.this, R.string.message_file_not_saved, Toast.LENGTH_LONG).show();
             }
         }
