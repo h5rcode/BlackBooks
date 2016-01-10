@@ -24,7 +24,12 @@ public enum BookSearchResultSource {
 
     private final int mMergeOrder;
 
-    private BookSearchResultSource(int mergeOrder) {
+    /**
+     * Constructor.
+     *
+     * @param mergeOrder The merge order.
+     */
+    BookSearchResultSource(int mergeOrder) {
         this.mMergeOrder = mergeOrder;
     }
 

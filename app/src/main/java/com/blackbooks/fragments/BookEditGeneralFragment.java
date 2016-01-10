@@ -54,6 +54,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Fragment to edit the general information of a book.
@@ -513,7 +514,7 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
         setButtonEditLanguageText();
         setButtonEditAuthorsText();
         if (mBookInfo.pageCount != null) {
-            mTextPageCount.setText( mBookInfo.pageCount.toString());
+            mTextPageCount.setText(String.format(Locale.getDefault(), "%d", mBookInfo.pageCount));
         }
         mTextPublisher.setText(mBookInfo.publisher.name);
         if (mBookInfo.publishedDate != null) {
@@ -521,7 +522,7 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
         }
         mTextSeries.setText(mBookInfo.series.name);
         if (mBookInfo.number != null) {
-            mTextNumber.setText(mBookInfo.number.toString());
+            mTextNumber.setText(String.format(Locale.getDefault(), "%d", mBookInfo.number));
         }
         setButtonEditCategoriesText();
         mTextDescription.setText(mBookInfo.description);

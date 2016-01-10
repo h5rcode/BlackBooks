@@ -80,6 +80,6 @@ public final class AuthorDeleteFragment extends DialogFragment {
          *
          * @param bookGroup BookGroup.
          */
-        public void onAuthorDeleted(BookGroup bookGroup);
+        void onAuthorDeleted(BookGroup bookGroup);
     }
 }

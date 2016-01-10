@@ -79,6 +79,6 @@ public final class SeriesDeleteFragment extends DialogFragment {
          *
          * @param bookGroup Series.
          */
-        public void onSeriesDeleted(BookGroup bookGroup);
+        void onSeriesDeleted(BookGroup bookGroup);
     }
 }

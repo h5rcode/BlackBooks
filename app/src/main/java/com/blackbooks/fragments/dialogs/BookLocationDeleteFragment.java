@@ -79,6 +79,6 @@ public final class BookLocationDeleteFragment extends DialogFragment {
          *
          * @param bookGroup Book location.
          */
-        public void onBookLocationDeleted(BookGroup bookGroup);
+        void onBookLocationDeleted(BookGroup bookGroup);
     }
 }

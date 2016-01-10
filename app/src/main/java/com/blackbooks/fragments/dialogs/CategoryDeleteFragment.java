@@ -79,6 +79,6 @@ public final class CategoryDeleteFragment extends DialogFragment {
          *
          * @param bookGroup BookGroup.
          */
-        public void onCategoryDeleted(BookGroup bookGroup);
+        void onCategoryDeleted(BookGroup bookGroup);
     }
 }
