@@ -46,19 +46,19 @@ public final class BookDisplayActivity extends FragmentActivity implements BookD
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_display);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.tabbed_fragment_activity);
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         Intent intent = this.getIntent();
         if (intent != null && intent.hasExtra(EXTRA_BOOK_ID)) {
             long bookId = intent.getLongExtra(EXTRA_BOOK_ID, Long.MIN_VALUE);
 
             mPagerAdapter = new BookDisplayPagerAdapter(getSupportFragmentManager(), bookId);
-            mViewPager = (ViewPager) findViewById(R.id.bookDisplay_viewPager);
+            mViewPager = (ViewPager) findViewById(R.id.tabbedFragmentActivity_viewPager);
             mViewPager.setAdapter(mPagerAdapter);
             mViewPager.setOnPageChangeListener(this);
 
-            ActionBar actionBar = getActionBar();
             actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
             actionBar.addTab(actionBar.newTab().setText(getString(R.string.title_tab_book_display_detail)).setTabListener(this));
             actionBar.addTab(actionBar.newTab().setText(getString(R.string.title_tab_book_display_loan)).setTabListener(this));
@@ -67,7 +67,7 @@ public final class BookDisplayActivity extends FragmentActivity implements BookD
                 String mode = intent.getStringExtra(EXTRA_MODE);
 
                 if (MODE_LOAN.equals(mode)) {
-                    getActionBar().setSelectedNavigationItem(TAB_LOAN);
+                    actionBar.setSelectedNavigationItem(TAB_LOAN);
                 }
             }
         } else {
@@ -127,7 +127,10 @@ public final class BookDisplayActivity extends FragmentActivity implements BookD
 
     @Override
     public void onPageSelected(int position) {
-        getActionBar().setSelectedNavigationItem(position);
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setSelectedNavigationItem(position);
+        }
     }
 
     @Override

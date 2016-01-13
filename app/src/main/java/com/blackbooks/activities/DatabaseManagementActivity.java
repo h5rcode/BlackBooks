@@ -33,7 +33,7 @@ public final class DatabaseManagementActivity extends FragmentActivity implement
         setContentView(R.layout.tabbed_fragment_activity);
 
         PagerAdapter pagerAdapter = new DatabaseManagementPagerAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.tabbed_fragment_activity);
+        mViewPager = (ViewPager) findViewById(R.id.tabbedFragmentActivity_viewPager);
         mViewPager.setAdapter(pagerAdapter);
         mViewPager.setOnPageChangeListener(this);
 

@@ -45,10 +45,10 @@ public final class BulkAddActivity extends FragmentActivity implements ViewPager
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bulk_add);
+        setContentView(R.layout.tabbed_fragment_activity);
 
         mPagerAdapter = new BulkAddPagerAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.bulkAdd_viewPager);
+        mViewPager = (ViewPager) findViewById(R.id.tabbedFragmentActivity_viewPager);
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setOnPageChangeListener(this);
 
