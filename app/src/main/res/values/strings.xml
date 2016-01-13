@@ -43,6 +43,7 @@
     <string name="action_mark_book_as_to_read">Add to the books to read</string>
     <string name="button_add_author">Add</string>
     <string name="button_add_category">Add</string>
+    <string name="button_backup_db">Backup database</string>
     <string name="button_cancel_add_isbn">Cancel</string>
     <string name="button_cancel_edit_author">Cancel</string>
     <string name="button_cancel_edit_book_location">Cancel</string>
@@ -50,6 +51,7 @@
     <string name="button_cancel_edit_series">Cancel</string>
     <string name="button_cancel_scanner_install">Cancel</string>
     <string name="button_cancel_send_log">Close</string>
+    <string name="button_delete_db">Delete database</string>
     <string name="button_edit_authors">Add author(s)</string>
     <string name="button_edit_categories">Add categories</string>
     <string name="button_go_to_pic2shop_page">OK</string>
@@ -127,7 +129,7 @@
     <string name="menu_about">About</string>
     <string name="menu_add_books">Add books</string>
     <string name="menu_administration">Administration</string>
-    <string name="menu_backup_db">Backup database</string>
+    <string name="menu_database_management">Manage database</string>
     <string name="menu_delete_book">Delete</string>
     <string name="menu_edit_book">Edit</string>
     <string name="menu_export">Export to CSV</string>
@@ -220,6 +222,7 @@
     <string name="report_error_mail_content">[Describe here what you were doing when the error occurred.]</string>
     <string name="report_error_mail_subject">Black Books log file</string>
     <string name="report_error_log_not_saved">The log file could not be created.</string>
+    <string name="text_info_backup_db">Click the button below to save a copy of the Black Books database. This will create a file on the SD card of your device that you can keep in a safe place, or browse using a database manager like SQLiteBrowser.</string>
     <string name="text_info_edit_authors">Editing the authors of \"%s\".</string>
     <string name="text_info_edit_authors_untitled_book">Editing the authors of an untitled book.</string>
     <string name="text_info_edit_categories">Editing the categories of \"%s\".</string>
@@ -254,6 +257,7 @@
     <string name="title_activity_books_favourites">Favourite books</string>
     <string name="title_activity_books_to_read">Books to read</string>
     <string name="title_activity_bulk_add">Bulk add books</string>
+    <string name="title_activity_database_management">Manage database</string>
     <string name="title_activity_isbn_lookup">ISBN lookup</string>
     <string name="title_activity_book_search">Search results for \"%s\"</string>
     <string name="title_activity_book_search_default">Search results</string>
@@ -284,5 +288,8 @@
     <string name="title_tab_book_edit_personal">Personal</string>
     <string name="title_tab_bulk_add_pending">Pending</string>
     <string name="title_tab_bulk_add_looked_up">Looked up</string>
+    <string name="title_tab_database_backup">Backup</string>
+    <string name="title_tab_database_delete">Delete</string>
+    <string name="title_tab_database_restore">Restore</string>
 
 </resources>

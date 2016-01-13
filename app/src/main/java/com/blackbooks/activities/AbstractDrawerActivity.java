@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
-import android.media.MediaScannerConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -23,9 +22,7 @@ import com.blackbooks.R;
 import com.blackbooks.adapters.DrawerAdapter;
 import com.blackbooks.adapters.DrawerAdapter.DrawerItem;
 import com.blackbooks.adapters.DrawerAdapter.DrawerItemType;
-import com.blackbooks.database.Database;
 import com.blackbooks.fragments.dialogs.ScannerInstallFragment;
-import com.blackbooks.utils.FileUtils;
 import com.blackbooks.utils.LogUtils;
 import com.blackbooks.utils.Pic2ShopUtils;
 
@@ -47,7 +44,7 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
     private static final int ITEM_IMPORT_BOOKS = 10;
     private static final int ITEM_EXPORT_BOOKS = 11;
     private static final int ITEM_ADMINISTRATION = 12;
-    private static final int ITEM_BACKUP_DB = 13;
+    private static final int ITEM_MANAGE_DB = 13;
     private static final int ITEM_SAVE_LOG_FILE = 14;
     private static final int ITEM_HELP = 15;
     private static final int ITEM_ABOUT = 16;
@@ -58,7 +55,6 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
     private ListView mListDrawer;
     private ActionBarDrawerToggle mDrawerToggle;
 
-    private DatabaseBackupTask mDatabaseBackupTask;
     private LogSavingTask mLogSavingTask;
 
     @Override
@@ -97,7 +93,7 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
         DrawerItem groupAdministration = new DrawerItem(ITEM_ADMINISTRATION, getString(R.string.menu_administration), null,
                 DrawerItemType.GROUP);
 
-        DrawerItem itemBackupDb = new DrawerItem(ITEM_BACKUP_DB, getString(R.string.menu_backup_db), R.drawable.ic_action_save,
+        DrawerItem itemDatabaseManagement = new DrawerItem(ITEM_MANAGE_DB, getString(R.string.menu_database_management), R.drawable.ic_action_storage,
                 DrawerItemType.ITEM);
 
         DrawerItem itemWriteLogToFile = new DrawerItem(ITEM_SAVE_LOG_FILE, getString(R.string.menu_save_log_file), R.drawable.ic_action_paste,
@@ -120,7 +116,7 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
         list.add(itemImportBooks);
         list.add(itemExportBooks);
         list.add(groupAdministration);
-        list.add(itemBackupDb);
+        list.add(itemDatabaseManagement);
         list.add(itemWriteLogToFile);
         list.add(groupHelp);
         list.add(itemAbout);
@@ -159,9 +155,6 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
      * Cancel the asynchronous tasks.
      */
     private void cancelAsyncTasks() {
-        if (mDatabaseBackupTask != null) {
-            mDatabaseBackupTask.cancel(true);
-        }
         if (mLogSavingTask != null) {
             mLogSavingTask.cancel(true);
         }
@@ -210,9 +203,8 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
                     startBookExportActivity();
                     break;
 
-                case ITEM_BACKUP_DB:
-                    mDatabaseBackupTask = new DatabaseBackupTask();
-                    mDatabaseBackupTask.execute();
+                case ITEM_MANAGE_DB:
+                    startDatabaseManagementActivity();
                     break;
 
                 case ITEM_SAVE_LOG_FILE:
@@ -294,6 +286,13 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
             startActivity(i);
         }
 
+        private void startDatabaseManagementActivity() {
+            closeDrawer();
+            Intent i = new Intent(AbstractDrawerActivity.this, DatabaseManagementActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(i);
+        }
+
         /**
          * Start {@link AboutActivity}.
          */
@@ -302,53 +301,6 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
             Intent i = new Intent(AbstractDrawerActivity.this, AboutActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(i);
-        }
-    }
-
-    /**
-     * The asynchronous task that will create a backup file of the app's database.
-     * <p/>
-     * TODO : Screen orientation changes terminate the task, solve this problem (use a Fragment).
-     */
-    private final class DatabaseBackupTask extends AsyncTask<Void, Void, Boolean> {
-
-        private File mDatabaseBackup;
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            Log.d(LogUtils.TAG, "Saving a backup of the app's database.");
-
-            boolean success = false;
-            try {
-                mDatabaseBackup = FileUtils.createFileInAppDir(Database.NAME + ".sqlite");
-
-                if (mDatabaseBackup != null) {
-                    File currentDB = getDatabasePath(Database.NAME);
-                    success = FileUtils.copy(currentDB, mDatabaseBackup);
-                }
-            } catch (InterruptedException e) {
-                Log.d(LogUtils.TAG, "Backup interrupted, aborting.");
-            }
-
-            return success;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            super.onPostExecute(result);
-
-            if (result) {
-                Log.d(LogUtils.TAG, "App's database backup successful.");
-                MediaScannerConnection.scanFile(AbstractDrawerActivity.this, new String[]{mDatabaseBackup.getAbsolutePath()}, null,
-                        null);
-                String message = String.format(getString(R.string.message_file_saved), mDatabaseBackup.getName(), mDatabaseBackup
-                        .getParentFile().getName());
-                Toast.makeText(AbstractDrawerActivity.this, message, Toast.LENGTH_LONG).show();
-                closeDrawer();
-            } else {
-                Log.d(LogUtils.TAG, "App's database backup failed.");
-                Toast.makeText(AbstractDrawerActivity.this, R.string.message_file_not_saved, Toast.LENGTH_LONG).show();
-            }
         }
     }
 

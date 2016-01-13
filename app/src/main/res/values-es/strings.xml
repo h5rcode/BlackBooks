@@ -41,6 +41,7 @@
     <string name="action_unmark_book_as_favourite">Quitar de los favoritos</string>
     <string name="button_add_author">Añadir</string>
     <string name="button_add_category">Añadir</string>
+    <string name="button_backup_db">Grabar la base de datos</string>
     <string name="button_cancel_add_isbn">Cancelar</string>
     <string name="button_cancel_edit_author">Cancelar</string>
     <string name="button_cancel_edit_book_location">Cancelar</string>
@@ -48,6 +49,7 @@
     <string name="button_cancel_edit_series">Cancelar</string>
     <string name="button_cancel_scanner_install">Cancelar</string>
     <string name="button_cancel_send_log">Terminar</string>
+    <string name="button_delete_db">Eliminar la base de datos</string>
     <string name="button_edit_authors">Añadir autores</string>
     <string name="button_edit_categories">Añadir categorías</string>
     <string name="button_go_to_pic2shop_page">OK</string>
@@ -122,7 +124,7 @@
     <string name="menu_add_books">Añadir libros</string>
     <string name="menu_about">Acerca de Black Books</string>
     <string name="menu_administration">Administracíon</string>
-    <string name="menu_backup_db">Grabar la base de datos</string>
+    <string name="menu_database_management">Gestionar la base de datos</string>
     <string name="menu_delete_book">Eliminar</string>
     <string name="menu_edit_book">Modificar</string>
     <string name="menu_export">Exportar en formato CSV</string>
@@ -215,6 +217,7 @@
     <string name="report_error_log_not_saved">Imposible grabar el informe de errores.</string>
     <string name="report_error_mail_content">[Describe aquí lo que estabas haciendo cuando el error ocurío.]</string>
     <string name="report_error_mail_subject">Black Books : informe de errores</string>
+    <string name="text_info_backup_db">Haz clic en el botón a continuación para grabar una copia de la base de datos de Black Books. Eso creará un archivo que podriá conservar o explorar con un database manager como SQLiteBrowser.</string>
     <string name="text_info_edit_authors">Modificacíon de los autores de \"%s\".</string>
     <string name="text_info_edit_authors_untitled_book">Modificacíon de los autores de un libro sin título.</string>
     <string name="text_info_edit_categories">Modificacíon de las categorías de \"%s\".</string>
@@ -251,6 +254,7 @@
     <string name="title_activity_books_favourites">Libros favoritos</string>
     <string name="title_activity_books_to_read">Libros que leer</string>
     <string name="title_activity_bulk_add">Añadir libros en masa</string>
+    <string name="title_activity_database_management">Gestión de la base de datos</string>
     <string name="title_activity_isbn_lookup">Búsqueda por ISBN</string>
     <string name="title_dialog_add_isbn">Añadir un ISBN</string>
     <string name="title_dialog_bulk_scan">Escanear en masa</string>
@@ -279,4 +283,7 @@
     <string name="title_tab_book_edit_personal">Personal</string>
     <string name="title_tab_bulk_add_looked_up">Terminados</string>
     <string name="title_tab_bulk_add_pending">Pendientes</string>
+    <string name="title_tab_database_backup">Backup</string>
+    <string name="title_tab_database_delete">Delete</string>
+    <string name="title_tab_database_restore">Restore</string>
 </resources>

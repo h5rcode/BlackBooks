@@ -42,6 +42,7 @@
     <string name="action_mark_book_as_to_read">Ajouter aux livres à lire</string>
     <string name="button_add_author">Ajouter</string>
     <string name="button_add_category">Ajouter</string>
+    <string name="button_backup_db">Sauvegarder la base de données</string>
     <string name="button_cancel_add_isbn">Annuler</string>
     <string name="button_cancel_edit_author">Annuler</string>
     <string name="button_cancel_edit_book_location">Annuler</string>
@@ -49,6 +50,7 @@
     <string name="button_cancel_edit_series">Annuler</string>
     <string name="button_cancel_scanner_install">Annuler</string>
     <string name="button_cancel_send_log">Fermer</string>
+    <string name="button_delete_db">Supprimer la base de données</string>
     <string name="button_edit_authors">Ajouter des auteurs</string>
     <string name="button_edit_categories">Ajouter des catégories</string>
     <string name="button_go_to_pic2shop_page">OK</string>
@@ -123,7 +125,7 @@
     <string name="menu_about">À propos</string>
     <string name="menu_add_books">Ajouter des livres</string>
     <string name="menu_administration">Administration</string>
-    <string name="menu_backup_db">Sauvegarder la base</string>
+    <string name="menu_database_management">Gérer la base de données</string>
     <string name="menu_delete_book">Supprimer</string>
     <string name="menu_edit_book">Modifier</string>
     <string name="menu_export">Exporter au format CSV</string>
@@ -216,6 +218,7 @@
     <string name="report_error_mail_content">[Décrivez ici ce que vous êtiez en train de faire lorsque l\'erreur est survenue.]</string>
     <string name="report_error_mail_subject">Black Books : rapport d\'erreur</string>
     <string name="report_error_log_not_saved">Impossible d\'écrire le fichier d\'erreur.</string>
+    <string name="text_info_backup_db">Cliquez sur le bouton ci-dessous pour sauvegarder une copie de la base de données de Black Books. Cette opération créera un fichier sur la mémoire de votre appareil que vous pourrez conserver en lieu sûr ou parcourir à l\'aide d\'un gestionnaire de base de données tel que SQLiteBrowser.</string>
     <string name="text_info_edit_authors">Modification des auteurs de \"%s\".</string>
     <string name="text_info_edit_authors_untitled_book">Modification des auteurs d\'un livre sans titre.</string>
     <string name="text_info_edit_categories">Modification des catégories de \"%s\".</string>
@@ -249,6 +252,7 @@
     <string name="title_activity_books_by_loaned">Livres prêtés à %s</string>
     <string name="title_activity_books_favourites">Livres favoris</string>
     <string name="title_activity_books_to_read">Livres à lire</string>
+    <string name="title_activity_database_management">Gestionar la base de données</string>
     <string name="title_activity_bulk_add">Ajouter des livres en masse</string>
     <string name="title_activity_isbn_lookup">Recherche par ISBN</string>
     <string name="title_activity_book_search">Résultats pour \"%s\"</string>
@@ -280,5 +284,8 @@
     <string name="title_tab_book_edit_personal">Personnel</string>
     <string name="title_tab_bulk_add_pending">En attente</string>
     <string name="title_tab_bulk_add_looked_up">Terminés</string>
+    <string name="title_tab_database_backup">Sauvegarder</string>
+    <string name="title_tab_database_delete">Supprimer</string>
+    <string name="title_tab_database_restore">Restaurer</string>
 
 </resources>
