@@ -7,13 +7,13 @@
     android:paddingBottom="1sp"
     android:paddingLeft="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_vertical_margin"
-    android:paddingTop="1sp" >
+    android:paddingTop="1sp">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="center" >
+        android:gravity="center">
 
         <ProgressBar
             android:id="@+id/search_results_item_book_progressBar"
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="6"
         android:orientation="vertical"
-        android:padding="5sp" >
+        android:padding="5sp">
 
         <TextView
             android:id="@+id/search_results_item_book_title"
@@ -56,14 +56,14 @@
             android:id="@+id/search_results_item_book_description_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/search_results_item_book_description_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="start"
-                android:gravity="right"
+                android:gravity="end"
                 android:maxEms="8"
                 android:singleLine="true"
                 android:textSize="14sp" />

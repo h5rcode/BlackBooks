@@ -5,14 +5,17 @@
     android:layout_height="35dp"
     android:gravity="center_vertical"
     android:orientation="horizontal"
+    android:paddingEnd="@dimen/activity_vertical_margin"
     android:paddingLeft="15sp"
     android:paddingRight="@dimen/activity_vertical_margin"
-    tools:ignore="UseCompoundDrawables" >
+    android:paddingStart="15sp"
+    tools:ignore="UseCompoundDrawables">
 
     <ImageView
         android:id="@+id/drawerItem_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="7sp"
         android:layout_marginRight="7sp"
         android:contentDescription="@string/label_drawer_item" />
 

@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:autoLink="email"
                 android:gravity="center_horizontal"
-                android:text="h5rcode@gmail.com"
+                android:text="@string/mail_address_contact"
                 android:textColor="@android:color/white"
                 android:textSize="22sp" />
         </LinearLayout>
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:autoLink="web"
                 android:gravity="center_horizontal"
-                android:text="https://github.com/h5rcode/BlackBooks"
+                android:text="@string/url_project_source_code"
                 android:textColor="@android:color/white"
                 android:textSize="22sp" />
         </LinearLayout>

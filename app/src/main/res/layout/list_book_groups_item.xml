@@ -20,7 +20,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="30"
-        android:gravity="right"
+        android:gravity="end"
         android:paddingLeft="8sp"
         android:paddingRight="8sp"
         android:textColor="@color/grey_500"

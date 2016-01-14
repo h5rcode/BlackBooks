@@ -128,6 +128,7 @@
     <string name="label_unexpected_error">Unexpected error</string>
     <string name="label_unspecified_author">(Unspecified author)</string>
     <string name="label_version">Version %s</string>
+    <string name="mail_address_contact" translatable="false">h5rcode@gmail.com</string>
     <string name="menu_about">About</string>
     <string name="menu_add_books">Add books</string>
     <string name="menu_administration">Administration</string>
@@ -298,5 +299,6 @@
     <string name="title_tab_database_backup">Backup</string>
     <string name="title_tab_database_delete">Delete</string>
     <string name="title_tab_database_restore">Restore</string>
+    <string name="url_project_source_code" translatable="false">https://github.com/h5rcode/BlackBooks</string>
 
 </resources>
