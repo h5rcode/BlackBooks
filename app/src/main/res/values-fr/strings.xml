@@ -244,6 +244,8 @@
     <string name="title_activity_book_group_series">Séries</string>
     <string name="title_activity_book_import">Importer depuis un fichier CSV</string>
     <string name="title_activity_book_import_column_mapping">Association des colonnes</string>
+    <string name="title_activity_book_search">Résultats pour \"%s\"</string>
+    <string name="title_activity_book_search_default">Résultats de recherche</string>
     <string name="title_activity_books_by_author">Livres de %s</string>
     <string name="title_activity_books_by_book_location">Emplacement \"%s\"</string>
     <string name="title_activity_books_by_category">Catégorie \"%s\"</string>
@@ -255,8 +257,7 @@
     <string name="title_activity_database_management">Gestionar la base de données</string>
     <string name="title_activity_bulk_add">Ajouter des livres en masse</string>
     <string name="title_activity_isbn_lookup">Recherche par ISBN</string>
-    <string name="title_activity_book_search">Résultats pour \"%s\"</string>
-    <string name="title_activity_book_search_default">Résultats de recherche</string>
+    <string name="title_activity_file_chooser">Sélectionner un fichier</string>
     <string name="title_dialog_add_isbn">Ajouter un ISBN</string>
     <string name="title_dialog_bulk_scan">Scanner en masse</string>
     <string name="title_dialog_column_separator_picker">Choisissez un séparateur de colonnes</string>

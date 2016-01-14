@@ -99,7 +99,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.blackbooks.activities.FileChooserActivity">
+        <activity
+            android:name="com.blackbooks.activities.FileChooserActivity"
+            android:label="@string/title_activity_file_chooser">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
