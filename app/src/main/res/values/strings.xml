@@ -238,7 +238,7 @@
     <string name="text_info_no_books_2">Your library is rather empty&#8230; To start filling it, swipe from the left edge of the screen or touch the application icon to open the navigation drawer. Then, select one of the options in the group \"Add books\".</string>
     <string name="text_info_no_categories">This book does not have any categories yet. Enter the name of a category and click \"Add\".</string>
     <string name="text_info_restore_db">To restore the app\'s database, first select the file to import, then click the button below.</string>
-    <string name="text_info_restore_db_warning">Warning: all your library will be replaced by the content of the database that you will import.</string>
+    <string name="text_info_restore_db_warning">Warning: all your library will be replaced by the content of the file that you will import.</string>
     <string name="title_activity_about">About</string>
     <string name="title_activity_book_authors_edit">Edit authors</string>
     <string name="title_activity_book_categories_edit">Edit categories</string>
