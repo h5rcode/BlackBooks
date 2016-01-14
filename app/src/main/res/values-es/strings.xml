@@ -53,11 +53,13 @@
     <string name="button_edit_authors">Añadir autores</string>
     <string name="button_edit_categories">Añadir categorías</string>
     <string name="button_go_to_pic2shop_page">OK</string>
+    <string name="button_restore_db">Restaurar la base de datos</string>
     <string name="button_save_author">Grabar</string>
     <string name="button_save_book_location">Grabar</string>
     <string name="button_save_category">Grabar</string>
     <string name="button_save_isbn">Añadir</string>
     <string name="button_save_series">Grabar</string>
+    <string name="button_select_file">Elegir un archivo</string>
     <string name="button_send_log">Enviar el informe de errores</string>
     <string name="error_connection_problem">Problema de conexíon. Comprueba si el dispositivo tiene conexíon a Internet.</string>
     <string name="field_invalid_date">Fecha inválida.</string>
@@ -218,6 +220,8 @@
     <string name="report_error_mail_content">[Describe aquí lo que estabas haciendo cuando el error ocurío.]</string>
     <string name="report_error_mail_subject">Black Books : informe de errores</string>
     <string name="text_info_backup_db">Haz clic en el botón a continuación para grabar una copia de la base de datos de Black Books. Eso creará un archivo que podriá conservar o explorar con un database manager como SQLiteBrowser.</string>
+    <string name="text_info_delete_db">Haz clic en el botón para eliminar la base de datos.</string>
+    <string name="text_info_delete_db_warning">Atención: el contenido de tu biblioteca será completamente y definitivamente eliminado.</string>
     <string name="text_info_edit_authors">Modificacíon de los autores de \"%s\".</string>
     <string name="text_info_edit_authors_untitled_book">Modificacíon de los autores de un libro sin título.</string>
     <string name="text_info_edit_categories">Modificacíon de las categorías de \"%s\".</string>
@@ -227,6 +231,8 @@
     <string name="text_info_no_books_1">¡Todavía no libro!</string>
     <string name="text_info_no_books_2">Tu biblioteca está bastante vacía&#8230; Para empezar a llenarla, toca el lado izquierdo de la pantalla o haz clic sobre el icono de la aplicacíon para abrir el menú. Después, selecciona una de la opciones del grupo \"Añadir libros\".</string>
     <string name="text_info_no_categories">Este libro todavía no tiene categorías. Introduce el nombre de una categoría y haz clic sobre \"Añadir\".</string>
+    <string name="text_info_restore_db">Para restaurar la base de datos de la applicacion, elija el archivo que importar, y haz clic sobre el botón a continuación.</string>
+    <string name="text_info_restore_db_warning">Atención: toda tu biblioteca será reemplazada con el contenido del archivo que importarás.</string>
     <string name="title_activity_about">Acerca de Black Books</string>
     <string name="title_activity_book_authors_edit">Modificar los autores</string>
     <string name="title_activity_book_categories_edit">Modificar las categorías</string>

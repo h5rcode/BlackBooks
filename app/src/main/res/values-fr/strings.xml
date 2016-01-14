@@ -54,11 +54,13 @@
     <string name="button_edit_authors">Ajouter des auteurs</string>
     <string name="button_edit_categories">Ajouter des catégories</string>
     <string name="button_go_to_pic2shop_page">OK</string>
+    <string name="button_restore_db">Restaurer la base de données</string>
     <string name="button_save_author">Enregistrer</string>
     <string name="button_save_book_location">Enregistrer</string>
     <string name="button_save_category">Enregistrer</string>
     <string name="button_save_isbn">Ajouter</string>
     <string name="button_save_series">Enregistrer</string>
+    <string name="button_select_file">Sélectionner un fichier</string>
     <string name="button_send_log">Envoyer le rapport d\'erreur</string>
     <string name="error_connection_problem">Problème de connexion. Vérifiez que l\'appareil est connecté à Internet.</string>
     <string name="field_invalid_date">Date invalide.</string>
@@ -219,6 +221,8 @@
     <string name="report_error_mail_subject">Black Books : rapport d\'erreur</string>
     <string name="report_error_log_not_saved">Impossible d\'écrire le fichier d\'erreur.</string>
     <string name="text_info_backup_db">Cliquez sur le bouton ci-dessous pour sauvegarder une copie de la base de données de Black Books. Cette opération créera un fichier sur la mémoire de votre appareil que vous pourrez conserver en lieu sûr ou parcourir à l\'aide d\'un gestionnaire de base de données tel que SQLiteBrowser.</string>
+    <string name="text_info_delete_db">Cliquez sur le bouton ci-dessous pour supprimer la base de données.</string>
+    <string name="text_info_delete_db_warning">Attention : le contenu de votre librairie sera complètement et définitivement supprimé.</string>
     <string name="text_info_edit_authors">Modification des auteurs de \"%s\".</string>
     <string name="text_info_edit_authors_untitled_book">Modification des auteurs d\'un livre sans titre.</string>
     <string name="text_info_edit_categories">Modification des catégories de \"%s\".</string>
@@ -228,6 +232,8 @@
     <string name="text_info_no_books_1">Aucun livre pour l\'instant !</string>
     <string name="text_info_no_books_2">Votre bibliothèque est plutôt vide&#8230; Pour commencer à la remplir, touchez le bord gauche de l\'écran ou cliquez sur l\'icône de l\'application pour afficher le menu. Sélectionnez ensuite une option du groupe \"Ajouter des livres\".</string>
     <string name="text_info_no_categories">Ce livre n\'a pas encore de catégorie renseignée. Entrez le nom d\'une catégorie et cliquez sur \"Ajouter\".</string>
+    <string name="text_info_restore_db">Pour restaurer la base de données de l\'application, sélectionnez le fichier à importer, puis cliquez sur le bouton ci-dessous.</string>
+    <string name="text_info_restore_db_warning">Attention : toute votre bibliothèque sera remplacée par le contenu du fichier que vous importerez.</string>
     <string name="title_activity_about">À propos</string>
     <string name="title_activity_book_authors_edit">Modifier les auteurs</string>
     <string name="title_activity_book_categories_edit">Modifier les catégories</string>
@@ -254,7 +260,7 @@
     <string name="title_activity_books_by_loaned">Livres prêtés à %s</string>
     <string name="title_activity_books_favourites">Livres favoris</string>
     <string name="title_activity_books_to_read">Livres à lire</string>
-    <string name="title_activity_database_management">Gestionar la base de données</string>
+    <string name="title_activity_database_management">Gérer la base de données</string>
     <string name="title_activity_bulk_add">Ajouter des livres en masse</string>
     <string name="title_activity_isbn_lookup">Recherche par ISBN</string>
     <string name="title_activity_file_chooser">Sélectionner un fichier</string>
