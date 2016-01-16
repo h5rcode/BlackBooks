@@ -260,7 +260,7 @@
     <string name="title_activity_books_favourites">Libros favoritos</string>
     <string name="title_activity_books_to_read">Libros que leer</string>
     <string name="title_activity_bulk_add">Añadir libros en masa</string>
-    <string name="title_activity_database_management">Gestión de la base de datos</string>
+    <string name="title_activity_database_management">Gestionar la base de datos</string>
     <string name="title_activity_file_chooser">Elegir un archivo</string>
     <string name="title_activity_isbn_lookup">Búsqueda por ISBN</string>
     <string name="title_dialog_add_isbn">Añadir un ISBN</string>

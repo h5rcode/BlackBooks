@@ -222,7 +222,7 @@
     <string name="report_error_log_not_saved">Impossible d\'écrire le fichier d\'erreur.</string>
     <string name="text_info_backup_db">Cliquez sur le bouton ci-dessous pour sauvegarder une copie de la base de données de Black Books. Cette opération créera un fichier sur la mémoire de votre appareil que vous pourrez conserver en lieu sûr ou parcourir à l\'aide d\'un gestionnaire de base de données tel que SQLiteBrowser.</string>
     <string name="text_info_delete_db">Cliquez sur le bouton ci-dessous pour supprimer la base de données.</string>
-    <string name="text_info_delete_db_warning">Attention : le contenu de votre librairie sera complètement et définitivement supprimé.</string>
+    <string name="text_info_delete_db_warning">Attention : le contenu de votre bibliothèque sera complètement et définitivement supprimé.</string>
     <string name="text_info_edit_authors">Modification des auteurs de \"%s\".</string>
     <string name="text_info_edit_authors_untitled_book">Modification des auteurs d\'un livre sans titre.</string>
     <string name="text_info_edit_categories">Modification des catégories de \"%s\".</string>
