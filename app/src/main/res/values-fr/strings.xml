@@ -190,6 +190,12 @@
     <string name="message_confirm_return_book">Rendre \"%s\" ?</string>
     <string name="message_confirm_return_book_cancel">Non</string>
     <string name="message_confirm_return_book_confirm">Oui</string>
+    <string name="message_db_delete_success">La base de données a été supprimée avec succés.</string>
+    <string name="message_db_delete_failure">La base de données n\'a pas pu être supprimée.</string>
+    <string name="message_db_restore_could_not_open_dump">Impossible d\'ouvrir le fichier. La base n\'a pas été modifiée.</string>
+    <string name="message_db_restore_dump_integrity_check_failed">Problème d\'intégrité du fichier. La base n\'a pas été modifiée.</string>
+    <string name="message_db_restore_failure">La base de données n\'a pas pu être restaurée.</string>
+    <string name="message_db_restore_success">La base de données a été restaurée avec succés.</string>
     <string name="message_duplicate_books_negative">Annuler</string>
     <string name="message_duplicate_books_positive">Continuer</string>
     <string name="message_export_books">Export des livres en cours.\nFermez la fenêtre pour annuler le processus.</string>

@@ -101,7 +101,9 @@ public final class DatabaseRestoreFragment extends Fragment {
     /**
      * The asynchronous task that will restore the application's database.
      */
-    private final class DatabaseRestoreTask extends AsyncTask<Void, Void, Boolean> {
+    private final class DatabaseRestoreTask extends AsyncTask<Void, Void, Void> {
+
+        private Integer mMessageId;
 
         @Override
         protected void onPreExecute() {
@@ -110,7 +112,7 @@ public final class DatabaseRestoreFragment extends Fragment {
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected Void doInBackground(Void... params) {
             Log.d(LogUtils.TAG, "Restoring database.");
 
             boolean isBackupFileOk;
@@ -120,14 +122,23 @@ public final class DatabaseRestoreFragment extends Fragment {
 
                 Log.d(LogUtils.TAG, "Checking the database dump integrity.");
                 isBackupFileOk = db.isDatabaseIntegrityOk();
+
+                if (isBackupFileOk) {
+                    Log.d(LogUtils.TAG, "Database dump integrity check succeeded.");
+                } else {
+                    Log.d(LogUtils.TAG, "Database dump integrity check failed.");
+                    mMessageId = R.string.message_db_restore_dump_integrity_check_failed;
+                }
+
             } catch (SQLiteException e) {
+                mMessageId = R.string.message_db_restore_could_not_open_dump;
                 Log.w(LogUtils.TAG, "Could not open the database dump.", e);
                 isBackupFileOk = false;
             }
 
-            boolean success;
             if (isBackupFileOk) {
                 Log.d(LogUtils.TAG, "Database dump integrity check succeeded.");
+
                 Log.d(LogUtils.TAG, "Closing connections to the database to restore.");
 
                 SQLiteHelper sqliteHelper = SQLiteHelper.getInstance();
@@ -139,28 +150,30 @@ public final class DatabaseRestoreFragment extends Fragment {
                 try {
                     Log.d(LogUtils.TAG, "Replacing the database by the dump.");
 
-                    success = FileUtils.copy(mBackupFile, currentDB);
+                    boolean success = FileUtils.copy(mBackupFile, currentDB);
+
+                    if (success) {
+                        Log.d(LogUtils.TAG, "Database successfully restored.");
+                        mMessageId = R.string.message_db_restore_success;
+                    } else {
+                        Log.d(LogUtils.TAG, "The database restoration failed.");
+                        mMessageId = R.string.message_db_restore_success;
+                    }
+
                 } catch (InterruptedException e) {
-                    success = false;
+                    Log.d(LogUtils.TAG, "The restoration was interrupted.");
                 }
-            } else {
-                Log.d(LogUtils.TAG, "Database dump integrity check failed.");
-                success = false;
             }
 
-            return success;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(Boolean result) {
+        protected void onPostExecute(Void result) {
             super.onPostExecute(result);
 
-            if (result) {
-                Log.d(LogUtils.TAG, "Database successfully restored.");
-                Toast.makeText(getActivity(), "Database successfully restored.", Toast.LENGTH_LONG).show();
-            } else {
-                Log.d(LogUtils.TAG, "The database could not be restored.");
-                Toast.makeText(getActivity(), "The database could not be restored.", Toast.LENGTH_LONG).show();
+            if (mMessageId != null) {
+                Toast.makeText(getActivity(), mMessageId, Toast.LENGTH_LONG).show();
             }
 
             mButtonRestoreDatabase.setEnabled(true);

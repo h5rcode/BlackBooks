@@ -94,10 +94,10 @@ public final class DatabaseDeleteFragment extends Fragment {
 
             if (result) {
                 Log.d(LogUtils.TAG, "Database successfully deleted.");
-                Toast.makeText(getActivity(), "Database successfully deleted.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.message_db_delete_success, Toast.LENGTH_LONG).show();
             } else {
                 Log.d(LogUtils.TAG, "The database could not be deleted.");
-                Toast.makeText(getActivity(), "The database could not be deleted.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.message_db_delete_failure, Toast.LENGTH_LONG).show();
             }
 
             mButtonDeleteDatabase.setEnabled(true);

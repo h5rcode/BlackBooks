@@ -195,6 +195,12 @@
     <string name="message_confirm_return_book">Return \"%s\"?</string>
     <string name="message_confirm_return_book_cancel">No</string>
     <string name="message_confirm_return_book_confirm">Yes</string>
+    <string name="message_db_delete_success">The database was successfully deleted.</string>
+    <string name="message_db_delete_failure">The database could not be deleted.</string>
+    <string name="message_db_restore_could_not_open_dump">File could not be opened. The database was not modified.</string>
+    <string name="message_db_restore_dump_integrity_check_failed">File integrity check failed. The database was not modified.</string>
+    <string name="message_db_restore_failure">The database could not be restored.</string>
+    <string name="message_db_restore_success">The database was successfully restored.</string>
     <string name="message_duplicate_books_negative">Cancel</string>
     <string name="message_duplicate_books_positive">Continue</string>
     <string name="message_export_books">The books are being exported.\nDismiss this dialog to cancel the whole process.</string>
