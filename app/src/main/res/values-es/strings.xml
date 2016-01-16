@@ -124,7 +124,7 @@
     <string name="label_unspecified_author">(Autor desconocido)</string>
     <string name="label_version">Versión %s</string>
     <string name="menu_add_books">Añadir libros</string>
-    <string name="menu_about">Acerca de Black Books</string>
+    <string name="menu_about">Acerca de&#8230;</string>
     <string name="menu_administration">Administracíon</string>
     <string name="menu_database_management">Gestionar la base de datos</string>
     <string name="menu_delete_book">Eliminar</string>
@@ -233,7 +233,7 @@
     <string name="text_info_no_categories">Este libro todavía no tiene categorías. Introduce el nombre de una categoría y haz clic sobre \"Añadir\".</string>
     <string name="text_info_restore_db">Para restaurar la base de datos de la applicacion, elija el archivo que importar, y haz clic sobre el botón a continuación.</string>
     <string name="text_info_restore_db_warning">Atención: toda tu biblioteca será reemplazada con el contenido del archivo que importarás.</string>
-    <string name="title_activity_about">Acerca de Black Books</string>
+    <string name="title_activity_about">Acerca de&#8230;</string>
     <string name="title_activity_book_authors_edit">Modificar los autores</string>
     <string name="title_activity_book_categories_edit">Modificar las categorías</string>
     <string name="title_activity_book_display">Detalle de un libro</string>
