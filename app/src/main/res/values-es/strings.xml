@@ -290,7 +290,7 @@
     <string name="title_tab_book_edit_personal">Personal</string>
     <string name="title_tab_bulk_add_looked_up">Terminados</string>
     <string name="title_tab_bulk_add_pending">Pendientes</string>
-    <string name="title_tab_database_backup">Backup</string>
-    <string name="title_tab_database_delete">Delete</string>
-    <string name="title_tab_database_restore">Restore</string>
+    <string name="title_tab_database_backup">Crear una copia</string>
+    <string name="title_tab_database_delete">Eliminar</string>
+    <string name="title_tab_database_restore">Restaurar</string>
 </resources>
