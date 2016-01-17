@@ -41,6 +41,11 @@
     <string name="action_take_picture">Take a picture</string>
     <string name="action_unmark_book_as_favourite">Unmark as favourite</string>
     <string name="action_mark_book_as_to_read">Add to the books to read</string>
+    <string name="analytics_category_isbn" translatable="false">ISBN</string>
+    <string name="analytics_action_lookup_error" translatable="false">Lookup encountered an error</string>
+    <string name="analytics_action_lookup_no_result" translatable="false">Lookup returned no result</string>
+    <string name="analytics_action_lookup_start" translatable="false">Lookup started</string>
+    <string name="analytics_action_lookup_success" translatable="false">Lookup succeeded</string>
     <string name="button_add_author">Add</string>
     <string name="button_add_category">Add</string>
     <string name="button_backup_db">Backup database</string>

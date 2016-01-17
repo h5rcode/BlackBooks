@@ -39,6 +39,15 @@ public final class BlackBooksApplication extends Application {
     }
 
     /**
+     * Return the Google Analytics tracker.
+     *
+     * @return Tracker.
+     */
+    public Tracker getTracker() {
+        return mTracker;
+    }
+
+    /**
      * Handle uncaught exception.
      *
      * @param e The exception that was thrown.

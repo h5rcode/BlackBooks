@@ -7,10 +7,13 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.blackbooks.BlackBooksApplication;
 import com.blackbooks.R;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.search.BookSearcher;
 import com.blackbooks.utils.LogUtils;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.conn.HttpHostConnectException;
@@ -28,6 +31,8 @@ public final class IsbnLookupFragment extends Fragment {
     private BookSearchTask mBookSearchTask;
 
     private IsbnLookupListener mIsbnLookupListener;
+
+    private Tracker mTracker;
 
     /**
      * Return a new instance of IsbnLookupFragment, ready to search information
@@ -60,6 +65,10 @@ public final class IsbnLookupFragment extends Fragment {
             mBookSearchTask = new BookSearchTask();
             mBookSearchTask.execute(isbn);
         }
+
+        final Activity activity = getActivity();
+        final BlackBooksApplication application = (BlackBooksApplication) activity.getApplication();
+        mTracker = application.getTracker();
     }
 
     @Override
@@ -105,6 +114,7 @@ public final class IsbnLookupFragment extends Fragment {
 
             BookInfo book = null;
             try {
+                sendIsbnEvent(R.string.analytics_action_lookup_start);
                 book = BookSearcher.search(barCode);
             } catch (ClientProtocolException e) {
                 errorMessageId = R.string.error_connection_problem;
@@ -126,16 +136,33 @@ public final class IsbnLookupFragment extends Fragment {
             if (result == null) {
                 if (errorMessageId != null) {
                     Toast.makeText(getActivity(), errorMessageId, Toast.LENGTH_LONG).show();
+                    sendIsbnEvent(R.string.analytics_action_lookup_error);
                 } else {
                     Log.d(LogUtils.TAG, "Search finished successfully but returned no results.");
+                    sendIsbnEvent(R.string.analytics_action_lookup_no_result);
                     Toast.makeText(getActivity(), getString(R.string.message_no_result), Toast.LENGTH_LONG).show();
                 }
             } else {
                 Log.d(LogUtils.TAG, String.format("Search finished successfully. Result: %s", result.title));
+                sendIsbnEvent(R.string.analytics_action_lookup_success);
             }
             if (mIsbnLookupListener != null) {
                 mIsbnLookupListener.onLookupFinished(result);
             }
         }
+    }
+
+    /**
+     * Send an event of the category "ISBN" to Google Analytics.
+     *
+     * @param actionResourceId Id of the resource corresponding to the action of the event.
+     */
+    private void sendIsbnEvent(int actionResourceId) {
+        mTracker.send(
+                new HitBuilders.EventBuilder()
+                        .setCategory(getString(R.string.analytics_category_isbn))
+                        .setAction(getString(actionResourceId))
+                        .build()
+        );
     }
 }
