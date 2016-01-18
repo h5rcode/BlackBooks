@@ -12,6 +12,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
+import com.blackbooks.BlackBooksApplication;
 import com.blackbooks.R;
 import com.blackbooks.activities.BulkAddActivity;
 import com.blackbooks.database.SQLiteHelper;
@@ -21,6 +22,8 @@ import com.blackbooks.search.BookSearcher;
 import com.blackbooks.services.IsbnServices;
 import com.blackbooks.utils.LogUtils;
 import com.blackbooks.utils.VariableUtils;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.util.List;
 
@@ -35,6 +38,8 @@ public final class BulkSearchService extends IntentService {
 
     private boolean mStop;
 
+    private Tracker mTracker;
+
     /**
      * Constructor.
      */
@@ -43,27 +48,36 @@ public final class BulkSearchService extends IntentService {
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+
+        final BlackBooksApplication application = (BlackBooksApplication) getApplication();
+        mTracker = application.getTracker();
+    }
+
+    @Override
     protected void onHandleIntent(Intent intent) {
 
         VariableUtils.getInstance().setBulkSearchRunning(true);
 
-        SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-        List<Isbn> isbnList = IsbnServices.getIsbnListToLookUp(db, Integer.MAX_VALUE, 0);
+        final SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
+        final List<Isbn> isbnList = IsbnServices.getIsbnListToLookUp(db, Integer.MAX_VALUE, 0);
 
-        int isbnCount = isbnList.size();
+        final int isbnCount = isbnList.size();
+        sendIsbnEvent(R.string.analytics_action_bulk_lookup_start);
 
-        Resources res = getResources();
-        String text = res.getQuantityString(R.plurals.notification_bulk_search_running_text, isbnCount, isbnCount);
+        final Resources res = getResources();
+        final String text = res.getQuantityString(R.plurals.notification_bulk_search_running_text, isbnCount, isbnCount);
 
-        Intent resultIntent = new Intent(this, BulkAddActivity.class);
+        final Intent resultIntent = new Intent(this, BulkAddActivity.class);
         resultIntent.putExtra(BulkAddActivity.EXTRA_SELECTED_TAB, BulkAddActivity.TAB_LOOKED_UP);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(BulkAddActivity.class);
         stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        final PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+        final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_notify)
                 .setContentTitle(getString(R.string.notification_bulk_search_running_title))
                 .setContentText(text);
@@ -74,6 +88,8 @@ public final class BulkSearchService extends IntentService {
         notificationManager.notify(NOTIFICATION_ID, builder.build());
         builder.setTicker(null);
 
+        sendIsbnEvent(R.string.analytics_action_bulk_lookup_start);
+
         int consecutiveErrors = 0;
         for (int i = 0; i < isbnCount; i++) {
             if (mStop) {
@@ -82,12 +98,12 @@ public final class BulkSearchService extends IntentService {
             if (consecutiveErrors > MAX_CONSECUTIVE_ERRORS) {
                 break;
             }
-            Isbn isbn = isbnList.get(i);
-            String number = isbn.number;
+            final Isbn isbn = isbnList.get(i);
+            final String number = isbn.number;
             Log.d(LogUtils.TAG, String.format("Searching results for ISBN %s.", number));
 
             try {
-                BookInfo bookInfo = BookSearcher.search(number);
+                final BookInfo bookInfo = BookSearcher.search(number);
                 if (bookInfo == null) {
                     Log.d(LogUtils.TAG, "No results.");
                     IsbnServices.markIsbnLookedUp(db, isbn.id, null);
@@ -107,7 +123,7 @@ public final class BulkSearchService extends IntentService {
             }
 
             builder.setProgress(isbnCount, i, false);
-            Notification notification = builder.build();
+            final Notification notification = builder.build();
             notification.flags |= Notification.FLAG_NO_CLEAR;
             notificationManager.notify(NOTIFICATION_ID, notification);
         }
@@ -120,11 +136,26 @@ public final class BulkSearchService extends IntentService {
         notificationManager.notify(NOTIFICATION_ID, builder.build());
 
         VariableUtils.getInstance().setBulkSearchRunning(false);
+        sendIsbnEvent(R.string.analytics_action_bulk_lookup_stop);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mStop = true;
+    }
+
+    /**
+     * Send an event of the category "ISBN" to Google Analytics.
+     *
+     * @param actionResourceId Id of the resource corresponding to the action of the event.
+     */
+    private void sendIsbnEvent(int actionResourceId) {
+        mTracker.send(
+                new HitBuilders.EventBuilder()
+                        .setCategory(getString(R.string.analytics_category_isbn))
+                        .setAction(getString(actionResourceId))
+                        .build()
+        );
     }
 }

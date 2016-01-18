@@ -1,5 +1,6 @@
 package com.blackbooks.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blackbooks.BlackBooksApplication;
 import com.blackbooks.R;
 import com.blackbooks.activities.BookDisplayActivity;
 import com.blackbooks.activities.BookEditActivity;
@@ -32,6 +34,8 @@ import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.services.BookServices;
 import com.blackbooks.utils.VariableUtils;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.util.List;
 
@@ -61,6 +65,8 @@ public abstract class AbstractBookListFragment2 extends ListFragment {
 
     private BookListAdapter mBookListAdapter;
 
+    private Tracker mTracker;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +74,10 @@ public abstract class AbstractBookListFragment2 extends ListFragment {
 
         mBookListAdapter = new BookListAdapter(getActivity());
         setListAdapter(mBookListAdapter);
+
+        final Activity activity = getActivity();
+        final BlackBooksApplication application = (BlackBooksApplication) activity.getApplication();
+        mTracker = application.getTracker();
     }
 
     @Override
@@ -216,6 +226,13 @@ public abstract class AbstractBookListFragment2 extends ListFragment {
                 String authorName = author.name;
                 authorName = Uri.encode(authorName);
                 String url = String.format(AMAZON_SEARCH_RESULT_URL, authorName);
+
+                mTracker.send(
+                        new HitBuilders.EventBuilder()
+                                .setCategory(getString(R.string.analytics_category_amazon))
+                                .setAction(getString(R.string.analytics_action_amazon_redirect))
+                                .build()
+                );
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 startActivity(intent);

@@ -26,6 +26,7 @@ public final class BlackBooksApplication extends Application {
         Log.d(LogUtils.TAG, "Google Analytics dry run enabled: " + analytics.isDryRunEnabled());
 
         mTracker = analytics.newTracker(R.xml.tracker_config);
+        mTracker.enableAdvertisingIdCollection(true);
 
         SQLiteHelper.initialize(getApplicationContext());
 
