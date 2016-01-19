@@ -214,6 +214,7 @@
     <string name="message_db_restore_dump_integrity_check_failed">File integrity check failed. The database was not modified.</string>
     <string name="message_db_restore_failure">The database could not be restored.</string>
     <string name="message_db_restore_success">The database was successfully restored.</string>
+    <string name="message_db_delete">The database is being deleted.\nClose the window to cancel the operation.</string>
     <string name="message_duplicate_books_negative">Cancel</string>
     <string name="message_duplicate_books_positive">Continue</string>
     <string name="message_export_books">The books are being exported.\nDismiss this dialog to cancel the whole process.</string>
@@ -291,11 +292,12 @@
     <string name="title_dialog_add_isbn">Add isbn</string>
     <string name="title_dialog_bulk_scan">Bulk scan</string>
     <string name="title_dialog_column_separator_picker">Choose a column separator</string>
+    <string name="title_dialog_confirm_delete_database">Delete database</string>
     <string name="title_dialog_delete_author">Delete author</string>
     <string name="title_dialog_delete_book">Delete book</string>
     <string name="title_dialog_delete_book_location">Delete book location</string>
-    <string name="title_dialog_delete_database">Delete database</string>
     <string name="title_dialog_delete_category">Delete category</string>
+    <string name="title_dialog_delete_database">Deleting the database</string>
     <string name="title_dialog_delete_isbns">Delete ISBNs</string>
     <string name="title_dialog_edit_author">Edit author</string>
     <string name="title_dialog_edit_book_location">Edit book location</string>

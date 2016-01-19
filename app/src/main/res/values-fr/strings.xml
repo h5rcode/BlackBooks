@@ -190,6 +190,7 @@
     <string name="message_confirm_return_book">Rendre \"%s\" ?</string>
     <string name="message_confirm_return_book_cancel">Non</string>
     <string name="message_confirm_return_book_confirm">Oui</string>
+    <string name="message_db_delete">La base est en cours de suppression.\nFermez la fenêtre pour annuler l\'opération.</string>
     <string name="message_db_delete_success">La base de données a été supprimée avec succés.</string>
     <string name="message_db_delete_failure">La base de données n\'a pas pu être supprimée.</string>
     <string name="message_confirm_delete_database_cancel">Annuler</string>
@@ -277,11 +278,12 @@
     <string name="title_dialog_add_isbn">Ajouter un ISBN</string>
     <string name="title_dialog_bulk_scan">Scanner en masse</string>
     <string name="title_dialog_column_separator_picker">Choisissez un séparateur de colonnes</string>
+    <string name="title_dialog_confirm_delete_database">Supprimer la base</string>
     <string name="title_dialog_delete_author">Supprimer un auteur</string>
     <string name="title_dialog_delete_book">Supprimer un livre</string>
     <string name="title_dialog_delete_book_location">Supprimer un emplacement</string>
     <string name="title_dialog_delete_category">Supprimer une catégorie</string>
-    <string name="title_dialog_delete_database">Supprimer la base</string>
+    <string name="title_dialog_delete_database">Supression de la base en cours</string>
     <string name="title_dialog_delete_isbns">Supprimer les ISBNs</string>
     <string name="title_dialog_edit_author">Modifier un auteur</string>
     <string name="title_dialog_edit_book_location">Modifier un emplacement</string>

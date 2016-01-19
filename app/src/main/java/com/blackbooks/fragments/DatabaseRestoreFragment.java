@@ -116,9 +116,10 @@ public final class DatabaseRestoreFragment extends Fragment {
             Log.d(LogUtils.TAG, "Restoring database.");
 
             boolean isBackupFileOk;
+            SQLiteDatabase db = null;
             try {
                 Log.d(LogUtils.TAG, "Opening the database dump to restore.");
-                SQLiteDatabase db = SQLiteDatabase.openDatabase(mBackupFile.getPath(), null, SQLiteDatabase.OPEN_READONLY);
+                db = SQLiteDatabase.openDatabase(mBackupFile.getPath(), null, SQLiteDatabase.OPEN_READONLY);
 
                 Log.d(LogUtils.TAG, "Checking the database dump integrity.");
                 isBackupFileOk = db.isDatabaseIntegrityOk();
@@ -134,11 +135,13 @@ public final class DatabaseRestoreFragment extends Fragment {
                 mMessageId = R.string.message_db_restore_could_not_open_dump;
                 Log.w(LogUtils.TAG, "Could not open the database dump.", e);
                 isBackupFileOk = false;
+            } finally {
+                if (db != null) {
+                    db.close();
+                }
             }
 
             if (isBackupFileOk) {
-                Log.d(LogUtils.TAG, "Database dump integrity check succeeded.");
-
                 Log.d(LogUtils.TAG, "Closing connections to the database to restore.");
 
                 SQLiteHelper sqliteHelper = SQLiteHelper.getInstance();

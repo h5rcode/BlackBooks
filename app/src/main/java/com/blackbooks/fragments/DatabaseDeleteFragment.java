@@ -17,6 +17,7 @@ import com.blackbooks.R;
 import com.blackbooks.database.Database;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.dialogs.ConfirmDialogFragment;
+import com.blackbooks.fragments.dialogs.ProgressDialogFragment;
 import com.blackbooks.utils.LogUtils;
 
 import java.io.File;
@@ -24,10 +25,10 @@ import java.io.File;
 /**
  * Database delete fragment.
  */
-public final class DatabaseDeleteFragment extends Fragment implements ConfirmDialogFragment.OnConfirmListener {
+public final class DatabaseDeleteFragment extends Fragment implements ProgressDialogFragment.OnProgressDialogListener, ConfirmDialogFragment.OnConfirmListener {
 
     private static final String TAG_CONFIRM_DIALOG = "TAG_CONFIRM_DIALOG";
-    private static final String TAG_PROGRESS_DIALOG = "TAG_PROGRESS_DIALOG";
+    private static final String TAG_PROGRESS_DIALOG_FRAGMENT = "TAG_PROGRESS_DIALOG_FRAGMENT";
 
     private Button mButtonDeleteDatabase;
 
@@ -51,7 +52,7 @@ public final class DatabaseDeleteFragment extends Fragment implements ConfirmDia
                 final FragmentActivity activity = DatabaseDeleteFragment.this.getActivity();
                 final FragmentManager fm = activity.getSupportFragmentManager();
                 final ConfirmDialogFragment fragment = ConfirmDialogFragment.newInstance(
-                        R.string.title_dialog_delete_database,
+                        R.string.title_dialog_confirm_delete_database,
                         R.string.message_confirm_delete_database,
                         R.string.message_confirm_delete_database_confirm_message,
                         R.string.message_confirm_delete_database_cancel,
@@ -70,6 +71,13 @@ public final class DatabaseDeleteFragment extends Fragment implements ConfirmDia
     @Override
     public void onDestroy() {
         super.onDestroy();
+        cancelAsyncTask();
+    }
+
+    /**
+     * Cancel the asynchronous task.
+     */
+    private void cancelAsyncTask() {
         if (mDatabaseDeleteTask != null) {
             mDatabaseDeleteTask.cancel(true);
         }
@@ -81,10 +89,18 @@ public final class DatabaseDeleteFragment extends Fragment implements ConfirmDia
         mDatabaseDeleteTask.execute();
     }
 
+    @Override
+    public void onCancel() {
+        cancelAsyncTask();
+        mButtonDeleteDatabase.setEnabled(true);
+    }
+
     /**
      * The asynchronous task that will delete the application's database..
      */
     private final class DatabaseDeleteTask extends AsyncTask<Void, Void, Boolean> {
+
+        private ProgressDialogFragment mProgressDialogFragment;
 
         @Override
         protected void onPreExecute() {
@@ -96,12 +112,29 @@ public final class DatabaseDeleteFragment extends Fragment implements ConfirmDia
         protected Boolean doInBackground(Void... params) {
             Log.d(LogUtils.TAG, "Deleting database.");
 
+            mProgressDialogFragment = ProgressDialogFragment.newInstanceSpinner(
+                    R.string.title_dialog_delete_database,
+                    R.string.message_db_delete
+            );
+            mProgressDialogFragment.setTargetFragment(DatabaseDeleteFragment.this, 0);
+
+            final FragmentManager fm = getActivity().getSupportFragmentManager();
+            mProgressDialogFragment.show(fm, TAG_PROGRESS_DIALOG_FRAGMENT);
+
             SQLiteHelper sqliteHelper = SQLiteHelper.getInstance();
             sqliteHelper.close();
 
             Activity activity = getActivity();
             File currentDB = activity.getDatabasePath(Database.NAME);
-            return currentDB.delete();
+
+            boolean result;
+            if (isCancelled()) {
+                Log.d(LogUtils.TAG, "Delete database task cancelled, aborting.");
+                result = false;
+            } else {
+                result = currentDB.delete();
+            }
+            return result;
         }
 
         @Override
@@ -117,6 +150,7 @@ public final class DatabaseDeleteFragment extends Fragment implements ConfirmDia
             }
 
             mButtonDeleteDatabase.setEnabled(true);
+            mProgressDialogFragment.dismiss();
         }
     }
 }
