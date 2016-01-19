@@ -208,6 +208,7 @@
     <string name="message_confirm_return_book">Return \"%s\"?</string>
     <string name="message_confirm_return_book_cancel">No</string>
     <string name="message_confirm_return_book_confirm">Yes</string>
+    <string name="message_db_backup">Saving a backup of the database.\nClose the window to cancel the operation.</string>
     <string name="message_db_delete_success">The database was successfully deleted.</string>
     <string name="message_db_delete_failure">The database could not be deleted.</string>
     <string name="message_db_restore_could_not_open_dump">File could not be opened. The database was not modified.</string>
@@ -290,6 +291,7 @@
     <string name="title_activity_isbn_lookup">ISBN lookup</string>
     <string name="title_activity_file_chooser">Select a file</string>
     <string name="title_dialog_add_isbn">Add isbn</string>
+    <string name="title_dialog_backup_database">Saving database backup</string>
     <string name="title_dialog_bulk_scan">Bulk scan</string>
     <string name="title_dialog_column_separator_picker">Choose a column separator</string>
     <string name="title_dialog_confirm_delete_database">Delete database</string>

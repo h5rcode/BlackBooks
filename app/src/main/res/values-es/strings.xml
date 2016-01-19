@@ -195,7 +195,8 @@
     <string name="message_confirm_delete_database_confirm">Continuar</string>
     <string name="message_confirm_delete_database_confirm_message">Eliminar la base de datos</string>
     <string name="message_confirm_delete_database">El contenido de tu biblioteca será completamente y definitivamente eliminado.</string>
-    <string name="message_db_delete">Cerra la ventana para cancelar la operación.</string>
+    <string name="message_db_backup">Grabando una copia de la base de datos.\nCierra la ventana de diálogo para cancelar el proceso.</string>
+    <string name="message_db_delete">Cierra la ventana para cancelar la operación.</string>
     <string name="message_db_delete_success">La base de datos fue eliminada.</string>
     <string name="message_db_delete_failure">La base de datos no fue eliminada.</string>
     <string name="message_db_restore_dump_integrity_check_failed">Problema de integridad. La base de datos no fue modificada.</string>
@@ -275,6 +276,7 @@
     <string name="title_activity_file_chooser">Elegir un archivo</string>
     <string name="title_activity_isbn_lookup">Búsqueda por ISBN</string>
     <string name="title_dialog_add_isbn">Añadir un ISBN</string>
+    <string name="title_dialog_backup_database">Grabando una copia de la base</string>
     <string name="title_dialog_bulk_scan">Escanear en masa</string>
     <string name="title_dialog_column_separator_picker">Selecciona un separador de columna</string>
     <string name="title_dialog_confirm_delete_database">Eliminar la base de datos</string>

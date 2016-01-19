@@ -5,6 +5,7 @@ import android.media.MediaScannerConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 
 import com.blackbooks.R;
 import com.blackbooks.database.Database;
+import com.blackbooks.fragments.dialogs.ProgressDialogFragment;
+import com.blackbooks.fragments.dialogs.ProgressDialogFragment.OnProgressDialogListener;
 import com.blackbooks.utils.FileUtils;
 import com.blackbooks.utils.LogUtils;
 
@@ -22,8 +25,9 @@ import java.io.File;
 /**
  * Database backup fragment.
  */
-public final class DatabaseBackupFragment extends Fragment {
+public final class DatabaseBackupFragment extends Fragment implements OnProgressDialogListener {
 
+    private static final String TAG_PROGRESS_DIALOG_FRAGMENT = "TAG_PROGRESS_DIALOG_FRAGMENT";
     private Button mButtonBackupDatabase;
 
     private DatabaseBackupTask mDatabaseBackupTask;
@@ -53,6 +57,13 @@ public final class DatabaseBackupFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        cancelAsyncTask();
+    }
+
+    /**
+     * Cancel the asynchronous task.
+     */
+    private void cancelAsyncTask() {
         if (mDatabaseBackupTask != null) {
             mDatabaseBackupTask.cancel(true);
         }
@@ -66,12 +77,19 @@ public final class DatabaseBackupFragment extends Fragment {
         mDatabaseBackupTask.execute();
     }
 
+    @Override
+    public void onCancel() {
+        cancelAsyncTask();
+        mButtonBackupDatabase.setEnabled(true);
+    }
+
     /**
      * The asynchronous task that will create a backup file of the app's database.
      */
     private final class DatabaseBackupTask extends AsyncTask<Void, Void, Boolean> {
 
         private File mDatabaseBackup;
+        private ProgressDialogFragment mProgressDialogFragment;
 
         @Override
         protected void onPreExecute() {
@@ -83,25 +101,34 @@ public final class DatabaseBackupFragment extends Fragment {
         protected Boolean doInBackground(Void... params) {
             Log.d(LogUtils.TAG, "Saving a backup of the app's database.");
 
+            mProgressDialogFragment = ProgressDialogFragment.newInstanceSpinner(
+                    R.string.title_dialog_backup_database,
+                    R.string.message_db_backup
+            );
+            mProgressDialogFragment.setTargetFragment(DatabaseBackupFragment.this, 0);
+
+            final FragmentManager fm = getFragmentManager();
+            mProgressDialogFragment.show(fm, TAG_PROGRESS_DIALOG_FRAGMENT);
+
             boolean success = false;
-            try {
+            final Activity activity = getActivity();
+            final File currentDB = activity.getDatabasePath(Database.NAME);
 
-                Activity activity = getActivity();
-                File currentDB = activity.getDatabasePath(Database.NAME);
+            if (currentDB == null || !currentDB.exists()) {
+                Log.d(LogUtils.TAG, "No database file to backup.");
+            } else {
+                mDatabaseBackup = FileUtils.createFileInAppDir(Database.NAME + ".sqlite");
 
-                if (currentDB == null || !currentDB.exists()) {
-                    Log.d(LogUtils.TAG, "No database file to backup.");
+                if (mDatabaseBackup == null) {
+                    Log.d(LogUtils.TAG, "Could not create backup file.");
                 } else {
-                    mDatabaseBackup = FileUtils.createFileInAppDir(Database.NAME + ".sqlite");
+                    try {
 
-                    if (mDatabaseBackup == null) {
-                        Log.d(LogUtils.TAG, "Could not create backup file.");
-                    } else {
                         success = FileUtils.copy(currentDB, mDatabaseBackup);
+                    } catch (InterruptedException e) {
+                        Log.d(LogUtils.TAG, "Backup interrupted, aborting.");
                     }
                 }
-            } catch (InterruptedException e) {
-                Log.d(LogUtils.TAG, "Backup interrupted, aborting.");
             }
 
             return success;
@@ -124,6 +151,7 @@ public final class DatabaseBackupFragment extends Fragment {
             }
 
             mButtonBackupDatabase.setEnabled(true);
+            mProgressDialogFragment.dismiss();
         }
     }
 }
