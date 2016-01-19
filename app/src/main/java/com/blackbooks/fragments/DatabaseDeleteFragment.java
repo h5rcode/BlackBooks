@@ -20,6 +20,7 @@ import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.dialogs.ConfirmDialogFragment;
 import com.blackbooks.fragments.dialogs.ProgressDialogFragment;
 import com.blackbooks.utils.LogUtils;
+import com.blackbooks.utils.VariableUtils;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
@@ -93,8 +94,12 @@ public final class DatabaseDeleteFragment extends Fragment implements ProgressDi
 
     @Override
     public void onConfirm() {
-        mDatabaseDeleteTask = new DatabaseDeleteTask();
-        mDatabaseDeleteTask.execute();
+        if (VariableUtils.getInstance().getBulkSearchRunning()) {
+            Toast.makeText(getActivity(), getString(R.string.message_stop_background_search), Toast.LENGTH_LONG).show();
+        } else {
+            mDatabaseDeleteTask = new DatabaseDeleteTask();
+            mDatabaseDeleteTask.execute();
+        }
     }
 
     @Override

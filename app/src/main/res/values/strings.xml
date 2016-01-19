@@ -241,6 +241,7 @@
     <string name="message_series_deleted">Series \"%s\" was deleted.</string>
     <string name="message_series_missing">Please enter a series.</string>
     <string name="message_series_modifed">Series \"%s\" was successfully modified.</string>
+    <string name="message_stop_background_search">Stop the ongoing background search before starting the operation.</string>
     <string name="message_unsaved_changes">Do you want to save the changes?</string>
     <string name="message_unsaved_changes_positive">Save</string>
     <string name="message_unsaved_changes_negative">Do not save</string>

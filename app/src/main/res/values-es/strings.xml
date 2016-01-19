@@ -222,6 +222,7 @@
     <string name="message_series_deleted">La serie \"%s\" fue eliminada.</string>
     <string name="message_series_missing">Introduce una serie.</string>
     <string name="message_series_modifed">La serie \"%s\" fue modificada.</string>
+    <string name="message_stop_background_search">Apaga la búsqueda en curso antes de arrancar la operación.</string>
     <string name="message_unsaved_changes">¿Grabar los cambios pendientes?</string>
     <string name="message_unsaved_changes_negative">No grabar</string>
     <string name="message_unsaved_changes_neutral">Cancelar</string>

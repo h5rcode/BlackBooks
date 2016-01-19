@@ -20,6 +20,7 @@ import com.blackbooks.fragments.dialogs.ProgressDialogFragment;
 import com.blackbooks.fragments.dialogs.ProgressDialogFragment.OnProgressDialogListener;
 import com.blackbooks.utils.FileUtils;
 import com.blackbooks.utils.LogUtils;
+import com.blackbooks.utils.VariableUtils;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
@@ -81,8 +82,12 @@ public final class DatabaseBackupFragment extends Fragment implements OnProgress
      * Start the database backup task.
      */
     private void startDatabaseBackup() {
-        mDatabaseBackupTask = new DatabaseBackupTask();
-        mDatabaseBackupTask.execute();
+        if (VariableUtils.getInstance().getBulkSearchRunning()) {
+            Toast.makeText(getActivity(), getString(R.string.message_stop_background_search), Toast.LENGTH_LONG).show();
+        } else {
+            mDatabaseBackupTask = new DatabaseBackupTask();
+            mDatabaseBackupTask.execute();
+        }
     }
 
     @Override

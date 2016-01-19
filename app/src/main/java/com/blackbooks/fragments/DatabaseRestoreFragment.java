@@ -23,6 +23,7 @@ import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.dialogs.ProgressDialogFragment;
 import com.blackbooks.utils.FileUtils;
 import com.blackbooks.utils.LogUtils;
+import com.blackbooks.utils.VariableUtils;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
@@ -98,8 +99,12 @@ public final class DatabaseRestoreFragment extends Fragment implements ProgressD
      * Start the database restore task.
      */
     private void startDatabaseRestore() {
-        mDatabaseRestoreTask = new DatabaseRestoreTask();
-        mDatabaseRestoreTask.execute();
+        if (VariableUtils.getInstance().getBulkSearchRunning()) {
+            Toast.makeText(getActivity(), getString(R.string.message_stop_background_search), Toast.LENGTH_LONG).show();
+        } else {
+            mDatabaseRestoreTask = new DatabaseRestoreTask();
+            mDatabaseRestoreTask.execute();
+        }
     }
 
     @Override
