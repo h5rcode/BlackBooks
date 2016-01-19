@@ -283,7 +283,7 @@
     <string name="title_dialog_delete_book">Supprimer un livre</string>
     <string name="title_dialog_delete_book_location">Supprimer un emplacement</string>
     <string name="title_dialog_delete_category">Supprimer une catégorie</string>
-    <string name="title_dialog_delete_database">Supression de la base en cours</string>
+    <string name="title_dialog_delete_database">Suppression de la base en cours</string>
     <string name="title_dialog_delete_isbns">Supprimer les ISBNs</string>
     <string name="title_dialog_edit_author">Modifier un auteur</string>
     <string name="title_dialog_edit_book_location">Modifier un emplacement</string>
