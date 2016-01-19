@@ -41,9 +41,13 @@
     <string name="action_take_picture">Take a picture</string>
     <string name="action_unmark_book_as_favourite">Unmark as favourite</string>
     <string name="action_mark_book_as_to_read">Add to the books to read</string>
-    <string name="analytics_category_isbn" translatable="false">ISBN</string>
     <string name="analytics_category_amazon" translatable="false">Amazon</string>
+    <string name="analytics_category_database" translatable="false">Database</string>
+    <string name="analytics_category_isbn" translatable="false">ISBN</string>
     <string name="analytics_action_amazon_redirect" translatable="false">Follow link to Amazon</string>
+    <string name="analytics_action_database_backup" translatable="false">Backup database</string>
+    <string name="analytics_action_database_delete" translatable="false">Delete database</string>
+    <string name="analytics_action_database_restore" translatable="false">Restore database</string>
     <string name="analytics_action_bulk_lookup_start" translatable="false">Bulk lookup started</string>
     <string name="analytics_action_bulk_lookup_stop" translatable="false">Bulk lookup finished</string>
     <string name="analytics_action_lookup_error" translatable="false">Lookup encountered an error</string>

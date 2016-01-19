@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.blackbooks.BlackBooksApplication;
 import com.blackbooks.R;
 import com.blackbooks.activities.FileChooserActivity;
 import com.blackbooks.database.Database;
@@ -22,6 +23,8 @@ import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.dialogs.ProgressDialogFragment;
 import com.blackbooks.utils.FileUtils;
 import com.blackbooks.utils.LogUtils;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.io.File;
 
@@ -40,10 +43,15 @@ public final class DatabaseRestoreFragment extends Fragment implements ProgressD
 
     private DatabaseRestoreTask mDatabaseRestoreTask;
 
+    private Tracker mTracker;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        final Activity activity = getActivity();
+        final BlackBooksApplication application = (BlackBooksApplication) activity.getApplication();
+        mTracker = application.getTracker();
     }
 
     @Override
@@ -126,6 +134,13 @@ public final class DatabaseRestoreFragment extends Fragment implements ProgressD
         protected void onPreExecute() {
             super.onPreExecute();
             mButtonRestoreDatabase.setEnabled(false);
+
+            mTracker.send(
+                    new HitBuilders.EventBuilder()
+                            .setCategory(getString(R.string.analytics_category_database))
+                            .setAction(getString(R.string.analytics_action_database_restore))
+                            .build()
+            );
         }
 
         @Override

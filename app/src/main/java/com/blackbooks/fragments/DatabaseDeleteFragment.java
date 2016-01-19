@@ -13,12 +13,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.blackbooks.BlackBooksApplication;
 import com.blackbooks.R;
 import com.blackbooks.database.Database;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.dialogs.ConfirmDialogFragment;
 import com.blackbooks.fragments.dialogs.ProgressDialogFragment;
 import com.blackbooks.utils.LogUtils;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.io.File;
 
@@ -34,10 +37,15 @@ public final class DatabaseDeleteFragment extends Fragment implements ProgressDi
 
     private DatabaseDeleteTask mDatabaseDeleteTask;
 
+    private Tracker mTracker;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        final Activity activity = getActivity();
+        final BlackBooksApplication application = (BlackBooksApplication) activity.getApplication();
+        mTracker = application.getTracker();
     }
 
     @Override
@@ -106,6 +114,13 @@ public final class DatabaseDeleteFragment extends Fragment implements ProgressDi
         protected void onPreExecute() {
             super.onPreExecute();
             mButtonDeleteDatabase.setEnabled(false);
+
+            mTracker.send(
+                    new HitBuilders.EventBuilder()
+                            .setCategory(getString(R.string.analytics_category_database))
+                            .setAction(getString(R.string.analytics_action_database_delete))
+                            .build()
+            );
         }
 
         @Override
