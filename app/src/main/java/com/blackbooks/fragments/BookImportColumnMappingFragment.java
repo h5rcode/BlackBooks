@@ -218,7 +218,7 @@ public final class BookImportColumnMappingFragment extends Fragment implements P
         private final boolean mFirstRowContainsHeader;
         private final List<CsvColumn> mCsvColumns;
 
-        private final ProgressDialogFragment mProgressDialogFragment;
+        private ProgressDialogFragment mProgressDialogFragment;
 
 
         /**
@@ -239,11 +239,6 @@ public final class BookImportColumnMappingFragment extends Fragment implements P
             mTextQualifier = textQualifier;
             mFirstRowContainsHeader = firstRowContainsHeader;
             mCsvColumns = csvColumns;
-
-            mProgressDialogFragment = new ProgressDialogFragment();
-            mProgressDialogFragment.setTargetFragment(BookImportColumnMappingFragment.this, 0);
-            mProgressDialogFragment.setTitle(R.string.title_dialog_save_parsed_books);
-            mProgressDialogFragment.setMessage(R.string.message_save_parsed_books);
         }
 
         @Override
@@ -262,7 +257,14 @@ public final class BookImportColumnMappingFragment extends Fragment implements P
 
             if (!bookInfoList.isEmpty()) {
 
-                mProgressDialogFragment.setMax(bookInfoList.size());
+
+                mProgressDialogFragment = ProgressDialogFragment.newInstanceHorizontal(
+                        R.string.title_dialog_save_parsed_books,
+                        R.string.message_save_parsed_books,
+                        bookInfoList.size()
+                );
+                mProgressDialogFragment.setTargetFragment(BookImportColumnMappingFragment.this, 0);
+
                 final FragmentManager fm = getActivity().getSupportFragmentManager();
                 mProgressDialogFragment.show(fm, TAG_PROGRESS_DIALOG_FRAGMENT);
 

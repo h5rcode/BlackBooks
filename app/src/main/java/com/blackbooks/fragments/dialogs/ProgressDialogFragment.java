@@ -12,18 +12,70 @@ import android.support.v4.app.DialogFragment;
  */
 public final class ProgressDialogFragment extends DialogFragment {
 
+    private static final String ARG_STYLE = "ARG_STYLE";
+    private static final String ARG_TITLE_ID = "ARG_TITLE_ID";
+    private static final String ARG_MESSAGE_ID = "ARG_MESSAGE_ID";
+    private static final String ARG_MAX_ID = "ARG_MAX_ID";
     private ProgressDialog mProgressDialog;
 
+    private Integer mStyle;
     private Integer mTitleId;
     private Integer mMessageId;
     private Integer mMax;
 
     private OnProgressDialogListener mOnProgressDialogListener;
 
+    /**
+     * Initialize a new instance of ProgressDialogFragment that will render a horizontal progress bar.
+     *
+     * @param titleId   Id of the title.
+     * @param messageId Id of the message.
+     * @param max       Max value of the progress bar.
+     * @return ProgressDialogFragment.
+     */
+    public static ProgressDialogFragment newInstanceHorizontal(int titleId, int messageId, int max) {
+        final Bundle args = new Bundle();
+        args.putInt(ARG_STYLE, ProgressDialog.STYLE_HORIZONTAL);
+        args.putInt(ARG_TITLE_ID, titleId);
+        args.putInt(ARG_MESSAGE_ID, messageId);
+        args.putInt(ARG_MAX_ID, max);
+
+        final ProgressDialogFragment fragment = new ProgressDialogFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    /**
+     * Initialize a new instance of ProgressDialogFragment that will render a spinner.
+     *
+     * @param titleId   Id of the title.
+     * @param messageId Id of the message.
+     * @return ProgressDialogFragment.
+     */
+    public static ProgressDialogFragment newInstanceSpinner(int titleId, int messageId) {
+        final Bundle args = new Bundle();
+        args.putInt(ARG_STYLE, ProgressDialog.STYLE_SPINNER);
+        args.putInt(ARG_TITLE_ID, titleId);
+        args.putInt(ARG_MESSAGE_ID, messageId);
+
+        final ProgressDialogFragment fragment = new ProgressDialogFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+
+        final Bundle args = getArguments();
+        mStyle = args.getInt(ARG_STYLE);
+        mTitleId = args.getInt(ARG_TITLE_ID);
+        mMessageId = args.getInt(ARG_MESSAGE_ID);
+
+        if (mStyle == ProgressDialog.STYLE_HORIZONTAL) {
+            mMax = args.getInt(ARG_MAX_ID);
+        }
 
         mOnProgressDialogListener = (OnProgressDialogListener) getTargetFragment();
     }
@@ -33,13 +85,9 @@ public final class ProgressDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setIndeterminate(false);
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        if (mTitleId != null) {
-            mProgressDialog.setTitle(mTitleId);
-        }
-        if (mMessageId != null) {
-            mProgressDialog.setMessage(getString(mMessageId));
-        }
+        mProgressDialog.setProgressStyle(mStyle);
+        mProgressDialog.setTitle(mTitleId);
+        mProgressDialog.setMessage(getString(mMessageId));
         if (mMax != null) {
             mProgressDialog.setMax(mMax);
         }
@@ -70,33 +118,6 @@ public final class ProgressDialogFragment extends DialogFragment {
      */
     public void setProgress(int progress) {
         mProgressDialog.setProgress(progress);
-    }
-
-    /**
-     * The the id of the string resource to use as the title of the dialog.
-     *
-     * @param titleId Id of the string to be used as the title.
-     */
-    public void setTitle(int titleId) {
-        mTitleId = titleId;
-    }
-
-    /**
-     * Set the max value of the progress dialog.
-     *
-     * @param max Max value.
-     */
-    public void setMax(int max) {
-        mMax = max;
-    }
-
-    /**
-     * Set the id of the string resource to use as the message of the dialog.
-     *
-     * @param messageId Id of the string to be used as the message.
-     */
-    public void setMessage(int messageId) {
-        mMessageId = messageId;
     }
 
     /**

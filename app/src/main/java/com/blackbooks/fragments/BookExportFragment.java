@@ -206,18 +206,13 @@ public final class BookExportFragment extends Fragment implements TextQualifierP
     private final class CsvExportTask extends AsyncTask<Void, Integer, String> {
 
         private final File mExportFile;
-        private final ProgressDialogFragment mProgressDialogFragment;
+        private ProgressDialogFragment mProgressDialogFragment;
 
         /**
          * Constructor.
          */
         public CsvExportTask() {
             mExportFile = FileUtils.createFileInAppDir("Export.csv");
-
-            mProgressDialogFragment = new ProgressDialogFragment();
-            mProgressDialogFragment.setTargetFragment(BookExportFragment.this, 0);
-            mProgressDialogFragment.setTitle(R.string.title_dialog_export_books);
-            mProgressDialogFragment.setMessage(R.string.message_export_books);
         }
 
         @Override
@@ -233,7 +228,13 @@ public final class BookExportFragment extends Fragment implements TextQualifierP
 
                 Log.d(LogUtils.TAG, String.format("%d books to export.", bookExportList.size()));
 
-                mProgressDialogFragment.setMax(bookExportList.size());
+                mProgressDialogFragment = ProgressDialogFragment.newInstanceHorizontal(
+                        R.string.title_dialog_export_books,
+                        R.string.message_export_books,
+                        bookExportList.size()
+                );
+                mProgressDialogFragment.setTargetFragment(BookExportFragment.this, 0);
+
                 final FragmentManager fm = getActivity().getSupportFragmentManager();
                 mProgressDialogFragment.show(fm, TAG_PROGRESS_DIALOG_FRAGMENT);
 
