@@ -191,6 +191,10 @@
     <string name="message_confirm_return_book">¿Devolver \"%s\"?</string>
     <string name="message_duplicate_books_negative">Cancelar</string>
     <string name="message_duplicate_books_positive">Continuar</string>
+    <string name="message_confirm_delete_database_cancel">Cancelar</string>
+    <string name="message_confirm_delete_database_confirm">Continuar</string>
+    <string name="message_confirm_delete_database_confirm_message">Eliminar la base de datos</string>
+    <string name="message_confirm_delete_database">El contenido de tu biblioteca será completamente y definitivamente eliminado.</string>
     <string name="message_db_delete_success">La base de datos fue eliminada.</string>
     <string name="message_db_delete_failure">La base de datos no fue eliminada.</string>
     <string name="message_db_restore_dump_integrity_check_failed">Problema de integridad. La base de datos no fue modificada.</string>
@@ -276,6 +280,7 @@
     <string name="title_dialog_delete_book">Eliminar un libro</string>
     <string name="title_dialog_delete_book_location">Eliminar una ubicacíon</string>
     <string name="title_dialog_delete_category">Eliminar una categoría</string>
+    <string name="title_dialog_delete_database">Eliminar la base de datos</string>
     <string name="title_dialog_delete_isbns">Borrar los ISBNs</string>
     <string name="title_dialog_duplicate_books">Libro duplicado</string>
     <string name="title_dialog_edit_author">Modificar un autor</string>

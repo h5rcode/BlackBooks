@@ -192,6 +192,10 @@
     <string name="message_confirm_return_book_confirm">Oui</string>
     <string name="message_db_delete_success">La base de données a été supprimée avec succés.</string>
     <string name="message_db_delete_failure">La base de données n\'a pas pu être supprimée.</string>
+    <string name="message_confirm_delete_database_cancel">Annuler</string>
+    <string name="message_confirm_delete_database_confirm">Confirmer</string>
+    <string name="message_confirm_delete_database_confirm_message">Supprimer la base de données</string>
+    <string name="message_confirm_delete_database">Le contenu de votre bibliothèque sera complètement et définitivement supprimé.</string>
     <string name="message_db_restore_could_not_open_dump">Impossible d\'ouvrir le fichier. La base n\'a pas été modifiée.</string>
     <string name="message_db_restore_dump_integrity_check_failed">Problème d\'intégrité du fichier. La base n\'a pas été modifiée.</string>
     <string name="message_db_restore_failure">La base de données n\'a pas pu être restaurée.</string>
@@ -277,6 +281,7 @@
     <string name="title_dialog_delete_book">Supprimer un livre</string>
     <string name="title_dialog_delete_book_location">Supprimer un emplacement</string>
     <string name="title_dialog_delete_category">Supprimer une catégorie</string>
+    <string name="title_dialog_delete_database">Supprimer la base</string>
     <string name="title_dialog_delete_isbns">Supprimer les ISBNs</string>
     <string name="title_dialog_edit_author">Modifier un auteur</string>
     <string name="title_dialog_edit_book_location">Modifier un emplacement</string>

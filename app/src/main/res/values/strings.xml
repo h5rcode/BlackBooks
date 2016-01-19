@@ -192,6 +192,10 @@
     <string name="message_confirm_delete_category">Do you really want to remove the category \"%s\"?\n\nThe related books will not be deleted.</string>
     <string name="message_confirm_delete_category_cancel">No</string>
     <string name="message_confirm_delete_category_confirm">Yes</string>
+    <string name="message_confirm_delete_database_cancel">Cancel</string>
+    <string name="message_confirm_delete_database_confirm">Confirm</string>
+    <string name="message_confirm_delete_database_confirm_message">Delete the database</string>
+    <string name="message_confirm_delete_database">The content of your library will be completely and definitely removed.</string>
     <string name="message_confirm_delete_looked_up_isbns">Do you really want to remove all the looked up ISBNs?</string>
     <string name="message_confirm_delete_looked_up_isbns_cancel">No</string>
     <string name="message_confirm_delete_looked_up_isbns_confirm">Yes</string>
@@ -290,6 +294,7 @@
     <string name="title_dialog_delete_author">Delete author</string>
     <string name="title_dialog_delete_book">Delete book</string>
     <string name="title_dialog_delete_book_location">Delete book location</string>
+    <string name="title_dialog_delete_database">Delete database</string>
     <string name="title_dialog_delete_category">Delete category</string>
     <string name="title_dialog_delete_isbns">Delete ISBNs</string>
     <string name="title_dialog_edit_author">Edit author</string>

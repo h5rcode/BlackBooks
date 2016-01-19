@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 import com.blackbooks.R;
 import com.blackbooks.database.Database;
 import com.blackbooks.database.SQLiteHelper;
+import com.blackbooks.fragments.dialogs.ConfirmDialogFragment;
 import com.blackbooks.utils.LogUtils;
 
 import java.io.File;
@@ -21,7 +24,10 @@ import java.io.File;
 /**
  * Database delete fragment.
  */
-public final class DatabaseDeleteFragment extends Fragment {
+public final class DatabaseDeleteFragment extends Fragment implements ConfirmDialogFragment.OnConfirmListener {
+
+    private static final String TAG_CONFIRM_DIALOG = "TAG_CONFIRM_DIALOG";
+    private static final String TAG_PROGRESS_DIALOG = "TAG_PROGRESS_DIALOG";
 
     private Button mButtonDeleteDatabase;
 
@@ -42,7 +48,19 @@ public final class DatabaseDeleteFragment extends Fragment {
         mButtonDeleteDatabase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseDeleteFragment.this.startDatabaseDeletion();
+                final FragmentActivity activity = DatabaseDeleteFragment.this.getActivity();
+                final FragmentManager fm = activity.getSupportFragmentManager();
+                final ConfirmDialogFragment fragment = ConfirmDialogFragment.newInstance(
+                        R.string.title_dialog_delete_database,
+                        R.string.message_confirm_delete_database,
+                        R.string.message_confirm_delete_database_confirm_message,
+                        R.string.message_confirm_delete_database_cancel,
+                        R.string.message_confirm_delete_database_confirm
+                );
+
+                fragment.setTargetFragment(DatabaseDeleteFragment.this, 0);
+
+                fragment.show(fm, TAG_CONFIRM_DIALOG);
             }
         });
 
@@ -57,10 +75,8 @@ public final class DatabaseDeleteFragment extends Fragment {
         }
     }
 
-    /**
-     * Start the database deletion task.
-     */
-    private void startDatabaseDeletion() {
+    @Override
+    public void onConfirm() {
         mDatabaseDeleteTask = new DatabaseDeleteTask();
         mDatabaseDeleteTask.execute();
     }
