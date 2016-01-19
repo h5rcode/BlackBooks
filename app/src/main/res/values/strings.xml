@@ -208,14 +208,15 @@
     <string name="message_confirm_return_book">Return \"%s\"?</string>
     <string name="message_confirm_return_book_cancel">No</string>
     <string name="message_confirm_return_book_confirm">Yes</string>
-    <string name="message_db_backup">Saving a backup of the database.\nClose the window to cancel the operation.</string>
+    <string name="message_db_backup">Saving a backup of the database.\nDismiss this dialog to cancel the operation.</string>
     <string name="message_db_delete_success">The database was successfully deleted.</string>
     <string name="message_db_delete_failure">The database could not be deleted.</string>
+    <string name="message_db_restore">The database is being restored.\nDismiss this dialog to cancel the operation.</string>
     <string name="message_db_restore_could_not_open_dump">File could not be opened. The database was not modified.</string>
     <string name="message_db_restore_dump_integrity_check_failed">File integrity check failed. The database was not modified.</string>
     <string name="message_db_restore_failure">The database could not be restored.</string>
     <string name="message_db_restore_success">The database was successfully restored.</string>
-    <string name="message_db_delete">The database is being deleted.\nClose the window to cancel the operation.</string>
+    <string name="message_db_delete">The database is being deleted.\nDismiss this dialog to cancel the operation.</string>
     <string name="message_duplicate_books_negative">Cancel</string>
     <string name="message_duplicate_books_positive">Continue</string>
     <string name="message_export_books">The books are being exported.\nDismiss this dialog to cancel the whole process.</string>
@@ -309,6 +310,7 @@
     <string name="title_dialog_duplicate_books">Duplicate book</string>
     <string name="title_dialog_install_scanner">Install a bar code scanner</string>
     <string name="title_dialog_language_picker">Set language</string>
+    <string name="title_dialog_restore_database">Restoring database</string>
     <string name="title_dialog_return_book">Return book</string>
     <string name="title_dialog_save_parsed_books">Saving in progress</string>
     <string name="title_dialog_unsaved_changes">Unsaved changes</string>

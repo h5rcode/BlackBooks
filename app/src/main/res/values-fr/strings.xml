@@ -198,6 +198,7 @@
     <string name="message_confirm_delete_database_confirm">Confirmer</string>
     <string name="message_confirm_delete_database_confirm_message">Supprimer la base de données</string>
     <string name="message_confirm_delete_database">Le contenu de votre bibliothèque sera complètement et définitivement supprimé.</string>
+    <string name="message_db_restore">Restauration de la base de données en cours.\nFermez la fenêtre pour annuler l\'opération.</string>
     <string name="message_db_restore_could_not_open_dump">Impossible d\'ouvrir le fichier. La base n\'a pas été modifiée.</string>
     <string name="message_db_restore_dump_integrity_check_failed">Problème d\'intégrité du fichier. La base n\'a pas été modifiée.</string>
     <string name="message_db_restore_failure">La base de données n\'a pas pu être restaurée.</string>
@@ -295,6 +296,7 @@
     <string name="title_dialog_duplicate_books">Livre en double</string>
     <string name="title_dialog_install_scanner">Installer un scanner de code-barres</string>
     <string name="title_dialog_language_picker">Définir la langue</string>
+    <string name="title_dialog_restore_database">Restauration de la base en cours</string>
     <string name="title_dialog_return_book">Rendre un livre</string>
     <string name="title_dialog_save_parsed_books">Sauvegarde en cours</string>
     <string name="title_dialog_text_qualifier_picker">Choisissez un délimiteur de texte</string>

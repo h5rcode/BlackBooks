@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.blackbooks.R;
 import com.blackbooks.activities.FileChooserActivity;
 import com.blackbooks.database.Database;
 import com.blackbooks.database.SQLiteHelper;
+import com.blackbooks.fragments.dialogs.ProgressDialogFragment;
 import com.blackbooks.utils.FileUtils;
 import com.blackbooks.utils.LogUtils;
 
@@ -26,9 +28,10 @@ import java.io.File;
 /**
  * Database restore fragment.
  */
-public final class DatabaseRestoreFragment extends Fragment {
+public final class DatabaseRestoreFragment extends Fragment implements ProgressDialogFragment.OnProgressDialogListener {
 
     private static final int REQUEST_CHOOSE_FILE = 0;
+    private static final String TAG_PROGRESS_DIALOG_FRAGMENT = "TAG_PROGRESS_DIALOG_FRAGMENT";
 
     private Button mButtonSelectFile;
     private Button mButtonRestoreDatabase;
@@ -71,6 +74,13 @@ public final class DatabaseRestoreFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        cancelAsyncTask();
+    }
+
+    /**
+     * Cancel the asynchronous task.
+     */
+    private void cancelAsyncTask() {
         if (mDatabaseRestoreTask != null) {
             mDatabaseRestoreTask.cancel(true);
         }
@@ -98,12 +108,19 @@ public final class DatabaseRestoreFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onCancel() {
+        cancelAsyncTask();
+        mButtonRestoreDatabase.setEnabled(true);
+    }
+
     /**
      * The asynchronous task that will restore the application's database.
      */
     private final class DatabaseRestoreTask extends AsyncTask<Void, Void, Void> {
 
         private Integer mMessageId;
+        private ProgressDialogFragment mProgressDialogFragment;
 
         @Override
         protected void onPreExecute() {
@@ -115,12 +132,29 @@ public final class DatabaseRestoreFragment extends Fragment {
         protected Void doInBackground(Void... params) {
             Log.d(LogUtils.TAG, "Restoring database.");
 
+            mProgressDialogFragment = ProgressDialogFragment.newInstanceSpinner(
+                    R.string.title_dialog_restore_database,
+                    R.string.message_db_restore
+            );
+            mProgressDialogFragment.setTargetFragment(DatabaseRestoreFragment.this, 0);
+
+            final FragmentManager fm = getFragmentManager();
+            mProgressDialogFragment.show(fm, TAG_PROGRESS_DIALOG_FRAGMENT);
+
             boolean isBackupFileOk;
             SQLiteDatabase db = null;
             try {
+                if (isCancelled()) {
+                    Log.d(LogUtils.TAG, "Restore task cancelled, aborting.");
+                    return null;
+                }
                 Log.d(LogUtils.TAG, "Opening the database dump to restore.");
                 db = SQLiteDatabase.openDatabase(mBackupFile.getPath(), null, SQLiteDatabase.OPEN_READONLY);
 
+                if (isCancelled()) {
+                    Log.d(LogUtils.TAG, "Restore task cancelled, aborting.");
+                    return null;
+                }
                 Log.d(LogUtils.TAG, "Checking the database dump integrity.");
                 isBackupFileOk = db.isDatabaseIntegrityOk();
 
@@ -144,6 +178,10 @@ public final class DatabaseRestoreFragment extends Fragment {
             if (isBackupFileOk) {
                 Log.d(LogUtils.TAG, "Closing connections to the database to restore.");
 
+                if (isCancelled()) {
+                    Log.d(LogUtils.TAG, "Restore task cancelled, aborting.");
+                    return null;
+                }
                 SQLiteHelper sqliteHelper = SQLiteHelper.getInstance();
                 sqliteHelper.close();
 
@@ -180,6 +218,7 @@ public final class DatabaseRestoreFragment extends Fragment {
             }
 
             mButtonRestoreDatabase.setEnabled(true);
+            mProgressDialogFragment.dismiss();
         }
     }
 }

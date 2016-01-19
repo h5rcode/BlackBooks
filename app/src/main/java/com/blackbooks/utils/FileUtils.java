@@ -41,6 +41,9 @@ public final class FileUtils {
      * @throws InterruptedException If the thread is interrupted during the copy.
      */
     public static boolean copy(File src, File dst) throws InterruptedException {
+        if (Thread.interrupted()) {
+            throw new InterruptedException();
+        }
         boolean success = false;
         InputStream in = null;
         OutputStream out = null;
