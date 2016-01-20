@@ -1,3 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <lint>
+    <issue id="MissingTranslation">
+        <ignore regexp="ga_trackingId" />
+        <ignore regexp="google_app_id" />
+    </issue>
 </lint>
