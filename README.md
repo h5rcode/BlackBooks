@@ -12,7 +12,7 @@ Black Books helps you make an inventory of your books and manage them!
 
 * Make a list of your books: add them manually or simply scan their ISBN (Pic2Shop required).
 * Automatically get book details (including thumbnails) from Amazon, Google Books and Open Library.
-* Bulk add books: scan or enter a list of ISBNs and start a background search.
+* Bulk add books: scan or enter a list of ISBNs while offline and start a background search when you are connected to the Internet.
 * Edit your books: thumbnail, authors, categories, series, language, page count, etc.
 * Have a quick overview of your library directly from the home screen.
 * Browse your books by author, category, series, language.
@@ -22,6 +22,7 @@ Black Books helps you make an inventory of your books and manage them!
 * Don't lose your books anymore by indicating their location.
 * Manage your loans: to whom and when?
 * Export your library as a Spreadsheet compatible text file.
+* Import or update books from a Spreadsheet compatible text file.
 
 ## Permissions
 
@@ -34,6 +35,7 @@ Black Books requires the following permissions:
 * Write external storage: the app needs to write the external storage when:
 	* Exporting the library as a Spreadsheet compatible text file.
 	* Saving a backup of the app database.
+* Network communication and System tools: required by Google Analytics.
 
 ## Implementation
 ### Data storage
