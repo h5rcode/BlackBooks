@@ -1,5 +1,6 @@
 Version 1.2.2
 New features:
+* Added an info dialog in the CSV import activity when mapping a column to the property "Book Id".
 * Added a "Database management" activity where the user can backup, restore or delete the app's database.
 * Integrated Google Analytics.
 
