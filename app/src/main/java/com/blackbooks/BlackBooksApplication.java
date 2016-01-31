@@ -22,12 +22,6 @@ public final class BlackBooksApplication extends Application {
         super.onCreate();
         Log.i(LogUtils.TAG, "Application starting.");
 
-        final GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-        Log.d(LogUtils.TAG, "Google Analytics dry run enabled: " + analytics.isDryRunEnabled());
-
-        mTracker = analytics.newTracker(R.xml.tracker_config);
-        mTracker.enableAdvertisingIdCollection(true);
-
         SQLiteHelper.initialize(getApplicationContext());
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
@@ -44,7 +38,16 @@ public final class BlackBooksApplication extends Application {
      *
      * @return Tracker.
      */
-    public Tracker getTracker() {
+    public synchronized Tracker getTracker() {
+
+        if (mTracker == null) {
+            final GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            Log.d(LogUtils.TAG, "Google Analytics dry run enabled: " + analytics.isDryRunEnabled());
+
+            mTracker = analytics.newTracker(R.xml.tracker_config);
+            mTracker.enableAdvertisingIdCollection(true);
+        }
+
         return mTracker;
     }
 

@@ -215,6 +215,7 @@
     <string name="message_isbn_search_invalid_isbn10">ISBN-10 invalide</string>
     <string name="message_isbn_search_invalid_isbn13">ISBN-13 invalide</string>
     <string name="message_isbn_search_too_short">Trop court</string>
+    <string name="message_mapping_book_id">Associer une colonne à la propriété \"%1$s\" mettra à jour les livres présents dans la base de données avec le contenu du fichier CSV, tandis que ne pas associer de colonne à \"%1$s\" ajoutera les livres du fichier à la base de données de l\'application.</string>
     <string name="message_no_result">La recherche n\'a retourné aucun résultat.</string>
     <string name="message_save_parsed_books">Import des livres en cours.\nFermez la fenêtre pour annuler le processus.</string>
     <string name="message_series_missing">Veuillez entrer une série</string>
@@ -297,6 +298,7 @@
     <string name="title_dialog_duplicate_books">Livre en double</string>
     <string name="title_dialog_install_scanner">Installer un scanner de code-barres</string>
     <string name="title_dialog_language_picker">Définir la langue</string>
+    <string name="title_dialog_mapping_book_id">Association d\'une colonne à \"%s\"</string>
     <string name="title_dialog_restore_database">Restauration de la base en cours</string>
     <string name="title_dialog_return_book">Rendre un livre</string>
     <string name="title_dialog_save_parsed_books">Sauvegarde en cours</string>

@@ -214,6 +214,7 @@
     <string name="message_isbn_search_invalid_isbn10">ISBN-10 inválido.</string>
     <string name="message_isbn_search_invalid_isbn13">ISBN-13 inválido.</string>
     <string name="message_isbn_search_too_short">Demasiado corto</string>
+    <string name="message_mapping_book_id">Si asocias una columna a la propiedad \"%1$s\", los libros estarán modificados con el contenido del archivo CSV, mientras que si no asocias una columna a \"%1$s\", los libros leidos en el archivo estarán añadidos a la base de datos de la aplicación.</string>
     <string name="message_no_result">La búsqueda no ha generado resultados.</string>
     <string name="message_save_parsed_books">Importando libros.\nCierra la ventana de diálogo para cancelar el proceso.</string>
     <string name="message_scanner_install">Black Books necesita Pic2shop para escanear ISBN códigos. Has clic sobre OK para acceder a su página Google Play.</string>
@@ -245,7 +246,7 @@
     <string name="text_info_no_books_1">¡Todavía no libro!</string>
     <string name="text_info_no_books_2">Tu biblioteca está bastante vacía&#8230; Para empezar a llenarla, toca el lado izquierdo de la pantalla o haz clic sobre el icono de la aplicacíon para abrir el menú. Después, selecciona una de la opciones del grupo \"Añadir libros\".</string>
     <string name="text_info_no_categories">Este libro todavía no tiene categorías. Introduce el nombre de una categoría y haz clic sobre \"Añadir\".</string>
-    <string name="text_info_restore_db">Para restaurar la base de datos de la applicacion, elija el archivo que importar, y haz clic sobre el botón a continuación.</string>
+    <string name="text_info_restore_db">Para restaurar la base de datos de la aplicación, elija el archivo que importar, y haz clic sobre el botón a continuación.</string>
     <string name="text_info_restore_db_warning">Atención: toda tu biblioteca será reemplazada con el contenido del archivo que importarás.</string>
     <string name="title_activity_about">Acerca de&#8230;</string>
     <string name="title_activity_book_authors_edit">Modificar los autores</string>
@@ -296,6 +297,7 @@
     <string name="title_dialog_export_books">Exportación en curso</string>
     <string name="title_dialog_install_scanner">Instalar un escáner de código de barras</string>
     <string name="title_dialog_language_picker">Establecer idioma</string>
+    <string name="title_dialog_mapping_book_id">Asociando una columna a \"%s\"</string>
     <string name="title_dialog_restore_database">Restaurando la base de datos</string>
     <string name="title_dialog_return_book">Devolver un libro</string>
     <string name="title_dialog_save_parsed_books">Copia en curso</string>

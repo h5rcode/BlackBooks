@@ -1,6 +1,8 @@
 package com.blackbooks.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,12 +39,14 @@ public final class CsvColumnListAdapter extends ArrayAdapter<CsvColumn> {
         }
 
         final CsvColumn csvColumn = getItem(position);
+        final Context context = getContext();
 
         final TextView textViewIndex = (TextView) convertView.findViewById(R.id.csv_columns_item_column_index);
         final TextView textViewName = (TextView) convertView.findViewById(R.id.csv_columns_item_column_name);
-
         final Spinner spinnerProperty = (Spinner) convertView.findViewById(R.id.csv_columns_item_property);
-        final BookPropertiesAdapter spinnerAdapter = new BookPropertiesAdapter(getContext());
+
+        final BookPropertiesAdapter spinnerAdapter = new BookPropertiesAdapter(context);
+
         spinnerProperty.setAdapter(spinnerAdapter);
         spinnerProperty.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -53,6 +57,23 @@ public final class CsvColumnListAdapter extends ArrayAdapter<CsvColumn> {
                     bookProperty = null;
                 } else {
                     bookProperty = (CsvColumn.BookProperty) view.getTag();
+
+                    if (bookProperty == CsvColumn.BookProperty.ID && bookProperty != csvColumn.getBookProperty()) {
+                        final String bookIdLabel = context.getString(R.string.label_book_id);
+                        final String title = context.getString(R.string.title_dialog_mapping_book_id, bookIdLabel);
+                        final String message = context.getString(R.string.message_mapping_book_id, bookIdLabel);
+
+                        new AlertDialog.Builder(context)
+                                .setTitle(title)
+                                .setMessage(message)
+                                .setNeutralButton(R.string.label_ok, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // Do nothing.
+                                    }
+                                })
+                                .setCancelable(false)
+                                .show();
+                    }
                 }
                 csvColumn.setBookProperty(bookProperty);
             }
@@ -70,7 +91,7 @@ public final class CsvColumnListAdapter extends ArrayAdapter<CsvColumn> {
         } else {
             textViewName.setText(String.valueOf(csvColumnName));
         }
-        CsvColumn.BookProperty bookProperty = csvColumn.getBookProperty();
+        final CsvColumn.BookProperty bookProperty = csvColumn.getBookProperty();
         final int bookPropertyPosition = spinnerAdapter.getPosition(bookProperty);
         spinnerProperty.setSelection(bookPropertyPosition);
 

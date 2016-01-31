@@ -123,6 +123,7 @@
     <string name="label_loaned_to">This book has been loaned to</string>
     <string name="label_no_language">(Language unknown)</string>
     <string name="label_none">(None)</string>
+    <string name="label_ok" translatable="false">OK</string>
     <string name="label_page_count">Page count</string>
     <string name="label_pick_published_date">Pick a published date</string>
     <string name="label_publisher">Publisher</string>
@@ -232,6 +233,7 @@
     <string name="message_isbn_search_invalid_isbn10">Invalid ISBN-10</string>
     <string name="message_isbn_search_invalid_isbn13">Invalid ISBN-13</string>
     <string name="message_isbn_search_too_short">Too short</string>
+    <string name="message_mapping_book_id">Mapping a column to the property \"%1$s\" will update the books in the app\'s database with the content of the CSV file, while not mapping any column to \"%1$s\" will add the books read from the file to the app\'s database.</string>
     <string name="message_no_result">The search returned no result.</string>
     <string name="message_isbn_saved">ISBN %s saved.</string>
     <string name="message_save_parsed_books">The books are being imported.\nDismiss this dialog to cancel the whole process.</string>
@@ -315,6 +317,7 @@
     <string name="title_dialog_duplicate_books">Duplicate book</string>
     <string name="title_dialog_install_scanner">Install a bar code scanner</string>
     <string name="title_dialog_language_picker">Set language</string>
+    <string name="title_dialog_mapping_book_id">Mapping a column to \"%s\"</string>
     <string name="title_dialog_restore_database">Restoring database</string>
     <string name="title_dialog_return_book">Return book</string>
     <string name="title_dialog_save_parsed_books">Saving in progress</string>
