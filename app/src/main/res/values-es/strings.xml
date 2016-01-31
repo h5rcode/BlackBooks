@@ -233,7 +233,7 @@
     <string name="report_error_log_not_saved">Imposible grabar el informe de errores.</string>
     <string name="report_error_mail_content">[Describe aquí lo que estabas haciendo cuando el error ocurío.]</string>
     <string name="report_error_mail_subject">Black Books : informe de errores</string>
-    <string name="text_info_backup_db">Haz clic en el botón a continuación para grabar una copia de la base de datos de Black Books. Eso creará un archivo que podriá conservar o explorar con un database manager como SQLiteBrowser.</string>
+    <string name="text_info_backup_db">Haz clic en el botón a continuación para grabar una copia de la base de datos de Black Books. Eso creará un archivo que podriá conservar o transferir a un otro dispositivo.</string>
     <string name="text_info_delete_db">Haz clic en el botón para eliminar la base de datos.</string>
     <string name="text_info_delete_db_warning">Atención: el contenido de tu biblioteca será completamente y definitivamente eliminado.</string>
     <string name="text_info_edit_authors">Modificacíon de los autores de \"%s\".</string>

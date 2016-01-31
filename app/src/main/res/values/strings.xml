@@ -252,7 +252,7 @@
     <string name="report_error_mail_content">[Describe here what you were doing when the error occurred.]</string>
     <string name="report_error_mail_subject">Black Books log file</string>
     <string name="report_error_log_not_saved">The log file could not be created.</string>
-    <string name="text_info_backup_db">Click the button below to save a copy of the Black Books database. This will create a file on the SD card of your device that you can keep in a safe place, or browse using a database manager like SQLiteBrowser.</string>
+    <string name="text_info_backup_db">Click the button below to save a copy of the Black Books database. This will create a file on the SD card of your device that you can keep in a safe place, or transfer to an other device.</string>
     <string name="text_info_delete_db">Click the button below to delete the database.</string>
     <string name="text_info_delete_db_warning">Warning: the content of your library will be completely and definitely removed.</string>
     <string name="text_info_edit_authors">Editing the authors of \"%s\".</string>
