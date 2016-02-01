@@ -26,12 +26,12 @@ public final class Broker<T> {
 
     private final Class<T> mType;
     private final Table mTable;
-    private Field mPrimaryKeyField;
-    private Column mPrimaryKeyColumn;
-    private List<Column> mColumns;
-    private HashMap<Field, Column> mColumnMap;
+    private final Field mPrimaryKeyField;
+    private final Column mPrimaryKeyColumn;
+    private final HashMap<Field, Column> mColumnMap = new HashMap<Field, Column>();
 
-    private String mSqlCreateTable;
+    private final String mSqlCreateTable;
+    private final List<String> mSqlCreateIndexes;
 
     /**
      * Constructor.
@@ -46,31 +46,37 @@ public final class Broker<T> {
             throw new InvalidParameterException("The parameter does not have a Table annotation.");
         }
 
-        Field[] fields = type.getFields();
+        final Field[] fields = type.getFields();
+        final List<Column> columns = new ArrayList<Column>();
 
-        mColumns = new ArrayList<Column>();
-        mColumnMap = new HashMap<Field, Column>();
-        for (Field field : fields) {
-            Column column = field.getAnnotation(Column.class);
+        Field primaryKeyField = null;
+        Column primaryKeyColumn = null;
+
+        for (final Field field : fields) {
+            final Column column = field.getAnnotation(Column.class);
             if (column != null) {
-                mColumns.add(column);
+                columns.add(column);
                 mColumnMap.put(field, column);
 
                 if (column.primaryKey()) {
-                    if (mPrimaryKeyColumn != null) {
+                    if (primaryKeyField != null) {
                         throw new IllegalArgumentException("Table " + mTable.name() + " already as a primary key.");
                     }
-                    mPrimaryKeyField = field;
-                    mPrimaryKeyColumn = column;
+                    primaryKeyField = field;
+                    primaryKeyColumn = column;
                 }
             }
         }
 
-        if (mPrimaryKeyColumn == null) {
+        if (primaryKeyField == null) {
             throw new IllegalArgumentException("Table " + mTable.name() + " must have a primary key.");
         }
 
-        mSqlCreateTable = SqlBuilder.buildSqlCreateTable(mTable, mColumns);
+        mPrimaryKeyField = primaryKeyField;
+        mPrimaryKeyColumn = primaryKeyColumn;
+
+        mSqlCreateTable = SqlBuilder.buildSqlCreateTable(mTable, columns);
+        mSqlCreateIndexes = SqlBuilder.buildSqlCreateIndexes(mTable, columns);
     }
 
     /**
@@ -80,6 +86,9 @@ public final class Broker<T> {
      */
     public void createTable(SQLiteDatabase db) {
         db.execSQL(mSqlCreateTable);
+        for (String sqlCreateIndex : mSqlCreateIndexes) {
+            db.execSQL(sqlCreateIndex);
+        }
     }
 
     /**

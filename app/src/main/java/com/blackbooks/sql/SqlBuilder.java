@@ -107,6 +107,25 @@ final class SqlBuilder {
     }
 
     /**
+     * Build the indexes declaration script.
+     *
+     * @param table   Table.
+     * @param columns Columns.
+     * @return Indexes declarations scripts.
+     */
+    public static List<String> buildSqlCreateIndexes(Table table, List<Column> columns) {
+        final List<String> indexesDeclarations = new ArrayList<String>();
+
+        for (final Column column : columns) {
+            final String indexDeclarationScript = buildSqlCreateIndex(table, column);
+            if (!indexDeclarationScript.equals("")) {
+                indexesDeclarations.add(indexDeclarationScript);
+            }
+        }
+        return indexesDeclarations;
+    }
+
+    /**
      * Returns the SQLite code to create a column.
      *
      * @param column Column.
@@ -138,6 +157,7 @@ final class SqlBuilder {
      * Builds the SQLite script to create foreign keys.
      *
      * @param column Column.
+     * @return Foreign key creation script.
      */
     private static String buildSqlCreateForeignKey(Column column) {
         StringBuilder sb = new StringBuilder();
@@ -172,6 +192,40 @@ final class SqlBuilder {
                 sb.append("ON DELETE CASCADE");
             }
         }
+        return sb.toString();
+    }
+
+    /**
+     * Builds the SQLite script to create an index on a column.
+     *
+     * @param table  The table.
+     * @param column The column to be indexed.
+     * @return SQL index declaration.
+     */
+    private static String buildSqlCreateIndex(Table table, Column column) {
+        StringBuilder sb = new StringBuilder();
+        Class<?> referencedType = column.referencedType();
+        if (referencedType != void.class) {
+            Table referencedTable = referencedType.getAnnotation(Table.class);
+
+            if (referencedTable == null) {
+                throw new IllegalArgumentException("The referenced type must have a Table annotation.");
+            }
+
+            sb.append("CREATE INDEX");
+            sb.append(' ');
+            sb.append(table.name()).append('_').append(column.name());
+            sb.append(' ');
+            sb.append("ON");
+            sb.append(' ');
+            sb.append(table.name());
+            sb.append(' ');
+            sb.append('(');
+            sb.append(column.name());
+            sb.append(')');
+            sb.append(';');
+        }
+
         return sb.toString();
     }
 }
