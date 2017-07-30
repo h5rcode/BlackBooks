@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.widget.SearchView;
 
 import com.blackbooks.R;
-import com.blackbooks.fragments.SummaryFragment;
+import com.blackbooks.fragments.summary.SummaryFragment;
 
 /**
  * The activity that displays an overview of the library.

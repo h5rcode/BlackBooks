@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 
 import com.blackbooks.R;
-import com.blackbooks.fragments.BookImportColumnMappingFragment;
+import com.blackbooks.fragments.bookimport.BookImportColumnMappingFragment;
 import com.blackbooks.fragments.dialogs.ColumnSeparator;
 import com.blackbooks.fragments.dialogs.TextQualifier;
 

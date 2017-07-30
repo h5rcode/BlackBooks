@@ -23,10 +23,10 @@ import android.widget.Toast;
 
 import com.blackbooks.R;
 import com.blackbooks.database.SQLiteHelper;
-import com.blackbooks.fragments.BookEditGeneralFragment;
-import com.blackbooks.fragments.BookEditPersonalFragment;
-import com.blackbooks.fragments.IsbnLookupFragment;
-import com.blackbooks.fragments.IsbnLookupFragment.IsbnLookupListener;
+import com.blackbooks.fragments.bookedit.BookEditGeneralFragment;
+import com.blackbooks.fragments.bookedit.BookEditPersonalFragment;
+import com.blackbooks.fragments.isbnlookup.IsbnLookupFragment;
+import com.blackbooks.fragments.isbnlookup.IsbnLookupFragment.IsbnLookupListener;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.services.BookServices;
 import com.blackbooks.utils.BeanUtils;

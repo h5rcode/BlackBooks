@@ -9,16 +9,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.blackbooks.R;
-import com.blackbooks.fragments.AbstractBookListFragment2;
-import com.blackbooks.fragments.BookListByAuthorFragment2;
-import com.blackbooks.fragments.BookListByBookLocationFragment2;
-import com.blackbooks.fragments.BookListByCategoryFragment2;
-import com.blackbooks.fragments.BookListByFirstLetterFragment2;
-import com.blackbooks.fragments.BookListByLanguageFragment2;
-import com.blackbooks.fragments.BookListByLoanedFragment2;
-import com.blackbooks.fragments.BookListBySeriesFragment2;
-import com.blackbooks.fragments.BookListFavouriteFragment;
-import com.blackbooks.fragments.BookListToReadFragment;
+import com.blackbooks.fragments.booklist.AbstractBookListFragment2;
+import com.blackbooks.fragments.booklist.BookListByAuthorFragment2;
+import com.blackbooks.fragments.booklist.BookListByBookLocationFragment2;
+import com.blackbooks.fragments.booklist.BookListByCategoryFragment2;
+import com.blackbooks.fragments.booklist.BookListByFirstLetterFragment2;
+import com.blackbooks.fragments.booklist.BookListByLanguageFragment2;
+import com.blackbooks.fragments.booklist.BookListByLoanedFragment2;
+import com.blackbooks.fragments.booklist.BookListBySeriesFragment2;
+import com.blackbooks.fragments.booklist.BookListFavouriteFragment;
+import com.blackbooks.fragments.booklist.BookListToReadFragment;
 import com.blackbooks.model.nonpersistent.BookGroup;
 
 import java.io.Serializable;
