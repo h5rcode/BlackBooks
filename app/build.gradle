@@ -1,14 +1,13 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 20
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "com.blackbooks"
-        minSdkVersion 11
-        targetSdkVersion 20
+        minSdkVersion 19
+        targetSdkVersion 25
 
         testApplicationId "com.blackbooks.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -27,6 +26,6 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:20.0.0'
-    compile 'com.google.android.gms:play-services-analytics:8.3.0'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.volley:volley:1.0.0'
 }

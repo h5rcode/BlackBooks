@@ -43,7 +43,7 @@ public final class BookSearcher {
      * @throws InterruptedException If the book search is interrupted.
      */
     public static BookInfo search(String isbn) throws IOException, InterruptedException {
-        List<Callable<BookSearchResult>> searchers = new ArrayList<Callable<BookSearchResult>>();
+        List<Callable<BookSearchResult>> searchers = new ArrayList<>();
 
         AmazonSearcher amazonSearcher = new AmazonSearcher(isbn);
         OpenLibrarySearcher openLibrarySearcher = new OpenLibrarySearcher(isbn);
@@ -53,7 +53,7 @@ public final class BookSearcher {
         searchers.add(googleBooksSearcher);
         searchers.add(openLibrarySearcher);
 
-        List<BookSearchResult> bookSearchResultList = new ArrayList<BookSearchResult>();
+        List<BookSearchResult> bookSearchResultList = new ArrayList<>();
         ExecutorService executorService = Executors.newCachedThreadPool();
         try {
             List<Future<BookSearchResult>> futureSearchResultList = executorService.invokeAll(searchers);
@@ -75,7 +75,7 @@ public final class BookSearcher {
      */
     private static List<BookSearchResult> getBookSearchResultList(List<Future<BookSearchResult>> futureSearchResultList) throws InterruptedException,
             IOException {
-        List<BookSearchResult> bookSearchResultList = new ArrayList<BookSearchResult>();
+        List<BookSearchResult> bookSearchResultList = new ArrayList<>();
         for (Future<BookSearchResult> futureSearchResult : futureSearchResultList) {
             BookSearchResult bookSearchResult = null;
             try {
@@ -105,7 +105,7 @@ public final class BookSearcher {
      */
     private static BookInfo mergeSearchResults(List<BookSearchResult> bookSearchResultList) {
         BookInfo bookInfo = null;
-        Map<Integer, BookSearchResult> resultMap = new TreeMap<Integer, BookSearchResult>();
+        Map<Integer, BookSearchResult> resultMap = new TreeMap<>();
         for (BookSearchResult bookSearchResult : bookSearchResultList) {
             resultMap.put(bookSearchResult.getResultSource().getMergeOrder(), bookSearchResult);
         }

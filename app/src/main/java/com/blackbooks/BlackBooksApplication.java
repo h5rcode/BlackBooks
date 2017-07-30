@@ -7,15 +7,11 @@ import android.util.Log;
 import com.blackbooks.activities.ReportErrorActivity;
 import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.utils.LogUtils;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
 
 /**
  * Black Books application class.
  */
 public final class BlackBooksApplication extends Application {
-
-    private Tracker mTracker;
 
     @Override
     public void onCreate() {
@@ -31,24 +27,6 @@ public final class BlackBooksApplication extends Application {
                 handleUncaughtException(e);
             }
         });
-    }
-
-    /**
-     * Return the Google Analytics tracker.
-     *
-     * @return Tracker.
-     */
-    public synchronized Tracker getTracker() {
-
-        if (mTracker == null) {
-            final GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-            Log.d(LogUtils.TAG, "Google Analytics dry run enabled: " + analytics.isDryRunEnabled());
-
-            mTracker = analytics.newTracker(R.xml.tracker_config);
-            mTracker.enableAdvertisingIdCollection(true);
-        }
-
-        return mTracker;
     }
 
     /**
