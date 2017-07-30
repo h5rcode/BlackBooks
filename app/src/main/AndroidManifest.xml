@@ -90,7 +90,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.blackbooks.activities.BookListActivity2">
+        <activity android:name="com.blackbooks.activities.BookListActivity">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

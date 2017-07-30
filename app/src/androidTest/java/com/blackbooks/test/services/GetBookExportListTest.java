@@ -1,11 +1,23 @@
 package com.blackbooks.test.services;
 
+import com.blackbooks.database.TransactionManager;
 import com.blackbooks.model.nonpersistent.BookExport;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Category;
-import com.blackbooks.services.BookServices;
-import com.blackbooks.services.ExportServices;
+import com.blackbooks.repositories.AuthorRepository;
+import com.blackbooks.repositories.BookAuthorRepository;
+import com.blackbooks.repositories.BookCategoryRepository;
+import com.blackbooks.repositories.BookFTSRepository;
+import com.blackbooks.repositories.BookLocationRepository;
+import com.blackbooks.repositories.BookRepository;
+import com.blackbooks.repositories.CategoryRepository;
+import com.blackbooks.repositories.PublisherRepository;
+import com.blackbooks.repositories.SeriesRepository;
+import com.blackbooks.services.BookService;
+import com.blackbooks.services.BookServiceImpl;
+import com.blackbooks.services.ExportService;
+import com.blackbooks.services.ExportServiceImpl;
 import com.blackbooks.test.data.Authors;
 import com.blackbooks.test.data.BookLocations;
 import com.blackbooks.test.data.Books;
@@ -17,18 +29,52 @@ import com.blackbooks.utils.DateUtils;
 
 import junit.framework.Assert;
 
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+
 import java.util.Date;
 import java.util.List;
 
-/**
- * Test class of {@link ExportServices#getBookExportList(android.database.sqlite.SQLiteDatabase, Integer)} ()} .
- */
+@RunWith(MockitoJUnitRunner.class)
 public class GetBookExportListTest extends AbstractDatabaseTest {
+
+    @Mock
+    private AuthorRepository authorRepository;
+
+    @Mock
+    private BookAuthorRepository bookAuthorRepository;
+
+    @Mock
+    private BookCategoryRepository bookCategoryRepository;
+
+    @Mock
+    private BookFTSRepository bookFTSRepository;
+
+    @Mock
+    private BookLocationRepository bookLocationRepository;
+
+    @Mock
+    private BookRepository bookRepository;
+
+    @Mock
+    private CategoryRepository categoryRepository;
+
+    @Mock
+    private PublisherRepository publisherRepository;
+
+    @Mock
+    private SeriesRepository seriesRepository;
+
+    @Mock
+    private TransactionManager transactionManager;
 
     /**
      * Test of getBookExportList.
      */
     public void testGetBookExportList() {
+        BookService bookService = new BookServiceImpl(authorRepository, bookAuthorRepository, bookCategoryRepository, bookFTSRepository, bookLocationRepository, bookRepository, categoryRepository, publisherRepository, seriesRepository, transactionManager);
+
         Author author1 = new Author();
         author1.name = Authors.GRZEGORZ_ROSINSKI;
 
@@ -61,9 +107,10 @@ public class GetBookExportListTest extends AbstractDatabaseTest {
         bookInfo.isFavourite = 0L;
         bookInfo.bookLocation.name = BookLocations.LIVING_ROOM;
 
-        BookServices.saveBookInfo(getDb(), bookInfo);
+        bookService.saveBookInfo(bookInfo);
 
-        List<BookExport> bookExportList = ExportServices.getBookExportList(getDb(), null);
+        ExportService exportService = new ExportServiceImpl(getDb());
+        List<BookExport> bookExportList = exportService.getBookExportList(null);
 
         Assert.assertEquals(1, bookExportList.size());
         BookExport bookExport = bookExportList.get(0);

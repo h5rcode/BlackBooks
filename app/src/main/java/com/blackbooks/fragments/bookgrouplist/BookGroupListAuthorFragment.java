@@ -1,7 +1,7 @@
 package com.blackbooks.fragments.bookgrouplist;
 
+import android.content.Context;
 import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,16 +10,19 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.blackbooks.R;
-import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.dialogs.AuthorDeleteFragment;
 import com.blackbooks.fragments.dialogs.AuthorEditFragment;
 import com.blackbooks.model.nonpersistent.BookGroup;
-import com.blackbooks.services.AuthorServices;
-import com.blackbooks.services.BookGroupServices;
-import com.blackbooks.services.SummaryServices;
+import com.blackbooks.repositories.AuthorRepository;
+import com.blackbooks.services.AuthorService;
+import com.blackbooks.services.BookGroupService;
 import com.blackbooks.utils.VariableUtils;
 
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * A fragment to display the authors in the library.
@@ -31,19 +34,34 @@ public final class BookGroupListAuthorFragment extends AbstractBookGroupListFrag
     private static final String TAG_FRAGMENT_AUTHOR_DELETE = "TAG_FRAGMENT_AUTHOR_DELETE";
     private static final String TAG_FRAGMENT_AUTHOR_EDIT = "TAG_FRAGMENT_AUTHOR_EDIT";
 
+    @Inject
+    AuthorService authorService;
+
+    @Inject
+    BookGroupService bookGroupService;
+
+    @Inject
+    AuthorRepository summaryService;
+
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
+    }
+
     @Override
     protected BookGroup.BookGroupType getBookGroupType() {
         return BookGroup.BookGroupType.AUTHOR;
     }
 
     @Override
-    protected int getBookGroupCount(SQLiteDatabase db) {
-        return SummaryServices.getAuthorCount(db);
+    protected int getBookGroupCount() {
+        return summaryService.getAuthorCount();
     }
 
     @Override
-    protected List<BookGroup> loadBookGroupList(SQLiteDatabase db, int limit, int offset) {
-        return BookGroupServices.getBookGroupListAuthor(db, limit, offset);
+    protected List<BookGroup> loadBookGroupList(int limit, int offset) {
+        return bookGroupService.getBookGroupListAuthor(limit, offset);
     }
 
     @Override
@@ -97,8 +115,7 @@ public final class BookGroupListAuthorFragment extends AbstractBookGroupListFrag
 
     @Override
     public void onAuthorEdit(BookGroup bookGroup, String newName) {
-        SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-        AuthorServices.updateAuthor(db, (Long) bookGroup.id, newName);
+        authorService.updateAuthor((Long) bookGroup.id, newName);
 
         String message = getString(R.string.message_author_modified, bookGroup.name);
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
@@ -108,8 +125,7 @@ public final class BookGroupListAuthorFragment extends AbstractBookGroupListFrag
 
     @Override
     public void onAuthorDeleted(BookGroup bookGroup) {
-        SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-        AuthorServices.deleteAuthor(db, (Long) bookGroup.id);
+        authorService.deleteAuthor((Long) bookGroup.id);
 
         VariableUtils.getInstance().setReloadBookList(true);
         String message = getString(R.string.message_author_deleted, bookGroup.name);

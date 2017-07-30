@@ -1,7 +1,7 @@
 package com.blackbooks.fragments.bookgrouplist;
 
+import android.content.Context;
 import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,16 +10,19 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.blackbooks.R;
-import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.dialogs.BookLocationDeleteFragment;
 import com.blackbooks.fragments.dialogs.BookLocationEditFragment;
 import com.blackbooks.model.nonpersistent.BookGroup;
-import com.blackbooks.services.BookGroupServices;
-import com.blackbooks.services.BookLocationServices;
-import com.blackbooks.services.SummaryServices;
+import com.blackbooks.repositories.BookLocationRepository;
+import com.blackbooks.services.BookGroupService;
+import com.blackbooks.services.BookLocationService;
 import com.blackbooks.utils.VariableUtils;
 
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * A fragment to display the book locations in the library.
@@ -32,19 +35,28 @@ public final class BookGroupListBookLocationFragment extends AbstractBookGroupLi
     private static final String TAG_FRAGMENT_BOOK_LOCATION_EDIT = "TAG_FRAGMENT_BOOK_LOCATION_EDIT";
     private static final String TAG_FRAGMENT_BOOK_LOCATION_DELETE = "TAG_FRAGMENT_BOOK_LOCATION_DELETE";
 
+    @Inject
+    BookGroupService bookGroupService;
+
+    @Inject
+    BookLocationService bookLocationService;
+
+    @Inject
+    BookLocationRepository summaryService;
+
     @Override
     protected BookGroup.BookGroupType getBookGroupType() {
         return BookGroup.BookGroupType.BOOK_LOCATION;
     }
 
     @Override
-    protected int getBookGroupCount(SQLiteDatabase db) {
-        return SummaryServices.getBookLocationCount(db);
+    protected int getBookGroupCount() {
+        return summaryService.getBookLocationCount();
     }
 
     @Override
-    protected List<BookGroup> loadBookGroupList(SQLiteDatabase db, int limit, int offset) {
-        return BookGroupServices.getBookGroupListBookLocation(db, limit, offset);
+    protected List<BookGroup> loadBookGroupList(int limit, int offset) {
+        return bookGroupService.getBookGroupListBookLocation(limit, offset);
     }
 
     @Override
@@ -57,6 +69,12 @@ public final class BookGroupListBookLocationFragment extends AbstractBookGroupLi
     protected String getMoreGroupsLoadedText(int bookGroupCount) {
         Resources res = getResources();
         return res.getQuantityString(R.plurals.message_book_groups_loaded_book_locations, bookGroupCount, bookGroupCount);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
     }
 
     @Override
@@ -98,9 +116,7 @@ public final class BookGroupListBookLocationFragment extends AbstractBookGroupLi
 
     @Override
     public void onBookLocationEdit(BookGroup bookGroup, String newName) {
-
-        SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-        BookLocationServices.updateBookLocation(db, (Long) bookGroup.id, newName);
+        bookLocationService.updateBookLocation((Long) bookGroup.id, newName);
 
         String message = getString(R.string.message_author_modified, bookGroup.name);
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
@@ -110,8 +126,7 @@ public final class BookGroupListBookLocationFragment extends AbstractBookGroupLi
 
     @Override
     public void onBookLocationDeleted(BookGroup bookGroup) {
-        SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-        BookLocationServices.deleteBookLocation(db, (Long) bookGroup.id);
+        bookLocationService.deleteBookLocation((Long) bookGroup.id);
 
         VariableUtils.getInstance().setReloadBookList(true);
         String message = getString(R.string.message_book_location_deleted, bookGroup.name);

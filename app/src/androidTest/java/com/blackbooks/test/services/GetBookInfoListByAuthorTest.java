@@ -1,24 +1,69 @@
 package com.blackbooks.test.services;
 
+import com.blackbooks.database.TransactionManager;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
-import com.blackbooks.services.BookServices;
+import com.blackbooks.repositories.AuthorRepository;
+import com.blackbooks.repositories.BookAuthorRepository;
+import com.blackbooks.repositories.BookCategoryRepository;
+import com.blackbooks.repositories.BookFTSRepository;
+import com.blackbooks.repositories.BookLocationRepository;
+import com.blackbooks.repositories.BookRepository;
+import com.blackbooks.repositories.CategoryRepository;
+import com.blackbooks.repositories.PublisherRepository;
+import com.blackbooks.repositories.SeriesRepository;
+import com.blackbooks.services.BookService;
+import com.blackbooks.services.BookServiceImpl;
 import com.blackbooks.test.data.Authors;
 import com.blackbooks.test.data.Books;
 
 import junit.framework.Assert;
 
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+
 import java.util.List;
 
-/**
- * Test class of {@link com.blackbooks.services.BookServices#getBookInfoListByAuthor(android.database.sqlite.SQLiteDatabase, long, int, int)}.
- */
+@RunWith(MockitoJUnitRunner.class)
 public class GetBookInfoListByAuthorTest extends AbstractDatabaseTest {
+
+    @Mock
+    private AuthorRepository authorRepository;
+
+    @Mock
+    private BookAuthorRepository bookAuthorRepository;
+
+    @Mock
+    private BookCategoryRepository bookCategoryRepository;
+
+    @Mock
+    private BookFTSRepository bookFTSRepository;
+
+    @Mock
+    private BookLocationRepository bookLocationRepository;
+
+    @Mock
+    private BookRepository bookRepository;
+
+    @Mock
+    private CategoryRepository categoryRepository;
+
+    @Mock
+    private PublisherRepository publisherRepository;
+
+    @Mock
+    private SeriesRepository seriesRepository;
+
+    @Mock
+    private TransactionManager transactionManager;
 
     /**
      * Make sure the method returns the expected result.
      */
     public void testGetBookInfoListByAuthor() {
+        BookService bookService = new BookServiceImpl(authorRepository, bookAuthorRepository, bookCategoryRepository, bookFTSRepository, bookLocationRepository, bookRepository, categoryRepository, publisherRepository, seriesRepository, transactionManager);
+
         Author author = new Author();
         author.name = Authors.J_K_ROWLING;
 
@@ -26,15 +71,15 @@ public class GetBookInfoListByAuthorTest extends AbstractDatabaseTest {
         bookInfo1.title = Books.HARRY_POTTER_AND_THE_CHAMBER_OF_SECRETS;
         bookInfo1.authors.add(author);
 
-        BookServices.saveBookInfo(getDb(), bookInfo1);
+        bookService.saveBookInfo(bookInfo1);
 
         BookInfo bookInfo2 = new BookInfo();
         bookInfo2.title = Books.HARRY_POTTER_AND_THE_PHILOSOPHER_S_STONE;
         bookInfo2.authors.add(author);
 
-        BookServices.saveBookInfo(getDb(), bookInfo2);
+        bookService.saveBookInfo(bookInfo2);
 
-        List<BookInfo> bookInfoList = BookServices.getBookInfoListByAuthor(getDb(), author.id, Integer.MAX_VALUE, 0);
+        List<BookInfo> bookInfoList = bookService.getBookInfoListByAuthor(author.id, Integer.MAX_VALUE, 0);
 
         Assert.assertEquals(2, bookInfoList.size());
 

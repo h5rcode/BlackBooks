@@ -1,6 +1,6 @@
 package com.blackbooks.fragments.bookexport;
 
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Context;
 import android.media.MediaScannerConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blackbooks.R;
-import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.dialogs.ColumnSeparator;
 import com.blackbooks.fragments.dialogs.ColumnSeparatorPicker;
 import com.blackbooks.fragments.dialogs.ColumnSeparatorPicker.ColumnSeparatorPickerListener;
@@ -31,7 +30,7 @@ import com.blackbooks.fragments.dialogs.TextQualifier;
 import com.blackbooks.fragments.dialogs.TextQualifierPicker;
 import com.blackbooks.fragments.dialogs.TextQualifierPicker.TextQualifierPickerListener;
 import com.blackbooks.model.nonpersistent.BookExport;
-import com.blackbooks.services.ExportServices;
+import com.blackbooks.services.ExportService;
 import com.blackbooks.utils.FileUtils;
 import com.blackbooks.utils.LogUtils;
 
@@ -40,6 +39,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * Fragment where the user can export the list of books as a CSV file.
@@ -64,6 +67,9 @@ public final class BookExportFragment extends Fragment implements TextQualifierP
 
     private CsvExportTask mCsvExportTask;
 
+    @Inject
+    ExportService exportService;
+
     public BookExportFragment() {
         super();
 
@@ -72,7 +78,12 @@ public final class BookExportFragment extends Fragment implements TextQualifierP
 
         mColumnSeparatorPicker = new ColumnSeparatorPicker();
         mColumnSeparatorPicker.setTargetFragment(this, 0);
+    }
 
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
     }
 
     @Override
@@ -175,8 +186,7 @@ public final class BookExportFragment extends Fragment implements TextQualifierP
      * Render a preview of the book export with the current parameters.
      */
     private void renderPreview() {
-        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-        String preview = ExportServices.previewBookExport(db, mTextQualifier, mColumnSeparator, mFirstRowContainsHeader);
+        String preview = exportService.previewBookExport(mTextQualifier, mColumnSeparator, mFirstRowContainsHeader);
 
         mTextPreview.setText(preview);
     }
@@ -223,8 +233,7 @@ public final class BookExportFragment extends Fragment implements TextQualifierP
             try {
                 Log.d(LogUtils.TAG, "Exporting books to CSV.");
 
-                SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-                List<BookExport> bookExportList = ExportServices.getBookExportList(db, null);
+                List<BookExport> bookExportList = exportService.getBookExportList(null);
 
                 Log.d(LogUtils.TAG, String.format("%d books to export.", bookExportList.size()));
 

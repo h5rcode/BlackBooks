@@ -1,8 +1,8 @@
 package com.blackbooks.fragments.summary;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,16 +14,28 @@ import android.widget.TextView;
 
 import com.blackbooks.R;
 import com.blackbooks.activities.BookGroupListActivity;
-import com.blackbooks.activities.BookListActivity2;
-import com.blackbooks.database.SQLiteHelper;
+import com.blackbooks.activities.BookListActivity;
 import com.blackbooks.model.nonpersistent.BookGroup;
 import com.blackbooks.model.nonpersistent.Summary;
-import com.blackbooks.services.SummaryServices;
+import com.blackbooks.services.SummaryService;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * A fragment displaying statistics of the library.
  */
 public final class SummaryFragment extends Fragment {
+
+    @Inject
+    SummaryService summaryService;
+
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -91,8 +103,8 @@ public final class SummaryFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), BookListActivity2.class);
-                i.putExtra(BookListActivity2.EXTRA_BOOK_GROUP_TYPE, BookGroup.BookGroupType.TO_READ);
+                Intent i = new Intent(getActivity(), BookListActivity.class);
+                i.putExtra(BookListActivity.EXTRA_BOOK_GROUP_TYPE, BookGroup.BookGroupType.TO_READ);
                 startActivity(i);
             }
         });
@@ -107,8 +119,8 @@ public final class SummaryFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), BookListActivity2.class);
-                i.putExtra(BookListActivity2.EXTRA_BOOK_GROUP_TYPE, BookGroup.BookGroupType.FAVOURITE);
+                Intent i = new Intent(getActivity(), BookListActivity.class);
+                i.putExtra(BookListActivity.EXTRA_BOOK_GROUP_TYPE, BookGroup.BookGroupType.FAVOURITE);
                 startActivity(i);
             }
         });
@@ -133,8 +145,7 @@ public final class SummaryFragment extends Fragment {
         TextView mTextLabelLoanCount = (TextView) view.findViewById(R.id.summary_textLabelLoanCount);
         TextView mTextLabelFavouriteCount = (TextView) view.findViewById(R.id.summary_textLabelFavouriteCount);
 
-        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-        Summary summary = SummaryServices.getSummary(db);
+        Summary summary = summaryService.getSummary();
 
         mTextBooksCount.setText(String.valueOf(summary.books));
         mTextAuthorsCount.setText(String.valueOf(summary.authors));

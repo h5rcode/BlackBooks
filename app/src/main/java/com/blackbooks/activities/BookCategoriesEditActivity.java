@@ -3,7 +3,6 @@ package com.blackbooks.activities;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,13 +18,16 @@ import com.blackbooks.R;
 import com.blackbooks.adapters.AutoCompleteAdapter;
 import com.blackbooks.adapters.AutoCompleteAdapter.AutoCompleteSearcher;
 import com.blackbooks.adapters.EditableArrayAdapter;
-import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.persistent.Category;
-import com.blackbooks.services.CategoryServices;
+import com.blackbooks.services.CategoryService;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 
 /**
  * Activity to edit the categories of a book.
@@ -49,6 +51,9 @@ public final class BookCategoriesEditActivity extends Activity {
     private TextView mTextInfo;
     private AutoCompleteTextView mTextCategory;
     private ListView mListObjects;
+
+    @Inject
+    CategoryService categoryService;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -200,6 +205,7 @@ public final class BookCategoriesEditActivity extends Activity {
     @SuppressWarnings("unchecked")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_categories_edit);
 
@@ -214,20 +220,19 @@ public final class BookCategoriesEditActivity extends Activity {
             mCategoryList = (ArrayList<Category>) intent.getSerializableExtra(EXTRA_CATEGORY_LIST);
         }
         if (mCategoryList == null) {
-            mCategoryList = new ArrayList<Category>();
+            mCategoryList = new ArrayList<>();
         }
 
-        mCategoryMap = new LinkedHashMap<String, Category>();
+        mCategoryMap = new LinkedHashMap<>();
         for (Category object : mCategoryList) {
             mCategoryMap.put(object.name, object);
         }
 
-        mAutoCompleteAdapter = new AutoCompleteAdapter<Category>(this, android.R.layout.simple_list_item_1, new AutoCompleteSearcher<Category>() {
+        mAutoCompleteAdapter = new AutoCompleteAdapter<>(this, android.R.layout.simple_list_item_1, new AutoCompleteSearcher<Category>() {
 
             @Override
             public List<Category> search(CharSequence constraint) {
-                SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-                return CategoryServices.getCategoryListByText(db, constraint.toString());
+                return categoryService.getCategoryListByText(constraint.toString());
             }
 
             @Override
@@ -270,8 +275,7 @@ public final class BookCategoriesEditActivity extends Activity {
     }
 
     private Category getCategoryByCriteria(Category criteria) {
-        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-        return CategoryServices.getCategoryByCriteria(db, criteria);
+        return categoryService.getCategoryByCriteria(criteria);
     }
 
     /**
@@ -280,7 +284,7 @@ public final class BookCategoriesEditActivity extends Activity {
      */
     private void addCategoryList() {
         Intent intent = new Intent();
-        ArrayList<Category> objectList = new ArrayList<Category>(mCategoryMap.values());
+        ArrayList<Category> objectList = new ArrayList<>(mCategoryMap.values());
         intent.putExtra(EXTRA_CATEGORY_LIST, objectList);
         setResult(RESULT_OK, intent);
         finish();

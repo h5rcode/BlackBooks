@@ -1,7 +1,6 @@
 package com.blackbooks.fragments.bookgrouplist;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,9 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blackbooks.R;
-import com.blackbooks.activities.BookListActivity2;
+import com.blackbooks.activities.BookListActivity;
 import com.blackbooks.adapters.BookGroupListAdapter;
-import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookGroup;
 import com.blackbooks.utils.VariableUtils;
 
@@ -118,9 +116,9 @@ public abstract class AbstractBookGroupListFragment extends ListFragment {
 
         BookGroup bookGroup = (BookGroup) getListView().getItemAtPosition(position);
 
-        Intent i = new Intent(getActivity(), BookListActivity2.class);
-        i.putExtra(BookListActivity2.EXTRA_BOOK_GROUP_TYPE, getBookGroupType());
-        i.putExtra(BookListActivity2.EXTRA_BOOK_GROUP_ID, bookGroup.id);
+        Intent i = new Intent(getActivity(), BookListActivity.class);
+        i.putExtra(BookListActivity.EXTRA_BOOK_GROUP_TYPE, getBookGroupType());
+        i.putExtra(BookListActivity.EXTRA_BOOK_GROUP_ID, bookGroup.id);
 
         startActivity(i);
     }
@@ -135,20 +133,18 @@ public abstract class AbstractBookGroupListFragment extends ListFragment {
     /**
      * Return the total number of book groups.
      *
-     * @param db SQLiteDatabase.
      * @return Book group count.
      */
-    protected abstract int getBookGroupCount(SQLiteDatabase db);
+    protected abstract int getBookGroupCount();
 
     /**
      * Load book groups.
      *
-     * @param db     SQLiteDatabase.
      * @param limit  Limit.
      * @param offset Offset.
      * @return List of BookGroup.
      */
-    protected abstract List<BookGroup> loadBookGroupList(SQLiteDatabase db, int limit, int offset);
+    protected abstract List<BookGroup> loadBookGroupList(int limit, int offset);
 
     /**
      * Load more book groups.
@@ -229,9 +225,8 @@ public abstract class AbstractBookGroupListFragment extends ListFragment {
 
         @Override
         protected List<BookGroup> doInBackground(Void... params) {
-            SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-            mBookGroupCount = AbstractBookGroupListFragment.this.getBookGroupCount(db);
-            return AbstractBookGroupListFragment.this.loadBookGroupList(db, mLimit, mOffset);
+            mBookGroupCount = AbstractBookGroupListFragment.this.getBookGroupCount();
+            return AbstractBookGroupListFragment.this.loadBookGroupList(mLimit, mOffset);
         }
 
         @Override

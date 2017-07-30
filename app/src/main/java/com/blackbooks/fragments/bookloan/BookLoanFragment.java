@@ -2,10 +2,10 @@ package com.blackbooks.fragments.bookloan;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
@@ -25,17 +25,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blackbooks.R;
-import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.dialogs.DatePickerFragment;
 import com.blackbooks.fragments.dialogs.DatePickerFragment.DatePickerListener;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Book;
-import com.blackbooks.services.BookServices;
+import com.blackbooks.services.BookService;
 import com.blackbooks.utils.DateUtils;
 import com.blackbooks.utils.VariableUtils;
 
 import java.text.ParseException;
 import java.util.Date;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * A fragment to loan a book.
@@ -59,6 +62,15 @@ public final class BookLoanFragment extends Fragment implements DatePickerListen
 
     private BookInfo mBookInfo;
 
+    @Inject
+    BookService bookService;
+
+    @Override
+    public void onAttach(Activity activity) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(activity);
+    }
+
     /**
      * Create a new instance of BookLoanFragment, initialized to display a book.
      *
@@ -74,15 +86,15 @@ public final class BookLoanFragment extends Fragment implements DatePickerListen
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
 
         Bundle args = getArguments();
         long bookId = args.getLong(ARG_BOOK_ID);
-        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-        mBookInfo = BookServices.getBookInfo(db, bookId);
+        mBookInfo = bookService.getBookInfo(bookId);
 
-        mBookLoanListener = (BookLoanListener) activity;
+        mBookLoanListener = (BookLoanListener) context;
     }
 
     @Override
@@ -254,8 +266,7 @@ public final class BookLoanFragment extends Fragment implements DatePickerListen
         }
 
         if (isValid) {
-            SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-            BookServices.saveBookInfo(db, mBookInfo);
+            bookService.saveBookInfo(mBookInfo);
 
             mTextLoanTo.setText("");
             mTextLoanDate.setText("");
@@ -277,8 +288,7 @@ public final class BookLoanFragment extends Fragment implements DatePickerListen
         mBookInfo.loanedTo = null;
         mBookInfo.loanDate = null;
 
-        SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-        BookServices.returnBook(db, mBookInfo.id);
+        bookService.returnBook(mBookInfo.id);
 
         String message = getString(R.string.message_book_returned);
         message = String.format(message, mBookInfo.title);

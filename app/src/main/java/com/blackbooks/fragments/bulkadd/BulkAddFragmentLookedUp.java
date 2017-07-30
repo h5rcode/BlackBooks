@@ -1,10 +1,10 @@
 package com.blackbooks.fragments.bulkadd;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,12 +23,16 @@ import android.widget.Toast;
 import com.blackbooks.R;
 import com.blackbooks.activities.BookDisplayActivity;
 import com.blackbooks.adapters.LookedUpIsbnListAdapter;
-import com.blackbooks.database.SQLiteHelper;
+import com.blackbooks.cache.ThumbnailManager;
 import com.blackbooks.model.persistent.Isbn;
-import com.blackbooks.services.IsbnServices;
+import com.blackbooks.repositories.IsbnRepository;
 import com.blackbooks.utils.VariableUtils;
 
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * A fragment to display the IBNs that have been looked up.
@@ -46,13 +50,25 @@ public final class BulkAddFragmentLookedUp extends ListFragment {
     private TextView mTextViewFooter;
     private IsbnListLookedUpLoadTask mIsbnListLookedUpLoadTask;
 
+    @Inject
+    ThumbnailManager thumbnailManager;
+
+    @Inject
+    IsbnRepository isbnService;
+
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         setHasOptionsMenu(true);
 
-        mLookedUpIsbnListAdapter = new LookedUpIsbnListAdapter(getActivity());
+        mLookedUpIsbnListAdapter = new LookedUpIsbnListAdapter(getActivity(), thumbnailManager);
         setListAdapter(mLookedUpIsbnListAdapter);
     }
 
@@ -154,8 +170,7 @@ public final class BulkAddFragmentLookedUp extends ListFragment {
      * Delete al the ISBNs.
      */
     private void deleteAll() {
-        SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-        IsbnServices.deleteAllLookedUpIsbns(db);
+        isbnService.deleteAllLookedUpIsbns();
         reloadIsbns();
     }
 
@@ -239,9 +254,8 @@ public final class BulkAddFragmentLookedUp extends ListFragment {
 
         @Override
         protected List<Isbn> doInBackground(Void... params) {
-            SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-            mIsbnCount = IsbnServices.getIsbnListLookedUpCount(db);
-            return IsbnServices.getIsbnListLookedUp(db, mLimit, mOffset);
+            mIsbnCount = isbnService.getIsbnListLookedUpCount();
+            return isbnService.getIsbnListLookedUp(mLimit, mOffset);
         }
 
         @Override

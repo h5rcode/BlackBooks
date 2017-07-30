@@ -1,7 +1,7 @@
 package com.blackbooks.fragments.dialogs;
 
 import android.app.Dialog;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -11,10 +11,13 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 import com.blackbooks.R;
-import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookGroup;
 import com.blackbooks.model.persistent.Category;
-import com.blackbooks.services.CategoryServices;
+import com.blackbooks.services.CategoryService;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * A dialog fragment to edit a category.
@@ -26,6 +29,9 @@ public final class CategoryEditFragment extends DialogFragment {
     private CategoryEditListener mCategoryEditListener;
 
     private BookGroup mCategory;
+
+    @Inject
+    CategoryService categoryService;
 
     /**
      * Return a new instance of CategoryEditFragment that is initialized to edit
@@ -40,6 +46,12 @@ public final class CategoryEditFragment extends DialogFragment {
         args.putSerializable(ARG_CATEGORY, bookGroup);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
     }
 
     @Override
@@ -79,8 +91,7 @@ public final class CategoryEditFragment extends DialogFragment {
                     Category category = new Category();
                     category.name = newName;
 
-                    SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-                    Category categoryDb = CategoryServices.getCategoryByCriteria(db, category);
+                    Category categoryDb = categoryService.getCategoryByCriteria(category);
 
                     if (categoryDb != null) {
                         errorMessage = getString(R.string.message_category_already_present, newName);

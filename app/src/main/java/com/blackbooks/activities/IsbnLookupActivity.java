@@ -1,7 +1,6 @@
 package com.blackbooks.activities;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -14,16 +13,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blackbooks.R;
-import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.dialogs.DuplicateBooksDialog;
 import com.blackbooks.model.persistent.Book;
-import com.blackbooks.services.BookServices;
+import com.blackbooks.services.BookService;
 import com.blackbooks.utils.Commons;
 import com.blackbooks.utils.IsbnUtils;
 import com.blackbooks.utils.Pic2ShopUtils;
 
 import java.util.List;
 import java.util.regex.Pattern;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 
 /**
  * Activity to start an ISBN lookup operation on the Internet. The activity can
@@ -48,8 +50,12 @@ public final class IsbnLookupActivity extends FragmentActivity implements Duplic
     private boolean mEnableLookup;
     private boolean mIsbnScanned;
 
+    @Inject
+    BookService bookService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_isbn_lookup);
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -146,9 +152,7 @@ public final class IsbnLookupActivity extends FragmentActivity implements Duplic
      * @param isbn ISBN.
      */
     private void checkIsbnAndStartSearch(final String isbn) {
-
-        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-        List<Book> bookList = BookServices.getBookListByIsbn(db, isbn);
+        List<Book> bookList = bookService.getBookListByIsbn(isbn);
 
         if (bookList.isEmpty()) {
             startIsbnSearch(isbn);

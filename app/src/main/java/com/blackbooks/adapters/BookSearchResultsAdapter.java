@@ -38,15 +38,15 @@ public final class BookSearchResultsAdapter extends ArrayAdapter<BookInfo> {
 
     /**
      * Constructor.
-     *
-     * @param context Context.
+     *  @param context Context.
      * @param query   The query that returned the books displayed by the adapter.
+     * @param thumbnailManager
      */
-    public BookSearchResultsAdapter(Context context, String query) {
+    public BookSearchResultsAdapter(Context context, String query, ThumbnailManager thumbnailManager) {
         super(context, 0);
         this.mQuery = query;
-        this.mThumbnailManager = ThumbnailManager.getInstance();
         this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mThumbnailManager = thumbnailManager;
     }
 
     /**

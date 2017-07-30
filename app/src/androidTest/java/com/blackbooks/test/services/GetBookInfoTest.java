@@ -1,9 +1,20 @@
 package com.blackbooks.test.services;
 
+import com.blackbooks.database.TransactionManager;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Category;
-import com.blackbooks.services.BookServices;
+import com.blackbooks.repositories.AuthorRepository;
+import com.blackbooks.repositories.BookAuthorRepository;
+import com.blackbooks.repositories.BookCategoryRepository;
+import com.blackbooks.repositories.BookFTSRepository;
+import com.blackbooks.repositories.BookLocationRepository;
+import com.blackbooks.repositories.BookRepository;
+import com.blackbooks.repositories.CategoryRepository;
+import com.blackbooks.repositories.PublisherRepository;
+import com.blackbooks.repositories.SeriesRepository;
+import com.blackbooks.services.BookService;
+import com.blackbooks.services.BookServiceImpl;
 import com.blackbooks.test.data.Authors;
 import com.blackbooks.test.data.BookLocations;
 import com.blackbooks.test.data.Books;
@@ -14,17 +25,51 @@ import com.blackbooks.test.data.Seriez;
 
 import junit.framework.Assert;
 
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+
 import java.util.Date;
 
-/**
- * Test class of {@link BookServices#getBookInfo(android.database.sqlite.SQLiteDatabase, long)} ()}.
- */
+@RunWith(MockitoJUnitRunner.class)
 public class GetBookInfoTest extends AbstractDatabaseTest {
+
+    @Mock
+    private AuthorRepository authorRepository;
+
+    @Mock
+    private BookAuthorRepository bookAuthorRepository;
+
+    @Mock
+    private BookCategoryRepository bookCategoryRepository;
+
+    @Mock
+    private BookFTSRepository bookFTSRepository;
+
+    @Mock
+    private BookLocationRepository bookLocationRepository;
+
+    @Mock
+    private BookRepository bookRepository;
+
+    @Mock
+    private CategoryRepository categoryRepository;
+
+    @Mock
+    private PublisherRepository publisherRepository;
+
+    @Mock
+    private SeriesRepository seriesRepository;
+
+    @Mock
+    private TransactionManager transactionManager;
 
     /**
      * Test of getBookInfo.
      */
     public void testGetBookInfo() {
+        BookService bookService = new BookServiceImpl(authorRepository, bookAuthorRepository, bookCategoryRepository, bookFTSRepository, bookLocationRepository, bookRepository, categoryRepository, publisherRepository, seriesRepository, transactionManager);
+
         Author author = new Author();
         author.name = Authors.IAN_FLEMING;
 
@@ -49,9 +94,9 @@ public class GetBookInfoTest extends AbstractDatabaseTest {
         bookInfo.isFavourite = 0L;
         bookInfo.bookLocation.name = BookLocations.LIVING_ROOM;
 
-        BookServices.saveBookInfo(getDb(), bookInfo);
+        bookService.saveBookInfo(bookInfo);
 
-        BookInfo bookInfoDb = BookServices.getBookInfo(getDb(), bookInfo.id);
+        BookInfo bookInfoDb = bookService.getBookInfo(bookInfo.id);
 
         Assert.assertNotNull(bookInfoDb);
 

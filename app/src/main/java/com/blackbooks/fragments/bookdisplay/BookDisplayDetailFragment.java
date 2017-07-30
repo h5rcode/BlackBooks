@@ -2,11 +2,11 @@ package com.blackbooks.fragments.bookdisplay;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -25,16 +25,19 @@ import android.widget.Toast;
 
 import com.blackbooks.R;
 import com.blackbooks.activities.BookEditActivity;
-import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.dialogs.ImageDisplayFragment;
 import com.blackbooks.model.nonpersistent.BookInfo;
-import com.blackbooks.services.BookServices;
+import com.blackbooks.services.BookService;
 import com.blackbooks.utils.BitmapUtils;
 import com.blackbooks.utils.DateUtils;
 import com.blackbooks.utils.StringUtils;
 import com.blackbooks.utils.VariableUtils;
 
 import java.util.Locale;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * Fragment to display the information of a book.
@@ -80,6 +83,9 @@ public final class BookDisplayDetailFragment extends Fragment {
 
     private BookDisplayListener mBookDisplayListener;
 
+    @Inject
+    BookService bookService;
+
     /**
      * Create a new instance of BookDisplayFragment, initialized to display a
      * book.
@@ -96,10 +102,11 @@ public final class BookDisplayDetailFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (activity instanceof BookDisplayListener) {
-            mBookDisplayListener = (BookDisplayListener) activity;
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
+        if (context instanceof BookDisplayListener) {
+            mBookDisplayListener = (BookDisplayListener) context;
         }
         Bundle args = getArguments();
         long bookId = args.getLong(ARG_BOOK_ID);
@@ -183,8 +190,7 @@ public final class BookDisplayDetailFragment extends Fragment {
         String title = mBookInfo.title;
         String message = String.format(getString(R.string.message_book_deleted), title);
 
-        SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-        BookServices.deleteBook(db, mBookInfo.id);
+        bookService.deleteBook(mBookInfo.id);
         VariableUtils.getInstance().setReloadBookList(true);
         Toast.makeText(this.getActivity(), message, Toast.LENGTH_SHORT).show();
 
@@ -237,8 +243,7 @@ public final class BookDisplayDetailFragment extends Fragment {
      * @param bookId Id of a book.
      */
     private void loadBookInfo(long bookId) {
-        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-        mBookInfo = BookServices.getBookInfo(db, bookId);
+        mBookInfo = bookService.getBookInfo(bookId);
 
         if (mBookDisplayListener != null) {
             mBookDisplayListener.onBookLoaded(mBookInfo);

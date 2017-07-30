@@ -1,7 +1,7 @@
 package com.blackbooks.fragments.bookgrouplist;
 
+import android.content.Context;
 import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,16 +10,18 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.blackbooks.R;
-import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.dialogs.SeriesDeleteFragment;
 import com.blackbooks.fragments.dialogs.SeriesEditFragment;
 import com.blackbooks.model.nonpersistent.BookGroup;
-import com.blackbooks.services.BookGroupServices;
-import com.blackbooks.services.SeriesServices;
-import com.blackbooks.services.SummaryServices;
+import com.blackbooks.repositories.SeriesRepository;
+import com.blackbooks.services.BookGroupService;
 import com.blackbooks.utils.VariableUtils;
 
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * A fragment to display the series in the library.
@@ -31,19 +33,34 @@ public final class BookGroupListSeriesFragment extends AbstractBookGroupListFrag
     private static final String TAG_FRAGMENT_SERIES_EDIT = "TAG_FRAGMENT_SERIES_EDIT";
     private static final String TAG_FRAGMENT_SERIES_DELETE = "TAG_FRAGMENT_SERIES_DELETE";
 
+    @Inject
+    BookGroupService bookGroupService;
+
+    @Inject
+    SeriesRepository seriesService;
+
+    @Inject
+    SeriesRepository summaryService;
+
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
+    }
+
     @Override
     protected BookGroup.BookGroupType getBookGroupType() {
         return BookGroup.BookGroupType.SERIES;
     }
 
     @Override
-    protected int getBookGroupCount(SQLiteDatabase db) {
-        return SummaryServices.getSeriesCount(db);
+    protected int getBookGroupCount() {
+        return summaryService.getSeriesCount();
     }
 
     @Override
-    protected List<BookGroup> loadBookGroupList(SQLiteDatabase db, int limit, int offset) {
-        return BookGroupServices.getBookGroupListSeries(db, limit, offset);
+    protected List<BookGroup> loadBookGroupList(int limit, int offset) {
+        return bookGroupService.getBookGroupListSeries(limit, offset);
     }
 
     @Override
@@ -97,8 +114,7 @@ public final class BookGroupListSeriesFragment extends AbstractBookGroupListFrag
 
     @Override
     public void onSeriesEdit(BookGroup bookGroup, String newName) {
-        SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-        SeriesServices.updateSeries(db, (Long) bookGroup.id, newName);
+        seriesService.updateSeries((Long) bookGroup.id, newName);
 
         String message = getString(R.string.message_series_modifed, bookGroup.name);
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
@@ -108,8 +124,7 @@ public final class BookGroupListSeriesFragment extends AbstractBookGroupListFrag
 
     @Override
     public void onSeriesDeleted(BookGroup bookGroup) {
-        SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-        SeriesServices.deleteSeries(db, (Long) bookGroup.id);
+        seriesService.deleteSeries((Long) bookGroup.id);
 
         VariableUtils.getInstance().setReloadBookList(true);
         String message = getString(R.string.message_series_deleted, bookGroup.name);

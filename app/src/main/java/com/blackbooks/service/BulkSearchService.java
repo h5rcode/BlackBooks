@@ -7,22 +7,22 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.blackbooks.R;
 import com.blackbooks.activities.BulkAddActivity;
-import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Isbn;
 import com.blackbooks.search.BookSearcher;
-import com.blackbooks.services.IsbnServices;
+import com.blackbooks.services.IsbnService;
 import com.blackbooks.utils.LogUtils;
 import com.blackbooks.utils.VariableUtils;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * A service that performs background ISBN look ups.
@@ -34,6 +34,9 @@ public final class BulkSearchService extends IntentService {
     private static final int MAX_CONSECUTIVE_ERRORS = 5;
 
     private boolean mStop;
+
+    @Inject
+    IsbnService isbnService;
 
     /**
      * Constructor.
@@ -47,8 +50,7 @@ public final class BulkSearchService extends IntentService {
 
         VariableUtils.getInstance().setBulkSearchRunning(true);
 
-        final SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-        final List<Isbn> isbnList = IsbnServices.getIsbnListToLookUp(db, Integer.MAX_VALUE, 0);
+        final List<Isbn> isbnList = isbnService.getIsbnListToLookUp(Integer.MAX_VALUE, 0);
 
         final int isbnCount = isbnList.size();
 
@@ -90,10 +92,10 @@ public final class BulkSearchService extends IntentService {
                 final BookInfo bookInfo = BookSearcher.search(number);
                 if (bookInfo == null) {
                     Log.d(LogUtils.TAG, "No results.");
-                    IsbnServices.markIsbnLookedUp(db, isbn.id, null);
+                    isbnService.markIsbnLookedUp(isbn.id, null);
                 } else {
                     Log.d(LogUtils.TAG, String.format("Result: %s", bookInfo.title));
-                    IsbnServices.saveBookInfo(db, bookInfo, isbn.id);
+                    isbnService.saveBookInfo(bookInfo, isbn.id);
                     VariableUtils.getInstance().setReloadBookList(true);
                 }
 

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,17 +25,18 @@ import android.widget.Toast;
 
 import com.blackbooks.R;
 import com.blackbooks.adapters.PendingIsbnListAdapter;
-import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.dialogs.IsbnAddFragment;
 import com.blackbooks.fragments.dialogs.ScannerInstallFragment;
 import com.blackbooks.model.persistent.Isbn;
 import com.blackbooks.service.BulkSearchService;
-import com.blackbooks.services.IsbnServices;
+import com.blackbooks.services.IsbnService;
 import com.blackbooks.utils.IsbnUtils;
 import com.blackbooks.utils.Pic2ShopUtils;
 import com.blackbooks.utils.VariableUtils;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * Bulk add fragment.
@@ -57,6 +57,9 @@ public final class BulkAddFragmentPending extends ListFragment implements IsbnAd
     private TextView mTextViewFooter;
     private String mBulkScanMessage;
     private IsbnListLoadTask mIsbnListLoadTask;
+
+    @Inject
+    IsbnService isbnService;
 
     /**
      * Return a new instance of BulkAddFragment.
@@ -178,8 +181,7 @@ public final class BulkAddFragmentPending extends ListFragment implements IsbnAd
      * Delete al the ISBNs.
      */
     private void deleteAll() {
-        SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-        IsbnServices.deleteAllPendingIsbns(db);
+        isbnService.deleteAllPendingIsbns();
         reloadIsbns();
     }
 
@@ -254,8 +256,7 @@ public final class BulkAddFragmentPending extends ListFragment implements IsbnAd
      * @param isbn ISBN.
      */
     private void saveIsbn(String isbn) {
-        SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-        IsbnServices.saveIsbn(db, isbn);
+        isbnService.saveIsbn(isbn);
 
         reloadIsbns();
     }
@@ -357,9 +358,8 @@ public final class BulkAddFragmentPending extends ListFragment implements IsbnAd
 
         @Override
         protected List<Isbn> doInBackground(Void... params) {
-            SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-            mIsbnCount = IsbnServices.getIsbnListToLookUpCount(db);
-            return IsbnServices.getIsbnListToLookUp(db, mLimit, mOffset);
+            mIsbnCount = isbnService.getIsbnListToLookUpCount();
+            return isbnService.getIsbnListToLookUp(mLimit, mOffset);
         }
 
         @Override

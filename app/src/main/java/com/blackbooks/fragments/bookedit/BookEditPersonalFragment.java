@@ -1,6 +1,6 @@
 package com.blackbooks.fragments.bookedit;
 
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,12 +13,15 @@ import android.widget.EditText;
 import com.blackbooks.R;
 import com.blackbooks.adapters.AutoCompleteAdapter;
 import com.blackbooks.adapters.AutoCompleteAdapter.AutoCompleteSearcher;
-import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.BookLocation;
-import com.blackbooks.services.BookLocationServices;
+import com.blackbooks.services.BookLocationService;
 
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * Fragment to edit the information concerning the owner of the book.
@@ -35,6 +38,9 @@ public final class BookEditPersonalFragment extends Fragment {
     private BookInfo mBookInfo;
 
     private AutoCompleteAdapter<BookLocation> mBookLocationAutoCompleteAdapter;
+
+    @Inject
+    BookLocationService bookLocationService;
 
     /**
      * Create a new instance of BookEditPersonalFragment.
@@ -64,19 +70,24 @@ public final class BookEditPersonalFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         findViews();
         renderBookInfo();
 
-        mBookLocationAutoCompleteAdapter = new AutoCompleteAdapter<BookLocation>(this.getActivity(),
+        mBookLocationAutoCompleteAdapter = new AutoCompleteAdapter<>(this.getActivity(),
                 android.R.layout.simple_list_item_1, new AutoCompleteSearcher<BookLocation>() {
 
             @Override
             public List<BookLocation> search(CharSequence constraint) {
-                SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-                return BookLocationServices.getBookLocationListByText(db, constraint.toString());
+                return bookLocationService.getBookLocationListByText(constraint.toString());
             }
 
             @Override
@@ -104,12 +115,11 @@ public final class BookEditPersonalFragment extends Fragment {
         bookInfo.comment = comment;
 
         BookLocation bookLocation = new BookLocation();
-        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
 
         if (bookLocationName != null && !bookLocationName.isEmpty()) {
             bookLocation.name = bookLocationName;
 
-            BookLocation bookLocationDb = BookLocationServices.getBookLocationByCriteria(db, bookLocation);
+            BookLocation bookLocationDb = bookLocationService.getBookLocationByCriteria(bookLocation);
             if (bookLocationDb != null) {
                 bookLocation = bookLocationDb;
             }

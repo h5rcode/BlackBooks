@@ -1,19 +1,35 @@
 package com.blackbooks.fragments.bookgrouplist;
 
 import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 
 import com.blackbooks.R;
 import com.blackbooks.model.nonpersistent.BookGroup;
-import com.blackbooks.services.BookGroupServices;
-import com.blackbooks.services.SummaryServices;
+import com.blackbooks.services.BookGroupService;
+import com.blackbooks.services.SummaryService;
 
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * A fragment to display the first letters of the book titles in the library.
  */
 public final class BookGroupListFirstLetterFragment extends AbstractBookGroupListFragment {
+
+    @Inject
+    BookGroupService bookGroupService;
+
+    @Inject
+    SummaryService summaryService;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        AndroidSupportInjection.inject(this);
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     protected BookGroup.BookGroupType getBookGroupType() {
@@ -21,13 +37,13 @@ public final class BookGroupListFirstLetterFragment extends AbstractBookGroupLis
     }
 
     @Override
-    protected int getBookGroupCount(SQLiteDatabase db) {
-        return SummaryServices.getFirstLetterCount(db);
+    protected int getBookGroupCount() {
+        return summaryService.getFirstLetterCount();
     }
 
     @Override
-    protected List<BookGroup> loadBookGroupList(SQLiteDatabase db, int limit, int offset) {
-        return BookGroupServices.getBookGroupListFirstLetter(db, limit, offset);
+    protected List<BookGroup> loadBookGroupList(int limit, int offset) {
+        return bookGroupService.getBookGroupListFirstLetter(limit, offset);
     }
 
     @Override

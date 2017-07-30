@@ -1,8 +1,8 @@
 package com.blackbooks.fragments.booksearch;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -17,13 +17,17 @@ import android.widget.Toast;
 import com.blackbooks.R;
 import com.blackbooks.activities.BookDisplayActivity;
 import com.blackbooks.adapters.BookSearchResultsAdapter;
-import com.blackbooks.database.SQLiteHelper;
+import com.blackbooks.cache.ThumbnailManager;
 import com.blackbooks.model.nonpersistent.BookInfo;
-import com.blackbooks.services.FullTextSearchServices;
+import com.blackbooks.services.FullTextSearchService;
 import com.blackbooks.utils.StringUtils;
 import com.blackbooks.utils.VariableUtils;
 
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * Book search fragment.
@@ -46,6 +50,12 @@ public final class BookSearchFragment extends ListFragment {
     private int mLastItem = -1;
 
     private BookSearchTask mBookSearchTask;
+
+    @Inject
+    FullTextSearchService fullTextSearchService;
+
+    @Inject
+    ThumbnailManager mThumbnailManager;
 
     /**
      * Return a new instance of BookSearchFragment that is initialized to perform a search with
@@ -72,7 +82,7 @@ public final class BookSearchFragment extends ListFragment {
         Bundle args = this.getArguments();
         mQuery = args.getString(ARGS_QUERY);
 
-        mAdapter = new BookSearchResultsAdapter(getActivity(), mQuery);
+        mAdapter = new BookSearchResultsAdapter(getActivity(), mQuery, mThumbnailManager);
         setListAdapter(mAdapter);
     }
 
@@ -109,6 +119,12 @@ public final class BookSearchFragment extends ListFragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
     }
 
     @Override
@@ -178,12 +194,10 @@ public final class BookSearchFragment extends ListFragment {
 
         @Override
         protected List<BookInfo> doInBackground(Void... params) {
-            SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-
             String query = StringUtils.normalize(mQuery);
             query += "*";
-            mBookCount = FullTextSearchServices.getSearchResultCount(db, query);
-            return FullTextSearchServices.searchBooks(db, query, mLimit, mOffset);
+            mBookCount = fullTextSearchService.getSearchResultCount(query);
+            return fullTextSearchService.searchBooks(query, mLimit, mOffset);
         }
 
         @Override

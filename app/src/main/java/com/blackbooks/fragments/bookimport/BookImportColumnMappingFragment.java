@@ -1,5 +1,6 @@
 package com.blackbooks.fragments.bookimport;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -28,13 +29,17 @@ import com.blackbooks.fragments.dialogs.TextQualifier;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.nonpersistent.CsvColumn;
 import com.blackbooks.model.persistent.Book;
-import com.blackbooks.services.BookServices;
+import com.blackbooks.services.BookService;
 import com.blackbooks.utils.CsvUtils;
 import com.blackbooks.utils.LogUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * The fragment that allows the user to map each column of a CSV file to a property of a book.
@@ -55,6 +60,9 @@ public final class BookImportColumnMappingFragment extends Fragment implements P
 
     private CsvParsingTask mCsvParsingTask;
 
+    @Inject
+    BookService bookService;
+
     /**
      * Constructor.
      *
@@ -73,6 +81,12 @@ public final class BookImportColumnMappingFragment extends Fragment implements P
         arguments.putBoolean(ARG_FIRST_ROW_CONTAINS_HEADER, firstRowContainsHeader);
         fragment.setArguments(arguments);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
     }
 
     @Override
@@ -174,7 +188,7 @@ public final class BookImportColumnMappingFragment extends Fragment implements P
         boolean titleMapped = false;
         CsvColumn.BookProperty propertyMappedMultipleTimes = null;
 
-        List<CsvColumn.BookProperty> mappedProperties = new ArrayList<CsvColumn.BookProperty>();
+        List<CsvColumn.BookProperty> mappedProperties = new ArrayList<>();
         for (CsvColumn csvColumn : mCsvColumns) {
             CsvColumn.BookProperty bookProperty = csvColumn.getBookProperty();
             if (bookProperty == CsvColumn.BookProperty.NONE) {
@@ -279,7 +293,7 @@ public final class BookImportColumnMappingFragment extends Fragment implements P
                             break;
                         }
 
-                        processBookInfo(db, bookInfo);
+                        processBookInfo(bookInfo);
                         i++;
                         publishProgress(i);
                     }
@@ -299,13 +313,12 @@ public final class BookImportColumnMappingFragment extends Fragment implements P
         /**
          * Process a parsed book and save it in the database if everything is fine.
          *
-         * @param db       SQLiteDatabase.
          * @param bookInfo The book.
          */
-        private void processBookInfo(SQLiteDatabase db, BookInfo bookInfo) {
+        private void processBookInfo(BookInfo bookInfo) {
             boolean ok = true;
             if (bookInfo.id != null) {
-                final Book book = BookServices.getBook(db, bookInfo.id);
+                final Book book = bookService.getBook(bookInfo.id);
                 if (book == null) {
                     ok = false;
                     final String msg = String.format(
@@ -317,7 +330,7 @@ public final class BookImportColumnMappingFragment extends Fragment implements P
 
             if (ok) {
                 Log.d(LogUtils.TAG, String.format("Saving book '%s'.", bookInfo.title));
-                BookServices.saveBookInfo(db, bookInfo);
+                bookService.saveBookInfo(bookInfo);
             }
         }
 

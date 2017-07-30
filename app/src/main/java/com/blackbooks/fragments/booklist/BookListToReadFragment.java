@@ -1,28 +1,39 @@
 package com.blackbooks.fragments.booklist;
 
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Context;
 
 import com.blackbooks.R;
-import com.blackbooks.fragments.booklist.AbstractBookListFragment2;
 import com.blackbooks.model.nonpersistent.BookInfo;
-import com.blackbooks.services.BookServices;
-import com.blackbooks.services.SummaryServices;
+import com.blackbooks.repositories.BookRepository;
 
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * A fragment to display the books to read.
  */
-public final class BookListToReadFragment extends AbstractBookListFragment2 {
+public final class BookListToReadFragment extends AbstractBookListFragment {
+
+    @Inject
+    BookRepository summaryService;
 
     @Override
-    protected int getBookCount(SQLiteDatabase db) {
-        return SummaryServices.getBookToReadCount(db);
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
     }
 
     @Override
-    protected List<BookInfo> loadBookInfoList(SQLiteDatabase db, int limit, int offset) {
-        return BookServices.getBookInfoListToRead(db, limit, offset);
+    protected int getBookCount() {
+        return summaryService.getBookToReadCount();
+    }
+
+    @Override
+    protected List<BookInfo> loadBookInfoList(int limit, int offset) {
+        return bookService.getBookInfoListToRead(limit, offset);
     }
 
     @Override

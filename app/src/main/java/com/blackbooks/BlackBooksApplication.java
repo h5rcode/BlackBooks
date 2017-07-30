@@ -1,46 +1,49 @@
 package com.blackbooks;
 
+import android.app.Activity;
 import android.app.Application;
-import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 
-import com.blackbooks.activities.ReportErrorActivity;
 import com.blackbooks.database.SQLiteHelper;
+import com.blackbooks.dependencies.components.DaggerBlackBooksApplicationComponent;
 import com.blackbooks.utils.LogUtils;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
 /**
  * Black Books application class.
  */
-public final class BlackBooksApplication extends Application {
+public final class BlackBooksApplication extends Application implements HasActivityInjector, HasSupportFragmentInjector {
+
+    @Inject
+    DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
+
+    @Inject
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidFragmentInjector;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        DaggerBlackBooksApplicationComponent.create().inject(this);
+
         Log.i(LogUtils.TAG, "Application starting.");
 
         SQLiteHelper.initialize(getApplicationContext());
-
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-
-            @Override
-            public void uncaughtException(Thread thread, Throwable e) {
-                handleUncaughtException(e);
-            }
-        });
     }
 
-    /**
-     * Handle uncaught exception.
-     *
-     * @param e The exception that was thrown.
-     */
-    public void handleUncaughtException(Throwable e) {
-        Log.e(LogUtils.TAG, "Uncaught exception.", e);
+    @Override
+    public DispatchingAndroidInjector<Activity> activityInjector() {
+        return dispatchingAndroidInjector;
+    }
 
-        Intent intent = new Intent(getApplicationContext(), ReportErrorActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getApplicationContext().startActivity(intent);
-
-        System.exit(1);
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidFragmentInjector;
     }
 }

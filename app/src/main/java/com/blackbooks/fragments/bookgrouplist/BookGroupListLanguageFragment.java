@@ -1,20 +1,36 @@
 package com.blackbooks.fragments.bookgrouplist;
 
+import android.content.Context;
 import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
 
 import com.blackbooks.R;
 import com.blackbooks.model.nonpersistent.BookGroup;
-import com.blackbooks.services.BookGroupServices;
-import com.blackbooks.services.SummaryServices;
+import com.blackbooks.repositories.BookRepository;
+import com.blackbooks.services.BookGroupService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * A fragment to display the languages in the library.
  */
 public final class BookGroupListLanguageFragment extends AbstractBookGroupListFragment {
+
+    @Inject
+    BookGroupService bookGroupService;
+
+    @Inject
+    BookRepository summaryService;
+
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
+    }
 
     @Override
     protected BookGroup.BookGroupType getBookGroupType() {
@@ -22,17 +38,17 @@ public final class BookGroupListLanguageFragment extends AbstractBookGroupListFr
     }
 
     @Override
-    protected int getBookGroupCount(SQLiteDatabase db) {
-        return SummaryServices.getLanguageCount(db);
+    protected int getBookGroupCount() {
+        return summaryService.getLanguageCount();
     }
 
     @Override
-    protected List<BookGroup> loadBookGroupList(SQLiteDatabase db, int limit, int offset) {
+    protected List<BookGroup> loadBookGroupList(int limit, int offset) {
         List<BookGroup> bookGroupList;
         if (offset == 0) {
-            bookGroupList = BookGroupServices.getBookGroupListLanguage(db);
+            bookGroupList = bookGroupService.getBookGroupListLanguage();
         } else {
-            bookGroupList = new ArrayList<BookGroup>();
+            bookGroupList = new ArrayList<>();
         }
         return bookGroupList;
     }

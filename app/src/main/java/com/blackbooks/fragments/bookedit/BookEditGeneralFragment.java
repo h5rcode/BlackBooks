@@ -1,8 +1,8 @@
 package com.blackbooks.fragments.bookedit;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -29,7 +29,6 @@ import com.blackbooks.activities.BookAuthorsEditActivity;
 import com.blackbooks.activities.BookCategoriesEditActivity;
 import com.blackbooks.adapters.AutoCompleteAdapter;
 import com.blackbooks.adapters.AutoCompleteAdapter.AutoCompleteSearcher;
-import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.fragments.dialogs.DatePickerFragment;
 import com.blackbooks.fragments.dialogs.DatePickerFragment.DatePickerListener;
 import com.blackbooks.fragments.dialogs.ImageDisplayFragment;
@@ -40,10 +39,10 @@ import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Publisher;
 import com.blackbooks.model.persistent.Series;
-import com.blackbooks.services.AuthorServices;
-import com.blackbooks.services.CategoryServices;
-import com.blackbooks.services.PublisherServices;
-import com.blackbooks.services.SeriesServices;
+import com.blackbooks.repositories.PublisherRepository;
+import com.blackbooks.repositories.SeriesRepository;
+import com.blackbooks.services.AuthorService;
+import com.blackbooks.services.CategoryService;
 import com.blackbooks.utils.BitmapUtils;
 import com.blackbooks.utils.DateUtils;
 import com.blackbooks.utils.IsbnUtils;
@@ -56,9 +55,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
+
 /**
  * Fragment to edit the general information of a book.
  */
+@SuppressWarnings("Convert2Diamond")
 public final class BookEditGeneralFragment extends Fragment implements DatePickerListener, LanguagePickerFragment.LanguagePickerListener {
 
     private static final String ARG_BOOK = "ARG_BOOK";
@@ -97,6 +101,18 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
 
     private boolean mValidBookInfo;
 
+    @Inject
+    AuthorService authorService;
+
+    @Inject
+    CategoryService categoryService;
+
+    @Inject
+    SeriesRepository seriesService;
+
+    @Inject
+    PublisherRepository publisherService;
+
     /**
      * Create a new instance of BookEditGeneralFragment.
      *
@@ -115,6 +131,12 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
     }
 
     @Override
@@ -256,13 +278,12 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
             }
         });
 
-        AutoCompleteAdapter<Publisher> publisherAutoCompleteAdapter = new AutoCompleteAdapter<Publisher>(this.getActivity(),
+        AutoCompleteAdapter<Publisher> publisherAutoCompleteAdapter = new AutoCompleteAdapter<>(this.getActivity(),
                 android.R.layout.simple_list_item_1, new AutoCompleteSearcher<Publisher>() {
 
             @Override
             public List<Publisher> search(CharSequence constraint) {
-                SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-                return PublisherServices.getPublisherListByText(db, constraint.toString());
+                return publisherService.getPublisherListByText(constraint.toString());
             }
 
             @Override
@@ -287,8 +308,7 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
 
             @Override
             public List<Series> search(CharSequence constraint) {
-                SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-                return SeriesServices.getSeriesListByText(db, constraint.toString());
+                return seriesService.getSeriesListByText(constraint.toString());
             }
 
             @Override
@@ -374,11 +394,9 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
         }
         bookInfo.description = description;
 
-        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-
         List<Author> authors = new ArrayList<Author>();
         for (Author author : bookInfo.authors) {
-            Author authorDb = AuthorServices.getAuthorByCriteria(db, author);
+            Author authorDb = authorService.getAuthorByCriteria(author);
             if (authorDb != null) {
                 authors.add(authorDb);
             } else {
@@ -391,7 +409,7 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
         if (publisherName != null) {
             publisher.name = publisherName;
 
-            Publisher publisherDb = PublisherServices.getPublisherByCriteria(db, publisher);
+            Publisher publisherDb = publisherService.getPublisherByCriteria(publisher);
             if (publisherDb != null) {
                 publisher = publisherDb;
             }
@@ -402,7 +420,7 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
         if (seriesName != null) {
             series.name = seriesName;
 
-            Series seriesDb = SeriesServices.getSeriesByCriteria(db, series);
+            Series seriesDb = seriesService.getSeriesByCriteria(series);
             if (seriesDb != null) {
                 series = seriesDb;
             }
@@ -411,7 +429,7 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
 
         List<Category> categories = new ArrayList<Category>();
         for (Category category : bookInfo.categories) {
-            Category categoryDb = CategoryServices.getCategoryByCriteria(db, category);
+            Category categoryDb = categoryService.getCategoryByCriteria(category);
             if (categoryDb != null) {
                 categories.add(categoryDb);
             } else {
