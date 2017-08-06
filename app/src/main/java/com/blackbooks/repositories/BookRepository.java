@@ -9,7 +9,7 @@ public interface BookRepository {
 
     Book getBook(long bookId);
 
-    void save(BookInfo bookInfo);
+    long save(BookInfo bookInfo);
 
     void deleteBook(long bookId);
 

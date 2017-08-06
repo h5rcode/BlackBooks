@@ -1,13 +1,10 @@
 package com.blackbooks.test.services;
 
-import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 
 import com.blackbooks.database.SQLiteHelper;
-
-import junit.framework.Assert;
 
 /**
  * An abstract class extending {@link AndroidTestCase} that allows the testing
@@ -18,19 +15,7 @@ import junit.framework.Assert;
  */
 public abstract class AbstractDatabaseTest extends AndroidTestCase {
 
-    private static final String SQLITE_ERROR_19 = "error code 19: constraint failed";
-
     private SQLiteDatabase mDb;
-
-    /**
-     * Asserts that the cause of a given {@link SQLiteConstraintException} is a
-     * constraint violation.
-     *
-     * @param e SQLiteConstraintException.
-     */
-    protected static void assertConstraintFailed(SQLiteConstraintException e) {
-        Assert.assertEquals(SQLITE_ERROR_19, e.getMessage());
-    }
 
     @Override
     protected void setUp() throws Exception {

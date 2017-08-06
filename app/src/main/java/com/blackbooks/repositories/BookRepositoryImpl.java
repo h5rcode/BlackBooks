@@ -26,8 +26,8 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public void save(BookInfo bookInfo) {
-        BrokerManager.getBroker(Book.class).save(db, bookInfo);
+    public long save(BookInfo bookInfo) {
+        return BrokerManager.getBroker(Book.class).save(db, bookInfo);
     }
 
     @Override

@@ -47,8 +47,8 @@ public final class FTSBroker<T> {
 
         Field[] fields = type.getFields();
 
-        mColumns = new ArrayList<FTSColumn>();
-        mColumnMap = new HashMap<Field, FTSColumn>();
+        mColumns = new ArrayList<>();
+        mColumnMap = new HashMap<>();
         for (Field field : fields) {
             FTSColumn column = field.getAnnotation(FTSColumn.class);
             if (column != null) {

@@ -69,7 +69,7 @@ public class GetBookCountByAuthorTest extends AbstractDatabaseTest {
         bookInfo2.title = Books.LA_PESTE;
         bookInfo2.authors.add(author);
 
-        BookService bookService = new BookServiceImpl(authorRepository, bookAuthorRepository, bookCategoryRepository, bookFTSRepository, bookLocationRepository, bookRepository, categoryRepository, publisherRepository, seriesRepository, transactionManager);
+        BookServiceImpl bookService = new BookServiceImpl(authorRepository, bookAuthorRepository, bookCategoryRepository, bookFTSRepository, bookLocationRepository, bookRepository, categoryRepository, publisherRepository, seriesRepository, transactionManager);
 
         int bookCount = bookService.getBookCountByAuthor(author.id);
 

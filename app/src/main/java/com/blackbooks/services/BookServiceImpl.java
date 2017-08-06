@@ -70,23 +70,23 @@ public final class BookServiceImpl implements BookService {
     public void deleteBook(long bookId) {
         transactionManager.beginTransaction();
         try {
-            List<BookAuthor> baListByBook = bookAuthorRepository.getBookAuthorListByBook(bookId);
-            List<BookCategory> bcListByBook = bookCategoryRepository.getBookCategoryListByBook(bookId);
+            List<BookAuthor> bookAuthorsByBook = bookAuthorRepository.getBookAuthorListByBook(bookId);
+            List<BookCategory> bookCategoriesByBook = bookCategoryRepository.getBookCategoryListByBook(bookId);
             bookRepository.deleteBook(bookId);
 
-            for (BookAuthor ba : baListByBook) {
-                List<BookAuthor> baListByAuthor = bookAuthorRepository.getBookAuthorListByAuthor(ba.authorId);
+            for (BookAuthor bookAuthor : bookAuthorsByBook) {
+                List<BookAuthor> baListByAuthor = bookAuthorRepository.getBookAuthorListByAuthor(bookAuthor.authorId);
 
                 if (baListByAuthor.isEmpty()) {
-                    authorRepository.deleteAuthor(ba.authorId);
+                    authorRepository.deleteAuthor(bookAuthor.authorId);
                 }
             }
 
-            for (BookCategory bc : bcListByBook) {
-                List<BookCategory> bcListByCategory = bookCategoryRepository.getBookCategoryListByCategory(bc.categoryId);
+            for (BookCategory bookCategory : bookCategoriesByBook) {
+                List<BookCategory> bcListByCategory = bookCategoryRepository.getBookCategoryListByCategory(bookCategory.categoryId);
 
                 if (bcListByCategory.isEmpty()) {
-                    categoryRepository.deleteCategory(bc.categoryId);
+                    categoryRepository.deleteCategory(bookCategory.categoryId);
                 }
             }
 
@@ -121,9 +121,11 @@ public final class BookServiceImpl implements BookService {
         if (book.publisherId != null) {
             bookInfo.publisher = publisherRepository.getPublisher(book.publisherId);
         }
+
         if (book.bookLocationId != null) {
             bookInfo.bookLocation = bookLocationRepository.getBookLocation(book.bookLocationId);
         }
+
         if (book.seriesId != null) {
             bookInfo.series = seriesRepository.getSeries(book.seriesId);
         }
@@ -291,59 +293,23 @@ public final class BookServiceImpl implements BookService {
         try {
             boolean isCreation = bookInfo.id == null;
 
-            if (bookInfo.publisher.name != null) {
-
-                Publisher criteria = new Publisher();
-                criteria.name = bookInfo.publisher.name;
-
-                Publisher publisherDb = publisherRepository.getPublisherByCriteria(criteria);
-
-                long publisherId;
-                if (publisherDb != null) {
-                    publisherId = publisherDb.id;
-                } else {
-                    publisherRepository.savePublisher(bookInfo.publisher);
-                    publisherId = bookInfo.publisher.id;
-                }
-                bookInfo.publisherId = publisherId;
+            Publisher publisher = bookInfo.publisher;
+            if (publisher.name != null) {
+                bookInfo.publisherId = savePublisherIfNotExists(publisher);
             } else {
                 bookInfo.publisherId = null;
             }
 
-            if (bookInfo.bookLocation.name != null) {
-                BookLocation criteria = new BookLocation();
-                criteria.name = bookInfo.bookLocation.name;
-
-                BookLocation bookLocationDb = bookLocationRepository.getBookLocationByCriteria(criteria);
-
-                long bookLocationId;
-                if (bookLocationDb != null) {
-                    bookLocationId = bookLocationDb.id;
-                } else {
-                    bookLocationRepository.saveBookLocation(bookInfo.bookLocation);
-                    bookLocationId = bookInfo.bookLocation.id;
-                }
-
-                bookInfo.bookLocationId = bookLocationId;
+            BookLocation bookLocation = bookInfo.bookLocation;
+            if (bookLocation.name != null) {
+                bookInfo.bookLocationId = saveBookLocationIfNotExists(bookLocation);
             } else {
                 bookInfo.bookLocationId = null;
             }
 
-            if (bookInfo.series.name != null) {
-                Series criteria = new Series();
-                criteria.name = bookInfo.series.name;
-
-                Series seriesDb = seriesRepository.getSeriesByCriteria(criteria);
-
-                long seriesId;
-                if (seriesDb != null) {
-                    seriesId = seriesDb.id;
-                } else {
-                    seriesRepository.saveSeries(bookInfo.series);
-                    seriesId = bookInfo.series.id;
-                }
-
-                bookInfo.seriesId = seriesId;
+            Series series = bookInfo.series;
+            if (series.name != null) {
+                bookInfo.seriesId = saveSeriesIfNotExists(series);
             } else {
                 bookInfo.seriesId = null;
             }
@@ -356,7 +322,7 @@ public final class BookServiceImpl implements BookService {
                 throw new InvalidParameterException("Invalid ISBN-13.");
             }
 
-            bookRepository.save(bookInfo);
+            bookInfo.id = bookRepository.save(bookInfo);
 
             BookFTS bookFts = new BookFTS(bookInfo);
             if (isCreation) {
@@ -378,6 +344,57 @@ public final class BookServiceImpl implements BookService {
         } finally {
             transactionManager.endTransaction();
         }
+    }
+
+    private long saveSeriesIfNotExists(Series series) {
+        Series criteria = new Series();
+        criteria.name = series.name;
+
+        Series seriesDb = seriesRepository.getSeriesByCriteria(criteria);
+
+        long seriesId;
+        if (seriesDb != null) {
+            seriesId = seriesDb.id;
+        } else {
+            seriesRepository.saveSeries(series);
+            seriesId = series.id;
+        }
+
+        return seriesId;
+    }
+
+    private long saveBookLocationIfNotExists(BookLocation bookLocation) {
+        BookLocation criteria = new BookLocation();
+        criteria.name = bookLocation.name;
+
+        BookLocation bookLocationDb = bookLocationRepository.getBookLocationByCriteria(criteria);
+
+        long bookLocationId;
+        if (bookLocationDb != null) {
+            bookLocationId = bookLocationDb.id;
+        } else {
+            bookLocationRepository.saveBookLocation(bookLocation);
+            bookLocationId = bookLocation.id;
+        }
+
+        return bookLocationId;
+    }
+
+    private long savePublisherIfNotExists(Publisher publisher) {
+        Publisher criteria = new Publisher();
+        criteria.name = publisher.name;
+
+        Publisher publisherDb = publisherRepository.getPublisherByCriteria(criteria);
+
+        long publisherId;
+        if (publisherDb != null) {
+            publisherId = publisherDb.id;
+        } else {
+            publisherRepository.savePublisher(publisher);
+            publisherId = publisher.id;
+        }
+
+        return publisherId;
     }
 
     /**
