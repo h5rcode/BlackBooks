@@ -2,6 +2,7 @@ package com.blackbooks.fragments.bulkadd;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -38,6 +39,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import dagger.android.support.AndroidSupportInjection;
+
 /**
  * Bulk add fragment.
  */
@@ -68,6 +71,12 @@ public final class BulkAddFragmentPending extends ListFragment implements IsbnAd
      */
     public static BulkAddFragmentPending newInstance() {
         return new BulkAddFragmentPending();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
     }
 
     @Override
