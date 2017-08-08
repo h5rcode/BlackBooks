@@ -13,9 +13,9 @@ public interface BookRepository {
 
     void deleteBook(long bookId);
 
-    List<Book> getBookListBySeries(long seriesId, int limit, int offset);
+    List<Book> getBooksBySeries(long seriesId, int limit, int offset);
 
-    List<Book> getBookInfoListFavourite(int limit, int offset);
+    List<Book> getFavouriteBooks(int limit, int offset);
 
     List<Book> getBookInfoListToRead(int limit, int offset);
 

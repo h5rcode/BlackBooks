@@ -2,6 +2,7 @@ package com.blackbooks.services;
 
 import android.support.v4.util.LongSparseArray;
 
+import com.blackbooks.cache.ThumbnailManager;
 import com.blackbooks.database.TransactionManager;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
@@ -36,13 +37,14 @@ public final class BookServiceImpl implements BookService {
     private final AuthorRepository authorRepository;
     private final BookAuthorRepository bookAuthorRepository;
     private final BookCategoryRepository bookCategoryRepository;
+    private final BookFTSRepository bookFTSRepository;
     private final BookLocationRepository bookLocationRepository;
     private final BookRepository bookRepository;
     private final CategoryRepository categoryRepository;
     private final PublisherRepository publisherRepository;
     private final SeriesRepository seriesRepository;
+    private final ThumbnailManager thumbnailManager;
     private final TransactionManager transactionManager;
-    private final BookFTSRepository bookFTSRepository;
 
     public BookServiceImpl(
             AuthorRepository authorRepository,
@@ -54,7 +56,7 @@ public final class BookServiceImpl implements BookService {
             CategoryRepository categoryRepository,
             PublisherRepository publisherRepository,
             SeriesRepository seriesRepository,
-            TransactionManager transactionManager) {
+            ThumbnailManager thumbnailManager, TransactionManager transactionManager) {
         this.authorRepository = authorRepository;
         this.bookAuthorRepository = bookAuthorRepository;
         this.bookCategoryRepository = bookCategoryRepository;
@@ -64,6 +66,7 @@ public final class BookServiceImpl implements BookService {
         this.categoryRepository = categoryRepository;
         this.publisherRepository = publisherRepository;
         this.seriesRepository = seriesRepository;
+        this.thumbnailManager = thumbnailManager;
         this.transactionManager = transactionManager;
     }
 
@@ -96,7 +99,7 @@ public final class BookServiceImpl implements BookService {
             seriesRepository.deleteSeriesWithoutBooks();
             bookLocationRepository.deleteBookLocationsWithoutBooks();
 
-            // TODO ThumbnailManager.getInstance().removeThumbnails(bookId);
+            thumbnailManager.removeThumbnails(bookId);
 
             transactionManager.setTransactionSuccessful();
         } finally {
@@ -208,12 +211,12 @@ public final class BookServiceImpl implements BookService {
     }
 
     public List<BookInfo> getBookInfoListBySeries(long seriesId, int limit, int offset) {
-        List<Book> bookList = bookRepository.getBookListBySeries(seriesId, limit, offset);
+        List<Book> bookList = bookRepository.getBooksBySeries(seriesId, limit, offset);
         return getBookInfoListFromBookList(bookList);
     }
 
     public List<BookInfo> getBookInfoListFavourite(int limit, int offset) {
-        List<Book> bookList = bookRepository.getBookInfoListFavourite(limit, offset);
+        List<Book> bookList = bookRepository.getFavouriteBooks(limit, offset);
         return getBookInfoListFromBookList(bookList);
     }
 
@@ -334,7 +337,7 @@ public final class BookServiceImpl implements BookService {
                 seriesRepository.deleteSeriesWithoutBooks();
                 bookLocationRepository.deleteBookLocationsWithoutBooks();
 
-                // TODO ThumbnailManager.getInstance().removeThumbnails(bookInfo.id);
+                thumbnailManager.removeThumbnails(bookInfo.id);
             }
 
             updateBookAuthorList(bookInfo);

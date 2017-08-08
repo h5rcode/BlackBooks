@@ -36,7 +36,7 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public List<Book> getBookListBySeries(long seriesId, int limit, int offset) {
+    public List<Book> getBooksBySeries(long seriesId, int limit, int offset) {
         String[] selectedColumnList = new String[]{
                 "boo." + Book.Cols.BOO_ID,
                 "boo." + Book.Cols.BOO_TITLE,
@@ -58,7 +58,7 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public List<Book> getBookInfoListFavourite(int limit, int offset) {
+    public List<Book> getFavouriteBooks(int limit, int offset) {
         String[] selectedColumnList = new String[]{
                 "boo." + Book.Cols.BOO_ID,
                 "boo." + Book.Cols.BOO_TITLE,

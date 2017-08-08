@@ -1,24 +1,12 @@
 package com.blackbooks.test.services;
 
-import com.blackbooks.database.TransactionManager;
 import com.blackbooks.model.persistent.BookAuthor;
 import com.blackbooks.model.persistent.BookCategory;
-import com.blackbooks.repositories.AuthorRepository;
-import com.blackbooks.repositories.BookAuthorRepository;
-import com.blackbooks.repositories.BookCategoryRepository;
-import com.blackbooks.repositories.BookFTSRepository;
-import com.blackbooks.repositories.BookLocationRepository;
-import com.blackbooks.repositories.BookRepository;
-import com.blackbooks.repositories.CategoryRepository;
-import com.blackbooks.repositories.PublisherRepository;
-import com.blackbooks.repositories.SeriesRepository;
-import com.blackbooks.services.BookServiceImpl;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
@@ -30,43 +18,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DeleteBookTest {
-
-    @Mock
-    AuthorRepository authorRepository;
-
-    @Mock
-    BookAuthorRepository bookAuthorRepository;
-
-    @Mock
-    BookCategoryRepository bookCategoryRepository;
-
-    @Mock
-    BookFTSRepository bookFTSRepository;
-
-    @Mock
-    BookLocationRepository bookLocationRepository;
-
-    @Mock
-    BookRepository bookRepository;
-
-    @Mock
-    CategoryRepository categoryRepository;
-
-    @Mock
-    PublisherRepository publisherRepository;
-
-    @Mock
-    SeriesRepository seriesRepository;
-
-    @Mock
-    TransactionManager transactionManager;
+public class DeleteBookTest extends AbstractBookServiceTest {
 
     @Test
     public void delete_should_delete_the_book() {
         long bookId = 674L;
 
-        BookServiceImpl bookService = new BookServiceImpl(authorRepository, bookAuthorRepository, bookCategoryRepository, bookFTSRepository, bookLocationRepository, bookRepository, categoryRepository, publisherRepository, seriesRepository, transactionManager);
         bookService.deleteBook(bookId);
 
         verify(bookRepository).deleteBook(bookId);
@@ -76,7 +33,6 @@ public class DeleteBookTest {
     public void delete_should_remove_the_book_from_the_full_text_search_table() {
         long bookId = 35L;
 
-        BookServiceImpl bookService = new BookServiceImpl(authorRepository, bookAuthorRepository, bookCategoryRepository, bookFTSRepository, bookLocationRepository, bookRepository, categoryRepository, publisherRepository, seriesRepository, transactionManager);
         bookService.deleteBook(bookId);
 
         verify(bookFTSRepository).deleteBook(bookId);
@@ -103,7 +59,6 @@ public class DeleteBookTest {
         when(bookAuthorRepository.getBookAuthorListByAuthor(author1Id)).thenReturn(new ArrayList<BookAuthor>());
         when(bookAuthorRepository.getBookAuthorListByAuthor(author2Id)).thenReturn(new ArrayList<BookAuthor>());
 
-        BookServiceImpl bookService = new BookServiceImpl(authorRepository, bookAuthorRepository, bookCategoryRepository, bookFTSRepository, bookLocationRepository, bookRepository, categoryRepository, publisherRepository, seriesRepository, transactionManager);
         bookService.deleteBook(bookId);
 
         verify(authorRepository).deleteAuthor(author1Id);
@@ -131,7 +86,6 @@ public class DeleteBookTest {
         when(bookCategoryRepository.getBookCategoryListByCategory(category1Id)).thenReturn(new ArrayList<BookCategory>());
         when(bookCategoryRepository.getBookCategoryListByCategory(category2Id)).thenReturn(new ArrayList<BookCategory>());
 
-        BookServiceImpl bookService = new BookServiceImpl(authorRepository, bookAuthorRepository, bookCategoryRepository, bookFTSRepository, bookLocationRepository, bookRepository, categoryRepository, publisherRepository, seriesRepository, transactionManager);
         bookService.deleteBook(bookId);
 
         verify(categoryRepository).deleteCategory(category1Id);
@@ -140,7 +94,6 @@ public class DeleteBookTest {
 
     @Test
     public void delete_should_delete_publishers_without_books() {
-        BookServiceImpl bookService = new BookServiceImpl(authorRepository, bookAuthorRepository, bookCategoryRepository, bookFTSRepository, bookLocationRepository, bookRepository, categoryRepository, publisherRepository, seriesRepository, transactionManager);
         bookService.deleteBook(3129L);
 
         verify(seriesRepository).deleteSeriesWithoutBooks();
@@ -148,7 +101,6 @@ public class DeleteBookTest {
 
     @Test
     public void delete_should_delete_series_without_books() {
-        BookServiceImpl bookService = new BookServiceImpl(authorRepository, bookAuthorRepository, bookCategoryRepository, bookFTSRepository, bookLocationRepository, bookRepository, categoryRepository, publisherRepository, seriesRepository, transactionManager);
         bookService.deleteBook(192L);
 
         verify(seriesRepository).deleteSeriesWithoutBooks();
@@ -156,7 +108,6 @@ public class DeleteBookTest {
 
     @Test
     public void delete_should_begin_a_transaction() {
-        BookServiceImpl bookService = new BookServiceImpl(authorRepository, bookAuthorRepository, bookCategoryRepository, bookFTSRepository, bookLocationRepository, bookRepository, categoryRepository, publisherRepository, seriesRepository, transactionManager);
         bookService.deleteBook(32L);
 
         verify(transactionManager).beginTransaction();
@@ -164,7 +115,6 @@ public class DeleteBookTest {
 
     @Test
     public void delete_should_end_the_transaction() {
-        BookServiceImpl bookService = new BookServiceImpl(authorRepository, bookAuthorRepository, bookCategoryRepository, bookFTSRepository, bookLocationRepository, bookRepository, categoryRepository, publisherRepository, seriesRepository, transactionManager);
         bookService.deleteBook(264L);
 
         verify(transactionManager).endTransaction();
@@ -174,8 +124,6 @@ public class DeleteBookTest {
     public void delete_should_end_the_transaction_when_an_error_occurs() {
         long bookId = 554L;
         doThrow(new RuntimeException()).when(bookRepository).deleteBook(bookId);
-
-        BookServiceImpl bookService = new BookServiceImpl(authorRepository, bookAuthorRepository, bookCategoryRepository, bookFTSRepository, bookLocationRepository, bookRepository, categoryRepository, publisherRepository, seriesRepository, transactionManager);
 
         try {
             bookService.deleteBook(bookId);
@@ -187,7 +135,6 @@ public class DeleteBookTest {
 
     @Test
     public void delete_should_set_the_transaction_successful_when_no_error_occurs() {
-        BookServiceImpl bookService = new BookServiceImpl(authorRepository, bookAuthorRepository, bookCategoryRepository, bookFTSRepository, bookLocationRepository, bookRepository, categoryRepository, publisherRepository, seriesRepository, transactionManager);
         bookService.deleteBook(32L);
 
         verify(transactionManager).setTransactionSuccessful();
@@ -197,8 +144,6 @@ public class DeleteBookTest {
     public void delete_should_not_set_the_transaction_successful_when_an_error_occurs() {
         long bookId = 986L;
         doThrow(new RuntimeException()).when(bookRepository).deleteBook(bookId);
-
-        BookServiceImpl bookService = new BookServiceImpl(authorRepository, bookAuthorRepository, bookCategoryRepository, bookFTSRepository, bookLocationRepository, bookRepository, categoryRepository, publisherRepository, seriesRepository, transactionManager);
 
         try {
             bookService.deleteBook(bookId);

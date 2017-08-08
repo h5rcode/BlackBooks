@@ -88,6 +88,8 @@ import com.blackbooks.services.SeriesServiceImpl;
 import com.blackbooks.services.SummaryService;
 import com.blackbooks.services.SummaryServiceImpl;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import dagger.android.ContributesAndroidInjector;
@@ -264,6 +266,7 @@ public abstract class BlackBooksApplicationModule {
             CategoryRepository categoryRepository,
             PublisherRepository publisherRepository,
             SeriesRepository seriesRepository,
+            ThumbnailManager thumbnailManager,
             TransactionManager transactionManager) {
         return new BookServiceImpl(
                 authorRepository,
@@ -275,6 +278,7 @@ public abstract class BlackBooksApplicationModule {
                 categoryRepository,
                 publisherRepository,
                 seriesRepository,
+                thumbnailManager,
                 transactionManager);
     }
 
@@ -339,9 +343,9 @@ public abstract class BlackBooksApplicationModule {
     }
 
     @Provides
-    // TODO @Singleton
-    static ThumbnailManager provideThumbnailManager(BookService bookService) {
-        return new ThumbnailManagerImpl(bookService);
+    @Singleton
+    static ThumbnailManager provideThumbnailManager(BookRepository bookRepository) {
+        return new ThumbnailManagerImpl(bookRepository);
     }
 
     @Provides

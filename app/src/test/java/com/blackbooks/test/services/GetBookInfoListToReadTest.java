@@ -1,83 +1,50 @@
 package com.blackbooks.test.services;
 
-import com.blackbooks.database.TransactionManager;
 import com.blackbooks.model.nonpersistent.BookInfo;
-import com.blackbooks.repositories.AuthorRepository;
-import com.blackbooks.repositories.BookAuthorRepository;
-import com.blackbooks.repositories.BookCategoryRepository;
-import com.blackbooks.repositories.BookFTSRepository;
-import com.blackbooks.repositories.BookLocationRepository;
-import com.blackbooks.repositories.BookRepository;
-import com.blackbooks.repositories.CategoryRepository;
-import com.blackbooks.repositories.PublisherRepository;
-import com.blackbooks.repositories.SeriesRepository;
-import com.blackbooks.services.BookService;
-import com.blackbooks.services.BookServiceImpl;
+import com.blackbooks.model.persistent.Book;
 import com.blackbooks.test.data.Books;
 
 import junit.framework.Assert;
 
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.Mockito.when;
+
 @RunWith(MockitoJUnitRunner.class)
-public class GetBookInfoListToReadTest extends AbstractDatabaseTest {
+public class GetBookInfoListToReadTest extends AbstractBookServiceTest {
 
-    @Mock
-    private AuthorRepository authorRepository;
+    @Test
+    public void getBookInfoListToRead_should_return_the_expected_result() {
+        Book book1 = new Book();
+        book1.id = 253L;
+        book1.title = Books.HARRY_POTTER_AND_THE_CHAMBER_OF_SECRETS;
 
-    @Mock
-    private BookAuthorRepository bookAuthorRepository;
+        Book book2 = new Book();
+        book2.id = 536L;
+        book2.title = Books.HARRY_POTTER_AND_THE_PHILOSOPHER_S_STONE;
 
-    @Mock
-    private BookCategoryRepository bookCategoryRepository;
+        int limit = Integer.MAX_VALUE;
+        int offset = 0;
 
-    @Mock
-    private BookFTSRepository bookFTSRepository;
+        List<Book> books = new ArrayList<>();
+        books.add(book1);
+        books.add(book2);
 
-    @Mock
-    private BookLocationRepository bookLocationRepository;
+        when(bookRepository.getBookInfoListToRead(limit, offset)).thenReturn(books);
 
-    @Mock
-    private BookRepository bookRepository;
-
-    @Mock
-    private CategoryRepository categoryRepository;
-
-    @Mock
-    private PublisherRepository publisherRepository;
-
-    @Mock
-    private SeriesRepository seriesRepository;
-
-    @Mock
-    private TransactionManager transactionManager;
-
-    /**
-     * Make sure the method returns the expected result.
-     */
-    public void testGetBookInfoListToRead() {
-        BookService bookService = new BookServiceImpl(authorRepository, bookAuthorRepository, bookCategoryRepository, bookFTSRepository, bookLocationRepository, bookRepository, categoryRepository, publisherRepository, seriesRepository, transactionManager);
-
-        BookInfo bookInfo1 = new BookInfo();
-        bookInfo1.title = Books.HARRY_POTTER_AND_THE_CHAMBER_OF_SECRETS;
-        bookService.saveBookInfo(bookInfo1);
-
-        BookInfo bookInfo2 = new BookInfo();
-        bookInfo2.title = Books.HARRY_POTTER_AND_THE_CHAMBER_OF_SECRETS;
-        bookService.saveBookInfo(bookInfo2);
-
-        List<BookInfo> bookInfoList = bookService.getBookInfoListToRead(Integer.MAX_VALUE, 0);
+        List<BookInfo> bookInfoList = bookService.getBookInfoListToRead(limit, offset);
 
         Assert.assertEquals(2, bookInfoList.size());
 
         BookInfo bookInfoResult1 = bookInfoList.get(0);
         BookInfo bookInfoResult2 = bookInfoList.get(1);
 
-        Assert.assertEquals(bookInfo1.id.longValue(), bookInfoResult1.id.longValue());
-        Assert.assertEquals(bookInfo2.id.longValue(), bookInfoResult2.id.longValue());
+        Assert.assertEquals(book1.id.longValue(), bookInfoResult1.id.longValue());
+        Assert.assertEquals(book2.id.longValue(), bookInfoResult2.id.longValue());
     }
 }

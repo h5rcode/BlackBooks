@@ -1,6 +1,5 @@
 package com.blackbooks.test.services;
 
-import com.blackbooks.database.TransactionManager;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Book;
@@ -10,15 +9,6 @@ import com.blackbooks.model.persistent.BookLocation;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Publisher;
 import com.blackbooks.model.persistent.Series;
-import com.blackbooks.repositories.AuthorRepository;
-import com.blackbooks.repositories.BookAuthorRepository;
-import com.blackbooks.repositories.BookCategoryRepository;
-import com.blackbooks.repositories.BookFTSRepository;
-import com.blackbooks.repositories.BookLocationRepository;
-import com.blackbooks.repositories.BookRepository;
-import com.blackbooks.repositories.CategoryRepository;
-import com.blackbooks.repositories.PublisherRepository;
-import com.blackbooks.repositories.SeriesRepository;
 import com.blackbooks.services.BookServiceImpl;
 import com.blackbooks.test.data.Authors;
 import com.blackbooks.test.data.BookLocations;
@@ -31,49 +21,17 @@ import com.blackbooks.test.data.Seriez;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class GetBookInfoTest extends AbstractDatabaseTest {
-
-    @Mock
-    private AuthorRepository authorRepository;
-
-    @Mock
-    private BookAuthorRepository bookAuthorRepository;
-
-    @Mock
-    private BookCategoryRepository bookCategoryRepository;
-
-    @Mock
-    private BookFTSRepository bookFTSRepository;
-
-    @Mock
-    private BookLocationRepository bookLocationRepository;
-
-    @Mock
-    private BookRepository bookRepository;
-
-    @Mock
-    private CategoryRepository categoryRepository;
-
-    @Mock
-    private PublisherRepository publisherRepository;
-
-    @Mock
-    private SeriesRepository seriesRepository;
-
-    @Mock
-    private TransactionManager transactionManager;
-
-    private BookServiceImpl bookService;
+public class GetBookInfoTest extends AbstractBookServiceTest {
 
     private Book book;
     private Author author1;
@@ -86,8 +44,6 @@ public class GetBookInfoTest extends AbstractDatabaseTest {
 
     @Before
     public void setUp() {
-        bookService = new BookServiceImpl(authorRepository, bookAuthorRepository, bookCategoryRepository, bookFTSRepository, bookLocationRepository, bookRepository, categoryRepository, publisherRepository, seriesRepository, transactionManager);
-
         // Publisher.
         publisher = new Publisher();
         publisher.id = 2958L;
@@ -201,8 +157,6 @@ public class GetBookInfoTest extends AbstractDatabaseTest {
 
     @Test
     public void getBookInfo_should_return_the_correct_authors_info() {
-        BookServiceImpl bookService = new BookServiceImpl(authorRepository, bookAuthorRepository, bookCategoryRepository, bookFTSRepository, bookLocationRepository, bookRepository, categoryRepository, publisherRepository, seriesRepository, transactionManager);
-
         BookInfo bookInfo = bookService.getBookInfo(book.id);
 
         assertEquals(2, bookInfo.authors.size());
@@ -213,8 +167,6 @@ public class GetBookInfoTest extends AbstractDatabaseTest {
 
     @Test
     public void getBookInfo_should_return_the_correct_publisher_info() {
-        BookServiceImpl bookService = new BookServiceImpl(authorRepository, bookAuthorRepository, bookCategoryRepository, bookFTSRepository, bookLocationRepository, bookRepository, categoryRepository, publisherRepository, seriesRepository, transactionManager);
-
         BookInfo bookInfo = bookService.getBookInfo(book.id);
 
         assertEquals(publisher.id, bookInfo.publisherId);

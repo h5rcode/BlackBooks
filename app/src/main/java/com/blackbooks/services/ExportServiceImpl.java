@@ -113,6 +113,7 @@ public final class ExportServiceImpl implements ExportService {
         if (limit != null) {
             sb.append("LIMIT " + limit);
         }
+
         sb.append(";");
 
         String sql = sb.toString();
@@ -134,7 +135,7 @@ public final class ExportServiceImpl implements ExportService {
         int idxIsbn10 = cursor.getColumnIndex(isbn10);
         int idxIsbn13 = cursor.getColumnIndex(isbn13);
 
-        List<BookExport> bookExportList = new ArrayList<BookExport>();
+        List<BookExport> bookExportList = new ArrayList<>();
         while (cursor.moveToNext()) {
             BookExport bookExport = new BookExport();
             bookExport.id = cursor.getLong(idxId);

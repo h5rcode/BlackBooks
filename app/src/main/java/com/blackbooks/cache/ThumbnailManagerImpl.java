@@ -13,27 +13,27 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.blackbooks.R;
-import com.blackbooks.services.BookService;
+import com.blackbooks.repositories.BookRepository;
 
 /**
  * Singleton class for managing thumbnails, they are cached in a LruCache.
  */
 public final class ThumbnailManagerImpl implements ThumbnailManager {
 
-    private final BookService bookService;
+    private final BookRepository bookRepository;
 
-    private final LruCache<Long, Bitmap> mSmallThumbnailCache;
-    private Bitmap mUndefinedBitmap;
+    private final LruCache<Long, Bitmap> smallThumbnailCache;
+    private Bitmap undefinedBitmap;
 
     /**
      * Private constructor.
      */
-    public ThumbnailManagerImpl(BookService bookService) {
-        this.bookService = bookService;
+    public ThumbnailManagerImpl(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
 
         int maxMemoryKB = (int) (Runtime.getRuntime().maxMemory() / 1024);
         int totalCacheSize = maxMemoryKB / 8;
-        mSmallThumbnailCache = new LruCache<Long, Bitmap>(totalCacheSize) {
+        smallThumbnailCache = new LruCache<Long, Bitmap>(totalCacheSize) {
             @Override
             protected int sizeOf(Long key, Bitmap value) {
                 return value.getRowBytes() * value.getHeight() / 1024;
@@ -60,7 +60,7 @@ public final class ThumbnailManagerImpl implements ThumbnailManager {
      * @param bookId Id of the book.
      */
     public void removeThumbnails(long bookId) {
-        mSmallThumbnailCache.remove(bookId);
+        smallThumbnailCache.remove(bookId);
     }
 
     /**
@@ -72,7 +72,7 @@ public final class ThumbnailManagerImpl implements ThumbnailManager {
      * @param progressBar ProgressBar.
      */
     private void draw(long bookId, Context context, ImageView imageView, ProgressBar progressBar) {
-        Bitmap bmp = mSmallThumbnailCache.get(bookId);
+        Bitmap bmp = smallThumbnailCache.get(bookId);
         if (bmp != null) {
             imageView.setImageBitmap(bmp);
             progressBar.setVisibility(View.GONE);
@@ -91,15 +91,15 @@ public final class ThumbnailManagerImpl implements ThumbnailManager {
      * @return Bitmap.
      */
     private Bitmap getUndefinedBitmap(Context context) {
-        if (mUndefinedBitmap == null) {
+        if (undefinedBitmap == null) {
             Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_undefined_thumbnail);
-            mUndefinedBitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(mUndefinedBitmap);
+            undefinedBitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(undefinedBitmap);
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
             drawable.draw(canvas);
         }
         
-        return mUndefinedBitmap;
+        return undefinedBitmap;
     }
 
     /**
@@ -130,7 +130,7 @@ public final class ThumbnailManagerImpl implements ThumbnailManager {
 
         @Override
         protected byte[] doInBackground(Long... params) {
-            return bookService.getBookSmallThumbnail(mBookId);
+            return bookRepository.getBookSmallThumbnail(mBookId);
         }
 
         @Override
@@ -144,7 +144,7 @@ public final class ThumbnailManagerImpl implements ThumbnailManager {
                 smallThumbnailBmp = getUndefinedBitmap(mContext);
             }
 
-            mSmallThumbnailCache.put(mBookId, smallThumbnailBmp);
+            smallThumbnailCache.put(mBookId, smallThumbnailBmp);
 
             mImageView.setImageBitmap(smallThumbnailBmp);
             mProgressBar.setVisibility(View.GONE);
