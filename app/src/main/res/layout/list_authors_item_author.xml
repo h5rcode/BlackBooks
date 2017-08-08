@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/button_remove_author"
             android:onClick="removeAuthor"
-            android:src="@drawable/ic_delete"
+            android:src="@drawable/ic_action_discard"
             android:text="@string/button_remove_author" />
     </LinearLayout>
 

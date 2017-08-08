@@ -5,11 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -590,7 +593,11 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
             bitmap = BitmapFactory.decodeByteArray(thumbnail, 0, thumbnail.length);
             bitmap = BitmapUtils.resizeThumbnailBitmap(getActivity(), bitmap);
         } else {
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_undefined_thumbnail);
+            Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_undefined_thumbnail);
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
         }
         mImageThumbnail.setImageBitmap(bitmap);
     }

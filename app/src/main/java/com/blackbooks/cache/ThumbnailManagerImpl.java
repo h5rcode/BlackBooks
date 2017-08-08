@@ -3,7 +3,10 @@ package com.blackbooks.cache;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.util.LruCache;
 import android.view.View;
 import android.widget.ImageView;
@@ -89,8 +92,13 @@ public final class ThumbnailManagerImpl implements ThumbnailManager {
      */
     private Bitmap getUndefinedBitmap(Context context) {
         if (mUndefinedBitmap == null) {
-            mUndefinedBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_undefined_thumbnail);
+            Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_undefined_thumbnail);
+            mUndefinedBitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(mUndefinedBitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
         }
+        
         return mUndefinedBitmap;
     }
 
