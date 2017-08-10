@@ -30,7 +30,10 @@ public final class BlackBooksApplication extends Application implements HasActiv
     @Override
     public void onCreate() {
         super.onCreate();
-        DaggerBlackBooksApplicationComponent.create().inject(this);
+        DaggerBlackBooksApplicationComponent
+                .builder()
+                .build()
+                .inject(this);
 
         Log.i(LogUtils.TAG, "Application starting.");
 

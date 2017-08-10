@@ -4,27 +4,27 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.persistent.Isbn;
 import com.blackbooks.sql.BrokerManager;
 
 import java.util.List;
 
-public class IsbnRepositoryImpl implements IsbnRepository {
-    private final SQLiteDatabase db;
-
-    public IsbnRepositoryImpl(SQLiteDatabase db) {
-        this.db = db;
+public class IsbnRepositoryImpl extends AbstractRepository implements IsbnRepository {
+    public IsbnRepositoryImpl(SQLiteHelper sqLiteHelper) {
+        super(sqLiteHelper);
     }
 
     @Override
     public void deleteAllLookedUpIsbns() {
         String whereClause = Isbn.Cols.ISB_LOOKED_UP + " = ?";
         String[] whereArgs = new String[]{String.valueOf(1L)};
-        db.delete(Isbn.NAME, whereClause, whereArgs);
+        getWritableDatabase().delete(Isbn.NAME, whereClause, whereArgs);
     }
 
     @Override
     public void markIsbnLookedUp(long isbnId, Long bookId) {
+        SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
         try {
             ContentValues contentValues = new ContentValues();
@@ -43,7 +43,7 @@ public class IsbnRepositoryImpl implements IsbnRepository {
     @Override
     public int getIsbnListToLookUpCount() {
         String sql = "SELECT COUNT(*) FROM " + Isbn.NAME + " WHERE " + Isbn.Cols.ISB_LOOKED_UP + " = 0";
-        Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = getReadableDatabase().rawQuery(sql, null);
         cursor.moveToNext();
         int count = cursor.getInt(0);
         cursor.close();
@@ -57,13 +57,13 @@ public class IsbnRepositoryImpl implements IsbnRepository {
                 String.valueOf(limit),
                 String.valueOf(offset)
         };
-        return BrokerManager.getBroker(Isbn.class).rawSelect(db, sql, selectionArgs);
+        return BrokerManager.getBroker(Isbn.class).rawSelect(getReadableDatabase(), sql, selectionArgs);
     }
 
     @Override
     public int getIsbnListLookedUpCount() {
         String sql = "SELECT COUNT(*) FROM " + Isbn.NAME + " WHERE " + Isbn.Cols.ISB_LOOKED_UP + " = 1";
-        Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = getReadableDatabase().rawQuery(sql, null);
         cursor.moveToNext();
         int count = cursor.getInt(0);
         cursor.close();
@@ -77,13 +77,13 @@ public class IsbnRepositoryImpl implements IsbnRepository {
                 String.valueOf(limit),
                 String.valueOf(offset)
         };
-        return BrokerManager.getBroker(Isbn.class).rawSelect(db, sql, selectionArgs);
+        return BrokerManager.getBroker(Isbn.class).rawSelect(getReadableDatabase(), sql, selectionArgs);
     }
 
     @Override
     public void deleteAllPendingIsbns() {
         String whereClause = Isbn.Cols.ISB_LOOKED_UP + " = ?";
         String[] whereArgs = new String[]{String.valueOf(0L)};
-        db.delete(Isbn.NAME, whereClause, whereArgs);
+        getWritableDatabase().delete(Isbn.NAME, whereClause, whereArgs);
     }
 }

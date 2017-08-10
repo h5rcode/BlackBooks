@@ -3,6 +3,7 @@ package com.blackbooks.services;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookExport;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Book;
@@ -20,10 +21,10 @@ import java.util.List;
  */
 public final class ExportServiceImpl implements ExportService {
 
-    private final SQLiteDatabase db;
+    private final SQLiteHelper sqLiteHelper;
 
-    public ExportServiceImpl(SQLiteDatabase db) {
-        this.db = db;
+    public ExportServiceImpl(SQLiteHelper sqLiteHelper) {
+        this.sqLiteHelper = sqLiteHelper;
     }
 
     /**
@@ -118,6 +119,7 @@ public final class ExportServiceImpl implements ExportService {
 
         String sql = sb.toString();
 
+        SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
 
         int idxId = cursor.getColumnIndex(id);

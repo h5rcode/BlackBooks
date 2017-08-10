@@ -2,8 +2,10 @@ package com.blackbooks.services;
 
 import android.database.sqlite.SQLiteDatabase;
 
+import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Isbn;
+import com.blackbooks.repositories.AbstractRepository;
 import com.blackbooks.repositories.IsbnRepository;
 import com.blackbooks.sql.Broker;
 import com.blackbooks.sql.BrokerManager;
@@ -14,21 +16,19 @@ import java.util.List;
 /**
  * ISBN services.
  */
-public final class IsbnServiceImpl implements IsbnService {
+public final class IsbnServiceImpl extends AbstractRepository implements IsbnService {
 
     private final BookService bookService;
     private final IsbnRepository isbnRepository;
-    private final SQLiteDatabase db;
 
-    public IsbnServiceImpl(BookService bookService, IsbnRepository isbnRepository, SQLiteDatabase db) {
+    public IsbnServiceImpl(BookService bookService, IsbnRepository isbnRepository, SQLiteHelper sqLiteHelper) {
+        super(sqLiteHelper);
         this.bookService = bookService;
         this.isbnRepository = isbnRepository;
-        this.db = db;
     }
 
     /**
      * Delete all the pending ISBNs.
-     *
      */
     public void deleteAllPendingIsbns() {
         isbnRepository.deleteAllPendingIsbns();
@@ -58,6 +58,7 @@ public final class IsbnServiceImpl implements IsbnService {
      * @param number String.
      */
     public void saveIsbn(String number) {
+        SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
         try {
             Broker<Isbn> broker = BrokerManager.getBroker(Isbn.class);
@@ -84,6 +85,7 @@ public final class IsbnServiceImpl implements IsbnService {
     }
 
     public void saveBookInfo(BookInfo bookInfo, long isbnId) {
+        SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
         try {
             bookService.saveBookInfo(bookInfo);

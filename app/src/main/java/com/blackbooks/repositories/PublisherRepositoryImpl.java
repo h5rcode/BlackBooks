@@ -1,18 +1,15 @@
 package com.blackbooks.repositories;
 
-import android.database.sqlite.SQLiteDatabase;
-
+import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.model.persistent.Publisher;
 import com.blackbooks.sql.BrokerManager;
 
 import java.util.List;
 
-public class PublisherRepositoryImpl implements PublisherRepository {
-    private SQLiteDatabase db;
-
-    public PublisherRepositoryImpl(SQLiteDatabase db) {
-        this.db = db;
+public class PublisherRepositoryImpl extends AbstractRepository implements PublisherRepository {
+    public PublisherRepositoryImpl(SQLiteHelper sqLiteHelper) {
+        super(sqLiteHelper);
     }
 
     @Override
@@ -21,17 +18,17 @@ public class PublisherRepositoryImpl implements PublisherRepository {
                 + Publisher.Cols.PUB_ID + " FROM " + Publisher.NAME + " pub LEFT JOIN " + Book.NAME + " boo ON boo."
                 + Book.Cols.PUB_ID + " = pub." + Publisher.Cols.PUB_ID + " WHERE boo." + Book.Cols.BOO_ID + " IS NULL)";
 
-        db.execSQL(sql);
+        getWritableDatabase().execSQL(sql);
     }
 
     @Override
     public Publisher getPublisher(long publisherId) {
-        return BrokerManager.getBroker(Publisher.class).get(db, publisherId);
+        return BrokerManager.getBroker(Publisher.class).get(getReadableDatabase(), publisherId);
     }
 
     @Override
     public Publisher getPublisherByCriteria(Publisher criteria) {
-        return BrokerManager.getBroker(Publisher.class).getByCriteria(db, criteria);
+        return BrokerManager.getBroker(Publisher.class).getByCriteria(getReadableDatabase(), criteria);
     }
 
     @Override
@@ -39,12 +36,12 @@ public class PublisherRepositoryImpl implements PublisherRepository {
         String sql = "SELECT * FROM " + Publisher.NAME + " WHERE LOWER(" + Publisher.Cols.PUB_NAME
                 + ") LIKE '%' || LOWER(?) || '%' ORDER BY " + Publisher.Cols.PUB_NAME;
         String[] selectionArgs = {text};
-        return BrokerManager.getBroker(Publisher.class).rawSelect(db, sql, selectionArgs);
+        return BrokerManager.getBroker(Publisher.class).rawSelect(getReadableDatabase(), sql, selectionArgs);
     }
 
     @Override
     public long savePublisher(Publisher publisher) {
-        return BrokerManager.getBroker(Publisher.class).save(db, publisher);
+        return BrokerManager.getBroker(Publisher.class).save(getWritableDatabase(), publisher);
     }
 
     @Override
@@ -53,6 +50,6 @@ public class PublisherRepositoryImpl implements PublisherRepository {
                 + Publisher.Cols.PUB_ID + " FROM " + Publisher.NAME + " pub LEFT JOIN " + Book.NAME + " boo ON boo."
                 + Book.Cols.PUB_ID + " = pub." + Publisher.Cols.PUB_ID + " WHERE boo." + Book.Cols.BOO_ID + " IS NULL)";
 
-        db.execSQL(sql);
+        getWritableDatabase().execSQL(sql);
     }
 }

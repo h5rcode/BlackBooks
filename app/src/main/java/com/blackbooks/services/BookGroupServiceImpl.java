@@ -1,8 +1,8 @@
 package com.blackbooks.services;
 
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
+import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookGroup;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Book;
@@ -11,6 +11,7 @@ import com.blackbooks.model.persistent.BookCategory;
 import com.blackbooks.model.persistent.BookLocation;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Series;
+import com.blackbooks.repositories.AbstractRepository;
 import com.blackbooks.utils.LanguageUtils;
 import com.blackbooks.utils.StringUtils;
 
@@ -22,12 +23,10 @@ import java.util.TreeMap;
 /**
  * Book group services.
  */
-public final class BookGroupServiceImpl implements BookGroupService {
+public final class BookGroupServiceImpl extends AbstractRepository implements BookGroupService {
 
-    private final SQLiteDatabase db;
-
-    public BookGroupServiceImpl(SQLiteDatabase db) {
-        this.db = db;
+    public BookGroupServiceImpl(SQLiteHelper sqLiteHelper) {
+        super(sqLiteHelper);
     }
 
     /**
@@ -242,7 +241,7 @@ public final class BookGroupServiceImpl implements BookGroupService {
      * @return List of BookGroup.
      */
     private List<BookGroup> queryBookGroupList(String sql, String[] selectionArgs) {
-        Cursor cursor = db.rawQuery(sql, selectionArgs);
+        Cursor cursor = getReadableDatabase().rawQuery(sql, selectionArgs);
         List<BookGroup> bookGroupList = new ArrayList<>();
         Integer idType = null;
         while (cursor.moveToNext()) {

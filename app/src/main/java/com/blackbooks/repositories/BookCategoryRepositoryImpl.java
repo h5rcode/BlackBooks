@@ -1,7 +1,6 @@
 package com.blackbooks.repositories;
 
-import android.database.sqlite.SQLiteDatabase;
-
+import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.persistent.BookCategory;
 import com.blackbooks.sql.BrokerManager;
 
@@ -10,12 +9,9 @@ import java.util.List;
 /**
  * Services related to the BookCategory class.
  */
-public class BookCategoryRepositoryImpl implements BookCategoryRepository {
-
-    private final SQLiteDatabase db;
-
-    public BookCategoryRepositoryImpl(SQLiteDatabase db) {
-        this.db = db;
+public class BookCategoryRepositoryImpl extends AbstractRepository implements BookCategoryRepository {
+    public BookCategoryRepositoryImpl(SQLiteHelper sqLiteHelper) {
+        super(sqLiteHelper);
     }
 
     /**
@@ -26,7 +22,7 @@ public class BookCategoryRepositoryImpl implements BookCategoryRepository {
     public void deleteBookCategoryListByBook(long bookId) {
         BookCategory bookCategory = new BookCategory();
         bookCategory.bookId = bookId;
-        BrokerManager.getBroker(BookCategory.class).deleteAllByCriteria(db, bookCategory);
+        BrokerManager.getBroker(BookCategory.class).deleteAllByCriteria(getWritableDatabase(), bookCategory);
     }
 
     /**
@@ -38,7 +34,7 @@ public class BookCategoryRepositoryImpl implements BookCategoryRepository {
     public List<BookCategory> getBookCategoryListByBook(long bookId) {
         BookCategory bookCategory = new BookCategory();
         bookCategory.bookId = bookId;
-        return BrokerManager.getBroker(BookCategory.class).getAllByCriteria(db, bookCategory);
+        return BrokerManager.getBroker(BookCategory.class).getAllByCriteria(getReadableDatabase(), bookCategory);
     }
 
     /**
@@ -50,7 +46,7 @@ public class BookCategoryRepositoryImpl implements BookCategoryRepository {
     public List<BookCategory> getBookCategoryListByCategory(long categoryId) {
         BookCategory bookCategory = new BookCategory();
         bookCategory.categoryId = categoryId;
-        return BrokerManager.getBroker(BookCategory.class).getAllByCriteria(db, bookCategory);
+        return BrokerManager.getBroker(BookCategory.class).getAllByCriteria(getReadableDatabase(), bookCategory);
     }
 
     /**
@@ -60,6 +56,6 @@ public class BookCategoryRepositoryImpl implements BookCategoryRepository {
      * @return Id of the saved BookCategory
      */
     public long saveBookCategory(BookCategory bookCategory) {
-        return BrokerManager.getBroker(BookCategory.class).save(db, bookCategory);
+        return BrokerManager.getBroker(BookCategory.class).save(getWritableDatabase(), bookCategory);
     }
 }

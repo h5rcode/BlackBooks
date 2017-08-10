@@ -1,8 +1,7 @@
 package com.blackbooks.repositories;
 
 
-import android.database.sqlite.SQLiteDatabase;
-
+import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.persistent.BookAuthor;
 import com.blackbooks.sql.BrokerManager;
 
@@ -11,12 +10,10 @@ import java.util.List;
 /**
  * Services related to the BookAuthor class.
  */
-public final class BookAuthorRepositoryImpl implements BookAuthorRepository {
+public final class BookAuthorRepositoryImpl extends AbstractRepository implements BookAuthorRepository {
 
-    private final SQLiteDatabase db;
-
-    public BookAuthorRepositoryImpl(SQLiteDatabase db) {
-        this.db = db;
+    public BookAuthorRepositoryImpl(SQLiteHelper sqLiteHelper) {
+        super(sqLiteHelper);
     }
 
     /**
@@ -27,7 +24,7 @@ public final class BookAuthorRepositoryImpl implements BookAuthorRepository {
     public void deleteBookAuthorListByBook(long bookId) {
         BookAuthor bookAuthor = new BookAuthor();
         bookAuthor.bookId = bookId;
-        BrokerManager.getBroker(BookAuthor.class).deleteAllByCriteria(db, bookAuthor);
+        BrokerManager.getBroker(BookAuthor.class).deleteAllByCriteria(getWritableDatabase(), bookAuthor);
     }
 
     /**
@@ -39,7 +36,7 @@ public final class BookAuthorRepositoryImpl implements BookAuthorRepository {
     public List<BookAuthor> getBookAuthorListByAuthor(long authorId) {
         BookAuthor bookAuthor = new BookAuthor();
         bookAuthor.authorId = authorId;
-        return BrokerManager.getBroker(BookAuthor.class).getAllByCriteria(db, bookAuthor);
+        return BrokerManager.getBroker(BookAuthor.class).getAllByCriteria(getReadableDatabase(), bookAuthor);
 
     }
 
@@ -52,7 +49,7 @@ public final class BookAuthorRepositoryImpl implements BookAuthorRepository {
     public List<BookAuthor> getBookAuthorListByBook(long bookId) {
         BookAuthor bookAuthor = new BookAuthor();
         bookAuthor.bookId = bookId;
-        return BrokerManager.getBroker(BookAuthor.class).getAllByCriteria(db, bookAuthor);
+        return BrokerManager.getBroker(BookAuthor.class).getAllByCriteria(getReadableDatabase(), bookAuthor);
     }
 
     /**
@@ -62,11 +59,11 @@ public final class BookAuthorRepositoryImpl implements BookAuthorRepository {
      * @return Id of the saved BookAuthor.
      */
     public long saveBookAuthor(BookAuthor bookAuthor) {
-        return BrokerManager.getBroker(BookAuthor.class).save(db, bookAuthor);
+        return BrokerManager.getBroker(BookAuthor.class).save(getWritableDatabase(), bookAuthor);
     }
 
     @Override
     public List<BookAuthor> getBookAuthorListByBooks(List<Long> bookIdList) {
-        return BrokerManager.getBroker(BookAuthor.class).getAllWhereIn(db, BookAuthor.Cols.BOO_ID, bookIdList);
+        return BrokerManager.getBroker(BookAuthor.class).getAllWhereIn(getReadableDatabase(), BookAuthor.Cols.BOO_ID, bookIdList);
     }
 }

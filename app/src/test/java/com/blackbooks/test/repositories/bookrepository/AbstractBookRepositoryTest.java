@@ -27,7 +27,7 @@ class AbstractBookRepositoryTest {
         SQLiteHelper.initialize(RuntimeEnvironment.application);
         sqLiteHelper = SQLiteHelper.getInstance();
         db = sqLiteHelper.getWritableDatabase();
-        bookRepository = new BookRepositoryImpl(db);
+        bookRepository = new BookRepositoryImpl(sqLiteHelper);
     }
 
     @After

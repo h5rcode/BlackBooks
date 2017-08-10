@@ -1,28 +1,25 @@
 package com.blackbooks.database;
 
-import android.database.sqlite.SQLiteDatabase;
-
 public class TransactionManagerImpl implements TransactionManager {
 
-    private final SQLiteDatabase sqLiteDatabase;
+    private final SQLiteHelper sqLiteHelper;
 
-    public TransactionManagerImpl(SQLiteDatabase sqLiteDatabase) {
-
-        this.sqLiteDatabase = sqLiteDatabase;
+    public TransactionManagerImpl(SQLiteHelper sqLiteHelper) {
+        this.sqLiteHelper = sqLiteHelper;
     }
 
     @Override
     public void beginTransaction() {
-        sqLiteDatabase.beginTransaction();
+        sqLiteHelper.getWritableDatabase().beginTransaction();
     }
 
     @Override
     public void endTransaction() {
-        sqLiteDatabase.endTransaction();
+        sqLiteHelper.getWritableDatabase().endTransaction();
     }
 
     @Override
     public void setTransactionSuccessful() {
-        sqLiteDatabase.setTransactionSuccessful();
+        sqLiteHelper.getWritableDatabase().setTransactionSuccessful();
     }
 }

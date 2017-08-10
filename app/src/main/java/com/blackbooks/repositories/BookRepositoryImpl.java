@@ -1,8 +1,8 @@
 package com.blackbooks.repositories;
 
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
+import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.model.persistent.BookAuthor;
@@ -12,27 +12,25 @@ import com.blackbooks.utils.StringUtils;
 
 import java.util.List;
 
-public class BookRepositoryImpl implements BookRepository {
+public class BookRepositoryImpl extends AbstractRepository implements BookRepository {
 
-    private SQLiteDatabase db;
-
-    public BookRepositoryImpl(SQLiteDatabase db) {
-        this.db = db;
+    public BookRepositoryImpl(SQLiteHelper sqLiteHelper) {
+        super(sqLiteHelper);
     }
 
     @Override
     public Book getBook(long bookId) {
-        return BrokerManager.getBroker(Book.class).get(db, bookId);
+        return BrokerManager.getBroker(Book.class).get(getReadableDatabase(), bookId);
     }
 
     @Override
     public long save(BookInfo bookInfo) {
-        return BrokerManager.getBroker(Book.class).save(db, bookInfo);
+        return BrokerManager.getBroker(Book.class).save(getWritableDatabase(), bookInfo);
     }
 
     @Override
     public void deleteBook(long bookId) {
-        BrokerManager.getBroker(Book.class).delete(db, bookId);
+        BrokerManager.getBroker(Book.class).delete(getWritableDatabase(), bookId);
     }
 
     @Override
@@ -54,7 +52,7 @@ public class BookRepositoryImpl implements BookRepository {
                 String.valueOf(offset)
         };
 
-        return BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
+        return BrokerManager.getBroker(Book.class).rawSelect(getReadableDatabase(), sql, selectionArgs);
     }
 
     @Override
@@ -76,7 +74,7 @@ public class BookRepositoryImpl implements BookRepository {
                 String.valueOf(offset)
         };
 
-        return BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
+        return BrokerManager.getBroker(Book.class).rawSelect(getReadableDatabase(), sql, selectionArgs);
     }
 
     @Override
@@ -99,14 +97,14 @@ public class BookRepositoryImpl implements BookRepository {
                 String.valueOf(offset)
         };
 
-        return BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
+        return BrokerManager.getBroker(Book.class).rawSelect(getReadableDatabase(), sql, selectionArgs);
     }
 
     @Override
     public int getBookCountByAuthor(long authorId) {
         String sql = "SELECT COUNT(*) FROM " + BookAuthor.NAME + " WHERE " + BookAuthor.Cols.AUT_ID + " = ?;";
         String[] selectionArgs = {String.valueOf(authorId)};
-        return queryInt(db, sql, selectionArgs);
+        return queryInt(sql, selectionArgs);
     }
 
     @Override
@@ -121,7 +119,7 @@ public class BookRepositoryImpl implements BookRepository {
             selectionArgs = new String[]{String.valueOf(bookLocationId)};
         }
 
-        return queryInt(db, sql, selectionArgs);
+        return queryInt(sql, selectionArgs);
     }
 
     @Override
@@ -137,14 +135,14 @@ public class BookRepositoryImpl implements BookRepository {
             selectionArgs = new String[]{String.valueOf(categoryId)};
         }
 
-        return queryInt(db, sql, selectionArgs);
+        return queryInt(sql, selectionArgs);
     }
 
     @Override
     public int getBookCountByFirstLetter(String firstLetter) {
         String sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE SUBSTR(UPPER(" + Book.Cols.BOO_TITLE + "), 1, 1) = ?;";
 
-        return queryInt(db, sql, new String[]{firstLetter});
+        return queryInt(sql, new String[]{firstLetter});
     }
 
     @Override
@@ -159,7 +157,7 @@ public class BookRepositoryImpl implements BookRepository {
             sql += " = ?;";
             selectionArgs = new String[]{languageCode};
         }
-        return queryInt(db, sql, selectionArgs);
+        return queryInt(sql, selectionArgs);
     }
 
     @Override
@@ -174,7 +172,7 @@ public class BookRepositoryImpl implements BookRepository {
             sql += " = ?;";
             selectionArgs = new String[]{loanedTo};
         }
-        return queryInt(db, sql, selectionArgs);
+        return queryInt(sql, selectionArgs);
     }
 
     @Override
@@ -190,43 +188,43 @@ public class BookRepositoryImpl implements BookRepository {
             selectionArgs = new String[]{String.valueOf(seriesId)};
         }
 
-        return queryInt(db, sql, selectionArgs);
+        return queryInt(sql, selectionArgs);
     }
 
     @Override
     public int getBookCount() {
         String sql = "SELECT COUNT(*) FROM " + Book.NAME;
-        return queryInt(db, sql);
+        return queryInt(sql);
     }
 
     @Override
     public int getBookToReadCount() {
         String sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_IS_READ + " = 0;";
-        return queryInt(db, sql);
+        return queryInt(sql);
     }
 
     @Override
     public int getBookLoanCount() {
         String sql = "SELECT COUNT(DISTINCT " + Book.Cols.BOO_LOANED_TO + ") FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_LOANED_TO + " IS NOT NULL;";
-        return queryInt(db, sql);
+        return queryInt(sql);
     }
 
     @Override
     public int getFavouriteBooks() {
         String sql = "SELECT COUNT(*) FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_IS_FAVOURITE + " = 1;";
-        return queryInt(db, sql);
+        return queryInt(sql);
     }
 
     @Override
     public int getLanguageCount() {
         String sql = "SELECT COUNT(DISTINCT " + Book.Cols.BOO_LANGUAGE_CODE + ") FROM " + Book.NAME;
-        return queryInt(db, sql);
+        return queryInt(sql);
     }
 
     @Override
     public int getFirstLetterCount() {
         String sql = "SELECT COUNT(DISTINCT UPPER(SUBSTR(" + Book.Cols.BOO_TITLE + ", 1, 1))) FROM " + Book.NAME;
-        return queryInt(db, sql);
+        return queryInt(sql);
     }
 
     @Override
@@ -248,7 +246,7 @@ public class BookRepositoryImpl implements BookRepository {
                 String.valueOf(offset)
         };
 
-        return BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
+        return BrokerManager.getBroker(Book.class).rawSelect(getReadableDatabase(), sql, selectionArgs);
     }
 
     @Override
@@ -270,53 +268,53 @@ public class BookRepositoryImpl implements BookRepository {
                 String.valueOf(offset)
         };
 
-        return BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
+        return BrokerManager.getBroker(Book.class).rawSelect(getReadableDatabase(), sql, selectionArgs);
     }
 
     @Override
     public byte[] getBookSmallThumbnail(long bookId) {
         String sql = "SELECT " + Book.Cols.BOO_SMALL_THUMBNAIL + " FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_ID + " = ?;";
         String[] selectionArgs = new String[]{String.valueOf(bookId)};
-        Book book = BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs).get(0);
+        Book book = BrokerManager.getBroker(Book.class).rawSelect(getReadableDatabase(), sql, selectionArgs).get(0);
         return book.smallThumbnail;
     }
 
     @Override
     public void markBookAsFavourite(long bookId) {
-        db.beginTransaction();
+        getWritableDatabase().beginTransaction();
         try {
             String sql = "UPDATE " + Book.NAME + " SET " + Book.Cols.BOO_IS_FAVOURITE + " = 1 - " + Book.Cols.BOO_IS_FAVOURITE
                     + " Where " + Book.Cols.BOO_ID + " = " + bookId + ";";
-            db.execSQL(sql);
-            db.setTransactionSuccessful();
+            getWritableDatabase().execSQL(sql);
+            getWritableDatabase().setTransactionSuccessful();
         } finally {
-            db.endTransaction();
+            getWritableDatabase().endTransaction();
         }
     }
 
     @Override
     public void markBookAsRead(long bookId) {
-        db.beginTransaction();
+        getWritableDatabase().beginTransaction();
         try {
             String sql = "UPDATE " + Book.NAME + " SET " + Book.Cols.BOO_IS_READ + " = 1 - " + Book.Cols.BOO_IS_READ + " Where "
                     + Book.Cols.BOO_ID + " = " + bookId + ";";
-            db.execSQL(sql);
-            db.setTransactionSuccessful();
+            getWritableDatabase().execSQL(sql);
+            getWritableDatabase().setTransactionSuccessful();
         } finally {
-            db.endTransaction();
+            getWritableDatabase().endTransaction();
         }
     }
 
     @Override
     public void returnBook(long bookId) {
-        db.beginTransaction();
+        getWritableDatabase().beginTransaction();
         try {
             String sql = "UPDATE " + Book.NAME + " SET " + Book.Cols.BOO_LOANED_TO + " = null, " + Book.Cols.BOO_LOAN_DATE
                     + " = null" + " Where " + Book.Cols.BOO_ID + " = " + bookId + ";";
-            db.execSQL(sql);
-            db.setTransactionSuccessful();
+            getWritableDatabase().execSQL(sql);
+            getWritableDatabase().setTransactionSuccessful();
         } finally {
-            db.endTransaction();
+            getWritableDatabase().endTransaction();
         }
     }
 
@@ -339,7 +337,7 @@ public class BookRepositoryImpl implements BookRepository {
                 String.valueOf(offset)
         };
 
-        return BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
+        return BrokerManager.getBroker(Book.class).rawSelect(getReadableDatabase(), sql, selectionArgs);
     }
 
     @Override
@@ -361,7 +359,7 @@ public class BookRepositoryImpl implements BookRepository {
                 String.valueOf(offset)
         };
 
-        return BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
+        return BrokerManager.getBroker(Book.class).rawSelect(getReadableDatabase(), sql, selectionArgs);
     }
 
     @Override
@@ -383,7 +381,7 @@ public class BookRepositoryImpl implements BookRepository {
                 String.valueOf(offset)
         };
 
-        return BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
+        return BrokerManager.getBroker(Book.class).rawSelect(getReadableDatabase(), sql, selectionArgs);
     }
 
     @Override
@@ -405,7 +403,7 @@ public class BookRepositoryImpl implements BookRepository {
                 String.valueOf(offset)
         };
 
-        return BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
+        return BrokerManager.getBroker(Book.class).rawSelect(getReadableDatabase(), sql, selectionArgs);
     }
 
     @Override
@@ -419,7 +417,7 @@ public class BookRepositoryImpl implements BookRepository {
         String sql = "SELECT " + select + " FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_ISBN_10 + " = ? COLLATE NOCASE ORDER BY " + Book.Cols.BOO_ID;
         String[] selectionArgs = new String[]{isbn};
 
-        return BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
+        return BrokerManager.getBroker(Book.class).rawSelect(getReadableDatabase(), sql, selectionArgs);
     }
 
     @Override
@@ -433,27 +431,26 @@ public class BookRepositoryImpl implements BookRepository {
         String sql = "SELECT " + select + " FROM " + Book.NAME + " WHERE " + Book.Cols.BOO_ISBN_13 + " = ? COLLATE NOCASE ORDER BY " + Book.Cols.BOO_ID;
         String[] selectionArgs = new String[]{isbn};
 
-        return BrokerManager.getBroker(Book.class).rawSelect(db, sql, selectionArgs);
+        return BrokerManager.getBroker(Book.class).rawSelect(getReadableDatabase(), sql, selectionArgs);
     }
 
     /**
      * Execute a SQL query that returns an integer.
      *
-     * @param db            SQLiteDatabase.
      * @param sql           SQL query.
      * @param selectionArgs Selection arguments.
      * @return Integer value.
      */
-    private int queryInt(SQLiteDatabase db, String sql, String[] selectionArgs) {
-        Cursor cursor = db.rawQuery(sql, selectionArgs);
+    private int queryInt(String sql, String[] selectionArgs) {
+        Cursor cursor = getReadableDatabase().rawQuery(sql, selectionArgs);
         cursor.moveToNext();
         int result = cursor.getInt(0);
         cursor.close();
         return result;
     }
 
-    private int queryInt(SQLiteDatabase db, String sql) {
-        Cursor cursor = db.rawQuery(sql, null);
+    private int queryInt(String sql) {
+        Cursor cursor = getReadableDatabase().rawQuery(sql, null);
         cursor.moveToNext();
         int result = cursor.getInt(0);
         cursor.close();

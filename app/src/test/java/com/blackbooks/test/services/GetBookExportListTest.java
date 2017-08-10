@@ -150,7 +150,7 @@ public class GetBookExportListTest {
         bookCategoryBroker.save(db, bookCategory1);
         bookCategoryBroker.save(db, bookCategory2);
 
-        ExportService exportService = new ExportServiceImpl(db);
+        ExportService exportService = new ExportServiceImpl(sqLiteHelper);
         List<BookExport> bookExportList = exportService.getBookExportList(null);
 
         Assert.assertEquals(1, bookExportList.size());

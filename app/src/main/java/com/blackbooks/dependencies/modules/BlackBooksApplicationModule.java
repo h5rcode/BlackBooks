@@ -1,7 +1,5 @@
 package com.blackbooks.dependencies.modules;
 
-import android.database.sqlite.SQLiteDatabase;
-
 import com.blackbooks.activities.BookAuthorsEditActivity;
 import com.blackbooks.activities.BookCategoriesEditActivity;
 import com.blackbooks.activities.BookEditActivity;
@@ -216,33 +214,33 @@ public abstract class BlackBooksApplicationModule {
     }
 
     @Provides
-    static AuthorRepository provideAuthorRepository(SQLiteDatabase sqliteDatabase) {
-        return new AuthorRepositoryImpl(sqliteDatabase);
+    static AuthorRepository provideAuthorRepository(SQLiteHelper sqLiteHelper) {
+        return new AuthorRepositoryImpl(sqLiteHelper);
     }
 
     @Provides
-    static BookAuthorRepository provideBookAuthorRepository(SQLiteDatabase sqLiteDatabase) {
-        return new BookAuthorRepositoryImpl(sqLiteDatabase);
+    static BookAuthorRepository provideBookAuthorRepository(SQLiteHelper sqLiteHelper) {
+        return new BookAuthorRepositoryImpl(sqLiteHelper);
     }
 
     @Provides
-    static BookCategoryRepository provideBookCategoryRepository(SQLiteDatabase sqLiteDatabase) {
-        return new BookCategoryRepositoryImpl(sqLiteDatabase);
+    static BookCategoryRepository provideBookCategoryRepository(SQLiteHelper sqLiteHelper) {
+        return new BookCategoryRepositoryImpl(sqLiteHelper);
     }
 
     @Provides
-    static BookFTSRepository provideBookFTSRepository(SQLiteDatabase sqLiteDatabase) {
-        return new BookFTSRepositoryImpl(sqLiteDatabase);
+    static BookFTSRepository provideBookFTSRepository(SQLiteHelper sqLiteHelper) {
+        return new BookFTSRepositoryImpl(sqLiteHelper);
     }
 
     @Provides
-    static BookGroupService provideBookGroupService(SQLiteDatabase sqLiteDatabase) {
-        return new BookGroupServiceImpl(sqLiteDatabase);
+    static BookGroupService provideBookGroupService(SQLiteHelper sqLiteHelper) {
+        return new BookGroupServiceImpl(sqLiteHelper);
     }
 
     @Provides
-    static BookLocationRepository provideBookLocationRepository(SQLiteDatabase sqLiteDatabase) {
-        return new BookLocationRepositoryImpl(sqLiteDatabase);
+    static BookLocationRepository provideBookLocationRepository(SQLiteHelper sqLiteHelper) {
+        return new BookLocationRepositoryImpl(sqLiteHelper);
     }
 
     @Provides
@@ -251,8 +249,8 @@ public abstract class BlackBooksApplicationModule {
     }
 
     @Provides
-    static BookRepository provideBookRepository(SQLiteDatabase sqliteDatabase) {
-        return new BookRepositoryImpl(sqliteDatabase);
+    static BookRepository provideBookRepository(SQLiteHelper sqLiteHelper) {
+        return new BookRepositoryImpl(sqLiteHelper);
     }
 
     @Provides
@@ -283,8 +281,8 @@ public abstract class BlackBooksApplicationModule {
     }
 
     @Provides
-    static CategoryRepository provideCategoryRepository(SQLiteDatabase sqliteDatabase) {
-        return new CategoryRepositoryImpl(sqliteDatabase);
+    static CategoryRepository provideCategoryRepository(SQLiteHelper sqLiteHelper) {
+        return new CategoryRepositoryImpl(sqLiteHelper);
     }
 
     @Provides
@@ -293,8 +291,8 @@ public abstract class BlackBooksApplicationModule {
     }
 
     @Provides
-    static ExportService provideExportService(SQLiteDatabase sqLiteDatabase) {
-        return new ExportServiceImpl(sqLiteDatabase);
+    static ExportService provideExportService(SQLiteHelper sqLiteHelper) {
+        return new ExportServiceImpl(sqLiteHelper);
     }
 
     @Provides
@@ -303,18 +301,18 @@ public abstract class BlackBooksApplicationModule {
     }
 
     @Provides
-    static IsbnRepository provideIsbnRepository(SQLiteDatabase sqliteDatabase) {
-        return new IsbnRepositoryImpl(sqliteDatabase);
+    static IsbnRepository provideIsbnRepository(SQLiteHelper sqLiteHelper) {
+        return new IsbnRepositoryImpl(sqLiteHelper);
     }
 
     @Provides
-    static IsbnService provideIsbnService(BookService bookService, IsbnRepository isbnRepository, SQLiteDatabase sqliteDatabase) {
-        return new IsbnServiceImpl(bookService, isbnRepository, sqliteDatabase);
+    static IsbnService provideIsbnService(BookService bookService, IsbnRepository isbnRepository, SQLiteHelper sqLiteHelper) {
+        return new IsbnServiceImpl(bookService, isbnRepository, sqLiteHelper);
     }
 
     @Provides
-    static PublisherRepository providePublisherRepository(SQLiteDatabase sqliteDatabase) {
-        return new PublisherRepositoryImpl(sqliteDatabase);
+    static PublisherRepository providePublisherRepository(SQLiteHelper sqLiteHelper) {
+        return new PublisherRepositoryImpl(sqLiteHelper);
     }
 
     @Provides
@@ -323,8 +321,8 @@ public abstract class BlackBooksApplicationModule {
     }
 
     @Provides
-    static SeriesRepository provideSeriesRepository(SQLiteDatabase sqLiteDatabase) {
-        return new SeriesRepositoryImpl(sqLiteDatabase);
+    static SeriesRepository provideSeriesRepository(SQLiteHelper sqLiteHelper) {
+        return new SeriesRepositoryImpl(sqLiteHelper);
     }
 
     @Provides
@@ -333,8 +331,8 @@ public abstract class BlackBooksApplicationModule {
     }
 
     @Provides
-    static SQLiteDatabase provideSQLiteDatabase() {
-        return SQLiteHelper.getInstance().getWritableDatabase();
+    static SQLiteHelper provideSQLiteHelper() {
+        return SQLiteHelper.getInstance();
     }
 
     @Provides
@@ -349,7 +347,7 @@ public abstract class BlackBooksApplicationModule {
     }
 
     @Provides
-    static TransactionManager provideTransactionManager(SQLiteDatabase sqliteDatabase) {
-        return new TransactionManagerImpl(sqliteDatabase);
+    static TransactionManager provideTransactionManager(SQLiteHelper sqLiteHelper) {
+        return new TransactionManagerImpl(sqLiteHelper);
     }
 }

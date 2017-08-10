@@ -4,21 +4,21 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.model.persistent.Series;
 import com.blackbooks.sql.BrokerManager;
 
 import java.util.List;
 
-public class SeriesRepositoryImpl implements SeriesRepository {
-    private final SQLiteDatabase db;
-
-    public SeriesRepositoryImpl(SQLiteDatabase db) {
-        this.db = db;
+public class SeriesRepositoryImpl extends AbstractRepository implements SeriesRepository {
+    public SeriesRepositoryImpl(SQLiteHelper sqLiteHelper) {
+        super(sqLiteHelper);
     }
 
     @Override
     public void deleteSeries(long seriesId) {
+        SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
@@ -40,12 +40,12 @@ public class SeriesRepositoryImpl implements SeriesRepository {
                 + " FROM " + Series.NAME + " ser LEFT JOIN " + Book.NAME + " boo ON boo." + Book.Cols.SER_ID + " = ser."
                 + Series.Cols.SER_ID + " WHERE boo." + Book.Cols.BOO_ID + " IS NULL)";
 
-        db.execSQL(sql);
+        getWritableDatabase().execSQL(sql);
     }
 
     @Override
     public Series getSeriesByCriteria(Series criteria) {
-        return BrokerManager.getBroker(Series.class).getByCriteria(db, criteria);
+        return BrokerManager.getBroker(Series.class).getByCriteria(getReadableDatabase(), criteria);
     }
 
     @Override
@@ -53,17 +53,17 @@ public class SeriesRepositoryImpl implements SeriesRepository {
         String sql = "SELECT * FROM " + Series.NAME + " WHERE LOWER(" + Series.Cols.SER_NAME
                 + ") LIKE '%' || LOWER(?) || '%' ORDER BY " + Series.Cols.SER_NAME;
         String[] selectionArgs = {text};
-        return BrokerManager.getBroker(Series.class).rawSelect(db, sql, selectionArgs);
+        return BrokerManager.getBroker(Series.class).rawSelect(getReadableDatabase(), sql, selectionArgs);
     }
 
     @Override
     public long saveSeries(Series series) {
-        return BrokerManager.getBroker(Series.class).save(db, series);
+        return BrokerManager.getBroker(Series.class).save(getWritableDatabase(), series);
     }
 
     @Override
     public Series getSeries(long serId) {
-        return BrokerManager.getBroker(Series.class).get(db, serId);
+        return BrokerManager.getBroker(Series.class).get(getReadableDatabase(), serId);
     }
 
     @Override
@@ -72,17 +72,17 @@ public class SeriesRepositoryImpl implements SeriesRepository {
         values.put(Series.Cols.SER_NAME, newName);
         String whereClause = Series.Cols.SER_ID + " = ?";
         String[] whereArgs = new String[]{String.valueOf(seriesId)};
-        db.updateWithOnConflict(Series.NAME, values, whereClause, whereArgs, SQLiteDatabase.CONFLICT_ROLLBACK);
+        getWritableDatabase().updateWithOnConflict(Series.NAME, values, whereClause, whereArgs, SQLiteDatabase.CONFLICT_ROLLBACK);
     }
 
     @Override
     public int getSeriesCount() {
         String sql = "SELECT COUNT(*) FROM " + Series.NAME;
-        return queryInt(db, sql);
+        return queryInt(sql);
     }
 
-    private int queryInt(SQLiteDatabase db, String sql) {
-        Cursor cursor = db.rawQuery(sql, null);
+    private int queryInt(String sql) {
+        Cursor cursor = getReadableDatabase().rawQuery(sql, null);
         cursor.moveToNext();
         int result = cursor.getInt(0);
         cursor.close();
