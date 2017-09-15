@@ -9,7 +9,6 @@ import com.blackbooks.model.persistent.BookLocation;
 import com.blackbooks.model.persistent.Category;
 import com.blackbooks.model.persistent.Publisher;
 import com.blackbooks.model.persistent.Series;
-import com.blackbooks.services.BookServiceImpl;
 import com.blackbooks.test.data.Authors;
 import com.blackbooks.test.data.BookLocations;
 import com.blackbooks.test.data.Books;

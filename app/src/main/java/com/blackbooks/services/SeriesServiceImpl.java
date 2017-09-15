@@ -1,12 +1,7 @@
 package com.blackbooks.services;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
-
-import com.blackbooks.model.persistent.Book;
 import com.blackbooks.model.persistent.Series;
 import com.blackbooks.repositories.SeriesRepository;
-import com.blackbooks.sql.BrokerManager;
 
 import java.util.List;
 

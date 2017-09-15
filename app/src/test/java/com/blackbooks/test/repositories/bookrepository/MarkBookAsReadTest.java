@@ -1,18 +1,15 @@
 package com.blackbooks.test.repositories.bookrepository;
 
 import com.blackbooks.BuildConfig;
-import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.sql.Broker;
 import com.blackbooks.sql.BrokerManager;
 import com.blackbooks.test.data.Books;
-import com.blackbooks.test.services.AbstractBookServiceTest;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 

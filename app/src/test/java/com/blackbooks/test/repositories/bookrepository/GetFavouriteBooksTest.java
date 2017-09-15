@@ -1,7 +1,6 @@
 package com.blackbooks.test.repositories.bookrepository;
 
 import com.blackbooks.BuildConfig;
-import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Book;
 import com.blackbooks.sql.Broker;
 import com.blackbooks.sql.BrokerManager;
