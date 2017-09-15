@@ -1,9 +1,13 @@
 package com.blackbooks.fragments.filechooser;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ListFragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +28,8 @@ import java.util.List;
  */
 public final class FileChooserFragment extends ListFragment {
 
+    private static final int REQUEST_READ_EXTERNAL_STORAGE = 1;
+
     private final File mParentDirectoryShortcut = new File((String) null, "..");
     private FileChooserListener mFileChooserListener;
     private File mCurrentDirectory;
@@ -43,17 +49,33 @@ public final class FileChooserFragment extends ListFragment {
 
         mAdapter = new FileListAdapter(getActivity());
         setListAdapter(mAdapter);
-        mCurrentDirectory = Environment.getExternalStorageDirectory();
-        final List<File> files = listFiles(mCurrentDirectory);
-        mAdapter.addAll(files);
-        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_READ_EXTERNAL_STORAGE) {
+            boolean permissionGranted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+            if (permissionGranted) {
+                enterDirectory(Environment.getExternalStorageDirectory());
+            } else {
+                getActivity().finish();
+            }
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_file_chooser, container, false);
         mTextCurrentDirectory = (TextView) view.findViewById(R.id.fileChooser_textFooter);
-        mTextCurrentDirectory.setText(mCurrentDirectory.getAbsolutePath());
+
+        int permissionCheck = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            enterDirectory(Environment.getExternalStorageDirectory());
+        } else {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_EXTERNAL_STORAGE);
+        }
+
         return view;
     }
 
