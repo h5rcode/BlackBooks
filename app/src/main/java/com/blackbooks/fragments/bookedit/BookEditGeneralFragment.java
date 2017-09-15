@@ -1,8 +1,10 @@
 package com.blackbooks.fragments.bookedit;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -10,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -83,6 +86,8 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
     private static final int REQUEST_EDIT_CATEGORIES = 2;
     private static final int REQUEST_PICK_IMAGE = 3;
     private static final int REQUEST_TAKE_PICTURE = 4;
+
+    private static final int REQUEST_CAMERA_PERMISSION = 1;
 
     private ImageView mImageThumbnail;
     private EditText mTextTitle;
@@ -184,10 +189,13 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
                 break;
 
             case ITEM_TAKE_PICTURE:
-                intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 Activity activity = getActivity();
-                if (intent.resolveActivity(activity.getPackageManager()) != null) {
-                    startActivityForResult(intent, REQUEST_TAKE_PICTURE);
+                int permissionCheck = ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA);
+
+                if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+                } else {
+                    takePicture();
                 }
 
                 result = true;
@@ -208,6 +216,27 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
         }
 
         return result;
+    }
+
+    private void takePicture() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Activity activity = getActivity();
+        if (intent.resolveActivity(activity.getPackageManager()) != null) {
+            startActivityForResult(intent, REQUEST_TAKE_PICTURE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        boolean permissionGranted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+        switch (requestCode) {
+            case REQUEST_CAMERA_PERMISSION:
+                if (permissionGranted) {
+                    takePicture();
+                }
+                break;
+        }
     }
 
     @SuppressWarnings("unchecked")
