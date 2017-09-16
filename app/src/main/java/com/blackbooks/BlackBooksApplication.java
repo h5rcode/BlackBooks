@@ -32,6 +32,7 @@ public final class BlackBooksApplication extends Application implements HasActiv
         super.onCreate();
         DaggerBlackBooksApplicationComponent
                 .builder()
+                .application(this)
                 .build()
                 .inject(this);
 

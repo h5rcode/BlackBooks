@@ -1,6 +1,6 @@
 package com.blackbooks.fragments.isbnlookup;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,11 +9,15 @@ import android.widget.Toast;
 
 import com.blackbooks.R;
 import com.blackbooks.model.nonpersistent.BookInfo;
-import com.blackbooks.search.BookSearcher;
+import com.blackbooks.services.search.BookOnlineSearchService;
 import com.blackbooks.utils.LogUtils;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * Fragment without user interface used to search book information.
@@ -25,6 +29,9 @@ public final class IsbnLookupFragment extends Fragment {
     private BookSearchTask mBookSearchTask;
 
     private IsbnLookupListener mIsbnLookupListener;
+
+    @Inject
+    BookOnlineSearchService bookOnlineSearchService;
 
     /**
      * Return a new instance of IsbnLookupFragment, ready to search information
@@ -42,9 +49,10 @@ public final class IsbnLookupFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mIsbnLookupListener = (IsbnLookupListener) activity;
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
+        mIsbnLookupListener = (IsbnLookupListener) context;
     }
 
     @Override
@@ -102,7 +110,7 @@ public final class IsbnLookupFragment extends Fragment {
 
             BookInfo book = null;
             try {
-                book = BookSearcher.search(barCode);
+                book = bookOnlineSearchService.search(barCode);
             } catch (UnknownHostException e) {
                 errorMessageId = R.string.error_connection_problem;
             } catch (IOException e) {

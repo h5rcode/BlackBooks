@@ -1,6 +1,6 @@
-package com.blackbooks.search.amazon;
+package com.blackbooks.services.search.amazon;
 
-import com.blackbooks.search.BookSearchResult;
+import com.blackbooks.services.search.BookOnlineSearchResult;
 import com.blackbooks.utils.HttpUtils;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -13,7 +13,7 @@ import java.util.concurrent.Callable;
 /**
  * Class that searches books using the Amazon Product Advertising API.
  */
-public final class AmazonSearcher implements Callable<BookSearchResult> {
+public final class AmazonSearcher implements Callable<BookOnlineSearchResult> {
 
     private static final String URI_FORMAT_STRING = "http://isbnlookup-h5rcode.rhcloud.com/api/v1/aws/book/%s/Large";
 
@@ -108,7 +108,7 @@ public final class AmazonSearcher implements Callable<BookSearchResult> {
     }
 
     @Override
-    public BookSearchResult call() throws Exception {
+    public BookOnlineSearchResult call() throws Exception {
         return search(mIsbn);
     }
 }

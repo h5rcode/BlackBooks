@@ -1,4 +1,4 @@
-package com.blackbooks.search.openlibrary;
+package com.blackbooks.services.search.openlibrary;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,26 +33,25 @@ public final class OpenLibraryJSONParser {
      * Parse the JSON data returned by the OpenLibrary API and return an
      * instance of OpenLibraryBook.
      *
-     * @param json The JSON data to parse.
+     * @param jsonObject The JSON data to parse.
      * @return OpenLibraryBook.
      * @throws JSONException
      */
-    public static OpenLibraryBook parse(String json) throws JSONException {
+    public static OpenLibraryBook parse(JSONObject jsonObject) throws JSONException {
         OpenLibraryBook book = null;
 
-        JSONObject result = new JSONObject(json);
-        JSONArray names = result.names();
+        JSONArray names = jsonObject.names();
         if (names != null && names.length() > 0) {
-            result = result.getJSONObject(names.getString(0));
+            jsonObject = jsonObject.getJSONObject(names.getString(0));
             book = new OpenLibraryBook();
-            if (result.has(TITLE)) {
-                book.title = result.getString(TITLE);
+            if (jsonObject.has(TITLE)) {
+                book.title = jsonObject.getString(TITLE);
             }
-            if (result.has(SUBTITLE)) {
-                book.subtitle = result.getString(SUBTITLE);
+            if (jsonObject.has(SUBTITLE)) {
+                book.subtitle = jsonObject.getString(SUBTITLE);
             }
-            if (result.has(PUBLISHERS)) {
-                JSONArray publishers = result.getJSONArray(PUBLISHERS);
+            if (jsonObject.has(PUBLISHERS)) {
+                JSONArray publishers = jsonObject.getJSONArray(PUBLISHERS);
 
                 for (int i = 0; i < publishers.length(); i++) {
                     JSONObject publisher = publishers.getJSONObject(i);
@@ -61,8 +60,8 @@ public final class OpenLibraryJSONParser {
                     }
                 }
             }
-            if (result.has(IDENTIFIERS)) {
-                JSONObject identifiers = result.getJSONObject(IDENTIFIERS);
+            if (jsonObject.has(IDENTIFIERS)) {
+                JSONObject identifiers = jsonObject.getJSONObject(IDENTIFIERS);
                 if (identifiers.has(ISBN_10)) {
                     JSONArray isbn10 = identifiers.getJSONArray(ISBN_10);
                     if (isbn10.length() > 0) {
@@ -76,11 +75,11 @@ public final class OpenLibraryJSONParser {
                     }
                 }
             }
-            if (result.has(NUMBER_OF_PAGES)) {
-                book.numberOfPages = result.getLong(NUMBER_OF_PAGES);
+            if (jsonObject.has(NUMBER_OF_PAGES)) {
+                book.numberOfPages = jsonObject.getLong(NUMBER_OF_PAGES);
             }
-            if (result.has(COVER)) {
-                JSONObject cover = result.getJSONObject(COVER);
+            if (jsonObject.has(COVER)) {
+                JSONObject cover = jsonObject.getJSONObject(COVER);
                 if (cover.has(COVER_SMALL)) {
                     book.coverLinkSmall = cover.getString(COVER_SMALL);
                 }
@@ -91,8 +90,8 @@ public final class OpenLibraryJSONParser {
                     book.coverLinkLarge = cover.getString(COVER_LARGE);
                 }
             }
-            if (result.has(SUBJECTS)) {
-                JSONArray subjects = result.getJSONArray(SUBJECTS);
+            if (jsonObject.has(SUBJECTS)) {
+                JSONArray subjects = jsonObject.getJSONArray(SUBJECTS);
                 for (int i = 0; i < subjects.length(); i++) {
                     JSONObject subject = subjects.getJSONObject(i);
                     if (subject.has(SUBJECT_NAME)) {
@@ -100,11 +99,11 @@ public final class OpenLibraryJSONParser {
                     }
                 }
             }
-            if (result.has(PUBLISH_DATE)) {
-                book.publishDate = result.getString(PUBLISH_DATE);
+            if (jsonObject.has(PUBLISH_DATE)) {
+                book.publishDate = jsonObject.getString(PUBLISH_DATE);
             }
-            if (result.has(AUTHORS)) {
-                JSONArray authors = result.getJSONArray(AUTHORS);
+            if (jsonObject.has(AUTHORS)) {
+                JSONArray authors = jsonObject.getJSONArray(AUTHORS);
                 for (int i = 0; i < authors.length(); i++) {
                     JSONObject author = authors.getJSONObject(i);
                     if (author.has(AUTHOR_NAME)) {

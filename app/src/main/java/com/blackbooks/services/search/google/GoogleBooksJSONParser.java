@@ -1,4 +1,4 @@
-package com.blackbooks.search.google;
+package com.blackbooks.services.search.google;
 
 import org.json.JSONArray;
 import org.json.JSONException;

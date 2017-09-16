@@ -1,4 +1,4 @@
-package com.blackbooks.search.librarything;
+package com.blackbooks.services.search.librarything;
 
 import com.blackbooks.utils.HttpUtils;
 

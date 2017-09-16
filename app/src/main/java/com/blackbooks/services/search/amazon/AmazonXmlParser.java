@@ -1,4 +1,4 @@
-package com.blackbooks.search.amazon;
+package com.blackbooks.services.search.amazon;
 
 import android.util.Xml;
 

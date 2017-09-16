@@ -1,16 +1,16 @@
-package com.blackbooks.search.amazon;
+package com.blackbooks.services.search.amazon;
 
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
-import com.blackbooks.search.BookSearchResult;
-import com.blackbooks.search.BookSearchResultSource;
+import com.blackbooks.services.search.BookOnlineSearchResult;
+import com.blackbooks.services.search.BookSearchResultSource;
 import com.blackbooks.utils.IsbnUtils;
 
 /**
  * A class used to store the info of a book returned by the Amazon Product
  * Advertising API.
  */
-public final class AmazonBook implements BookSearchResult {
+public final class AmazonBook implements BookOnlineSearchResult {
 
     public String title;
     public String author;

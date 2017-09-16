@@ -1,11 +1,11 @@
-package com.blackbooks.search;
+package com.blackbooks.services.search;
 
 import com.blackbooks.model.nonpersistent.BookInfo;
 
 /**
  * The result of a book search.
  */
-public interface BookSearchResult {
+public interface BookOnlineSearchResult {
 
     /**
      * Return the source of this result.

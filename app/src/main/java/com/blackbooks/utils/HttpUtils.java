@@ -19,10 +19,8 @@ public final class HttpUtils {
      *
      * @param url URL.
      * @return String.
-     * @throws URISyntaxException If the specified URL is incorrect.
-     * @throws IOException        In case of a connection problem.
      */
-    public static String getText(String url) throws URISyntaxException, IOException {
+    public static String getText(String url) {
         return null;
     }
 

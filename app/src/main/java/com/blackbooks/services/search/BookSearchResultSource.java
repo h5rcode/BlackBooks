@@ -1,4 +1,4 @@
-package com.blackbooks.search;
+package com.blackbooks.services.search;
 
 /**
  * The source for the result of a book search. As all results are merged, each

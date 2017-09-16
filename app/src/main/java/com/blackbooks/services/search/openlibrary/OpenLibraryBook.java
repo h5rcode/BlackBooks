@@ -1,10 +1,10 @@
-package com.blackbooks.search.openlibrary;
+package com.blackbooks.services.search.openlibrary;
 
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Category;
-import com.blackbooks.search.BookSearchResult;
-import com.blackbooks.search.BookSearchResultSource;
+import com.blackbooks.services.search.BookOnlineSearchResult;
+import com.blackbooks.services.search.BookSearchResultSource;
 import com.blackbooks.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.Locale;
 /**
  * The result of a book search using the Open Library API.
  */
-public final class OpenLibraryBook implements BookSearchResult {
+public final class OpenLibraryBook implements BookOnlineSearchResult {
 
     private static final String FORMAT_YEAR_MONTH_DAY = "MMM dd, yyyy";
     private static final String FORMAT_YEAR_MONTH = "MMM yyyy";

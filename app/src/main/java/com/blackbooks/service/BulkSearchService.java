@@ -15,7 +15,7 @@ import com.blackbooks.R;
 import com.blackbooks.activities.BulkAddActivity;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Isbn;
-import com.blackbooks.search.BookSearcher;
+import com.blackbooks.services.search.BookOnlineSearchService;
 import com.blackbooks.services.IsbnService;
 import com.blackbooks.utils.LogUtils;
 import com.blackbooks.utils.VariableUtils;
@@ -36,6 +36,9 @@ public final class BulkSearchService extends IntentService {
     private boolean mStop;
 
     @Inject
+    BookOnlineSearchService bookOnlineSearchService;
+
+    @Inject
     IsbnService isbnService;
 
     /**
@@ -43,6 +46,7 @@ public final class BulkSearchService extends IntentService {
      */
     public BulkSearchService() {
         super(BulkSearchService.class.getName());
+
     }
 
     @Override
@@ -89,7 +93,7 @@ public final class BulkSearchService extends IntentService {
             Log.d(LogUtils.TAG, String.format("Searching results for ISBN %s.", number));
 
             try {
-                final BookInfo bookInfo = BookSearcher.search(number);
+                final BookInfo bookInfo = bookOnlineSearchService.search(number);
                 if (bookInfo == null) {
                     Log.d(LogUtils.TAG, "No results.");
                     isbnService.markIsbnLookedUp(isbn.id, null);

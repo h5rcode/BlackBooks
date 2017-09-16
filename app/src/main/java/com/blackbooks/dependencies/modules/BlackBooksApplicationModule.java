@@ -1,5 +1,10 @@
 package com.blackbooks.dependencies.modules;
 
+import android.app.Application;
+import android.content.Context;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.blackbooks.activities.BookAuthorsEditActivity;
 import com.blackbooks.activities.BookCategoriesEditActivity;
 import com.blackbooks.activities.BookEditActivity;
@@ -41,6 +46,7 @@ import com.blackbooks.fragments.databasedelete.DatabaseDeleteFragment;
 import com.blackbooks.fragments.databaserestore.DatabaseRestoreFragment;
 import com.blackbooks.fragments.dialogs.AuthorDeleteFragment;
 import com.blackbooks.fragments.dialogs.AuthorEditFragment;
+import com.blackbooks.fragments.isbnlookup.IsbnLookupFragment;
 import com.blackbooks.fragments.summary.SummaryFragment;
 import com.blackbooks.repositories.AuthorRepository;
 import com.blackbooks.repositories.AuthorRepositoryImpl;
@@ -62,6 +68,8 @@ import com.blackbooks.repositories.PublisherRepository;
 import com.blackbooks.repositories.PublisherRepositoryImpl;
 import com.blackbooks.repositories.SeriesRepository;
 import com.blackbooks.repositories.SeriesRepositoryImpl;
+import com.blackbooks.services.search.BookOnlineSearchService;
+import com.blackbooks.services.search.BookOnlineSearchServiceImpl;
 import com.blackbooks.service.BulkSearchService;
 import com.blackbooks.services.AuthorService;
 import com.blackbooks.services.AuthorServiceImpl;
@@ -85,6 +93,11 @@ import com.blackbooks.services.SeriesService;
 import com.blackbooks.services.SeriesServiceImpl;
 import com.blackbooks.services.SummaryService;
 import com.blackbooks.services.SummaryServiceImpl;
+import com.blackbooks.services.search.BookSearcher;
+import com.blackbooks.services.search.openlibrary.OpenLibrarySearcher;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Singleton;
 
@@ -206,6 +219,9 @@ public abstract class BlackBooksApplicationModule {
     abstract IsbnLookupActivity isbnLookupActivity();
 
     @ContributesAndroidInjector
+    abstract IsbnLookupFragment isbnLookupFragment();
+
+    @ContributesAndroidInjector
     abstract SummaryFragment summaryFragment();
 
     @Provides
@@ -246,6 +262,13 @@ public abstract class BlackBooksApplicationModule {
     @Provides
     static BookLocationService provideBookLocationService(BookLocationRepository bookLocationRepository) {
         return new BookLocationServiceImpl(bookLocationRepository);
+    }
+
+    @Provides
+    static BookOnlineSearchService provideBookOnlineSearchService(RequestQueue requestQueue) {
+        List<BookSearcher> bookSearchers = new ArrayList<>();
+        bookSearchers.add(new OpenLibrarySearcher(requestQueue));
+        return new BookOnlineSearchServiceImpl(bookSearchers);
     }
 
     @Provides
@@ -291,6 +314,11 @@ public abstract class BlackBooksApplicationModule {
     }
 
     @Provides
+    static Context provideContext(Application application) {
+        return application.getApplicationContext();
+    }
+
+    @Provides
     static ExportService provideExportService(SQLiteHelper sqLiteHelper) {
         return new ExportServiceImpl(sqLiteHelper);
     }
@@ -318,6 +346,11 @@ public abstract class BlackBooksApplicationModule {
     @Provides
     static PublisherService providePublisherService(PublisherRepository publisherRepository) {
         return new PublisherServiceImpl(publisherRepository);
+    }
+
+    @Provides
+    static RequestQueue provideRequestQueue(Context context) {
+        return Volley.newRequestQueue(context);
     }
 
     @Provides

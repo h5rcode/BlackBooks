@@ -1,10 +1,10 @@
-package com.blackbooks.search.google;
+package com.blackbooks.services.search.google;
 
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Author;
 import com.blackbooks.model.persistent.Category;
-import com.blackbooks.search.BookSearchResult;
-import com.blackbooks.search.BookSearchResultSource;
+import com.blackbooks.services.search.BookOnlineSearchResult;
+import com.blackbooks.services.search.BookSearchResultSource;
 import com.blackbooks.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.Locale;
 /**
  * A class used to store the info of a book returned by the Google Books API.
  */
-public final class GoogleBook implements BookSearchResult {
+public final class GoogleBook implements BookOnlineSearchResult {
 
     private static final String FORMAT_YEAR_MONTH_DAY = "yyyy-MM-dd";
     private static final String FORMAT_YEAR_MONTH = "yyyy-MM";

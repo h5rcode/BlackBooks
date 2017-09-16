@@ -59,6 +59,6 @@ When the device is connected to the Internet, Black Books can perform ISBN looku
 * [Product Advertising API](https://affiliate-program.amazon.com/gp/advertising/api/detail/main.html)
 * [Open Library Books API](https://openlibrary.org/dev/docs/api/books)
 
-All the classes implementing the ISBN lookup are defined in package [com.blackbooks.search](https://github.com/h5rcode/BlackBooks/tree/master/app/src/main/java/com/blackbooks/search). The entry point is the method <code>search(String isbn)</code> in class [BookSearcher](https://github.com/h5rcode/BlackBooks/blob/master/app/src/main/java/com/blackbooks/search/BookSearcher.java) which calls each service and merges their results into a single instance of <code>BookInfo</code>.
+All the classes implementing the ISBN lookup are defined in package [com.blackbooks.services.search](https://github.com/h5rcode/BlackBooks/tree/master/app/src/main/java/com/blackbooks/search). The entry point is the method <code>search(String isbn)</code> in class [BookSearcher](https://github.com/h5rcode/BlackBooks/blob/master/app/src/main/java/com/blackbooks/search/BookSearcher.java) which calls each service and merges their results into a single instance of <code>BookInfo</code>.
 
 The call to each service is implemented by a corresponding Java class that sends a HTTP request and parses the response before returning the result.
