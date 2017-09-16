@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blackbooks.R;
@@ -47,15 +47,15 @@ public final class SummaryFragment extends Fragment {
         super.onResume();
 
         View view = getView();
-        LinearLayout mLayoutBooks = (LinearLayout) view.findViewById(R.id.summary_layoutBooks);
-        LinearLayout mLayoutAuthors = (LinearLayout) view.findViewById(R.id.summary_layoutAuthors);
-        LinearLayout mLayoutCategories = (LinearLayout) view.findViewById(R.id.summary_layoutCategories);
-        LinearLayout mLayoutLanguages = (LinearLayout) view.findViewById(R.id.summary_layoutLanguages);
-        LinearLayout mLayoutSeries = (LinearLayout) view.findViewById(R.id.summary_layoutSeries);
-        LinearLayout mLayoutLocations = (LinearLayout) view.findViewById(R.id.summary_layoutLocations);
-        LinearLayout mLayoutToRead = (LinearLayout) view.findViewById(R.id.summary_layoutToRead);
-        LinearLayout mLayoutLoaned = (LinearLayout) view.findViewById(R.id.summary_layoutLoans);
-        LinearLayout mLayoutFavourite = (LinearLayout) view.findViewById(R.id.summary_layoutFavourite);
+        CardView mLayoutBooks = (CardView) view.findViewById(R.id.summary_layoutBooks);
+        CardView mLayoutAuthors = (CardView) view.findViewById(R.id.summary_layoutAuthors);
+        CardView mLayoutCategories = (CardView) view.findViewById(R.id.summary_layoutCategories);
+        CardView mLayoutLanguages = (CardView) view.findViewById(R.id.summary_layoutLanguages);
+        CardView mLayoutSeries = (CardView) view.findViewById(R.id.summary_layoutSeries);
+        CardView mLayoutLocations = (CardView) view.findViewById(R.id.summary_layoutLocations);
+        CardView mLayoutToRead = (CardView) view.findViewById(R.id.summary_layoutToRead);
+        CardView mLayoutLoaned = (CardView) view.findViewById(R.id.summary_layoutLoans);
+        CardView mLayoutFavourite = (CardView) view.findViewById(R.id.summary_layoutFavourite);
 
         mLayoutBooks.setOnClickListener(new OnClickListener() {
 
@@ -135,39 +135,18 @@ public final class SummaryFragment extends Fragment {
         TextView mTextLoanedCount = (TextView) view.findViewById(R.id.summary_loanCount);
         TextView mTextFavouriteCount = (TextView) view.findViewById(R.id.summary_favouriteCount);
 
-        TextView mTextLabelBookCount = (TextView) view.findViewById(R.id.summary_textLabelBookCount);
-        TextView mTextLabelAuthorCount = (TextView) view.findViewById(R.id.summary_textLabelAuthorCount);
-        TextView mTextLabelCategoryCount = (TextView) view.findViewById(R.id.summary_textLabelCategoryCount);
-        TextView mTextLabelLanguageCount = (TextView) view.findViewById(R.id.summary_textLabelLanguageCount);
-        TextView mTextLabelSeriesCount = (TextView) view.findViewById(R.id.summary_textLabelSeriesCount);
-        TextView mTextLabelLocationCount = (TextView) view.findViewById(R.id.summary_textLabelLocationCount);
-        TextView mTextLabelToReadCount = (TextView) view.findViewById(R.id.summary_textLabelToReadCount);
-        TextView mTextLabelLoanCount = (TextView) view.findViewById(R.id.summary_textLabelLoanCount);
-        TextView mTextLabelFavouriteCount = (TextView) view.findViewById(R.id.summary_textLabelFavouriteCount);
-
         Summary summary = summaryService.getSummary();
-
-        mTextBooksCount.setText(String.valueOf(summary.books));
-        mTextAuthorsCount.setText(String.valueOf(summary.authors));
-        mTextCategoriesCount.setText(String.valueOf(summary.categories));
-        mTextLanguagesCount.setText(String.valueOf(summary.languages));
-        mTextSeriesCount.setText(String.valueOf(summary.series));
-        mTextLocationsCount.setText(String.valueOf(summary.bookLocations));
-        mTextToReadCount.setText(String.valueOf(summary.toRead));
-        mTextLoanedCount.setText(String.valueOf(summary.loans));
-        mTextFavouriteCount.setText(String.valueOf(summary.favourites));
-
         Resources res = getResources();
 
-        mTextLabelBookCount.setText(res.getQuantityText(R.plurals.label_summary_books, summary.books));
-        mTextLabelAuthorCount.setText(res.getQuantityText(R.plurals.label_summary_authors, summary.authors));
-        mTextLabelCategoryCount.setText(res.getQuantityText(R.plurals.label_summary_categories, summary.categories));
-        mTextLabelLanguageCount.setText(res.getQuantityText(R.plurals.label_summary_languages, summary.languages));
-        mTextLabelSeriesCount.setText(res.getQuantityText(R.plurals.label_summary_series, summary.series));
-        mTextLabelLocationCount.setText(res.getQuantityText(R.plurals.label_summary_locations, summary.bookLocations));
-        mTextLabelToReadCount.setText(res.getQuantityText(R.plurals.label_summary_to_read, summary.toRead));
-        mTextLabelLoanCount.setText(res.getQuantityText(R.plurals.label_summary_loans, summary.loans));
-        mTextLabelFavouriteCount.setText(res.getQuantityText(R.plurals.label_summary_favourites, summary.favourites));
+        mTextBooksCount.setText(res.getQuantityString(R.plurals.label_summary_books, summary.books, summary.books));
+        mTextAuthorsCount.setText(res.getQuantityString(R.plurals.label_summary_authors, summary.authors, summary.authors));
+        mTextCategoriesCount.setText(res.getQuantityString(R.plurals.label_summary_categories, summary.categories, summary.categories));
+        mTextLanguagesCount.setText(res.getQuantityString(R.plurals.label_summary_languages, summary.languages, summary.languages));
+        mTextSeriesCount.setText(res.getQuantityString(R.plurals.label_summary_series, summary.series, summary.series));
+        mTextLocationsCount.setText(res.getQuantityString(R.plurals.label_summary_locations, summary.bookLocations, summary.bookLocations));
+        mTextToReadCount.setText(res.getQuantityString(R.plurals.label_summary_to_read, summary.toRead, summary.toRead));
+        mTextLoanedCount.setText(res.getQuantityString(R.plurals.label_summary_loans, summary.loans, summary.loans));
+        mTextFavouriteCount.setText(res.getQuantityString(R.plurals.label_summary_favourites, summary.favourites, summary.favourites));
     }
 
     /**

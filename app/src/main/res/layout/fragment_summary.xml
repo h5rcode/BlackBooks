@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,252 +10,244 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:id="@+id/summary_layoutBooks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector_linear_layout_grey_900"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:padding="5sp">
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            card_view:cardCornerRadius="4dp">
+
+            <ImageView
+                android:id="@+id/img_booksCount"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/card_books" />
 
             <TextView
                 android:id="@+id/summary_booksCount"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:shadowColor="@android:color/black"
+                android:shadowRadius="3"
+                android:text="4 books"
                 android:textColor="@android:color/white"
-                android:textSize="50sp"
-                android:textStyle="bold" />
+                android:textSize="20sp" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/summary_layoutToRead"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            card_view:cardCornerRadius="4dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/card_to_read" />
 
             <TextView
-                android:id="@+id/summary_textLabelBookCount"
+                android:id="@+id/summary_toReadCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:shadowColor="@android:color/black"
+                android:shadowRadius="3"
+                android:text="3 to read"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/summary_layoutLoans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            card_view:cardCornerRadius="4dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/card_loans" />
+
+            <TextView
+                android:id="@+id/summary_loanCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:shadowColor="@android:color/black"
+                android:shadowRadius="3"
+                android:text="1 loaned"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/summary_layoutAuthors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            card_view:cardCornerRadius="4dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/card_authors" />
+
+            <TextView
+                android:id="@+id/summary_authorsCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:shadowColor="@android:color/black"
+                android:shadowRadius="3"
+                android:text="3 authors"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/summary_layoutCategories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            card_view:cardCornerRadius="4dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/card_categories" />
+
+            <TextView
+                android:id="@+id/summary_categoriesCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:shadowColor="@android:color/black"
+                android:shadowRadius="3"
+                android:text="2 categories"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/summary_layoutSeries"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            card_view:cardCornerRadius="4dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/card_series" />
+
+            <TextView
+                android:id="@+id/summary_seriesCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:shadowColor="@android:color/black"
+                android:shadowRadius="3"
+                android:text="1 series"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/summary_layoutLocations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            card_view:cardCornerRadius="4dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/card_locations" />
+
+            <TextView
+                android:id="@+id/summary_locationsCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:shadowColor="@android:color/black"
+                android:shadowRadius="3"
+                android:text="2 locations"
                 android:textColor="@android:color/white"
-                android:textSize="40sp" />
-        </LinearLayout>
+                android:textSize="20sp" />
+        </android.support.v7.widget.CardView>
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
+            android:id="@+id/summary_layoutLanguages"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:orientation="horizontal">
+            android:layout_margin="5dp"
+            card_view:cardCornerRadius="4dp">
 
-            <LinearLayout
-                android:id="@+id/summary_layoutToRead"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_linear_layout_grey_800"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:padding="5sp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/card_languages" />
 
-                <TextView
-                    android:id="@+id/summary_toReadCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/white"
-                    android:textSize="35sp"
-                    android:textStyle="bold" />
+            <TextView
+                android:id="@+id/summary_languagesCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:shadowColor="@android:color/black"
+                android:shadowRadius="3"
+                android:text="1 language"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+        </android.support.v7.widget.CardView>
 
-                <TextView
-                    android:id="@+id/summary_textLabelToReadCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/white"
-                    android:textSize="20sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/summary_layoutLoans"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_linear_layout_grey_700"
-                android:clickable="true"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:padding="5sp">
-
-                <TextView
-                    android:id="@+id/summary_loanCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/white"
-                    android:textSize="35sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/summary_textLabelLoanCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/white"
-                    android:textSize="20sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:id="@+id/summary_layoutAuthors"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_linear_layout_grey_600"
-                android:clickable="true"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:padding="5sp">
-
-                <TextView
-                    android:id="@+id/summary_authorsCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/white"
-                    android:textSize="30sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/summary_textLabelAuthorCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/summary_layoutCategories"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_linear_layout_grey_500"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:padding="5sp">
-
-                <TextView
-                    android:id="@+id/summary_categoriesCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/white"
-                    android:textSize="30sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/summary_textLabelCategoryCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/summary_layoutSeries"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_linear_layout_grey_400"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:padding="5sp">
-
-                <TextView
-                    android:id="@+id/summary_seriesCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="30sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/summary_textLabelSeriesCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:id="@+id/summary_layoutLocations"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_linear_layout_grey_300"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:padding="5sp">
-
-                <TextView
-                    android:id="@+id/summary_locationsCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="35sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/summary_textLabelLocationCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/summary_layoutLanguages"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_linear_layout_grey_200"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:padding="5sp">
-
-                <TextView
-                    android:id="@+id/summary_languagesCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="35sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/summary_textLabelLanguageCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:id="@+id/summary_layoutFavourite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector_linear_layout_grey_100"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:padding="5sp">
+            android:layout_margin="5dp"
+            card_view:cardCornerRadius="4dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/card_favorite" />
 
             <TextView
                 android:id="@+id/summary_favouriteCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="50sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/summary_textLabelFavouriteCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="40sp" />
-        </LinearLayout>
+                android:layout_margin="5dp"
+                android:shadowColor="@android:color/black"
+                android:shadowRadius="3"
+                android:text="1 favorite"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+        </android.support.v7.widget.CardView>
     </LinearLayout>
 
 </ScrollView>

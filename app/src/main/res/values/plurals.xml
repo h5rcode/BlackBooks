@@ -49,36 +49,36 @@
         <item quantity="other">authors</item>
     </plurals>
     <plurals name="label_summary_books">
-        <item quantity="one">book</item>
-        <item quantity="other">books</item>
+        <item quantity="one">%d book</item>
+        <item quantity="other">%d books</item>
     </plurals>
     <plurals name="label_summary_categories">
-        <item quantity="one">category</item>
-        <item quantity="other">categories</item>
+        <item quantity="one">%d category</item>
+        <item quantity="other">%d categories</item>
     </plurals>
     <plurals name="label_summary_favourites">
-        <item quantity="one">favourite</item>
-        <item quantity="other">favourites</item>
+        <item quantity="one">%d favourite</item>
+        <item quantity="other">%d favourites</item>
     </plurals>
     <plurals name="label_summary_languages">
-        <item quantity="one">language</item>
-        <item quantity="other">languages</item>
+        <item quantity="one">%d language</item>
+        <item quantity="other">%d languages</item>
     </plurals>
     <plurals name="label_summary_loans">
-        <item quantity="one">loan</item>
-        <item quantity="other">loans</item>
+        <item quantity="one">%d loan</item>
+        <item quantity="other">%d loans</item>
     </plurals>
     <plurals name="label_summary_locations">
-        <item quantity="one">location</item>
-        <item quantity="other">locations</item>
+        <item quantity="one">%d location</item>
+        <item quantity="other">%d locations</item>
     </plurals>
     <plurals name="label_summary_to_read">
-        <item quantity="one">to read</item>
-        <item quantity="other">to read</item>
+        <item quantity="one">%d to read</item>
+        <item quantity="other">%d to read</item>
     </plurals>
     <plurals name="label_summary_series">
-        <item quantity="one">series</item>
-        <item quantity="other">series</item>
+        <item quantity="one">%d series</item>
+        <item quantity="other">%d series</item>
     </plurals>
     <plurals name="message_book_groups_loaded_authors">
         <item quantity="one">%d more author loaded</item>

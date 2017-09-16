@@ -45,40 +45,40 @@
         <item quantity="other">%d pages</item>
     </plurals>
     <plurals name="label_summary_authors">
-        <item quantity="one">auteur</item>
-        <item quantity="other">auteurs</item>
+        <item quantity="one">%d auteur</item>
+        <item quantity="other">%d auteurs</item>
     </plurals>
     <plurals name="label_summary_books">
-        <item quantity="one">livre</item>
-        <item quantity="other">livres</item>
+        <item quantity="one">%d livre</item>
+        <item quantity="other">%d livres</item>
     </plurals>
     <plurals name="label_summary_categories">
-        <item quantity="one">catégorie</item>
-        <item quantity="other">catégories</item>
+        <item quantity="one">%d catégorie</item>
+        <item quantity="other">%d catégories</item>
     </plurals>
     <plurals name="label_summary_favourites">
-        <item quantity="one">favori</item>
-        <item quantity="other">favoris</item>
+        <item quantity="one">%d favori</item>
+        <item quantity="other">%d favoris</item>
     </plurals>
     <plurals name="label_summary_languages">
-        <item quantity="one">langue</item>
-        <item quantity="other">langues</item>
+        <item quantity="one">%d langue</item>
+        <item quantity="other">%d langues</item>
     </plurals>
     <plurals name="label_summary_loans">
-        <item quantity="one">prêt</item>
-        <item quantity="other">prêts</item>
+        <item quantity="one">%d prêt</item>
+        <item quantity="other">%d prêts</item>
     </plurals>
     <plurals name="label_summary_locations">
-        <item quantity="one">emplacement</item>
-        <item quantity="other">emplacements</item>
+        <item quantity="one">%d emplacement</item>
+        <item quantity="other">%d emplacements</item>
     </plurals>
     <plurals name="label_summary_to_read">
-        <item quantity="one">à lire</item>
-        <item quantity="other">à lire</item>
+        <item quantity="one">%d à lire</item>
+        <item quantity="other">%d à lire</item>
     </plurals>
     <plurals name="label_summary_series">
-        <item quantity="one">série</item>
-        <item quantity="other">séries</item>
+        <item quantity="one">%d série</item>
+        <item quantity="other">%d séries</item>
     </plurals>
     <plurals name="message_book_groups_loaded_authors">
         <item quantity="one">%d auteur supplémentaire chargé</item>
