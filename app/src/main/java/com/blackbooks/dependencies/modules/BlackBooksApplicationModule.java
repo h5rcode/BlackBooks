@@ -46,6 +46,7 @@ import com.blackbooks.fragments.databasedelete.DatabaseDeleteFragment;
 import com.blackbooks.fragments.databaserestore.DatabaseRestoreFragment;
 import com.blackbooks.fragments.dialogs.AuthorDeleteFragment;
 import com.blackbooks.fragments.dialogs.AuthorEditFragment;
+import com.blackbooks.fragments.dialogs.DuplicateBooksDialog;
 import com.blackbooks.fragments.isbnlookup.IsbnLookupFragment;
 import com.blackbooks.fragments.summary.SummaryFragment;
 import com.blackbooks.repositories.AuthorRepository;
@@ -209,6 +210,9 @@ public abstract class BlackBooksApplicationModule {
 
     @ContributesAndroidInjector
     abstract DatabaseRestoreFragment databaseRestoreFragment();
+
+    @ContributesAndroidInjector
+    abstract DuplicateBooksDialog duplicateBooksDialog();
 
     @ContributesAndroidInjector
     abstract AuthorDeleteFragment authorDeleteFragment();

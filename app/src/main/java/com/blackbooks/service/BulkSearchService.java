@@ -15,14 +15,16 @@ import com.blackbooks.R;
 import com.blackbooks.activities.BulkAddActivity;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Isbn;
-import com.blackbooks.services.search.BookOnlineSearchService;
 import com.blackbooks.services.IsbnService;
+import com.blackbooks.services.search.BookOnlineSearchService;
 import com.blackbooks.utils.LogUtils;
 import com.blackbooks.utils.VariableUtils;
 
 import java.util.List;
 
 import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 
 /**
  * A service that performs background ISBN look ups.
@@ -41,12 +43,14 @@ public final class BulkSearchService extends IntentService {
     @Inject
     IsbnService isbnService;
 
-    /**
-     * Constructor.
-     */
     public BulkSearchService() {
         super(BulkSearchService.class.getName());
+    }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        AndroidInjection.inject(this);
     }
 
     @Override
