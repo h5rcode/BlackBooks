@@ -45,23 +45,17 @@ public final class GoogleBooksJSONParser {
     private JSONObject imageLinks;
 
     /**
-     * Constructor.
-     */
-    public GoogleBooksJSONParser() {
-    }
-
-    /**
      * Parse the JSON data returned by Google Books API and return an instance
      * of GoogleBook.
      *
-     * @param json The JSON data to parse.
+     * @param jsonObject The JSON data to parse.
      * @return GoogleBook.
      * @throws JSONException
      */
-    public GoogleBook parse(String json) throws JSONException {
+    public GoogleBook parse(JSONObject jsonObject) throws JSONException {
         GoogleBook book = null;
 
-        extractObjects(json);
+        extractObjects(jsonObject);
 
         if (totalItems == 1) {
             book = new GoogleBook();
@@ -123,9 +117,11 @@ public final class GoogleBooksJSONParser {
             if (volumeInfo.has(PRINT_TYPE)) {
                 book.printType = volumeInfo.getString(PRINT_TYPE);
             }
+
             if (volumeInfo.has(MAIN_CATEGORY)) {
                 book.mainCategory = volumeInfo.getString(MAIN_CATEGORY);
             }
+
             if (categories != null) {
                 for (int i = 0; i < categories.length(); i++) {
                     book.categories.add(categories.getString(i));
@@ -135,6 +131,7 @@ public final class GoogleBooksJSONParser {
                 if (imageLinks.has(SMALL_THUMBNAIL)) {
                     book.smallThumbnailLink = imageLinks.getString(SMALL_THUMBNAIL);
                 }
+
                 if (imageLinks.has(THUMBNAIL)) {
                     book.thumbnailLink = imageLinks.getString(THUMBNAIL);
                 }
@@ -149,30 +146,35 @@ public final class GoogleBooksJSONParser {
     /**
      * Extract the different items of the main JSON object.
      *
-     * @param json The JSON data to extract the items from.
+     * @param jsonObject The JSON data to extract the items from.
      * @throws JSONException If a requested data does not exist in the JSON object.
      */
-    private void extractObjects(String json) throws JSONException {
-        JSONObject result = new JSONObject(json);
-        if (result.has(TOTAL_ITEMS)) {
-            totalItems = result.getInt(TOTAL_ITEMS);
+    private void extractObjects(JSONObject jsonObject) throws JSONException {
+        if (jsonObject.has(TOTAL_ITEMS)) {
+            totalItems = jsonObject.getInt(TOTAL_ITEMS);
         }
+
         if (totalItems == 1) {
-            JSONArray items = result.getJSONArray(ITEMS);
+            JSONArray items = jsonObject.getJSONArray(ITEMS);
             JSONObject item = items.getJSONObject(0);
             volumeInfo = item.getJSONObject(VOLUME_INFO);
+
             if (volumeInfo.has(AUTHORS)) {
                 authors = volumeInfo.getJSONArray(AUTHORS);
             }
+
             if (volumeInfo.has(INDUSTRY_IDENTIFIERS)) {
                 industryIdentifiers = volumeInfo.getJSONArray(INDUSTRY_IDENTIFIERS);
             }
+
             if (volumeInfo.has(DIMENSIONS)) {
                 dimensions = volumeInfo.getJSONObject(DIMENSIONS);
             }
+
             if (volumeInfo.has(CATEGORIES)) {
                 categories = volumeInfo.getJSONArray(CATEGORIES);
             }
+
             if (volumeInfo.has(IMAGE_LINKS)) {
                 imageLinks = volumeInfo.getJSONObject(IMAGE_LINKS);
             }

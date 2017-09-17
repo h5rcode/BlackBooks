@@ -37,7 +37,10 @@ public class BookOnlineSearchServiceImpl implements BookOnlineSearchService {
         for (BookSearcher bookSearcher : _bookSearchers) {
             try {
                 BookOnlineSearchResult bookOnlineSearchResult = bookSearcher.search(isbn);
-                bookOnlineSearchResultList.add(bookOnlineSearchResult);
+
+                if (bookOnlineSearchResult != null) {
+                    bookOnlineSearchResultList.add(bookOnlineSearchResult);
+                }
             } catch (Exception e) {
                 Log.w(LogUtils.TAG, "A book search encountered an error.", e);
             }

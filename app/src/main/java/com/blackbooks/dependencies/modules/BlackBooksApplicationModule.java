@@ -94,6 +94,7 @@ import com.blackbooks.services.SeriesServiceImpl;
 import com.blackbooks.services.SummaryService;
 import com.blackbooks.services.SummaryServiceImpl;
 import com.blackbooks.services.search.BookSearcher;
+import com.blackbooks.services.search.google.GoogleBooksSearcher;
 import com.blackbooks.services.search.openlibrary.OpenLibrarySearcher;
 
 import java.util.ArrayList;
@@ -268,6 +269,7 @@ public abstract class BlackBooksApplicationModule {
     static BookOnlineSearchService provideBookOnlineSearchService(RequestQueue requestQueue) {
         List<BookSearcher> bookSearchers = new ArrayList<>();
         bookSearchers.add(new OpenLibrarySearcher(requestQueue));
+        bookSearchers.add(new GoogleBooksSearcher(requestQueue));
         return new BookOnlineSearchServiceImpl(bookSearchers);
     }
 
