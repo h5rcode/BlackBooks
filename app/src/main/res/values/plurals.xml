@@ -45,8 +45,8 @@
         <item quantity="other">%d pages</item>
     </plurals>
     <plurals name="label_summary_authors">
-        <item quantity="one">author</item>
-        <item quantity="other">authors</item>
+        <item quantity="one">%d author</item>
+        <item quantity="other">%d authors</item>
     </plurals>
     <plurals name="label_summary_books">
         <item quantity="one">%d book</item>

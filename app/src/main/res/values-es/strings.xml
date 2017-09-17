@@ -313,4 +313,6 @@
     <string name="title_tab_database_backup">Crear una copia</string>
     <string name="title_tab_database_delete">Eliminar</string>
     <string name="title_tab_database_restore">Restaurar</string>
+    <string name="credits_app_icon">Icono de la aplicación realizado por Freepik\nhttp://www.freepik.com</string>
+    <string name="credits">Contribuciónes</string>
 </resources>

@@ -314,5 +314,7 @@
     <string name="title_tab_database_backup">Sauvegarder</string>
     <string name="title_tab_database_delete">Supprimer</string>
     <string name="title_tab_database_restore">Restaurer</string>
+    <string name="credits_app_icon">Icône de l\'appli réalisée par Freepik\nhttp://www.freepik.com</string>
+    <string name="credits">Contributions</string>
 
 </resources>

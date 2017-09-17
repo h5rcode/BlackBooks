@@ -334,5 +334,7 @@
     <string name="title_tab_database_delete">Delete</string>
     <string name="title_tab_database_restore">Restore</string>
     <string name="url_project_source_code" translatable="false">https://github.com/h5rcode/BlackBooks</string>
+    <string name="credits">Credits</string>
+    <string name="credits_app_icon">App icon designed by Freepik\nhttp://www.freepik.com</string>
 
 </resources>
