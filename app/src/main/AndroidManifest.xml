@@ -80,11 +80,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blackbooks.activities.SummaryActivity" />
         </activity>
-        <activity android:name="com.blackbooks.activities.ReportErrorActivity">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
         <activity android:name=".activities.BookGroupListActivity">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
