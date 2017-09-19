@@ -11,11 +11,13 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -55,6 +57,8 @@ import com.blackbooks.utils.IsbnUtils;
 import com.blackbooks.utils.LanguageUtils;
 import com.blackbooks.utils.StringUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -120,6 +124,9 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
 
     @Inject
     PublisherRepository publisherService;
+
+    private final static String LAST_THUMBNAIL_PHOTO_FILE_NAME = "black-books-last-thumbnail-photo";
+    private File _lastThumbnailPhotoFile;
 
     /**
      * Create a new instance of BookEditGeneralFragment.
@@ -222,6 +229,9 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         Activity activity = getActivity();
         if (intent.resolveActivity(activity.getPackageManager()) != null) {
+            createImageFile();
+            Uri photoURI = FileProvider.getUriForFile(activity, "com.blackbooks.fileprovider", _lastThumbnailPhotoFile);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(intent, REQUEST_TAKE_PICTURE);
         }
     }
@@ -250,11 +260,29 @@ public final class BookEditGeneralFragment extends Fragment implements DatePicke
             } else if (requestCode == REQUEST_EDIT_CATEGORIES) {
                 mBookInfo.categories = (ArrayList<Category>) data.getSerializableExtra(BookCategoriesEditActivity.EXTRA_CATEGORY_LIST);
                 setButtonEditCategoriesText();
-            } else if (requestCode == REQUEST_PICK_IMAGE || requestCode == REQUEST_TAKE_PICTURE) {
-                Uri uri = data.getData();
+            } else if (requestCode == REQUEST_TAKE_PICTURE || requestCode == REQUEST_PICK_IMAGE) {
+                Uri uri;
+                if (requestCode == REQUEST_TAKE_PICTURE) {
+                    uri = Uri.fromFile(_lastThumbnailPhotoFile);
+                } else {
+                    uri = data.getData();
+                }
+
                 mBookInfo.smallThumbnail = BitmapUtils.compress(getActivity(), uri, 160, 160);
                 mBookInfo.thumbnail = BitmapUtils.compress(getActivity(), uri, 500, 500);
                 setImageThumbnail();
+            }
+        }
+    }
+
+    private void createImageFile() {
+        if (_lastThumbnailPhotoFile == null) {
+            File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            try {
+                _lastThumbnailPhotoFile = File.createTempFile(LAST_THUMBNAIL_PHOTO_FILE_NAME, ".jpg", storageDir);
+                _lastThumbnailPhotoFile.deleteOnExit();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }
