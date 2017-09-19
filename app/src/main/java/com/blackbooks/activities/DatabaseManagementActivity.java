@@ -12,9 +12,9 @@ import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 
 import com.blackbooks.R;
-import com.blackbooks.fragments.DatabaseBackupFragment;
-import com.blackbooks.fragments.DatabaseDeleteFragment;
-import com.blackbooks.fragments.DatabaseRestoreFragment;
+import com.blackbooks.fragments.databasebackup.DatabaseBackupFragment;
+import com.blackbooks.fragments.databasedelete.DatabaseDeleteFragment;
+import com.blackbooks.fragments.databaserestore.DatabaseRestoreFragment;
 
 /**
  * Database management activity.

@@ -3,7 +3,6 @@ package com.blackbooks.activities;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,13 +18,16 @@ import com.blackbooks.R;
 import com.blackbooks.adapters.AutoCompleteAdapter;
 import com.blackbooks.adapters.AutoCompleteAdapter.AutoCompleteSearcher;
 import com.blackbooks.adapters.EditableArrayAdapter;
-import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.persistent.Author;
-import com.blackbooks.services.AuthorServices;
+import com.blackbooks.services.AuthorService;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 
 /**
  * Activity to edit the authors of a book.
@@ -47,6 +49,9 @@ public final class BookAuthorsEditActivity extends Activity {
     private TextView mTextInfo;
     private AutoCompleteTextView mTextAuthor;
     private ListView mListAuthors;
+
+    @Inject
+    AuthorService authorService;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -95,7 +100,7 @@ public final class BookAuthorsEditActivity extends Activity {
                 Author a = new Author();
                 a.name = authorName;
 
-                Author author = getAuthorByCriteria(a);
+                Author author = authorService.getAuthorByCriteria(a);
                 if (author != null) {
                     a = author;
                 }
@@ -156,7 +161,7 @@ public final class BookAuthorsEditActivity extends Activity {
 
                         Author a = new Author();
                         a.name = authorName;
-                        Author authorDb = getAuthorByCriteria(a);
+                        Author authorDb = authorService.getAuthorByCriteria(a);
 
                         if (authorDb != null) {
                             a = authorDb;
@@ -203,6 +208,7 @@ public final class BookAuthorsEditActivity extends Activity {
     @SuppressWarnings("unchecked")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_authors_edit);
 
@@ -217,20 +223,19 @@ public final class BookAuthorsEditActivity extends Activity {
             mAuthorList = (ArrayList<Author>) intent.getSerializableExtra(EXTRA_AUTHOR_LIST);
         }
         if (mAuthorList == null) {
-            mAuthorList = new ArrayList<Author>();
+            mAuthorList = new ArrayList<>();
         }
 
-        mAuthorMap = new LinkedHashMap<String, Author>();
+        mAuthorMap = new LinkedHashMap<>();
         for (Author author : mAuthorList) {
             mAuthorMap.put(author.name, author);
         }
 
-        mAutoCompleteAdapter = new AutoCompleteAdapter<Author>(this, android.R.layout.simple_list_item_1, new AutoCompleteSearcher<Author>() {
+        mAutoCompleteAdapter = new AutoCompleteAdapter<>(this, android.R.layout.simple_list_item_1, new AutoCompleteSearcher<Author>() {
 
             @Override
             public List<Author> search(CharSequence constraint) {
-                SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-                return AuthorServices.getAuthorListByText(db, constraint.toString());
+                return authorService.getAuthorListByText(constraint.toString());
             }
 
             @Override
@@ -279,20 +284,9 @@ public final class BookAuthorsEditActivity extends Activity {
      */
     private void addAuthorList() {
         Intent intent = new Intent();
-        ArrayList<Author> authorList = new ArrayList<Author>(mAuthorMap.values());
+        ArrayList<Author> authorList = new ArrayList<>(mAuthorMap.values());
         intent.putExtra(EXTRA_AUTHOR_LIST, authorList);
         setResult(RESULT_OK, intent);
         finish();
-    }
-
-    /**
-     * Get an author matching the given criteria.
-     *
-     * @param criteria Criteria.
-     * @return Author.
-     */
-    private Author getAuthorByCriteria(Author criteria) {
-        SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-        return AuthorServices.getAuthorByCriteria(db, criteria);
     }
 }

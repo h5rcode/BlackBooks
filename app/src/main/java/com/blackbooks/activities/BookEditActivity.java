@@ -7,7 +7,6 @@ import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -22,17 +21,20 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.blackbooks.R;
-import com.blackbooks.database.SQLiteHelper;
-import com.blackbooks.fragments.BookEditGeneralFragment;
-import com.blackbooks.fragments.BookEditPersonalFragment;
-import com.blackbooks.fragments.IsbnLookupFragment;
-import com.blackbooks.fragments.IsbnLookupFragment.IsbnLookupListener;
+import com.blackbooks.fragments.bookedit.BookEditGeneralFragment;
+import com.blackbooks.fragments.bookedit.BookEditPersonalFragment;
+import com.blackbooks.fragments.isbnlookup.IsbnLookupFragment;
+import com.blackbooks.fragments.isbnlookup.IsbnLookupFragment.IsbnLookupListener;
 import com.blackbooks.model.nonpersistent.BookInfo;
-import com.blackbooks.services.BookServices;
+import com.blackbooks.services.BookService;
 import com.blackbooks.utils.BeanUtils;
 import com.blackbooks.utils.VariableUtils;
 
 import java.security.InvalidParameterException;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 
 /**
  * Activity used to add a new book or edit an existing one.
@@ -68,8 +70,12 @@ public final class BookEditActivity extends FragmentActivity implements IsbnLook
     private BookInfo mBookInfoOriginal;
     private BookInfo mBookInfo;
 
+    @Inject
+    BookService bookService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_edit);
         mProgressBar = (ProgressBar) findViewById(R.id.bookEdit_progressBar);
@@ -301,8 +307,7 @@ public final class BookEditActivity extends FragmentActivity implements IsbnLook
     private void initStateEditMode(Intent intent) {
         if (intent.hasExtra(EXTRA_BOOK_ID)) {
             long bookId = intent.getLongExtra(EXTRA_BOOK_ID, 0);
-            SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
-            mBookInfo = BookServices.getBookInfo(db, bookId);
+            mBookInfo = bookService.getBookInfo(bookId);
             mBookInfoOriginal = new BookInfo(mBookInfo);
 
             setTitleEditMode();
@@ -367,8 +372,7 @@ public final class BookEditActivity extends FragmentActivity implements IsbnLook
             isValid = mBookEditPersonalFragment.readBookInfo(mBookInfo);
 
             if (isValid) {
-                SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-                BookServices.saveBookInfo(db, mBookInfo);
+                bookService.saveBookInfo(mBookInfo);
 
                 VariableUtils.getInstance().setReloadBookList(true);
 

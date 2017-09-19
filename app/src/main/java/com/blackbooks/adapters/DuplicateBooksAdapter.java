@@ -23,10 +23,10 @@ public final class DuplicateBooksAdapter extends ArrayAdapter<Book> {
     private final LayoutInflater mLayoutInflater;
     private final ThumbnailManager mThumbnailManager;
 
-    public DuplicateBooksAdapter(Context context, List<Book> bookList) {
+    public DuplicateBooksAdapter(Context context, List<Book> bookList, ThumbnailManager thumbnailManager) {
         super(context, 0, bookList);
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mThumbnailManager = ThumbnailManager.getInstance();
+        mThumbnailManager = thumbnailManager;
     }
 
     @Override

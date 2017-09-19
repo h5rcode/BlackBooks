@@ -1,7 +1,7 @@
 package com.blackbooks.fragments.dialogs;
 
 import android.app.Dialog;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -11,10 +11,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.blackbooks.R;
-import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookGroup;
 import com.blackbooks.model.persistent.BookLocation;
-import com.blackbooks.services.BookLocationServices;
+import com.blackbooks.services.BookLocationService;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * A dialog fragment to edit a book location.
@@ -25,6 +28,9 @@ public final class BookLocationEditFragment extends DialogFragment {
 
     private BookLocationEditListener mBookLocationEditListener;
     private BookGroup mBookGroup;
+
+    @Inject
+    BookLocationService bookLocationService;
 
     /**
      * Return a new instance of BookLocationEditFragment that is initialized to edit
@@ -39,6 +45,12 @@ public final class BookLocationEditFragment extends DialogFragment {
         args.putSerializable(ARG_BOOK_GROUP, bookGroup);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
     }
 
     @Override
@@ -75,10 +87,9 @@ public final class BookLocationEditFragment extends DialogFragment {
                 } else {
                     newName = newName.trim();
 
-                    SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
                     BookLocation bookLocation = new BookLocation();
                     bookLocation.name = newName;
-                    BookLocation bookLocationDb = BookLocationServices.getBookLocationByCriteria(db, bookLocation);
+                    BookLocation bookLocationDb = bookLocationService.getBookLocationByCriteria(bookLocation);
 
                     if (bookLocationDb != null) {
                         errorMessage = getString(R.string.message_book_location_already_present, newName);

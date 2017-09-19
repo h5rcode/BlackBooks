@@ -29,11 +29,12 @@ public final class LookedUpIsbnListAdapter extends ArrayAdapter<Isbn> {
      * Constructor.
      *
      * @param context Context.
+     * @param thumbnailManager
      */
-    public LookedUpIsbnListAdapter(Context context) {
+    public LookedUpIsbnListAdapter(Context context, ThumbnailManager thumbnailManager) {
         super(context, 0);
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mThumbnailManager = ThumbnailManager.getInstance();
+        mThumbnailManager = thumbnailManager;
     }
 
     @Override

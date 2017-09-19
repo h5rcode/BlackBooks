@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:contentDescription="@string/label_image"
-        android:src="@drawable/ic_folder_open_black" />
+        android:src="@drawable/ic_folder" />
 
     <TextView
         android:id="@+id/files_item_fileName"

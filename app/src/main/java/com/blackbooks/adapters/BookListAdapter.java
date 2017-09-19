@@ -27,11 +27,12 @@ public final class BookListAdapter extends ArrayAdapter<BookInfo> {
      * Constructor.
      *
      * @param context Context.
+     * @param thumbnailManager
      */
-    public BookListAdapter(Context context) {
+    public BookListAdapter(Context context, ThumbnailManager thumbnailManager) {
         super(context, 0);
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mThumbnailManager = ThumbnailManager.getInstance();
+        mThumbnailManager = thumbnailManager;
     }
 
     @Override

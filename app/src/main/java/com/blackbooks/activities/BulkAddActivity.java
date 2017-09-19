@@ -13,8 +13,8 @@ import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 
 import com.blackbooks.R;
-import com.blackbooks.fragments.BulkAddFragmentLookedUp;
-import com.blackbooks.fragments.BulkAddFragmentPending;
+import com.blackbooks.fragments.bulkadd.BulkAddFragmentLookedUp;
+import com.blackbooks.fragments.bulkadd.BulkAddFragmentPending;
 import com.blackbooks.utils.VariableUtils;
 
 /**

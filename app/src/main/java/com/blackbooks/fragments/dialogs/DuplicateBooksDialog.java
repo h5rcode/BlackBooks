@@ -1,6 +1,7 @@
 package com.blackbooks.fragments.dialogs;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -15,10 +16,15 @@ import android.widget.TextView;
 import com.blackbooks.R;
 import com.blackbooks.activities.BookDisplayActivity;
 import com.blackbooks.adapters.DuplicateBooksAdapter;
+import com.blackbooks.cache.ThumbnailManager;
 import com.blackbooks.model.persistent.Book;
 
 import java.io.Serializable;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * A dialog used to display books that correspond to a given ISBN.
@@ -31,6 +37,9 @@ public final class DuplicateBooksDialog extends DialogFragment {
     private DuplicateBooksListener mDuplicateBooksListener;
     private String mIsbn;
     private List<Book> mBookList;
+
+    @Inject
+    ThumbnailManager mThumbnailManager;
 
     /**
      * Create a new instance of {@link com.blackbooks.fragments.dialogs.DuplicateBooksDialog} ready
@@ -49,6 +58,12 @@ public final class DuplicateBooksDialog extends DialogFragment {
         fragment.setArguments(args);
 
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
     }
 
     @SuppressWarnings("unchecked")
@@ -77,7 +92,7 @@ public final class DuplicateBooksDialog extends DialogFragment {
         textView.setText(message);
 
         final ListView listView = (ListView) dialog.findViewById(R.id.duplicate_books_list);
-        listView.setAdapter(new DuplicateBooksAdapter(getActivity(), mBookList));
+        listView.setAdapter(new DuplicateBooksAdapter(getActivity(), mBookList, mThumbnailManager));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override

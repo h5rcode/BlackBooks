@@ -8,14 +8,14 @@ import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 
 import com.blackbooks.R;
-import com.blackbooks.fragments.AbstractBookGroupListFragment;
-import com.blackbooks.fragments.BookGroupListAuthorFragment;
-import com.blackbooks.fragments.BookGroupListBookLocationFragment;
-import com.blackbooks.fragments.BookGroupListCategoryFragment;
-import com.blackbooks.fragments.BookGroupListFirstLetterFragment;
-import com.blackbooks.fragments.BookGroupListLanguageFragment;
-import com.blackbooks.fragments.BookGroupListLoanFragment;
-import com.blackbooks.fragments.BookGroupListSeriesFragment;
+import com.blackbooks.fragments.bookgrouplist.AbstractBookGroupListFragment;
+import com.blackbooks.fragments.bookgrouplist.BookGroupListAuthorFragment;
+import com.blackbooks.fragments.bookgrouplist.BookGroupListBookLocationFragment;
+import com.blackbooks.fragments.bookgrouplist.BookGroupListCategoryFragment;
+import com.blackbooks.fragments.bookgrouplist.BookGroupListFirstLetterFragment;
+import com.blackbooks.fragments.bookgrouplist.BookGroupListLanguageFragment;
+import com.blackbooks.fragments.bookgrouplist.BookGroupListLoanFragment;
+import com.blackbooks.fragments.bookgrouplist.BookGroupListSeriesFragment;
 import com.blackbooks.model.nonpersistent.BookGroup;
 
 /**

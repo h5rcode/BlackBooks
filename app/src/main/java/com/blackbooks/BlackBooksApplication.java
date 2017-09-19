@@ -1,68 +1,70 @@
 package com.blackbooks;
 
+import android.app.Activity;
 import android.app.Application;
-import android.content.Intent;
+import android.app.Service;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 
-import com.blackbooks.activities.ReportErrorActivity;
 import com.blackbooks.database.SQLiteHelper;
+import com.blackbooks.dependencies.components.DaggerBlackBooksApplicationComponent;
 import com.blackbooks.utils.LogUtils;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
+import dagger.android.HasServiceInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
 /**
  * Black Books application class.
  */
-public final class BlackBooksApplication extends Application {
+public final class BlackBooksApplication extends Application implements HasActivityInjector, HasServiceInjector, HasSupportFragmentInjector {
 
-    private Tracker mTracker;
+    @Inject
+    DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
+
+    @Inject
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidFragmentInjector;
+
+    @Inject
+    DispatchingAndroidInjector<Service> dispatchingAndroidServiceInjector;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        DaggerBlackBooksApplicationComponent
+                .builder()
+                .application(this)
+                .build()
+                .inject(this);
+
         Log.i(LogUtils.TAG, "Application starting.");
 
         SQLiteHelper.initialize(getApplicationContext());
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-
             @Override
-            public void uncaughtException(Thread thread, Throwable e) {
-                handleUncaughtException(e);
+            public void uncaughtException(Thread t, Throwable e) {
+                Log.e(LogUtils.TAG, "Uncaught exception.", e);
             }
         });
     }
 
-    /**
-     * Return the Google Analytics tracker.
-     *
-     * @return Tracker.
-     */
-    public synchronized Tracker getTracker() {
-
-        if (mTracker == null) {
-            final GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-            Log.d(LogUtils.TAG, "Google Analytics dry run enabled: " + analytics.isDryRunEnabled());
-
-            mTracker = analytics.newTracker(R.xml.tracker_config);
-            mTracker.enableAdvertisingIdCollection(true);
-        }
-
-        return mTracker;
+    @Override
+    public DispatchingAndroidInjector<Activity> activityInjector() {
+        return dispatchingAndroidInjector;
     }
 
-    /**
-     * Handle uncaught exception.
-     *
-     * @param e The exception that was thrown.
-     */
-    public void handleUncaughtException(Throwable e) {
-        Log.e(LogUtils.TAG, "Uncaught exception.", e);
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidFragmentInjector;
+    }
 
-        Intent intent = new Intent(getApplicationContext(), ReportErrorActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getApplicationContext().startActivity(intent);
-
-        System.exit(1);
+    @Override
+    public AndroidInjector<Service> serviceInjector() {
+        return dispatchingAndroidServiceInjector;
     }
 }

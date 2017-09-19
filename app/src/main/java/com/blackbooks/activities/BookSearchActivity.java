@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 
 import com.blackbooks.R;
-import com.blackbooks.fragments.BookSearchFragment;
+import com.blackbooks.fragments.booksearch.BookSearchFragment;
 
 /**
  * The activity that searches books in the library.

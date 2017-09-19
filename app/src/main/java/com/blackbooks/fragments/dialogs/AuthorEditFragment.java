@@ -1,7 +1,6 @@
 package com.blackbooks.fragments.dialogs;
 
 import android.app.Dialog;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -11,10 +10,11 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 import com.blackbooks.R;
-import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookGroup;
 import com.blackbooks.model.persistent.Author;
-import com.blackbooks.services.AuthorServices;
+import com.blackbooks.services.AuthorService;
+
+import javax.inject.Inject;
 
 /**
  * A dialog fragment to edit an author.
@@ -25,6 +25,9 @@ public final class AuthorEditFragment extends DialogFragment {
 
     private AuthorEditListener mAuthorEditListener;
     private BookGroup mBookGroup;
+
+    @Inject
+    AuthorService authorService;
 
     /**
      * Return a new instance of AuthorEditFragment that is initialized to edit
@@ -75,10 +78,9 @@ public final class AuthorEditFragment extends DialogFragment {
                 } else {
                     newName = newName.trim();
 
-                    SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
                     Author author = new Author();
                     author.name = newName;
-                    Author authorDb = AuthorServices.getAuthorByCriteria(db, author);
+                    Author authorDb = authorService.getAuthorByCriteria(author);
 
                     if (authorDb != null) {
                         errorMessage = getString(R.string.message_author_already_present, newName);

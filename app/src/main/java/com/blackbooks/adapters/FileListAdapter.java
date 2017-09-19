@@ -39,9 +39,9 @@ public final class FileListAdapter extends ArrayAdapter<File> {
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.files_item_icon);
         if (file.isDirectory()) {
-            imageView.setImageResource(R.drawable.ic_folder_open_black);
+            imageView.setImageResource(R.drawable.ic_folder);
         } else {
-            imageView.setImageResource(R.drawable.ic_description_black);
+            imageView.setImageResource(R.drawable.ic_file);
         }
         TextView textView = (TextView) convertView.findViewById(R.id.files_item_fileName);
         textView.setText(file.getName());

@@ -59,27 +59,6 @@ When the device is connected to the Internet, Black Books can perform ISBN looku
 * [Product Advertising API](https://affiliate-program.amazon.com/gp/advertising/api/detail/main.html)
 * [Open Library Books API](https://openlibrary.org/dev/docs/api/books)
 
-All the classes implementing the ISBN lookup are defined in package [com.blackbooks.search](https://github.com/h5rcode/BlackBooks/tree/master/app/src/main/java/com/blackbooks/search). The entry point is the method <code>search(String isbn)</code> in class [BookSearcher](https://github.com/h5rcode/BlackBooks/blob/master/app/src/main/java/com/blackbooks/search/BookSearcher.java) which calls each service and merges their results into a single instance of <code>BookInfo</code>.
+All the classes implementing the ISBN lookup are defined in package [com.blackbooks.services.search](https://github.com/h5rcode/BlackBooks/tree/master/app/src/main/java/com/blackbooks/search). The entry point is the method <code>search(String isbn)</code> in class [BookSearcher](https://github.com/h5rcode/BlackBooks/blob/master/app/src/main/java/com/blackbooks/search/BookSearcher.java) which calls each service and merges their results into a single instance of <code>BookInfo</code>.
 
 The call to each service is implemented by a corresponding Java class that sends a HTTP request and parses the response before returning the result.
-
-### Slide in/slide out activity transitions
-Black Books overrides the default activity transitions so that activities slide in and out of the screen as the user
-navigates the app.
-
-The custom transitions were implemented by:
-
-* Defining the animations to use in the following cases:
-  * At the opening of a new activity:
-    * The new activity slides into the screen from the right edge of the screen: [activity_open_translate.xml](https://github.com/h5rcode/BlackBooks/blob/master/app/src/main/res/anim/activity_open_translate.xml)
-    * The current activity fades out of the screen: [activity_close_scale.xml](https://github.com/h5rcode/BlackBooks/blob/master/app/src/main/res/anim/activity_close_scale.xml)
-  * At the closing of the current activity:
-    * The current activity slides out of the screen by the right edge: [activity_close_translate.xml](https://github.com/h5rcode/BlackBooks/blob/master/app/src/main/res/anim/activity_close_translate.xml)
-    * The restored activity fades in to the screen: [activity_open_scale.xml](https://github.com/h5rcode/BlackBooks/blob/master/app/src/main/res/anim/activity_open_scale.xml)
-* Creating a new style named <code>Transitions</code> in file [styles.xml](https://github.com/h5rcode/BlackBooks/blob/master/app/src/main/res/values/styles.xml) using these animations.
-This style contains the following items:
-  * <code>android:activityOpenEnterAnimation</code>
-  * <code>android:activityOpenExitAnimation</code>
-  * <code>android:activityCloseExitAnimation</code>
-  * <code>android:activityCloseEnterAnimation</code>
-* Adding the item <code>android:windowAnimationStyle</code> referring to the style <code>Transitions</code> to the app's theme. The app's theme is the one indicated in [AndroidManifest.xml](https://github.com/h5rcode/BlackBooks/blob/master/app/src/main/AndroidManifest.xml) as the value of the attribute <code>android:theme</code> of the <code>application</code> element, and it is also defined in [styles.xml](https://github.com/h5rcode/BlackBooks/blob/master/app/src/main/res/values/styles.xml).

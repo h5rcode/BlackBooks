@@ -7,25 +7,24 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
-import com.blackbooks.BlackBooksApplication;
 import com.blackbooks.R;
 import com.blackbooks.activities.BulkAddActivity;
-import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookInfo;
 import com.blackbooks.model.persistent.Isbn;
-import com.blackbooks.search.BookSearcher;
-import com.blackbooks.services.IsbnServices;
+import com.blackbooks.services.IsbnService;
+import com.blackbooks.services.search.BookOnlineSearchService;
 import com.blackbooks.utils.LogUtils;
 import com.blackbooks.utils.VariableUtils;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 
 /**
  * A service that performs background ISBN look ups.
@@ -38,11 +37,12 @@ public final class BulkSearchService extends IntentService {
 
     private boolean mStop;
 
-    private Tracker mTracker;
+    @Inject
+    BookOnlineSearchService bookOnlineSearchService;
 
-    /**
-     * Constructor.
-     */
+    @Inject
+    IsbnService isbnService;
+
     public BulkSearchService() {
         super(BulkSearchService.class.getName());
     }
@@ -50,9 +50,7 @@ public final class BulkSearchService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        final BlackBooksApplication application = (BlackBooksApplication) getApplication();
-        mTracker = application.getTracker();
+        AndroidInjection.inject(this);
     }
 
     @Override
@@ -60,11 +58,9 @@ public final class BulkSearchService extends IntentService {
 
         VariableUtils.getInstance().setBulkSearchRunning(true);
 
-        final SQLiteDatabase db = SQLiteHelper.getInstance().getWritableDatabase();
-        final List<Isbn> isbnList = IsbnServices.getIsbnListToLookUp(db, Integer.MAX_VALUE, 0);
+        final List<Isbn> isbnList = isbnService.getIsbnListToLookUp(Integer.MAX_VALUE, 0);
 
         final int isbnCount = isbnList.size();
-        sendIsbnEvent(R.string.analytics_action_bulk_lookup_start);
 
         final Resources res = getResources();
         final String text = res.getQuantityString(R.plurals.notification_bulk_search_running_text, isbnCount, isbnCount);
@@ -88,8 +84,6 @@ public final class BulkSearchService extends IntentService {
         notificationManager.notify(NOTIFICATION_ID, builder.build());
         builder.setTicker(null);
 
-        sendIsbnEvent(R.string.analytics_action_bulk_lookup_start);
-
         int consecutiveErrors = 0;
         for (int i = 0; i < isbnCount; i++) {
             if (mStop) {
@@ -100,16 +94,16 @@ public final class BulkSearchService extends IntentService {
             }
             final Isbn isbn = isbnList.get(i);
             final String number = isbn.number;
-            Log.d(LogUtils.TAG, String.format("Searching results for ISBN %s.", number));
+            Log.i(LogUtils.TAG, String.format("Searching results for ISBN %s.", number));
 
             try {
-                final BookInfo bookInfo = BookSearcher.search(number);
+                final BookInfo bookInfo = bookOnlineSearchService.search(number);
                 if (bookInfo == null) {
-                    Log.d(LogUtils.TAG, "No results.");
-                    IsbnServices.markIsbnLookedUp(db, isbn.id, null);
+                    Log.i(LogUtils.TAG, "No results.");
+                    isbnService.markIsbnLookedUp(isbn.id, null);
                 } else {
-                    Log.d(LogUtils.TAG, String.format("Result: %s", bookInfo.title));
-                    IsbnServices.saveBookInfo(db, bookInfo, isbn.id);
+                    Log.i(LogUtils.TAG, String.format("Result: %s", bookInfo.title));
+                    isbnService.saveBookInfo(bookInfo, isbn.id);
                     VariableUtils.getInstance().setReloadBookList(true);
                 }
 
@@ -136,26 +130,11 @@ public final class BulkSearchService extends IntentService {
         notificationManager.notify(NOTIFICATION_ID, builder.build());
 
         VariableUtils.getInstance().setBulkSearchRunning(false);
-        sendIsbnEvent(R.string.analytics_action_bulk_lookup_stop);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mStop = true;
-    }
-
-    /**
-     * Send an event of the category "ISBN" to Google Analytics.
-     *
-     * @param actionResourceId Id of the resource corresponding to the action of the event.
-     */
-    private void sendIsbnEvent(int actionResourceId) {
-        mTracker.send(
-                new HitBuilders.EventBuilder()
-                        .setCategory(getString(R.string.analytics_category_isbn))
-                        .setAction(getString(actionResourceId))
-                        .build()
-        );
     }
 }

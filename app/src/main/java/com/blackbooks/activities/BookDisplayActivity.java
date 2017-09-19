@@ -15,10 +15,10 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.MenuItem;
 
 import com.blackbooks.R;
-import com.blackbooks.fragments.BookDisplayDetailFragment;
-import com.blackbooks.fragments.BookDisplayDetailFragment.BookDisplayListener;
-import com.blackbooks.fragments.BookLoanFragment;
-import com.blackbooks.fragments.BookLoanFragment.BookLoanListener;
+import com.blackbooks.fragments.bookdisplay.BookDisplayDetailFragment;
+import com.blackbooks.fragments.bookdisplay.BookDisplayDetailFragment.BookDisplayListener;
+import com.blackbooks.fragments.bookloan.BookLoanFragment;
+import com.blackbooks.fragments.bookloan.BookLoanFragment.BookLoanListener;
 import com.blackbooks.model.nonpersistent.BookInfo;
 
 /**

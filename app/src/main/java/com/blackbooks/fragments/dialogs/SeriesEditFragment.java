@@ -1,7 +1,7 @@
 package com.blackbooks.fragments.dialogs;
 
 import android.app.Dialog;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -11,10 +11,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.blackbooks.R;
-import com.blackbooks.database.SQLiteHelper;
 import com.blackbooks.model.nonpersistent.BookGroup;
 import com.blackbooks.model.persistent.Series;
-import com.blackbooks.services.SeriesServices;
+import com.blackbooks.repositories.SeriesRepository;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * A dialog fragment to edit a series.
@@ -25,6 +28,15 @@ public final class SeriesEditFragment extends DialogFragment {
 
     private SeriesEditListener mSeriesEditListener;
     private BookGroup mBookGroup;
+
+    @Inject
+    SeriesRepository seriesService;
+
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
+    }
 
     /**
      * Return a new instance of SeriesEditFragment that is initialized to edit
@@ -75,10 +87,9 @@ public final class SeriesEditFragment extends DialogFragment {
                 } else {
                     newName = newName.trim();
 
-                    SQLiteDatabase db = SQLiteHelper.getInstance().getReadableDatabase();
                     Series series = new Series();
                     series.name = newName;
-                    Series seriesDb = SeriesServices.getSeriesByCriteria(db, series);
+                    Series seriesDb = seriesService.getSeriesByCriteria(series);
 
                     if (seriesDb != null) {
                         errorMessage = getString(R.string.message_series_already_present, newName);

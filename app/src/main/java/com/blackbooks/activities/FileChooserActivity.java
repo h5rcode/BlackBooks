@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 
 import com.blackbooks.R;
-import com.blackbooks.fragments.FileChooserFragment;
+import com.blackbooks.fragments.filechooser.FileChooserFragment;
 
 import java.io.File;
 
