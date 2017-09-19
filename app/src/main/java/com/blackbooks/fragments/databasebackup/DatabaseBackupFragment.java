@@ -104,7 +104,7 @@ public final class DatabaseBackupFragment extends Fragment implements OnProgress
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            Log.d(LogUtils.TAG, "Saving a backup of the app's database.");
+            Log.i(LogUtils.TAG, "Saving a backup of the app's database.");
 
             mProgressDialogFragment = ProgressDialogFragment.newInstanceSpinner(
                     R.string.title_dialog_backup_database,
@@ -120,18 +120,18 @@ public final class DatabaseBackupFragment extends Fragment implements OnProgress
             final File currentDB = activity.getDatabasePath(Database.NAME);
 
             if (currentDB == null || !currentDB.exists()) {
-                Log.d(LogUtils.TAG, "No database file to backup.");
+                Log.i(LogUtils.TAG, "No database file to backup.");
             } else {
                 mDatabaseBackup = FileUtils.createFileInAppDir(Database.NAME + ".sqlite");
 
                 if (mDatabaseBackup == null) {
-                    Log.d(LogUtils.TAG, "Could not create backup file.");
+                    Log.i(LogUtils.TAG, "Could not create backup file.");
                 } else {
                     try {
 
                         success = FileUtils.copy(currentDB, mDatabaseBackup);
                     } catch (InterruptedException e) {
-                        Log.d(LogUtils.TAG, "Backup interrupted, aborting.");
+                        Log.i(LogUtils.TAG, "Backup interrupted, aborting.");
                     }
                 }
             }
@@ -144,14 +144,14 @@ public final class DatabaseBackupFragment extends Fragment implements OnProgress
             super.onPostExecute(result);
 
             if (result) {
-                Log.d(LogUtils.TAG, "App's database backup successful.");
+                Log.i(LogUtils.TAG, "App's database backup successful.");
                 MediaScannerConnection.scanFile(getActivity(), new String[]{mDatabaseBackup.getAbsolutePath()}, null,
                         null);
                 String message = String.format(getString(R.string.message_file_saved), mDatabaseBackup.getName(), mDatabaseBackup
                         .getParentFile().getName());
                 Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
             } else {
-                Log.d(LogUtils.TAG, "App's database backup failed.");
+                Log.i(LogUtils.TAG, "App's database backup failed.");
                 Toast.makeText(getActivity(), R.string.message_file_not_saved, Toast.LENGTH_LONG).show();
             }
 

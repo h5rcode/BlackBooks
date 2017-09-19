@@ -94,15 +94,15 @@ public final class BulkSearchService extends IntentService {
             }
             final Isbn isbn = isbnList.get(i);
             final String number = isbn.number;
-            Log.d(LogUtils.TAG, String.format("Searching results for ISBN %s.", number));
+            Log.i(LogUtils.TAG, String.format("Searching results for ISBN %s.", number));
 
             try {
                 final BookInfo bookInfo = bookOnlineSearchService.search(number);
                 if (bookInfo == null) {
-                    Log.d(LogUtils.TAG, "No results.");
+                    Log.i(LogUtils.TAG, "No results.");
                     isbnService.markIsbnLookedUp(isbn.id, null);
                 } else {
-                    Log.d(LogUtils.TAG, String.format("Result: %s", bookInfo.title));
+                    Log.i(LogUtils.TAG, String.format("Result: %s", bookInfo.title));
                     isbnService.saveBookInfo(bookInfo, isbn.id);
                     VariableUtils.getInstance().setReloadBookList(true);
                 }

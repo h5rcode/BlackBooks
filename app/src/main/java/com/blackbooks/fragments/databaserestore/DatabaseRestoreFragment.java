@@ -135,7 +135,7 @@ public final class DatabaseRestoreFragment extends Fragment implements ProgressD
 
         @Override
         protected Void doInBackground(Void... params) {
-            Log.d(LogUtils.TAG, "Restoring database.");
+            Log.i(LogUtils.TAG, "Restoring database.");
 
             mProgressDialogFragment = ProgressDialogFragment.newInstanceSpinner(
                     R.string.title_dialog_restore_database,
@@ -150,23 +150,23 @@ public final class DatabaseRestoreFragment extends Fragment implements ProgressD
             SQLiteDatabase db = null;
             try {
                 if (isCancelled()) {
-                    Log.d(LogUtils.TAG, "Restore task cancelled, aborting.");
+                    Log.i(LogUtils.TAG, "Restore task cancelled, aborting.");
                     return null;
                 }
-                Log.d(LogUtils.TAG, "Opening the database dump to restore.");
+                Log.i(LogUtils.TAG, "Opening the database dump to restore.");
                 db = SQLiteDatabase.openDatabase(mBackupFile.getPath(), null, SQLiteDatabase.OPEN_READONLY);
 
                 if (isCancelled()) {
-                    Log.d(LogUtils.TAG, "Restore task cancelled, aborting.");
+                    Log.i(LogUtils.TAG, "Restore task cancelled, aborting.");
                     return null;
                 }
-                Log.d(LogUtils.TAG, "Checking the database dump integrity.");
+                Log.i(LogUtils.TAG, "Checking the database dump integrity.");
                 isBackupFileOk = db.isDatabaseIntegrityOk();
 
                 if (isBackupFileOk) {
-                    Log.d(LogUtils.TAG, "Database dump integrity check succeeded.");
+                    Log.i(LogUtils.TAG, "Database dump integrity check succeeded.");
                 } else {
-                    Log.d(LogUtils.TAG, "Database dump integrity check failed.");
+                    Log.i(LogUtils.TAG, "Database dump integrity check failed.");
                     mMessageId = R.string.message_db_restore_dump_integrity_check_failed;
                 }
 
@@ -181,12 +181,13 @@ public final class DatabaseRestoreFragment extends Fragment implements ProgressD
             }
 
             if (isBackupFileOk) {
-                Log.d(LogUtils.TAG, "Closing connections to the database to restore.");
+                Log.i(LogUtils.TAG, "Closing connections to the database to restore.");
 
                 if (isCancelled()) {
-                    Log.d(LogUtils.TAG, "Restore task cancelled, aborting.");
+                    Log.i(LogUtils.TAG, "Restore task cancelled, aborting.");
                     return null;
                 }
+
                 SQLiteHelper sqliteHelper = SQLiteHelper.getInstance();
                 sqliteHelper.close();
 
@@ -194,20 +195,20 @@ public final class DatabaseRestoreFragment extends Fragment implements ProgressD
                 File currentDB = activity.getDatabasePath(Database.NAME);
 
                 try {
-                    Log.d(LogUtils.TAG, "Replacing the database by the dump.");
+                    Log.i(LogUtils.TAG, "Replacing the database by the dump.");
 
                     boolean success = FileUtils.copy(mBackupFile, currentDB);
 
                     if (success) {
-                        Log.d(LogUtils.TAG, "Database successfully restored.");
+                        Log.i(LogUtils.TAG, "Database successfully restored.");
                         mMessageId = R.string.message_db_restore_success;
                     } else {
-                        Log.d(LogUtils.TAG, "The database restoration failed.");
+                        Log.i(LogUtils.TAG, "The database restoration failed.");
                         mMessageId = R.string.message_db_restore_success;
                     }
 
                 } catch (InterruptedException e) {
-                    Log.d(LogUtils.TAG, "The restoration was interrupted.");
+                    Log.i(LogUtils.TAG, "The restoration was interrupted.");
                 }
             }
 

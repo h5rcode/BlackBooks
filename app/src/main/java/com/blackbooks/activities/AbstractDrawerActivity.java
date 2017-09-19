@@ -313,7 +313,7 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
 
         @Override
         protected File doInBackground(Void... params) {
-            Log.d(LogUtils.TAG, "Saving the logs on the external storage.");
+            Log.i(LogUtils.TAG, "Saving the logs on the external storage.");
             return LogUtils.writeLogToFile(AbstractDrawerActivity.this);
         }
 
@@ -322,13 +322,13 @@ public abstract class AbstractDrawerActivity extends FragmentActivity {
             super.onPostExecute(file);
 
             if (file != null) {
-                Log.d(LogUtils.TAG, "Logs successfully saved on the external storage.");
+                Log.i(LogUtils.TAG, "Logs successfully saved on the external storage.");
                 String message = String.format(getString(R.string.message_file_saved), file.getName(), file
                         .getParentFile().getName());
                 Toast.makeText(AbstractDrawerActivity.this, message, Toast.LENGTH_LONG).show();
                 closeDrawer();
             } else {
-                Log.d(LogUtils.TAG, "Logs could not be saved on the external storage.");
+                Log.i(LogUtils.TAG, "Logs could not be saved on the external storage.");
                 Toast.makeText(AbstractDrawerActivity.this, R.string.message_file_not_saved, Toast.LENGTH_LONG).show();
             }
         }

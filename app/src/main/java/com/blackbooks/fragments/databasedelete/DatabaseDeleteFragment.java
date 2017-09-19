@@ -115,7 +115,7 @@ public final class DatabaseDeleteFragment extends Fragment implements ProgressDi
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            Log.d(LogUtils.TAG, "Deleting database.");
+            Log.i(LogUtils.TAG, "Deleting database.");
 
             mProgressDialogFragment = ProgressDialogFragment.newInstanceSpinner(
                     R.string.title_dialog_delete_database,
@@ -134,7 +134,7 @@ public final class DatabaseDeleteFragment extends Fragment implements ProgressDi
 
             boolean result;
             if (isCancelled()) {
-                Log.d(LogUtils.TAG, "Delete database task cancelled, aborting.");
+                Log.i(LogUtils.TAG, "Delete database task cancelled, aborting.");
                 result = false;
             } else {
                 result = currentDB.delete();
@@ -147,10 +147,10 @@ public final class DatabaseDeleteFragment extends Fragment implements ProgressDi
             super.onPostExecute(result);
 
             if (result) {
-                Log.d(LogUtils.TAG, "Database successfully deleted.");
+                Log.i(LogUtils.TAG, "Database successfully deleted.");
                 Toast.makeText(getActivity(), R.string.message_db_delete_success, Toast.LENGTH_LONG).show();
             } else {
-                Log.d(LogUtils.TAG, "The database could not be deleted.");
+                Log.i(LogUtils.TAG, "The database could not be deleted.");
                 Toast.makeText(getActivity(), R.string.message_db_delete_failure, Toast.LENGTH_LONG).show();
             }
 

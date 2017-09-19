@@ -231,11 +231,11 @@ public final class BookExportFragment extends Fragment implements TextQualifierP
 
             OutputStreamWriter writer = null;
             try {
-                Log.d(LogUtils.TAG, "Exporting books to CSV.");
+                Log.i(LogUtils.TAG, "Exporting books to CSV.");
 
                 List<BookExport> bookExportList = exportService.getBookExportList(null);
 
-                Log.d(LogUtils.TAG, String.format("%d books to export.", bookExportList.size()));
+                Log.i(LogUtils.TAG, String.format("%d books to export.", bookExportList.size()));
 
                 mProgressDialogFragment = ProgressDialogFragment.newInstanceHorizontal(
                         R.string.title_dialog_export_books,
@@ -258,7 +258,7 @@ public final class BookExportFragment extends Fragment implements TextQualifierP
                 int i = 0;
                 for (BookExport bookExport : bookExportList) {
                     if (isCancelled()) {
-                        Log.d(LogUtils.TAG, "CSV export task cancelled, aborting.");
+                        Log.i(LogUtils.TAG, "CSV export task cancelled, aborting.");
                         break;
                     }
 
@@ -269,7 +269,7 @@ public final class BookExportFragment extends Fragment implements TextQualifierP
                     publishProgress(i);
                 }
 
-                Log.d(LogUtils.TAG, "Export finished successfully.");
+                Log.i(LogUtils.TAG, "Export finished successfully.");
             } catch (IOException e) {
                 Log.e(LogUtils.TAG, e.getMessage(), e);
                 errorMessage = e.getMessage();

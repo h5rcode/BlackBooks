@@ -260,11 +260,11 @@ public final class BookImportColumnMappingFragment extends Fragment implements P
             List<BookInfo> bookInfoList;
             try {
                 String message = String.format("Parsing file '%s' (column separator: '%c', text qualifier: '%c', first row contains headers: %b, column mappings: %s).", mFile.getAbsolutePath(), mColumnSeparator, mTextQualifier, mFirstRowContainsHeader, mCsvColumns);
-                Log.d(LogUtils.TAG, message);
+                Log.i(LogUtils.TAG, message);
 
                 bookInfoList = CsvUtils.parseCsvFile(mFile, mColumnSeparator, mTextQualifier, mFirstRowContainsHeader, mCsvColumns);
 
-                Log.d(LogUtils.TAG, String.format("Parsing finished. %d books read.", bookInfoList.size()));
+                Log.i(LogUtils.TAG, String.format("Parsing finished. %d books read.", bookInfoList.size()));
             } catch (InterruptedException e) {
                 return null;
             }
@@ -289,7 +289,7 @@ public final class BookImportColumnMappingFragment extends Fragment implements P
                     boolean isCancelled = false;
                     for (final BookInfo bookInfo : bookInfoList) {
                         if (isCancelled = isCancelled()) {
-                            Log.d(LogUtils.TAG, "Book import task cancelled, aborting.");
+                            Log.i(LogUtils.TAG, "Book import task cancelled, aborting.");
                             break;
                         }
 
@@ -299,7 +299,7 @@ public final class BookImportColumnMappingFragment extends Fragment implements P
                     }
 
                     if (!isCancelled) {
-                        Log.d(LogUtils.TAG, "Book import finished successfully.");
+                        Log.i(LogUtils.TAG, "Book import finished successfully.");
                         db.setTransactionSuccessful();
                     }
                 } finally {
