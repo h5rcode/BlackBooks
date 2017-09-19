@@ -1,3 +1,11 @@
+Version 2.0.0
+* Removed Google Analytics.
+* Implemented dependency injection using Dagger.
+* Use material theme.
+* Changed the layout of the app's main screen.
+* Changed app icon.
+* Removed error report activity.
+
 Version 1.2.2
 New features:
 * Added a "Database management" activity where the user can backup, restore or delete the app's database.
