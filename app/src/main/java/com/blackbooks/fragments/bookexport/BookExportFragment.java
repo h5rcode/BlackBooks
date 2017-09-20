@@ -1,11 +1,15 @@
 package com.blackbooks.fragments.bookexport;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.media.MediaScannerConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -52,6 +56,7 @@ public final class BookExportFragment extends Fragment implements TextQualifierP
     private static final String TAG_TEXT_QUALIFIER_PICKER = "TAG_TEXT_QUALIFIER_PICKER";
     private static final String TAG_COLUMN_SEPARATOR_PICKER = "TAG_COLUMN_SEPARATOR_PICKER";
     private static final String TAG_PROGRESS_DIALOG_FRAGMENT = "TAG_PROGRESS_DIALOG_FRAGMENT";
+    private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 0;
 
     private final TextQualifierPicker mTextQualifierPicker;
     private final ColumnSeparatorPicker mColumnSeparatorPicker;
@@ -156,12 +161,28 @@ public final class BookExportFragment extends Fragment implements TextQualifierP
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_WRITE_EXTERNAL_STORAGE) {
+            boolean permissionGranted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+            if (permissionGranted) {
+                executeBookExportTask();
+            }
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean result;
         switch (item.getItemId()) {
             case R.id.bookExport_actionExport:
-                mCsvExportTask = new CsvExportTask();
-                mCsvExportTask.execute();
+                int permissionCheck = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                    executeBookExportTask();
+                } else {
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_EXTERNAL_STORAGE);
+                }
+
                 result = true;
                 break;
 
@@ -171,6 +192,11 @@ public final class BookExportFragment extends Fragment implements TextQualifierP
         }
 
         return result;
+    }
+
+    private void executeBookExportTask() {
+        mCsvExportTask = new CsvExportTask();
+        mCsvExportTask.execute();
     }
 
     /**

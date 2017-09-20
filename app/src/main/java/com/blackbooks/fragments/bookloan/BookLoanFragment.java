@@ -1,16 +1,20 @@
 package com.blackbooks.fragments.bookloan;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.Contacts;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,6 +52,7 @@ public final class BookLoanFragment extends Fragment implements DatePickerListen
     private static final String ARG_BOOK_ID = "ARG_BOOK_ID";
     private static final String TAG_DATE_PICKER_FRAGMENT = "TAG_DATE_PICKER_FRAGMENT";
     private static final int REQUEST_PICK_CONTACT = 0;
+    private static final int REQUEST_READ_CONTACTS = 1;
 
     private BookLoanListener mBookLoanListener;
 
@@ -64,12 +69,6 @@ public final class BookLoanFragment extends Fragment implements DatePickerListen
 
     @Inject
     BookService bookService;
-
-    @Override
-    public void onAttach(Activity activity) {
-        AndroidSupportInjection.inject(this);
-        super.onAttach(activity);
-    }
 
     /**
      * Create a new instance of BookLoanFragment, initialized to display a book.
@@ -123,9 +122,14 @@ public final class BookLoanFragment extends Fragment implements DatePickerListen
 
             @Override
             public void onClick(View v) {
-                Intent pickContactIntent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contacts"));
-                pickContactIntent.setType(Contacts.CONTENT_TYPE);
-                startActivityForResult(pickContactIntent, REQUEST_PICK_CONTACT);
+
+                int permissionCheck = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS);
+                if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                    startActivityToPickContact();
+                } else {
+                    requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_READ_CONTACTS);
+                }
+
             }
         });
 
@@ -152,6 +156,23 @@ public final class BookLoanFragment extends Fragment implements DatePickerListen
         }
 
         return view;
+    }
+
+    private void startActivityToPickContact() {
+        Intent pickContactIntent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contacts"));
+        pickContactIntent.setType(Contacts.CONTENT_TYPE);
+        startActivityForResult(pickContactIntent, REQUEST_PICK_CONTACT);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_READ_CONTACTS) {
+            boolean permissionGranted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+            if (permissionGranted) {
+                startActivityToPickContact();
+            }
+        }
     }
 
     @Override

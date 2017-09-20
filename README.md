@@ -35,7 +35,6 @@ Black Books requires the following permissions:
 * Write external storage: the app needs to write the external storage when:
 	* Exporting the library as a Spreadsheet compatible text file.
 	* Saving a backup of the app database.
-* Network communication and System tools: required by Google Analytics.
 
 ## Implementation
 ### Data storage

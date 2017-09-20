@@ -1,11 +1,15 @@
 package com.blackbooks.fragments.databasedelete;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +34,7 @@ public final class DatabaseDeleteFragment extends Fragment implements ProgressDi
 
     private static final String TAG_CONFIRM_DIALOG = "TAG_CONFIRM_DIALOG";
     private static final String TAG_PROGRESS_DIALOG_FRAGMENT = "TAG_PROGRESS_DIALOG_FRAGMENT";
+    private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 0;
 
     private Button mButtonDeleteDatabase;
 
@@ -75,6 +80,17 @@ public final class DatabaseDeleteFragment extends Fragment implements ProgressDi
         cancelAsyncTask();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_WRITE_EXTERNAL_STORAGE) {
+            boolean permissionGranted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+            if (permissionGranted) {
+                executeDatabaseDeleteTask();
+            }
+        }
+    }
+
     /**
      * Cancel the asynchronous task.
      */
@@ -89,9 +105,18 @@ public final class DatabaseDeleteFragment extends Fragment implements ProgressDi
         if (VariableUtils.getInstance().getBulkSearchRunning()) {
             Toast.makeText(getActivity(), getString(R.string.message_stop_background_search), Toast.LENGTH_LONG).show();
         } else {
-            mDatabaseDeleteTask = new DatabaseDeleteTask();
-            mDatabaseDeleteTask.execute();
+            int permissionCheck = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                executeDatabaseDeleteTask();
+            } else {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_EXTERNAL_STORAGE);
+            }
         }
+    }
+
+    private void executeDatabaseDeleteTask() {
+        mDatabaseDeleteTask = new DatabaseDeleteTask();
+        mDatabaseDeleteTask.execute();
     }
 
     @Override
