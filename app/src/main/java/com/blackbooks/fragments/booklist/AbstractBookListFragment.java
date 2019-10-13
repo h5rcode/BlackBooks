@@ -44,7 +44,7 @@ import dagger.android.support.AndroidSupportInjection;
  */
 public abstract class AbstractBookListFragment extends ListFragment {
 
-    private static final String AMAZON_SEARCH_RESULT_URL = "http://www.amazon.com/gp/search?ie=UTF8&index=books&keywords=%s&tag=blaboo0c-20";
+    private static final String AMAZON_SEARCH_RESULT_URL = "https://www.amazon.fr/gp/search?ie=UTF8&index=books&keywords=%s&tag=bbks-21";
 
     private static final int BOOKS_BY_PAGE = 50;
 
