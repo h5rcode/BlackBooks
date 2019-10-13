@@ -1,3 +1,7 @@
+Version 2.0.2 (13/10/2019)
+* Updated Amazon tag in author search URLs.
+
+
 Version 2.0.1 (20/09/2016)
 * Request permission to write external storage when saving a backup of the database, removing the database, and exporting the library as a Spreadsheet compatible text file.
 * Request permission to access contacts when loaning a book.
