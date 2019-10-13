@@ -24,7 +24,11 @@ Black Books helps you make an inventory of your books and manage them!
 * Export your library as a Spreadsheet compatible text file.
 * Import or update books from a Spreadsheet compatible text file.
 
-## Permissions
+## Privacy policy
+
+This application DOES NOT collect any data from your device.
+
+### Permissions
 
 Black Books requires the following permissions:
 
